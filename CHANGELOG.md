@@ -12,6 +12,111 @@ stable from 1.0 onward, regardless of the framework version.
 
 No changes yet.
 
+## [0.8.0] — 2026-06-03
+
+**Reliability discipline extended into the by-tag / by-rsr-target
+decomposition cells** (closes
+[#84](https://github.com/bradleypallen/infereval/issues/84)). The
+framework's per-cell agreement statistics now render their substantive-n
+and per-class verdict counts; cells with substantive-n below
+`MIN_K_FOR_SUBSAMPLING_CI = 10` are marked under-powered and surface as
+section 4b negative findings in the construct-validity report. Headline
+κ_C / κ_F / κ_F\* rendering is unchanged.
+
+### Why the change
+
+The reliability machinery in v0.6.0–v0.7.0 (Politis–Romano subsampling
+CIs gated at K ≥ 10, the within-run thin-margin structural check, the
+R22 test-retest verdict cap) all stopped at the headline. Decomposition
+cells — produced by `infereval metrics --by-tag` and `--by-rsr-target` —
+were the one place the reliability story had a seam, because
+decomposition is exactly where item count collapses. On an n = 1 or
+n = 2 subset, κ = ±1.0 is the value the formula is *forced* to take
+when each rater commits to a single class, not a finding. The
+methodology surface promoted decomposition hardest (the docs called it
+"the single most useful tool the framework gives you for diagnosis"),
+so it was the value a reader was most likely to over-read. The live
+Haiku M9 worked example in `docs/interpreting_metrics.md` literally
+showed `By tag: irrelevant-addition  κ_F = -1.0000  (n=2; perfect
+anti-correlation!)` and the surrounding prose read it as "perfectly
+disagrees on every item" — exactly the inferential over-reach the
+existing reliability gates exist to prevent.
+
+This is structurally the same pathology #82 fixed one level up: a
+number computed over a degenerate subset reading as a strong result.
+Same fix shape: don't let a number computed over a degenerate subset
+carry weight it hasn't earned. The κ value is still rendered (its
+*direction* can be a legitimate diagnostic lead); only the
+Landis–Koch-style interpretive label is gated.
+
+### Added
+
+- **`CellSummary` frozen dataclass + `cell_summary()` helper** in
+  `infereval.metrics`. Aggregates the substantive-n, per-class M and
+  reference verdict counts, and the κ_C / κ_F on a cell;
+  `is_under_powered` flag reuses `MIN_K_FOR_SUBSAMPLING_CI` as the
+  threshold. Public via `MetricsReport.cell_summary()` too.
+- **`infereval metrics --by-tag` / `--by-rsr-target` per-cell
+  rendering** in all three formats (text, markdown, json):
+  - `n (substantive)` line / row / key — the n κ is actually computed
+    over (post-substantive-index, not the pre-filter cell count).
+  - `M verdicts: good X / bad Y / abstain Z` and
+    `reference verdicts: …` lines / rows / keys, making the marginal
+    distribution that drives small-subset κ legible at a glance.
+  - `[under-powered: n < 10]` annotation appended to the κ_C and κ_F
+    lines when the cell's substantive-n falls below
+    `MIN_K_FOR_SUBSAMPLING_CI`. The κ value still renders; only the
+    Landis–Koch label discipline is gated.
+  - Under-powered cells log at INFO so the run is auditable.
+- **`infereval report --by-tag` / `--by-rsr-target`** computes the
+  per-cell summaries and threads them into `render_markdown`'s new
+  `decomposition_cells` parameter. Under-powered cells surface as a
+  new "Decomposition under-powered (R12)" group in section 4b of the
+  construct-validity report. The verdict cap follows automatically via
+  the existing `--suppress-negatives` asymmetry and the section-4b
+  weight on the summary verdict.
+- **`NegativeFinding.source` Literal** extended with
+  `"decomposition_under_powered"`.
+- **`collect_negative_findings()`** gains a `decomposition_cells`
+  parameter; pre-v0.8.0 callers (no argument) see no change.
+- **`render_markdown()`** gains a `decomposition_cells` parameter.
+
+### Docs
+
+- `docs/interpreting_metrics.md` — the live Haiku M9 worked example is
+  rewritten to show the new n + class-count rendering and the
+  `[under-powered: n < 10]` annotation. The prose reframes the
+  diagnostic chain from "perfectly disagrees" (an over-read of κ at
+  n = 2) to "direction is a diagnostic lead; magnitude is under-powered
+  — confirm via the paraphrase axis." The "When the numbers are
+  surprising" diagnostic checklist gains a step: *check the cell's n
+  and class counts before treating a decomposed κ as a finding*.
+- `docs/construct_validity.md` — R12 entry gets a sub-paragraph
+  describing the new under-powered guard and pointing at the worked
+  example.
+- `CLAUDE.md` — new locked-default entry on decomposition rendering.
+
+### Schemas
+
+- `framework_version.default` bumped to `0.8.0` in
+  `evaluation.schema.json`. No content-schema changes; no benchmark /
+  evaluation / claims / retest persisted-artifact shape change.
+
+### What's out of scope
+
+- A claims-file field declaring which cells are mastery-relevant. The
+  cell-agnostic section-4b integration is the simpler single-PR fix;
+  a per-cell mastery-relevance declaration can land additively in
+  v0.8.x or v0.9.x if usage shows it's needed.
+- A scope-gated cap on under-powered cells (the existing section-4b
+  weight on the verdict is sufficient for v0.8.0).
+- Bootstrap CIs on decomposed κ values. The threshold-based annotation
+  reuses the existing `MIN_K_FOR_SUBSAMPLING_CI` machinery rather than
+  introducing a second uncertainty-quantification surface.
+- Renaming `MIN_K_FOR_SUBSAMPLING_CI` — the constant is now used in two
+  places, but the existing name still names the more fundamental thing
+  (subsampling validity requires it).
+
 ## [0.7.0] — 2026-05-28
 
 **Behaviour change: `inter_analyst_fleiss` returns the all-analyst κ_F\*
