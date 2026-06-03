@@ -882,6 +882,117 @@ def cross_panel_kappa(
     return (p_obs - p_exp) / (1 - p_exp)
 
 
+# ---- Per-cell decomposition summary (v0.8.0, closes #84) ------------------
+
+
+@dataclass(frozen=True, slots=True)
+class CellSummary:
+    """Per-cell decomposition summary for under-powered-aware rendering.
+
+    Aggregates the marginal information a reader needs to interpret a
+    decomposed :math:`\\kappa` value — particularly on small subsets
+    where the magnitude is forced by single-class-each marginals rather
+    than measured. Used by the ``infereval metrics --by-tag`` /
+    ``--by-rsr-target`` CLI renderers and by the construct-validity
+    report's section 4b under-powered findings (issue #84, v0.8.0).
+
+    The class counts are computed over the *substantive subset*
+    :math:`S(\\eta, r)` — the same subset :math:`\\kappa_C` is computed
+    over — so abstain counts are zero by construction. The full-cell
+    coverage and abstain counts are still available via the parent
+    :class:`MetricsReport`; this dataclass is intentionally narrow.
+
+    The :attr:`is_under_powered` flag reuses
+    :data:`MIN_K_FOR_SUBSAMPLING_CI` as the threshold; cells at or above
+    the threshold render unchanged, cells below it get an
+    ``[under-powered: n < 10]`` annotation on the rendered kappa value
+    and surface as section 4b negative findings.
+    """
+
+    n_substantive: int
+    """``|S(\\eta, r)|`` — the size of the substantive subset that κ is
+    computed over. The under-powered threshold gates on this, not on the
+    pre-substantive-index ``eta.n`` count."""
+
+    m_counts: dict[Verdict, int]
+    """M's verdict counts over the substantive subset. Keys cover all
+    three :class:`~infereval.types.Verdict` values; the abstain count
+    is zero by construction (the subset excludes M-abstain items)."""
+
+    r_counts: dict[Verdict, int]
+    """Reference's verdict counts over the substantive subset. Same
+    keys + abstain-is-zero contract as :attr:`m_counts`."""
+
+    cohens_kappa: float | None
+    """:math:`\\kappa_C(\\eta, r)` on this cell. ``None`` when the
+    substantive subset is empty or :math:`p_e = 1`."""
+
+    fleiss_kappa: float | None
+    """:math:`\\kappa_F(\\eta)` on this cell. ``None`` when the
+    substantive subset is empty or degenerate."""
+
+    @property
+    def is_under_powered(self) -> bool:
+        """``True`` when ``n_substantive < MIN_K_FOR_SUBSAMPLING_CI``.
+
+        Mirrors the threshold used to gate Politis-Romano CIs on the
+        headline. Cells at or above the threshold render unchanged;
+        cells below it get the under-powered annotation on the κ line
+        and surface as section 4b negative findings in the
+        construct-validity report.
+        """
+        return self.n_substantive < MIN_K_FOR_SUBSAMPLING_CI
+
+
+def cell_summary(
+    eta: Evaluation,
+    reference: ReferenceFn,
+) -> CellSummary:
+    """Compute the :class:`CellSummary` for an evaluation and reference.
+
+    Pure (no I/O). Reuses :func:`substantive_index`, :func:`cohens_kappa`,
+    and :func:`fleiss_kappa`; iterates the substantive subset once to
+    accumulate the M and reference class counts.
+
+    Parameters
+    ----------
+    eta
+        The evaluation (or the filtered evaluation returned by
+        :meth:`MetricsReport.by_tag` / :meth:`MetricsReport.by_rsr_target`).
+    reference
+        Per-item reference verdict function — typically
+        :func:`consensus_reference` for the by-tag/by-rsr-target cells
+        the CLI renders, but any :data:`ReferenceFn` works.
+
+    Returns
+    -------
+    CellSummary
+        Frozen summary suitable for rendering or for passing to
+        :func:`~infereval.report.collect_negative_findings`.
+    """
+    substantive = substantive_index(eta, reference)
+    m_counts: dict[Verdict, int] = {
+        Verdict.GOOD: 0,
+        Verdict.BAD: 0,
+        Verdict.ABSTAIN: 0,
+    }
+    r_counts: dict[Verdict, int] = {
+        Verdict.GOOD: 0,
+        Verdict.BAD: 0,
+        Verdict.ABSTAIN: 0,
+    }
+    for i in substantive:
+        m_counts[eta.items[i].model_verdict] += 1
+        r_counts[reference(i)] += 1
+    return CellSummary(
+        n_substantive=len(substantive),
+        m_counts=m_counts,
+        r_counts=r_counts,
+        cohens_kappa=cohens_kappa(eta, reference),
+        fleiss_kappa=fleiss_kappa(eta),
+    )
+
+
 # ---- High-level aggregator -----------------------------------------------
 
 
@@ -972,6 +1083,22 @@ class MetricsReport:
     @property
     def inter_analyst_fleiss(self) -> float | None:
         return inter_analyst_fleiss(self.eta)
+
+    # ---- Per-cell summary (decomposition under-powered guard; v0.8.0) ----
+
+    def cell_summary(
+        self, reference: ReferenceFn | None = None
+    ) -> CellSummary:
+        """:class:`CellSummary` for this report against ``reference``.
+
+        Default reference is the analyst consensus :math:`c_i`. Used by
+        the ``infereval metrics --by-tag`` / ``--by-rsr-target`` CLI
+        renderers and by ``infereval report --by-tag …`` to surface the
+        per-cell substantive-n and class counts and to gate the
+        under-powered annotation.
+        """
+        ref = reference if reference is not None else consensus_reference(self.eta)
+        return cell_summary(self.eta, ref)
 
     # ---- Confidence intervals (subsampling, Politis-Romano) ----
 
@@ -1153,12 +1280,14 @@ __all__ = [
     "MIN_K_FOR_SUBSAMPLING_CI",
     "SUBSTANTIVE",
     "AggregateDispersion",
+    "CellSummary",
     "MetricsReport",
     "ReferenceFn",
     "SubsamplingNotApplicableError",
     "VerdictDistribution",
     "WeightFn",
     "analyst_reference",
+    "cell_summary",
     "cohens_kappa",
     "consensus_reference",
     "consensus_verdict",
