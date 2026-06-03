@@ -217,21 +217,37 @@ coverage (M)           : 1.0000
 κ_F(η)                 : +0.0000
 κ_F*(β) (inter-analyst, all): undefined        // m = 1
 
-By tag: base-inference         κ_C undefined  (n=1; only one substantive item — p_e = 1)
-By tag: irrelevant-addition    κ_F = -1.0000  (n=2; perfect anti-correlation!)
-By tag: defeater               κ_C undefined  (n=1; same reason as base-inference)
+By tag: base-inference
+  n (substantive)      : 1
+  M verdicts           : good 1 / bad 0 / abstain 0
+  reference verdicts   : good 1 / bad 0 / abstain 0
+  κ_C undefined  [under-powered: n < 10]    (p_e = 1 on a one-item subset)
+  κ_F  undefined  [under-powered: n < 10]
+
+By tag: irrelevant-addition
+  n (substantive)      : 2
+  M verdicts           : good 0 / bad 2 / abstain 0
+  reference verdicts   : good 2 / bad 0 / abstain 0
+  κ_F = -1.0000  [under-powered: n < 10]
+
+By tag: defeater
+  n (substantive)      : 1
+  M verdicts           : good 0 / bad 1 / abstain 0
+  reference verdicts   : good 0 / bad 1 / abstain 0
+  κ_C undefined  [under-powered: n < 10]    (p_e = 1 on a one-item subset)
+  κ_F undefined  [under-powered: n < 10]
 ```
 
 Step-by-step reading:
 
 1. **Coverage is 1.00.** No abstains; the model committed on every item. Good baseline.
 2. **Overall κ_C = +0.20.** Above chance but well below agreement. Something is going wrong.
-3. **By-tag decomposition is the smoking gun.** `irrelevant-addition: κ_F = -1.00` means `M` perfectly disagrees with the analyst on every item tagged `irrelevant-addition`. Those are exactly the two items where `Γ = {sa, n}` and `Γ = {sa, n, nr}` — the nighttime / non-reflective additions.
-4. **Hypothesis**: `M` reads `is red` as a *perceptual* claim (nighttime defeats visibility), not an intrinsic claim. Both readings are coherent; they just denote different things.
+3. **By-tag decomposition isolates the disagreement to one tag.** On `irrelevant-addition`, `M` returns `bad` on both items and the analyst returns `good` on both items. The class counts (`good 0 / bad 2` vs `good 2 / bad 0`) make the direction unambiguous: M and the analyst disagree on every item of that tag. The magnitude `κ_F = -1.0000` is *under-powered* — on n = 2 the formula is forced by single-class-each marginals, not measured — so we read the *direction* as a diagnostic lead, not the magnitude as a measurement. The under-powered annotation in the rendered output stops us from over-reading.
+4. **Hypothesis** (from the direction): `M` reads `is red` as a *perceptual* claim (nighttime defeats visibility), not an intrinsic claim. Both readings are coherent; they just denote different things. Those two items are exactly the ones where `Γ = {sa, n}` and `Γ = {sa, n, nr}` — the nighttime / non-reflective additions.
 
-Following up on the hypothesis is what `experiments/paraphrase_axis_triangulation.py` does: hold the analyst row constant, vary `δ(ra)`, see whether the disagreement comes from the bearer carving. (It does. The intrinsic phrasing `a has the standard color of stop signs` flipped row-1 to `good` and raised `κ_C` to `+0.50`.)
+Following up on the hypothesis is what `experiments/paraphrase_axis_triangulation.py` does: hold the analyst row constant, vary `δ(ra)`, see whether the disagreement comes from the bearer carving. (It does. The intrinsic phrasing `a has the standard color of stop signs` flipped row-1 to `good` and raised `κ_C` to `+0.50`.) The paraphrase-axis result is what converts the diagnostic lead (the *direction* of the n=2 disagreement) into a confirmed content-attributional reading.
 
-This is the methodology working: it gave a single number (`+0.20`), then a decomposition that localized the disagreement (`irrelevant-addition: -1.00`), then a hypothesis the analyst could test by varying `δ`. Each step in this chain is a concrete output of the framework.
+This is the methodology working at correct precision: the headline (`+0.20`) gives the summary; the decomposition (the `irrelevant-addition` cell, with its class counts and under-powered annotation) localizes the disagreement and explicitly warns against reading the magnitude as a measurement; the paraphrase-axis follow-up confirms the cause. Each step is a concrete output of the framework, and the under-powered guard makes the chain self-correcting against over-reading small-subset κ values.
 
 ## When the numbers are surprising
 
@@ -239,9 +255,10 @@ If the kappa numbers don't match your prior intuition for the model, the order o
 
 1. **Coverage low?** Token-budget or prompt-ambiguity issue. Fix `--max-tokens`; inspect a few `unparseable` samples in `η`.
 2. **Decompose by tag.** Is the disagreement concentrated in one tag? That's almost always content-attributional.
-3. **Inspect the actual prompts.** `infereval evaluate --dry-run` prints what the model is seeing. Verify the framing is what you intended.
-4. **Probe with reasoning enabled.** Outside the framework, ask the model the same question with room to explain. Often the model's reasoning makes its content-attribution explicit (Claude's verbatim "we cannot infer that the sign *displays* its standard color — only that it *possesses* that color as a property" is the canonical example).
-5. **Vary `δ`.** If the disagreement is content-attributional, swapping the bearer phrasing for the analyst's reading should recover agreement. Run a second benchmark with the variant; see `experiments/paraphrase_axis_triangulation.py` for the pattern.
+3. **Check the cell's `n (substantive)` and class counts before treating a decomposed `κ` as a finding.** A `κ` of ±1.0 on `n < 10` is a *forced* value, not a measurement — the formula is locked by single-class-each marginals on a tiny subset. The CLI marks these with `[under-powered: n < 10]` and the construct-validity report surfaces them as section 4b negative findings. Use the *direction* of the disagreement as a diagnostic lead; do not use the magnitude.
+4. **Inspect the actual prompts.** `infereval evaluate --dry-run` prints what the model is seeing. Verify the framing is what you intended.
+5. **Probe with reasoning enabled.** Outside the framework, ask the model the same question with room to explain. Often the model's reasoning makes its content-attribution explicit (Claude's verbatim "we cannot infer that the sign *displays* its standard color — only that it *possesses* that color as a property" is the canonical example).
+6. **Vary `δ`.** If the disagreement is content-attributional, swapping the bearer phrasing for the analyst's reading should recover agreement. Run a second benchmark with the variant; see `experiments/paraphrase_axis_triangulation.py` for the pattern.
 
 ## Where to go next
 
