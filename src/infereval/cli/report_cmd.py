@@ -15,9 +15,77 @@ import click
 
 from infereval.benchmark import Benchmark
 from infereval.evaluation import Evaluation
+from infereval.metrics import MetricsReport, cell_summary, consensus_reference
 from infereval.report import ConstructValidityClaims, render_markdown
 
 log = logging.getLogger(__name__)
+
+
+def _build_decomposition_cells(
+    eta: Evaluation,
+    benchmark: Benchmark,
+    tags: tuple[str, ...],
+    rsr_targets: tuple[str, ...],
+) -> list[dict[str, object]]:
+    """Compute per-cell summaries for ``--by-tag`` / ``--by-rsr-target``
+    arguments and shape them for
+    :func:`infereval.report.collect_negative_findings`.
+
+    Logs each under-powered cell at INFO so the run is auditable.
+    """
+    report = MetricsReport(eta=eta, benchmark=benchmark)
+    cells: list[dict[str, object]] = []
+    for tag in tags:
+        sub = report.by_tag(tag)
+        cs = cell_summary(sub.eta, consensus_reference(sub.eta))
+        title = f"By tag: {tag}"
+        if cs.is_under_powered:
+            log.info(
+                "report.cli.under_powered_cell title=%r n_substantive=%d "
+                "kappa_C=%s kappa_F=%s",
+                title, cs.n_substantive, cs.cohens_kappa, cs.fleiss_kappa,
+            )
+        cells.append(
+            {
+                "title": title,
+                "n_substantive": cs.n_substantive,
+                "cohens_kappa": cs.cohens_kappa,
+                "fleiss_kappa": cs.fleiss_kappa,
+                "is_under_powered": cs.is_under_powered,
+            }
+        )
+    for target_json in rsr_targets:
+        try:
+            spec = json.loads(target_json)
+            X = frozenset(spec["X"])  # noqa: N806 -- mirrors paper's RSR-target notation
+            A = frozenset(spec["A"])  # noqa: N806 -- mirrors paper's RSR-target notation
+        except (json.JSONDecodeError, KeyError, TypeError) as exc:
+            raise click.UsageError(
+                f"--by-rsr-target must be JSON like "
+                f'\'{{"X": ["sa"], "A": ["ra"]}}\': {exc}'
+            ) from exc
+        sub = report.by_rsr_target(X, A)
+        cs = cell_summary(sub.eta, consensus_reference(sub.eta))
+        title = (
+            f"By RSR target: ⟨{{{','.join(sorted(X))}}}, "
+            f"{{{','.join(sorted(A))}}}⟩"
+        )
+        if cs.is_under_powered:
+            log.info(
+                "report.cli.under_powered_cell title=%r n_substantive=%d "
+                "kappa_C=%s kappa_F=%s",
+                title, cs.n_substantive, cs.cohens_kappa, cs.fleiss_kappa,
+            )
+        cells.append(
+            {
+                "title": title,
+                "n_substantive": cs.n_substantive,
+                "cohens_kappa": cs.cohens_kappa,
+                "fleiss_kappa": cs.fleiss_kappa,
+                "is_under_powered": cs.is_under_powered,
+            }
+        )
+    return cells
 
 
 @click.command(
@@ -85,6 +153,28 @@ log = logging.getLogger(__name__)
     ),
 )
 @click.option(
+    "--by-tag",
+    "tags",
+    type=str,
+    multiple=True,
+    help=(
+        "Repeat to add a per-tag decomposition cell. Under-powered cells "
+        "(substantive-n < 10) surface as section 4b negative findings "
+        "(v0.8.0 / #84)."
+    ),
+)
+@click.option(
+    "--by-rsr-target",
+    "rsr_targets",
+    type=str,
+    multiple=True,
+    help=(
+        'Repeat to add a per-RSR-target decomposition cell. Each value '
+        'is JSON like \'{"X": ["sa"], "A": ["ra"]}\'. Same under-powered '
+        "treatment as --by-tag."
+    ),
+)
+@click.option(
     "-o", "--output",
     type=click.Path(dir_okay=False, path_type=Path),
     default=None,
@@ -109,6 +199,8 @@ def report_cmd(
     sweep_path: Path | None,
     model_fit_path: Path | None,
     retest_path: Path | None,
+    tags: tuple[str, ...],
+    rsr_targets: tuple[str, ...],
     output: Path | None,
     suppress_negatives: bool = False,
 ) -> None:
@@ -158,6 +250,12 @@ def report_cmd(
         click.echo(f"ERROR: could not parse claims file: {exc}", err=True)
         sys.exit(2)
 
+    decomposition_cells: list[dict[str, object]] | None = None
+    if tags or rsr_targets:
+        decomposition_cells = _build_decomposition_cells(
+            evaluation, benchmark, tags, rsr_targets
+        )
+
     markdown = render_markdown(
         evaluation=evaluation,
         benchmark=benchmark,
@@ -166,6 +264,7 @@ def report_cmd(
         sweep_summary=_load_optional_json(sweep_path),
         model_fit=_load_optional_json(model_fit_path),
         retest_result=_load_optional_json(retest_path),
+        decomposition_cells=decomposition_cells,
         suppress_negatives=suppress_negatives,
     )
 

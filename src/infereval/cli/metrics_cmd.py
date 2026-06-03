@@ -24,16 +24,20 @@ import click
 from infereval.benchmark import Benchmark
 from infereval.evaluation import Evaluation
 from infereval.metrics import (
+    MIN_K_FOR_SUBSAMPLING_CI,
+    CellSummary,
     MetricsReport,
     SubsamplingNotApplicableError,
     WeightFn,
     analyst_reference,
+    cell_summary,
     cohens_kappa,
     consensus_reference,
     fleiss_kappa,
     margin_weight,
     subsampling_kappa_ci,
 )
+from infereval.types import Verdict
 
 log = logging.getLogger(__name__)
 
@@ -79,6 +83,31 @@ def _format_ci(ci: tuple[float, float, float] | None) -> str:
     return f" [{lo:+.4f}, {hi:+.4f}]"
 
 
+def _is_decomposition_title(title: str | None) -> bool:
+    """A title designates a decomposition cell (under-powered guard applies)
+    when it begins with ``By tag:`` or ``By RSR target``. The ``Overall``
+    headline is excluded (it has its own ``--ci`` reliability machinery)."""
+    if title is None:
+        return False
+    return title.startswith("By tag:") or title.startswith("By RSR target")
+
+
+def _under_powered_suffix(cell_sum: CellSummary | None) -> str:
+    """Append ``  [under-powered: n < 10]`` to the κ value rendering when
+    the cell is below :data:`MIN_K_FOR_SUBSAMPLING_CI`. Empty otherwise."""
+    if cell_sum is None or not cell_sum.is_under_powered:
+        return ""
+    return f"  [under-powered: n < {MIN_K_FOR_SUBSAMPLING_CI}]"
+
+
+def _format_class_counts(counts: dict[Verdict, int]) -> str:
+    return (
+        f"good {counts[Verdict.GOOD]} / "
+        f"bad {counts[Verdict.BAD]} / "
+        f"abstain {counts[Verdict.ABSTAIN]}"
+    )
+
+
 def _format_text(
     report: MetricsReport,
     reference_label: str,
@@ -87,6 +116,7 @@ def _format_text(
     title: str | None = None,
     kappa_C_ci: tuple[float, float, float] | None = None,
     kappa_F_ci: tuple[float, float, float] | None = None,
+    cell_sum: CellSummary | None = None,
 ) -> str:
     lines: list[str] = []
     if title:
@@ -99,13 +129,22 @@ def _format_text(
         lines.append(
             "coverage (per analyst) : " + ", ".join(f"{c:.4f}" for c in cov_per)
         )
+    if cell_sum is not None:
+        lines.append(f"n (substantive)        : {cell_sum.n_substantive}")
+        lines.append(
+            f"M verdicts             : {_format_class_counts(cell_sum.m_counts)}"
+        )
+        lines.append(
+            f"reference verdicts     : {_format_class_counts(cell_sum.r_counts)}"
+        )
+    suffix = _under_powered_suffix(cell_sum)
     lines.append(
         f"κ_C(η, {reference_label})       : "
-        f"{_format_kappa(kappa_C)}{_format_ci(kappa_C_ci)}"
+        f"{_format_kappa(kappa_C)}{_format_ci(kappa_C_ci)}{suffix}"
     )
     lines.append(
         f"κ_F(η)                 : "
-        f"{_format_kappa(report.fleiss_kappa)}{_format_ci(kappa_F_ci)}"
+        f"{_format_kappa(report.fleiss_kappa)}{_format_ci(kappa_F_ci)}{suffix}"
     )
     lines.append(
         f"κ_F*(β) (inter-analyst, all): "
@@ -122,6 +161,7 @@ def _format_markdown(
     title: str | None = None,
     kappa_C_ci: tuple[float, float, float] | None = None,
     kappa_F_ci: tuple[float, float, float] | None = None,
+    cell_sum: CellSummary | None = None,
 ) -> str:
     lines: list[str] = []
     if title:
@@ -135,12 +175,22 @@ def _format_markdown(
     if cov_per:
         per = ", ".join(f"{c:.4f}" for c in cov_per)
         lines.append(f"| coverage per analyst | {per} |")
+    if cell_sum is not None:
+        lines.append(f"| n (substantive) | {cell_sum.n_substantive} |")
+        lines.append(
+            f"| M verdicts | {_format_class_counts(cell_sum.m_counts)} |"
+        )
+        lines.append(
+            f"| reference verdicts | {_format_class_counts(cell_sum.r_counts)} |"
+        )
+    suffix = _under_powered_suffix(cell_sum)
     lines.append(
         f"| κ_C(η, {reference_label}) | "
-        f"{_format_kappa(kappa_C)}{_format_ci(kappa_C_ci)} |"
+        f"{_format_kappa(kappa_C)}{_format_ci(kappa_C_ci)}{suffix} |"
     )
     lines.append(
-        f"| κ_F(η) | {_format_kappa(report.fleiss_kappa)}{_format_ci(kappa_F_ci)} |"
+        f"| κ_F(η) | "
+        f"{_format_kappa(report.fleiss_kappa)}{_format_ci(kappa_F_ci)}{suffix} |"
     )
     lines.append(
         f"| κ_F*(β) (all analysts) | {_format_kappa(report.inter_analyst_fleiss)} |"
@@ -156,6 +206,7 @@ def _format_json(
     title: str | None = None,
     kappa_C_ci: tuple[float, float, float] | None = None,
     kappa_F_ci: tuple[float, float, float] | None = None,
+    cell_sum: CellSummary | None = None,
 ) -> str:
     out = report.to_dict()
     # Replace cohens_kappa_consensus with the actual reference label used.
@@ -167,6 +218,12 @@ def _format_json(
     if kappa_F_ci is not None:
         _, lo, hi = kappa_F_ci
         out["fleiss_kappa_ci"] = {"lo": lo, "hi": hi}
+    if cell_sum is not None:
+        out["n_substantive"] = cell_sum.n_substantive
+        out["m_counts"] = {v.value: c for v, c in cell_sum.m_counts.items()}
+        out["r_counts"] = {v.value: c for v, c in cell_sum.r_counts.items()}
+        out["under_powered"] = cell_sum.is_under_powered
+        out["under_powered_threshold"] = MIN_K_FOR_SUBSAMPLING_CI
     if title is not None:
         out["title"] = title
     return json.dumps(out, indent=2)
@@ -188,6 +245,24 @@ def _emit(
     kappa_C = cohens_kappa(
         report.eta, reference_fn, weights=weights  # type: ignore[arg-type]
     )
+
+    # Per-cell summary on decomposition cells (issue #84, v0.8.0).
+    # The Overall headline already has --ci for reliability; no need to
+    # double-count. The reference here is the same reference the κ_C value
+    # above is computed against, so substantive_index matches.
+    cell_sum: CellSummary | None = None
+    if _is_decomposition_title(title):
+        cell_sum = cell_summary(report.eta, reference_fn)  # type: ignore[arg-type]
+        if cell_sum.is_under_powered:
+            log.info(
+                "metrics.cli.under_powered_cell title=%r n_substantive=%d "
+                "threshold=%d kappa_C=%s kappa_F=%s",
+                title,
+                cell_sum.n_substantive,
+                MIN_K_FOR_SUBSAMPLING_CI,
+                cell_sum.cohens_kappa,
+                cell_sum.fleiss_kappa,
+            )
 
     kappa_C_ci: tuple[float, float, float] | None = None
     kappa_F_ci: tuple[float, float, float] | None = None
@@ -220,6 +295,7 @@ def _emit(
             _format_text(
                 report, reference_label, kappa_C, title=title,
                 kappa_C_ci=kappa_C_ci, kappa_F_ci=kappa_F_ci,
+                cell_sum=cell_sum,
             )
         )
     elif output_format == "markdown":
@@ -227,6 +303,7 @@ def _emit(
             _format_markdown(
                 report, reference_label, kappa_C, title=title,
                 kappa_C_ci=kappa_C_ci, kappa_F_ci=kappa_F_ci,
+                cell_sum=cell_sum,
             )
         )
     elif output_format == "json":
@@ -234,6 +311,7 @@ def _emit(
             _format_json(
                 report, reference_label, kappa_C, title=title,
                 kappa_C_ci=kappa_C_ci, kappa_F_ci=kappa_F_ci,
+                cell_sum=cell_sum,
             )
         )
     else:  # pragma: no cover -- defended by click.Choice

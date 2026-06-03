@@ -315,7 +315,13 @@ class NegativeFinding:
     report.
     """
 
-    source: Literal["structure", "sweep", "model_fit", "retest"]
+    source: Literal[
+        "structure",
+        "sweep",
+        "model_fit",
+        "retest",
+        "decomposition_under_powered",
+    ]
     summary: str
     """One-line description rendered in the Negative findings section."""
 
@@ -327,6 +333,7 @@ def collect_negative_findings(
     model_fit: dict[str, object] | None = None,
     retest_result: dict[str, object] | None = None,
     factor_kinds: dict[str, str] | None = None,
+    decomposition_cells: list[dict[str, object]] | None = None,
 ) -> list[NegativeFinding]:
     """Scan the supplied Phase 2 artifacts and return their negative findings.
 
@@ -344,6 +351,14 @@ def collect_negative_findings(
       affect behavior — e.g. the paraphrase axis). Unlabelled factors
       get the historical neutral summary so the analyst can read the
       valence from context.
+    - **decomposition_cells** (v0.8.0, closes #84): under-powered by-tag /
+      by-rsr-target cells. Each cell is a dict with keys ``title`` (str),
+      ``n_substantive`` (int), ``cohens_kappa`` (float | None),
+      ``fleiss_kappa`` (float | None), and ``is_under_powered`` (bool).
+      Cells with ``is_under_powered = True`` emit one finding each —
+      the κ value on the cell is forced by single-class-each marginals
+      (n below :data:`infereval.metrics.MIN_K_FOR_SUBSAMPLING_CI`),
+      not measured, and shouldn't carry the verdict on its own.
 
     Parameters
     ----------
@@ -351,6 +366,12 @@ def collect_negative_findings(
         Optional mapping ``factor_name -> {"substantive",
         "experimentally_controlled"}`` from ``Benchmark.factor_kinds``.
         When omitted, all null-effect findings are summarised neutrally.
+    decomposition_cells
+        Optional list of per-cell summaries produced by
+        :func:`infereval.metrics.cell_summary` (rendered as plain dicts
+        for JSON-friendliness). When supplied, under-powered cells
+        become section 4b negative findings under the
+        ``decomposition_under_powered`` source.
     """
     findings: list[NegativeFinding] = []
 
@@ -488,6 +509,46 @@ def collect_negative_findings(
                     summary=(
                         f"... and {len(flipped) - cap} more flipped items — "
                         "see the retest-result JSON for the full list."
+                    ),
+                )
+            )
+
+    # Decomposition cells (v0.8.0, closes #84): under-powered by-tag /
+    # by-rsr-target cells become section 4b negative findings. The
+    # framework already gates Politis-Romano CIs at MIN_K_FOR_SUBSAMPLING_CI
+    # on the headline; this extends that discipline into the decomposition.
+    if decomposition_cells:
+        from .metrics import MIN_K_FOR_SUBSAMPLING_CI
+
+        for cell in decomposition_cells:
+            if not isinstance(cell, dict):
+                continue
+            if not cell.get("is_under_powered"):
+                continue
+            title = cell.get("title", "?")
+            n_sub = cell.get("n_substantive", "?")
+            kappa_c = cell.get("cohens_kappa")
+            kappa_f = cell.get("fleiss_kappa")
+            kappa_pieces: list[str] = []
+            if isinstance(kappa_c, (int, float)):
+                kappa_pieces.append(f"κ_C = {kappa_c:+.3f}")
+            elif kappa_c is None:
+                kappa_pieces.append("κ_C undefined")
+            if isinstance(kappa_f, (int, float)):
+                kappa_pieces.append(f"κ_F = {kappa_f:+.3f}")
+            elif kappa_f is None:
+                kappa_pieces.append("κ_F undefined")
+            kappa_str = "; ".join(kappa_pieces) if kappa_pieces else "κ undefined"
+            findings.append(
+                NegativeFinding(
+                    source="decomposition_under_powered",
+                    summary=(
+                        f"{title}: n_substantive = {n_sub} "
+                        f"(< {MIN_K_FOR_SUBSAMPLING_CI}); {kappa_str} is "
+                        "under-powered — the magnitude is forced by "
+                        "single-class-each marginals on a small subset, not "
+                        "measured. Use the direction as a diagnostic lead; "
+                        "confirm via a paraphrase or content-axis check."
                     ),
                 )
             )
@@ -770,6 +831,7 @@ def render_markdown(
     sweep_summary: dict[str, object] | None = None,
     model_fit: dict[str, object] | None = None,
     retest_result: dict[str, object] | None = None,
+    decomposition_cells: list[dict[str, object]] | None = None,
     generated_at: datetime | None = None,
     suppress_negatives: bool = False,
 ) -> str:
@@ -820,10 +882,12 @@ def render_markdown(
         model_fit=model_fit,
         retest_result=retest_result,
         factor_kinds=dict(benchmark.factor_kinds) if benchmark.factor_kinds else None,
+        decomposition_cells=decomposition_cells,
     )
     any_phase2_supplied = any(
         x is not None for x in (
-            structure_report, sweep_summary, model_fit, retest_result
+            structure_report, sweep_summary, model_fit, retest_result,
+            decomposition_cells,
         )
     )
 
@@ -1070,6 +1134,7 @@ def render_markdown(
             ("Sweep instability", "sweep"),
             ("Factor-effects null findings", "model_fit"),
             ("Test-retest anomalies (R22)", "retest"),
+            ("Decomposition under-powered (R12)", "decomposition_under_powered"),
         ]:
             src_items = [f for f in findings if f.source == src_key]
             if not src_items:
