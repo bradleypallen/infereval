@@ -12,6 +12,60 @@ stable from 1.0 onward, regardless of the framework version.
 
 No changes yet.
 
+## [0.9.0] — 2026-06-03
+
+**New asynchronous-recruitment surface: `infereval survey {export, import}`** supporting Qualtrics, Google Forms, and SurveyMonkey. The headline-metrics surface is unchanged; the new feature is purely additive.
+
+### Why the change
+
+Recruiting a domain expert (clinician, lawyer, software engineer) to add their verdicts to an `infereval` benchmark previously required the recruiter to hand-build a spreadsheet, send it to the expert, and transcribe the results back into the benchmark JSON. For clinical domains where the expert pool is geographically distributed and time-constrained, the manual workflow was the rate-limiting step for benchmark growth.
+
+This release closes that loop via the three dominant research-survey platforms. Different research groups have different institutional licenses (some have Qualtrics; some use Google Forms because it's free; some have SurveyMonkey). Supporting all three from the start removes "what survey platform do you use" as a barrier to recruitment.
+
+The merged benchmark is a regular `Benchmark` JSON file — fully validated by the existing `Benchmark.model_validator` — so it's drop-in usable in the rest of the pipeline (`describe`, `metrics`, `report`, etc.).
+
+### Added
+
+- **`infereval survey export <benchmark.json>`** — produces the platform-specific artifact:
+  - `--platform qualtrics` (default) → `.qsf` JSON file the recruiter uploads via the Qualtrics UI; no credentials.
+  - `--platform google_forms` → `.gs` Apps Script file the recruiter pastes into script.google.com; no credentials.
+  - `--platform surveymonkey` → live `POST /v3/surveys` API call; requires `SURVEYMONKEY_ACCESS_TOKEN` env var (or `--surveymonkey-token`); writes the API response (including survey id, edit URL, share URL) to the output path.
+  - Shared flags: `--title`, `--randomize-items/--no-randomize-items` (default on), `--include-rationales/--no-include-rationales` (default on), `--expertise-prompt`.
+- **`infereval survey import <benchmark.json>`** — merges platform CSV exports back into the benchmark:
+  - `--platform` dispatches to the per-platform CSV parser.
+  - `-r/--responses <csv>` + `-o/--output <new-bench.json>`.
+  - `--mapping <sidecar.json>` for hashed-id traceability (auto-discovered next to the CSV when present).
+  - `--analyst-id-prefix` (default `"clinician-"`), `--respondent <ResponseId>` for single-respondent filter, `--require-complete/--allow-partial` (default require-complete).
+- **`AnalystModel.expertise_description: str | None = None`** — new additive field on the benchmark schema. Free-text expertise blurb captured at recruitment time, distinct from the existing `notes` field (which is general analyst annotations). Pre-v0.9.0 benchmarks validate unchanged.
+- **`infereval.survey/` module surface**: `render.render_implication_text`, `render.sanitize_export_tag`, `render.SurveyRespondent` (frozen dataclass shared by all platforms), plus per-platform generators (`qualtrics_qsf.build_qsf`, `google_forms_gas.build_gas_script`, `surveymonkey_api.build_surveymonkey_payload` + `publish_to_surveymonkey`), CSV importers (`qualtrics_csv.parse_qualtrics_csv`, `google_forms_csv.parse_google_forms_csv`, `surveymonkey_csv.parse_surveymonkey_csv`), and a shared `qualtrics_csv.merge_respondents` that all three platforms' importers call through.
+
+### Platform notes
+
+- **Qualtrics** uses its `DataExportTag` field for the QID ↔ item.id mapping; the CSV column header is the tag directly. Force-response on verdicts; optional response on rationales. Item randomization fully honored via the block-level `Randomization.RandomizeAll` payload.
+- **Google Forms** has no `DataExportTag` equivalent, so the exporter encodes the sanitized item tag as `[item:<tag>]` in each question title; the importer parses it back via regex. **Caveat**: Google Forms' `FormApp.setShuffleQuestions` is whole-form (including the expertise question we want to keep first), so `--randomize-items` is a no-op on this platform — emits a warning at export time and a comment in the generated `.gs`. Documented loudly in `docs/surveys.md`.
+- **SurveyMonkey** uses the same `[item:<tag>]` title-encoding as Google Forms. Randomization fully honored via `presentation_options.randomize_questions`. EU customers can override the API base URL via `--surveymonkey-base-url`.
+
+### Docs
+
+- `docs/surveys.md` (new) — end-to-end workflow per platform.
+- `docs/authoring_benchmarks.md` — cross-reference to surveys.md in the analyst-recruitment paragraph.
+- `CLAUDE.md` — new locked-default entry on the survey surface.
+- `mkdocs.yml` — `Surveys: surveys.md` added to the nav.
+
+### Schemas
+
+- `benchmark.schema.json` gains the additive `AnalystModel.expertise_description` property. `framework_version` default bumped to `0.9.0`.
+
+### What's out of scope for v0.9.0
+
+- Qualtrics REST API export (alternative to the `.qsf` file). The file-only path is the v0.9.0 contract; API path is a v0.9.x follow-up.
+- Google Forms REST API export (requires OAuth2 client setup; way too heavy). The Apps Script path side-steps the auth complexity by running in the user's own Google account.
+- Additional platforms (Tally, Limesurvey, Microsoft Forms). The `--platform` enum is in place; adding a fourth platform is purely additive.
+- Structured expertise capture (specialty / years / board-certified as separate fields). Free-text is the v0.9.0 shape; structured can land as `--expertise-form structured` later.
+- Custom question templates via `--template-file`.
+- Attention-check / red-herring items injected at survey time.
+- Re-rendering against a changed benchmark (schema diff + survey-version annotations). The v0.9.0 contract is "generate once, recruit once, import once".
+
 ## [0.8.0] — 2026-06-03
 
 **Reliability discipline extended into the by-tag / by-rsr-target
