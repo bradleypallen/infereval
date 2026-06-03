@@ -105,6 +105,8 @@ The number of analysts matters: `κ_F*(β)`, the inter-analyst baseline, is only
 
 **Document analyst competence in `notes`** (R1). The framework records the declaration but cannot vet the credentials — write something a domain reviewer would accept. The pattern is "specific credential or role + tenure/depth + scope of competence relevant to D" rather than just a job title; e.g., for a clinical-reasoning benchmark, "Board-eligible pulmonologist, 12 years bedside experience in differential diagnosis" beats "physician"; for a contract-law benchmark, "Practising commercial-contracts attorney, 8 years drafting and reviewing M&A clauses" beats "lawyer"; for a software-engineering benchmark, "Senior systems engineer, 10 years on production distributed databases" beats "engineer." The pulmonology demo bundled with the framework illustrates the pattern in the clinical-reasoning case.
 
+**Recruiting analysts asynchronously.** When you need to expand the analyst pool — typical in clinical or other distributed-expert domains — `infereval survey {export, import}` turns the benchmark into a Qualtrics, Google Forms, or SurveyMonkey survey, then merges the responses back into the benchmark as new analyst columns. The respondent's free-text expertise blurb lands on `Analyst.expertise_description` (a recruitment-metadata field distinct from `notes`); per-item rationales land in `BenchmarkItem.analyst_rationales`. See [`surveys.md`](surveys.md) for the end-to-end workflow.
+
 ### Step 4b: Declare panels (optional, R4)
 
 For the independent reference check (R4), declare analysts as belonging to named panels:
