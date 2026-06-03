@@ -110,6 +110,22 @@ class AnalystModel(BaseModel):
     id: str
     display_name: str | None = None
     notes: str | None = None
+    expertise_description: str | None = None
+    """Free-text description of the analyst's relevant expertise — the
+    domain background, specialty, years of practice, role, board
+    certifications. Captured at recruitment time via
+    ``infereval survey``: the survey's first block asks each respondent
+    for this prose, which lands here when the response CSV is imported.
+    Distinct from :attr:`notes` (general analyst-side annotations) —
+    this field is specifically recruitment metadata about *why* this
+    analyst's judgement counts for the benchmark's domain. ``None``
+    (the default) means no expertise was declared (e.g. analysts
+    seeded by the benchmark author rather than recruited via a
+    survey).
+
+    Added in v0.9.0 with the ``infereval survey`` recruitment workflow.
+    Additive: pre-v0.9.0 benchmarks validate unchanged."""
+
     panel: str | None = None
     """Optional panel identifier. Analysts sharing the same panel string
     are members of the same panel for cross-panel agreement analysis
