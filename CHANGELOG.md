@@ -12,6 +12,30 @@ stable from 1.0 onward, regardless of the framework version.
 
 No changes yet.
 
+## [0.9.2] — 2026-06-03
+
+**Bug fix**: shorten the Google Forms / SurveyMonkey question titles so CSV column headers are scannable.
+
+### Why the change
+
+Reported in conversation (with screenshot) immediately after v0.9.1: when a generated Google Form's responses are routed to a Google Sheet, each *column header* in the Sheet is the literal question title — and v0.9.0 / v0.9.1 put the entire premises-and-conclusion prompt into the question title. Result: column headers running to 200+ characters of medical prose, painful to filter, sort, or paste into anything else. SurveyMonkey had the same problem because its CSV export also uses the question title as the column header.
+
+### Fix
+
+- **Google Forms** (`build_gas_script`): the full prompt now lives in the **PageBreak's `setHelpText`** (section description); the MC question title is short — `"Item N verdict"` — so the linked-Sheet column header is `"Item N verdict"`. Same for rationales: title is `"Item N rationale (optional)"`, with the optional-rationale guidance prose in the question's helpText.
+- **SurveyMonkey** (`build_surveymonkey_payload`): restructured the payload from one items-page to **one page per item**. The full prompt lives in the page's `description` field; question titles are `"Item N verdict"` / `"Item N rationale (optional)"`. Randomization promoted from `presentation_options.randomize_questions` on the items page to a top-level `page_randomization` block that skips the Welcome page.
+- **Importers** (`google_forms_csv`, `surveymonkey_csv`): primary anchor regex is now `^Item (\d+) verdict\b`. The v0.9.1 anchor `^Item (\d+) of \d+` is preserved as a *secondary* fallback, and the v0.9.0 `[item:<tag>]` regex remains as a tertiary fallback. CSVs from v0.9.0-, v0.9.1-, and v0.9.2+-generated forms all import.
+
+### Backward compatibility
+
+- CSVs from v0.9.1-generated forms import via the secondary anchor fallback (`^Item N of M`). A new regression-guard fixture at `tests/fixtures/google_forms/responses_v0_9_1_legacy.csv` + matching test asserts this.
+- CSVs from v0.9.0-generated forms continue to import via the tertiary `[item:<tag>]` regex (unchanged from v0.9.1).
+- Python API callers passing `parse_*_csv(path)` without `mapping=` still work (tertiary fallback fires).
+
+### Qualtrics unaffected
+
+Qualtrics's CSV column headers are the `DataExportTag`, not the question title, so v0.9.0/v0.9.1 Qualtrics surveys already produced clean column headers. Visual cleanup of the in-survey Qualtrics layout (moving the prompt into a section description) is a possible future improvement but not a v0.9.2 fix.
+
 ## [0.9.1] — 2026-06-03
 
 **Bug fix**: hide internal `[item:<tag>]` machine markers from the respondent-visible question titles on Google Forms and SurveyMonkey surveys.
