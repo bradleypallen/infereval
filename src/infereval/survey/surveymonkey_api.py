@@ -98,8 +98,11 @@ def build_surveymonkey_payload(
 
     for i, item in enumerate(benchmark.items, start=1):
         tag, was_hashed = sanitize_export_tag(item.id)
+        # Verdict-question title uses ``Item N of M`` as the parse
+        # anchor the CSV importer keys on; respondents see only the
+        # progress indicator + the rendered prompt.
         verdict_title = (
-            f"Item {i} of {benchmark.n} [item:{tag}]\n\n"
+            f"Item {i} of {benchmark.n}\n\n"
             + DEFAULT_QUESTION_HEADER
             + "\n\n"
             + render_implication_text(benchmark, item)
@@ -118,7 +121,11 @@ def build_surveymonkey_payload(
         rationale_tag: str | None = None
         if include_rationales:
             rationale_tag = f"{tag}_rationale"
-            rationale_title = f"[item:{rationale_tag}] " + DEFAULT_RATIONALE_PROMPT
+            # Rationale title carries the ``Item N rationale`` anchor.
+            rationale_title = (
+                f"Item {i} rationale (optional) — "
+                + DEFAULT_RATIONALE_PROMPT
+            )
             item_questions.append({
                 "headings": [{"heading": rationale_title}],
                 "position": position,

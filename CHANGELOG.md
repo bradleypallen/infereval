@@ -12,6 +12,30 @@ stable from 1.0 onward, regardless of the framework version.
 
 No changes yet.
 
+## [0.9.1] — 2026-06-03
+
+**Bug fix**: hide internal `[item:<tag>]` machine markers from the respondent-visible question titles on Google Forms and SurveyMonkey surveys.
+
+### Why the change
+
+The v0.9.0 Google Forms and SurveyMonkey generators embedded `[item:<sha8>]` directly in each question's *visible* title so the CSV importer could parse it back as the mapping key. Reported in conversation by a user running `infereval survey export` against the stop-sign benchmark: the rendered Google Form showed `Item 2 of 4 [item:item_0f719b1f]` to respondents — machine noise in a survey clinicians and other domain experts will see. Qualtrics was unaffected because its `DataExportTag` carries the mapping inside the `.qsf` payload, not the visible title.
+
+### Fix
+
+- **Generators** (`google_forms_gas.build_gas_script`, `surveymonkey_api.build_surveymonkey_payload`): drop the `[item:<tag>]` marker from question titles. Verdict-question titles now read `"Item N of M\n\n<prompt>"` (the `Item N of M` progress indicator is standard survey copy). Rationale-question titles now read `"Item N rationale (optional) — <prompt>"`. Same shape on both platforms.
+- **Importers** (`google_forms_csv.parse_google_forms_csv`, `surveymonkey_csv.parse_surveymonkey_csv`): the parsers gain a `mapping` parameter and resolve `^Item (\d+)` anchors against `mapping[N-1]["verdict_data_export_tag"]` / `["rationale_data_export_tag"]`. The legacy `[item:<tag>]` regex remains as a fallback so CSVs from pre-v0.9.1 forms continue to import.
+- **CLI** (`infereval/cli/survey_cmd.py`): the export command now **always** writes the mapping sidecar for `--platform google_forms` and `--platform surveymonkey` (was conditional on hashed ids in v0.9.0). The import command loads the sidecar once and threads it into the per-platform parser.
+
+### Backward compatibility
+
+CSVs collected from v0.9.0-generated forms continue to import cleanly — the legacy `[item:<tag>]` regex still fires. A regression-guard test against a captured v0.9.0-shaped fixture asserts this. Code calling `parse_google_forms_csv(path)` or `parse_surveymonkey_csv(path)` without the new `mapping=` argument also still works, falling back to the legacy regex.
+
+### Tests
+
+- New regression-guard tests assert `[item:` does *not* appear in v0.9.1+ generated titles.
+- New v0.9.0-shape fixture at `tests/fixtures/google_forms/responses_v0_9_0_legacy.csv` + tests for the legacy backward-compat path.
+- Updated fixtures `responses_known_good.csv` to the v0.9.1+ column-header shape + companion `.mapping.json` sidecars next to each.
+
 ## [0.9.0] — 2026-06-03
 
 **New asynchronous-recruitment surface: `infereval survey {export, import}`** supporting Qualtrics, Google Forms, and SurveyMonkey. The headline-metrics surface is unchanged; the new feature is purely additive.

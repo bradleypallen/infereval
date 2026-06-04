@@ -128,8 +128,12 @@ def build_gas_script(
     mapping: list[dict[str, object]] = []
     for i, item in enumerate(benchmark.items, start=1):
         tag, was_hashed = sanitize_export_tag(item.id)
+        # Verdict-question title: ``Item N of M`` is the parse anchor
+        # the importer uses to look the column up in the mapping
+        # sidecar. The respondent sees only the progress indicator +
+        # the rendered prompt; no machine markers leak through.
         prompt = (
-            f"Item {i} of {benchmark.n} [item:{tag}]\n\n"
+            f"Item {i} of {benchmark.n}\n\n"
             + DEFAULT_QUESTION_HEADER
             + "\n\n"
             + render_implication_text(benchmark, item)
@@ -146,7 +150,13 @@ def build_gas_script(
         lines.append(f"      .setChoiceValues({json.dumps(list(DEFAULT_VERDICT_CHOICES))})")
         lines.append("      .setRequired(true);")
         if include_rationales:
-            rationale_title = f"[item:{tag}_rationale] " + DEFAULT_RATIONALE_PROMPT
+            # Rationale-question title carries its own anchor
+            # ``Item N rationale`` so the importer can separate it from
+            # the verdict column. Phrased as plain survey copy.
+            rationale_title = (
+                f"Item {i} rationale (optional) — "
+                + DEFAULT_RATIONALE_PROMPT
+            )
             lines.append("  form.addParagraphTextItem()")
             lines.append(f"      .setTitle({json.dumps(rationale_title)})")
             lines.append("      .setRequired(false);")
