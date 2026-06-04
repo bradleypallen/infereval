@@ -29,7 +29,9 @@ from .render import SurveyRespondent
 
 log = logging.getLogger(__name__)
 
-_ITEM_TAG_RE = re.compile(r"\[item:([A-Za-z0-9_]+)\]")
+_ITEM_VERDICT_RE = re.compile(r"^Item (\d+) of (\d+)", re.MULTILINE)
+_ITEM_RATIONALE_RE = re.compile(r"^Item (\d+) rationale", re.MULTILINE)
+_ITEM_TAG_RE = re.compile(r"\[item:([A-Za-z0-9_]+)\]")  # v0.9.0 legacy
 _RATIONALE_SUFFIX = "_rationale"
 
 _SURVEYMONKEY_STOCK_COLUMNS: frozenset[str] = frozenset({
@@ -45,9 +47,21 @@ _SURVEYMONKEY_STOCK_COLUMNS: frozenset[str] = frozenset({
 })
 
 
-def parse_surveymonkey_csv(path: Path) -> list[SurveyRespondent]:
+def parse_surveymonkey_csv(
+    path: Path,
+    *,
+    mapping: list[dict[str, object]] | None = None,
+) -> list[SurveyRespondent]:
     """Parse a SurveyMonkey CSV export into a list of
-    :class:`SurveyRespondent`."""
+    :class:`SurveyRespondent`.
+
+    Resolves each non-stock column header in this order:
+
+    1. ``Item N of M`` / ``Item N rationale`` anchor (v0.9.1+ shape):
+       requires the ``mapping`` sidecar to translate N → tag.
+    2. ``[item:<tag>]`` regex (v0.9.0 legacy) when the title still
+       carries the machine marker.
+    """
     with path.open("r", encoding="utf-8") as fh:
         reader = csv.reader(fh)
         try:
@@ -68,13 +82,9 @@ def parse_surveymonkey_csv(path: Path) -> list[SurveyRespondent]:
         if h in _SURVEYMONKEY_STOCK_COLUMNS:
             col_kind.append(("stock", None))
             continue
-        m = _ITEM_TAG_RE.search(h)
-        if m:
-            tag = m.group(1)
-            if tag.endswith(_RATIONALE_SUFFIX):
-                col_kind.append(("rationale", tag[: -len(_RATIONALE_SUFFIX)]))
-            else:
-                col_kind.append(("verdict", tag))
+        kind_tag = _classify_column_header(h, mapping)
+        if kind_tag is not None:
+            col_kind.append(kind_tag)
         elif expertise_col_idx is None:
             col_kind.append(("expertise", None))
             expertise_col_idx = i
@@ -140,6 +150,40 @@ def parse_surveymonkey_csv(path: Path) -> list[SurveyRespondent]:
             rationales=rationales,
         ))
     return respondents
+
+
+def _classify_column_header(
+    header: str,
+    mapping: list[dict[str, object]] | None,
+) -> tuple[str, str | None] | None:
+    """Match a column header against ``Item N`` anchors (v0.9.1+, needs
+    mapping sidecar) or the legacy ``[item:<tag>]`` regex (v0.9.0).
+    Returns ``("verdict"|"rationale", tag)`` or ``None`` when no item
+    classification applies."""
+    if mapping is not None:
+        m = _ITEM_VERDICT_RE.search(header)
+        if m:
+            idx = int(m.group(1)) - 1
+            if 0 <= idx < len(mapping):
+                tag = mapping[idx].get("verdict_data_export_tag")
+                if isinstance(tag, str):
+                    return ("verdict", tag)
+        m = _ITEM_RATIONALE_RE.search(header)
+        if m:
+            idx = int(m.group(1)) - 1
+            if 0 <= idx < len(mapping):
+                tag = mapping[idx].get("rationale_data_export_tag")
+                if isinstance(tag, str):
+                    if tag.endswith(_RATIONALE_SUFFIX):
+                        tag = tag[: -len(_RATIONALE_SUFFIX)]
+                    return ("rationale", tag)
+    m = _ITEM_TAG_RE.search(header)
+    if m:
+        tag = m.group(1)
+        if tag.endswith(_RATIONALE_SUFFIX):
+            return ("rationale", tag[: -len(_RATIONALE_SUFFIX)])
+        return ("verdict", tag)
+    return None
 
 
 def _parse_timestamp(raw: str) -> datetime | None:

@@ -196,7 +196,9 @@ def export_cmd(
                 "order. See docs/surveys.md.",
                 err=True,
             )
-        _maybe_write_mapping(output, mapping)
+        # v0.9.1: Google Forms importer needs the mapping sidecar to
+        # resolve "Item N of M" anchors back to item ids — write always.
+        _maybe_write_mapping(output, mapping, always=True)
 
     elif platform == "surveymonkey":
         payload, mapping = build_surveymonkey_payload(
@@ -222,7 +224,8 @@ def export_cmd(
         click.echo(f"OK: created SurveyMonkey survey id={response.get('id')}")
         click.echo(f"  edit URL: {response.get('href')}")
         click.echo(f"  full response written to {output}")
-        _maybe_write_mapping(output, mapping)
+        # v0.9.1: SurveyMonkey importer needs the mapping sidecar too.
+        _maybe_write_mapping(output, mapping, always=True)
 
     else:  # pragma: no cover -- defended by click.Choice
         raise click.UsageError(f"Unknown platform {platform!r}")
@@ -230,14 +233,22 @@ def export_cmd(
     log.info("survey.export.done benchmark=%s output=%s", benchmark_path, output)
 
 
-def _maybe_write_mapping(output: Path, mapping: list[dict[str, object]]) -> None:
-    """Write the mapping sidecar when any item id was hashed.
+def _maybe_write_mapping(
+    output: Path,
+    mapping: list[dict[str, object]],
+    *,
+    always: bool = False,
+) -> None:
+    """Write the mapping sidecar.
 
-    Always-writing the mapping is also defensible (downstream tools can
-    always read it), but in the common case where every item id is safe
-    the sidecar is redundant.
+    For Qualtrics the sidecar is optional (the DataExportTag carries
+    the mapping inside the .qsf), so the caller writes it only when
+    any item id was hashed. For Google Forms and SurveyMonkey
+    (v0.9.1+) the sidecar is **required** for the importer to resolve
+    ``Item N`` anchors back to item ids — the caller passes
+    ``always=True``.
     """
-    if not any(row.get("was_hashed") for row in mapping):
+    if not always and not any(row.get("was_hashed") for row in mapping):
         return
     sidecar = output.with_suffix(output.suffix + ".mapping.json")
     sidecar.write_text(json.dumps(mapping, indent=2), encoding="utf-8")
@@ -332,12 +343,17 @@ def import_cmd(
         click.echo(f"ERROR: could not load benchmark: {exc}", err=True)
         sys.exit(2)
 
+    # v0.9.1: load the mapping sidecar before parsing so
+    # Google Forms / SurveyMonkey importers can resolve their
+    # ``Item N`` column-header anchors via mapping[N-1].
+    mapping = _load_mapping_sidecar(mapping_path, responses_path)
+
     if platform == "qualtrics":
         respondents = parse_qualtrics_csv(responses_path)
     elif platform == "google_forms":
-        respondents = parse_google_forms_csv(responses_path)
+        respondents = parse_google_forms_csv(responses_path, mapping=mapping)
     elif platform == "surveymonkey":
-        respondents = parse_surveymonkey_csv(responses_path)
+        respondents = parse_surveymonkey_csv(responses_path, mapping=mapping)
     else:  # pragma: no cover -- defended by click.Choice
         raise click.UsageError(f"Unknown platform {platform!r}")
 
@@ -353,8 +369,6 @@ def import_cmd(
     if not respondents:
         click.echo("ERROR: no respondents found in the supplied responses file.", err=True)
         sys.exit(2)
-
-    mapping = _load_mapping_sidecar(mapping_path, responses_path)
 
     try:
         merged = merge_respondents(

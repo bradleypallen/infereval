@@ -68,14 +68,26 @@ class TestPayloadShape:
         items_page = payload["pages"][1]
         assert "presentation_options" not in items_page
 
-    def test_each_mc_question_carries_item_tag_in_title(self) -> None:
+    def test_visible_titles_do_NOT_leak_item_tag_machine_markers(self) -> None:  # noqa: N802 -- assertion shape
+        """v0.9.1+: ``[item:<tag>]`` machine markers must NOT appear in
+        the respondent-visible question titles; the parse anchor is
+        ``Item N of M`` / ``Item N rationale`` instead, with the
+        sidecar carrying the tag mapping."""
         bench = _pulm()
-        payload, mapping = build_surveymonkey_payload(bench)
-        item_qs = payload["pages"][1]["questions"]
-        for q in item_qs:
+        payload, _mapping = build_surveymonkey_payload(bench)
+        for q in payload["pages"][1]["questions"]:
             heading = q["headings"][0]["heading"]
-            # Either an [item:<tag>] or [item:<tag>_rationale] is present.
-            assert "[item:" in heading
+            assert "[item:" not in heading
+
+    def test_visible_titles_use_item_n_anchors(self) -> None:
+        bench = _pulm()
+        payload, _ = build_surveymonkey_payload(bench, include_rationales=True)
+        headings = [q["headings"][0]["heading"] for q in payload["pages"][1]["questions"]]
+        # Verdict + rationale per item.
+        assert len(headings) == 2 * bench.n
+        for i in range(1, bench.n + 1):
+            assert any(h.startswith(f"Item {i} of {bench.n}") for h in headings)
+            assert any(h.startswith(f"Item {i} rationale") for h in headings)
 
     def test_mapping_aligns_with_benchmark(self) -> None:
         bench = _pulm()

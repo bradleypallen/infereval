@@ -76,12 +76,23 @@ class TestRandomizationWarning:
 
 
 class TestMapping:
-    def test_mapping_includes_item_tag_in_question_title(self) -> None:
+    def test_visible_titles_do_NOT_leak_item_tag_machine_markers(self) -> None:  # noqa: N802 -- assertion shape
+        """v0.9.1+: the ``[item:<tag>]`` marker must NOT appear in the
+        respondent-visible question titles. The mapping is carried via
+        the sidecar; the title uses ``Item N of M`` as the parse anchor."""
         bench = _pulm()
-        gs, mapping = build_gas_script(bench, include_rationales=True)
-        for row in mapping:
-            # The [item:<tag>] prefix is the importer's mapping key.
-            assert f"[item:{row['verdict_data_export_tag']}]" in gs
+        gs, _mapping = build_gas_script(bench)
+        assert "[item:" not in gs
+
+    def test_visible_titles_use_item_n_of_m_anchor(self) -> None:
+        bench = _pulm()
+        gs, _ = build_gas_script(bench, include_rationales=True)
+        # Every item has a verdict title with the ``Item N of M`` anchor.
+        for i in range(1, bench.n + 1):
+            assert f"Item {i} of {bench.n}" in gs
+        # And every rationale carries the ``Item N rationale`` anchor.
+        for i in range(1, bench.n + 1):
+            assert f"Item {i} rationale" in gs
 
     def test_safe_ids_pass_through_unhashed(self) -> None:
         bench = _pulm()
