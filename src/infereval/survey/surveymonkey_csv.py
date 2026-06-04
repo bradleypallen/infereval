@@ -29,8 +29,9 @@ from .render import SurveyRespondent
 
 log = logging.getLogger(__name__)
 
-_ITEM_VERDICT_RE = re.compile(r"^Item (\d+) of (\d+)", re.MULTILINE)
-_ITEM_RATIONALE_RE = re.compile(r"^Item (\d+) rationale", re.MULTILINE)
+_ITEM_VERDICT_RE = re.compile(r"^Item (\d+) verdict\b", re.MULTILINE)
+_ITEM_RATIONALE_RE = re.compile(r"^Item (\d+) rationale\b", re.MULTILINE)
+_V091_VERDICT_RE = re.compile(r"^Item (\d+) of \d+", re.MULTILINE)
 _ITEM_TAG_RE = re.compile(r"\[item:([A-Za-z0-9_]+)\]")  # v0.9.0 legacy
 _RATIONALE_SUFFIX = "_rationale"
 
@@ -161,7 +162,7 @@ def _classify_column_header(
     Returns ``("verdict"|"rationale", tag)`` or ``None`` when no item
     classification applies."""
     if mapping is not None:
-        m = _ITEM_VERDICT_RE.search(header)
+        m = _ITEM_VERDICT_RE.search(header) or _V091_VERDICT_RE.search(header)
         if m:
             idx = int(m.group(1)) - 1
             if 0 <= idx < len(mapping):

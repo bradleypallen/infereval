@@ -82,57 +82,73 @@ def build_surveymonkey_payload(
     """
     effective_title = title if title is not None else f"Analyst recruitment for {benchmark.id}"
 
-    questions_page1: list[dict[str, object]] = [
+    # v0.9.2: each item now lives on its OWN page so the SurveyMonkey
+    # ``page.description`` can carry the full premises/conclusion
+    # prompt — keeping the question titles short means the CSV column
+    # headers downstream are scannable. Pre-v0.9.2, all items shared
+    # one ``Items`` page and the prompt was baked into the question
+    # title (which became a 200-char column header in the export CSV).
+    pages: list[dict[str, object]] = [
         {
-            "headings": [{"heading": expertise_prompt}],
+            "title": "Welcome",
             "position": 1,
-            "family": "open_ended",
-            "subtype": "essay",
-            "required": {"text": "This question requires an answer.", "type": "all"},
+            "questions": [
+                {
+                    "headings": [{"heading": expertise_prompt}],
+                    "position": 1,
+                    "family": "open_ended",
+                    "subtype": "essay",
+                    "required": {"text": "This question requires an answer.", "type": "all"},
+                }
+            ],
         }
     ]
 
-    item_questions: list[dict[str, object]] = []
     mapping: list[dict[str, object]] = []
-    position = 1
 
     for i, item in enumerate(benchmark.items, start=1):
         tag, was_hashed = sanitize_export_tag(item.id)
-        # Verdict-question title uses ``Item N of M`` as the parse
-        # anchor the CSV importer keys on; respondents see only the
-        # progress indicator + the rendered prompt.
-        verdict_title = (
-            f"Item {i} of {benchmark.n}\n\n"
-            + DEFAULT_QUESTION_HEADER
+        page_description = (
+            DEFAULT_QUESTION_HEADER
             + "\n\n"
             + render_implication_text(benchmark, item)
         )
-        item_questions.append({
-            "headings": [{"heading": verdict_title}],
-            "position": position,
-            "family": "single_choice",
-            "subtype": "vertical",
-            "answers": {
-                "choices": [{"text": c, "position": j + 1} for j, c in enumerate(DEFAULT_VERDICT_CHOICES)],
-            },
-            "required": {"text": "Please select one.", "type": "one"},
-        })
-        position += 1
+        verdict_title = f"Item {i} verdict"
+        questions: list[dict[str, object]] = [
+            {
+                "headings": [{"heading": verdict_title}],
+                "position": 1,
+                "family": "single_choice",
+                "subtype": "vertical",
+                "answers": {
+                    "choices": [
+                        {"text": c, "position": j + 1}
+                        for j, c in enumerate(DEFAULT_VERDICT_CHOICES)
+                    ],
+                },
+                "required": {"text": "Please select one.", "type": "one"},
+            }
+        ]
         rationale_tag: str | None = None
         if include_rationales:
             rationale_tag = f"{tag}_rationale"
-            # Rationale title carries the ``Item N rationale`` anchor.
-            rationale_title = (
-                f"Item {i} rationale (optional) — "
-                + DEFAULT_RATIONALE_PROMPT
-            )
-            item_questions.append({
-                "headings": [{"heading": rationale_title}],
-                "position": position,
+            questions.append({
+                "headings": [
+                    {"heading": f"Item {i} rationale (optional)"},
+                    {"heading": DEFAULT_RATIONALE_PROMPT},
+                ],
+                "position": 2,
                 "family": "open_ended",
                 "subtype": "essay",
             })
-            position += 1
+
+        item_page: dict[str, object] = {
+            "title": f"Item {i} of {benchmark.n}",
+            "description": page_description,
+            "position": i + 1,  # Welcome was position 1
+            "questions": questions,
+        }
+        pages.append(item_page)
 
         mapping.append({
             "item_id": item.id,
@@ -141,28 +157,23 @@ def build_surveymonkey_payload(
             "was_hashed": was_hashed,
         })
 
-    items_page: dict[str, object] = {
-        "title": "Items",
-        "position": 2,
-        "questions": item_questions,
-    }
-    if randomize_items:
-        items_page["presentation_options"] = {"randomize_questions": "all"}
-
     payload: dict[str, object] = {
         "title": effective_title,
         "nickname": f"infereval-{benchmark.id}",
         "language": "en",
         "category": "research_efforts",
-        "pages": [
-            {
-                "title": "Welcome",
-                "position": 1,
-                "questions": questions_page1,
-            },
-            items_page,
-        ],
+        "pages": pages,
     }
+
+    # Randomization: with one-page-per-item, randomization happens at
+    # the SURVEY level via ``page_randomization``. We keep page 1
+    # (Welcome / expertise) fixed and randomize pages 2..N+1.
+    if randomize_items:
+        payload["page_randomization"] = {
+            "type": "all",
+            "pages_to_randomize": [p["position"] for p in pages[1:]],
+        }
+
     return payload, mapping
 
 

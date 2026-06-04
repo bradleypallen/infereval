@@ -128,37 +128,38 @@ def build_gas_script(
     mapping: list[dict[str, object]] = []
     for i, item in enumerate(benchmark.items, start=1):
         tag, was_hashed = sanitize_export_tag(item.id)
-        # Verdict-question title: ``Item N of M`` is the parse anchor
-        # the importer uses to look the column up in the mapping
-        # sidecar. The respondent sees only the progress indicator +
-        # the rendered prompt; no machine markers leak through.
-        prompt = (
-            f"Item {i} of {benchmark.n}\n\n"
-            + DEFAULT_QUESTION_HEADER
+        # v0.9.2: the full prompt (header + premises/conclusion bullets)
+        # lives in the PageBreak's helpText / section description.
+        # The MC question's TITLE is short ("Item N verdict") because
+        # Google Forms uses the question title as the linked-Sheet's
+        # CSV column header — long titles make the CSV painful to
+        # review. See PR for v0.9.2 and the screenshot that motivated
+        # it.
+        page_description = (
+            DEFAULT_QUESTION_HEADER
             + "\n\n"
             + render_implication_text(benchmark, item)
         )
+        verdict_title = f"Item {i} verdict"
         rationale_tag: str | None = None
         if include_rationales:
             rationale_tag = f"{tag}_rationale"
 
         lines.append(f"  // Item {i}: {item.id}")
         lines.append("  form.addPageBreakItem()")
-        lines.append(f"      .setTitle({json.dumps(f'Item {i} of {benchmark.n}')});")
+        lines.append(f"      .setTitle({json.dumps(f'Item {i} of {benchmark.n}')})")
+        lines.append(f"      .setHelpText({json.dumps(page_description)});")
         lines.append("  form.addMultipleChoiceItem()")
-        lines.append(f"      .setTitle({json.dumps(prompt)})")
+        lines.append(f"      .setTitle({json.dumps(verdict_title)})")
         lines.append(f"      .setChoiceValues({json.dumps(list(DEFAULT_VERDICT_CHOICES))})")
         lines.append("      .setRequired(true);")
         if include_rationales:
-            # Rationale-question title carries its own anchor
-            # ``Item N rationale`` so the importer can separate it from
-            # the verdict column. Phrased as plain survey copy.
-            rationale_title = (
-                f"Item {i} rationale (optional) — "
-                + DEFAULT_RATIONALE_PROMPT
-            )
+            # Short rationale title for the CSV column header. The
+            # full guidance prose lives in the question's helpText.
+            rationale_title = f"Item {i} rationale (optional)"
             lines.append("  form.addParagraphTextItem()")
             lines.append(f"      .setTitle({json.dumps(rationale_title)})")
+            lines.append(f"      .setHelpText({json.dumps(DEFAULT_RATIONALE_PROMPT)})")
             lines.append("      .setRequired(false);")
         lines.append("")
 

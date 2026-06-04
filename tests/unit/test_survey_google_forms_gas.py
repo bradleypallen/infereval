@@ -84,15 +84,34 @@ class TestMapping:
         gs, _mapping = build_gas_script(bench)
         assert "[item:" not in gs
 
-    def test_visible_titles_use_item_n_of_m_anchor(self) -> None:
+    def test_visible_titles_use_short_item_n_anchors(self) -> None:
+        """v0.9.2: MC titles are short (``Item N verdict``) so the
+        Google Forms linked-Sheet column headers stay scannable. The
+        full prompt lives in the PageBreak's helpText / section
+        description."""
         bench = _pulm()
         gs, _ = build_gas_script(bench, include_rationales=True)
-        # Every item has a verdict title with the ``Item N of M`` anchor.
+        # Section title (page break) preserves the progress indicator.
         for i in range(1, bench.n + 1):
-            assert f"Item {i} of {bench.n}" in gs
-        # And every rationale carries the ``Item N rationale`` anchor.
+            assert f'.setTitle("Item {i} of {bench.n}")' in gs
+        # MC title is the SHORT verdict anchor (not the full prompt).
         for i in range(1, bench.n + 1):
-            assert f"Item {i} rationale" in gs
+            assert f'.setTitle("Item {i} verdict")' in gs
+        # Rationale title is also short.
+        for i in range(1, bench.n + 1):
+            assert f'.setTitle("Item {i} rationale (optional)")' in gs
+
+    def test_full_prompt_lives_in_page_break_helptext(self) -> None:
+        """The respondent still sees the full prompt — it just lives in
+        the page break's helpText / section description, not the
+        question title."""
+        bench = _pulm()
+        gs, _ = build_gas_script(bench)
+        # Every page break carries a setHelpText with the question-header
+        # boilerplate and a Premises section.
+        assert ".setHelpText(" in gs
+        assert "Given the following premises" in gs
+        assert "Premises:" in gs
 
     def test_safe_ids_pass_through_unhashed(self) -> None:
         bench = _pulm()

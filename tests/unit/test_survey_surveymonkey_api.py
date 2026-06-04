@@ -30,12 +30,28 @@ def _pulm() -> Benchmark:
 
 
 class TestPayloadShape:
-    def test_two_pages_expertise_then_items(self) -> None:
+    def test_one_welcome_page_then_one_page_per_item(self) -> None:
+        """v0.9.2: each item lives on its own page (Welcome + n items
+        pages) so the page description can carry the full prompt and
+        the question titles stay short."""
         bench = _pulm()
         payload, _ = build_surveymonkey_payload(bench)
-        assert len(payload["pages"]) == 2
+        assert len(payload["pages"]) == 1 + bench.n
         assert payload["pages"][0]["title"] == "Welcome"
-        assert payload["pages"][1]["title"] == "Items"
+        # Item pages titled by progress indicator.
+        for i in range(1, bench.n + 1):
+            assert payload["pages"][i]["title"] == f"Item {i} of {bench.n}"
+
+    def test_item_pages_carry_prompt_in_description(self) -> None:
+        """The full premises/conclusion prose lives in the page
+        ``description`` so it renders separately from the question
+        title (which becomes the CSV column header)."""
+        bench = _pulm()
+        payload, _ = build_surveymonkey_payload(bench)
+        for i in range(1, bench.n + 1):
+            desc = payload["pages"][i]["description"]
+            assert "Premises:" in desc
+            assert "Conclusion:" in desc
 
     def test_expertise_is_open_ended_essay(self) -> None:
         payload, _ = build_surveymonkey_payload(_pulm())
@@ -46,48 +62,57 @@ class TestPayloadShape:
     def test_one_question_per_item_without_rationales(self) -> None:
         bench = _pulm()
         payload, _ = build_surveymonkey_payload(bench, include_rationales=False)
-        item_qs = payload["pages"][1]["questions"]
-        assert len(item_qs) == bench.n
-        for q in item_qs:
-            assert q["family"] == "single_choice"
-            assert len(q["answers"]["choices"]) == 3
+        # Each item page has exactly one MC.
+        for i in range(1, bench.n + 1):
+            qs = payload["pages"][i]["questions"]
+            assert len(qs) == 1
+            assert qs[0]["family"] == "single_choice"
+            assert len(qs[0]["answers"]["choices"]) == 3
 
     def test_two_questions_per_item_with_rationales(self) -> None:
         bench = _pulm()
         payload, _ = build_surveymonkey_payload(bench, include_rationales=True)
-        item_qs = payload["pages"][1]["questions"]
-        assert len(item_qs) == 2 * bench.n
+        for i in range(1, bench.n + 1):
+            qs = payload["pages"][i]["questions"]
+            assert len(qs) == 2
 
-    def test_randomize_on_emits_presentation_options(self) -> None:
+    def test_randomize_on_emits_page_randomization(self) -> None:
+        """v0.9.2: with one-page-per-item, randomization is set at the
+        survey level via ``page_randomization`` (skips page 1, the
+        Welcome page)."""
         payload, _ = build_surveymonkey_payload(_pulm(), randomize_items=True)
-        items_page = payload["pages"][1]
-        assert items_page["presentation_options"] == {"randomize_questions": "all"}
+        assert "page_randomization" in payload
+        rand = payload["page_randomization"]
+        assert rand["type"] == "all"
+        # Pages 2..N+1 randomized; page 1 (Welcome) stays put.
+        bench = _pulm()
+        assert rand["pages_to_randomize"] == list(range(2, bench.n + 2))
 
-    def test_randomize_off_omits_presentation_options(self) -> None:
+    def test_randomize_off_omits_page_randomization(self) -> None:
         payload, _ = build_surveymonkey_payload(_pulm(), randomize_items=False)
-        items_page = payload["pages"][1]
-        assert "presentation_options" not in items_page
+        assert "page_randomization" not in payload
 
     def test_visible_titles_do_NOT_leak_item_tag_machine_markers(self) -> None:  # noqa: N802 -- assertion shape
-        """v0.9.1+: ``[item:<tag>]`` machine markers must NOT appear in
-        the respondent-visible question titles; the parse anchor is
-        ``Item N of M`` / ``Item N rationale`` instead, with the
-        sidecar carrying the tag mapping."""
+        """v0.9.1+: ``[item:<tag>]`` markers must NOT appear in
+        respondent-visible titles. (v0.9.2 extends: titles also don't
+        carry the full prompt anymore.)"""
         bench = _pulm()
         payload, _mapping = build_surveymonkey_payload(bench)
-        for q in payload["pages"][1]["questions"]:
-            heading = q["headings"][0]["heading"]
-            assert "[item:" not in heading
+        for page in payload["pages"]:
+            for q in page["questions"]:
+                heading = q["headings"][0]["heading"]
+                assert "[item:" not in heading
 
-    def test_visible_titles_use_item_n_anchors(self) -> None:
+    def test_visible_titles_use_short_item_n_anchors(self) -> None:
+        """v0.9.2: titles are short. ``Item N verdict`` / ``Item N
+        rationale (optional)`` — keeps CSV column headers scannable."""
         bench = _pulm()
         payload, _ = build_surveymonkey_payload(bench, include_rationales=True)
-        headings = [q["headings"][0]["heading"] for q in payload["pages"][1]["questions"]]
-        # Verdict + rationale per item.
-        assert len(headings) == 2 * bench.n
         for i in range(1, bench.n + 1):
-            assert any(h.startswith(f"Item {i} of {bench.n}") for h in headings)
-            assert any(h.startswith(f"Item {i} rationale") for h in headings)
+            verdict_heading = payload["pages"][i]["questions"][0]["headings"][0]["heading"]
+            assert verdict_heading == f"Item {i} verdict"
+            rationale_heading = payload["pages"][i]["questions"][1]["headings"][0]["heading"]
+            assert rationale_heading == f"Item {i} rationale (optional)"
 
     def test_mapping_aligns_with_benchmark(self) -> None:
         bench = _pulm()

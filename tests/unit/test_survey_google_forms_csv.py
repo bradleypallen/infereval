@@ -24,6 +24,12 @@ LEGACY_FIXTURE = (
     / "google_forms"
     / "responses_v0_9_0_legacy.csv"
 )
+V091_LEGACY_FIXTURE = (
+    Path(__file__).resolve().parents[1]
+    / "fixtures"
+    / "google_forms"
+    / "responses_v0_9_1_legacy.csv"
+)
 
 
 # v0.9.1+ fixtures use the clean column-header shape; the importer
@@ -151,6 +157,27 @@ class TestLegacyV090FormatBackwardCompat:
             LEGACY_FIXTURE, mapping=MAPPING_FIVE_ITEMS
         )
         assert len(respondents) == 1
+
+
+class TestLegacyV091FormatBackwardCompat:
+    """v0.9.1 forms titled MC questions ``Item N of M\\n\\n<prompt>``.
+    The v0.9.2 importer falls back to the v0.9.1 anchor when its
+    primary ``Item N verdict`` anchor doesn't match."""
+
+    def test_v091_csv_parses_with_mapping(self) -> None:
+        respondents = parse_google_forms_csv(
+            V091_LEGACY_FIXTURE, mapping=MAPPING_FIVE_ITEMS
+        )
+        assert len(respondents) == 1
+        r = respondents[0]
+        # All five v0.9.1-shaped headers resolved via the fallback regex.
+        assert r.verdicts == {
+            "item_001": Verdict.GOOD,
+            "item_002": Verdict.BAD,
+            "item_003": Verdict.GOOD,
+            "item_004": Verdict.ABSTAIN,
+            "item_005": Verdict.GOOD,
+        }
 
 
 # ---- Defensive: malformed verdict ----------------------------------------
