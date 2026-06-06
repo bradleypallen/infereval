@@ -190,6 +190,161 @@ class TestInterval:
 # ---- Provider error handling -------------------------------------------
 
 
+class TestMultiInterval:
+    """v0.12.0: --interval-s repeatable; N >= 2 emits MultiIntervalRetestResult."""
+
+    def test_two_intervals_identical_captures_yield_two_pairs(self, tmp_path: Path) -> None:
+        # 3 captures × 4 items × 3 samples = 36 responses, all good.
+        provider = _scripted_provider(["GOOD"] * 36)
+        out = tmp_path / "result.json"
+        runner = CliRunner()
+        with patch("infereval.providers.get_provider", return_value=provider):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--interval-s", "0", "--interval-s", "0",
+                    "-o", str(out),
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        loaded = json.loads(out.read_text())
+        assert "pairs" in loaded
+        assert len(loaded["pairs"]) == 2
+        # Both pairs are baseline-vs-later, anchored on capture 0.
+        baseline_run_id = loaded["baseline_run_id"]
+        for p in loaded["pairs"]:
+            assert p["retest"]["run_a_id"] == baseline_run_id
+            assert p["retest"]["run_b_id"] != baseline_run_id
+        # Stdout uses the multi-interval table.
+        assert "multi-interval, anchored on baseline" in result.output
+        assert "interval (s)" in result.output
+
+    def test_single_interval_default_unchanged_shape(self, tmp_path: Path) -> None:
+        """Regression-guard: passing `--interval-s 0` once (or omitting
+        the flag entirely, since `(0,)` is the default) emits the same
+        single-RetestResult JSON shape as v0.11.0."""
+        provider = _scripted_provider(["GOOD"] * 24)
+        out = tmp_path / "result.json"
+        runner = CliRunner()
+        with patch("infereval.providers.get_provider", return_value=provider):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "-o", str(out),  # no --interval-s — default (0,)
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        loaded = json.loads(out.read_text())
+        # v0.11.0 RetestResult shape, not the v0.12.0 wrapper.
+        assert "pairs" not in loaded
+        assert "run_a_id" in loaded
+        assert "run_b_id" in loaded
+        assert loaded["n_items"] == 4
+
+    def test_save_etas_multi_interval_uses_indexed_naming(self, tmp_path: Path) -> None:
+        save_dir = tmp_path / "etas"
+        provider = _scripted_provider(["GOOD"] * 48)  # 4 captures × 12 each
+        runner = CliRunner()
+        with patch("infereval.providers.get_provider", return_value=provider):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--interval-s", "0", "--interval-s", "0", "--interval-s", "0",
+                    "--save-etas", str(save_dir),
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        for i in range(4):
+            assert (save_dir / f"eta-{i}.json").is_file(), (
+                f"eta-{i}.json missing — multi-interval naming convention"
+            )
+            assert (save_dir / f"eta-{i}.run.jsonl").is_file()
+        # Single-interval naming (eta-a / eta-b) NOT used here.
+        assert not (save_dir / "eta-a.json").exists()
+        assert not (save_dir / "eta-b.json").exists()
+
+    def test_interval_s_sleep_is_respected(self, tmp_path: Path) -> None:
+        """--interval-s 0 --interval-s 1: wall time ≥ 1s sleep."""
+        provider = _scripted_provider(["GOOD"] * 36)
+        runner = CliRunner()
+        with patch("infereval.providers.get_provider", return_value=provider):
+            t0 = time.monotonic()
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--interval-s", "0", "--interval-s", "1",
+                ],
+            )
+            elapsed = time.monotonic() - t0
+        assert result.exit_code == 0, result.output
+        assert elapsed >= 0.5, f"expected ≥0.5s elapsed, got {elapsed:.2f}s"
+
+    def test_drift_between_baseline_and_later_capture_lowers_kappa(self, tmp_path: Path) -> None:
+        """Capture 0 (baseline): all GOOD. Capture 1: all GOOD (back-to-
+        back, no drift). Capture 2: first item flips to BAD (synthetic
+        drift). The second pair's κ should be lower than the first
+        pair's."""
+        # 12 GOOD + 12 GOOD + (3 BAD + 9 GOOD)
+        responses = (["GOOD"] * 12) + (["GOOD"] * 12) + (["BAD"] * 3 + ["GOOD"] * 9)
+        provider = _scripted_provider(responses)
+        out = tmp_path / "result.json"
+        runner = CliRunner()
+        with patch("infereval.providers.get_provider", return_value=provider):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--interval-s", "0", "--interval-s", "0",
+                    "-o", str(out),
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        loaded = json.loads(out.read_text())
+        # Pair 0 (baseline vs capture 1): zero flips, both all-GOOD.
+        assert loaded["pairs"][0]["retest"]["n_disagreements"] == 0
+        # Pair 1 (baseline vs capture 2): exactly one flip (item 0).
+        assert loaded["pairs"][1]["retest"]["n_disagreements"] == 1
+
+    def test_intervals_s_field_in_output_matches_input(self, tmp_path: Path) -> None:
+        provider = _scripted_provider(["GOOD"] * 48)
+        out = tmp_path / "result.json"
+        runner = CliRunner()
+        with patch("infereval.providers.get_provider", return_value=provider):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--interval-s", "0", "--interval-s", "0", "--interval-s", "0",
+                    "-o", str(out),
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        loaded = json.loads(out.read_text())
+        assert [p["interval_s"] for p in loaded["pairs"]] == [0, 0, 0]
+
+
 class TestProviderErrors:
     def test_provider_error_during_capture_b_exits_nonzero(self, tmp_path: Path) -> None:
         """A ProviderError raised partway through capture B should exit
