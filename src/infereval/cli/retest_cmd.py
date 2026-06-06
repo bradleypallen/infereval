@@ -1034,10 +1034,267 @@ def _run_auto_append_to(
     one (the analyst commits to the same individuation across the
     Phase 1 + Phase 2 captures by the act of appending).
     """
-    # Stage 2 implementation — placeholder so the dispatch is wired up.
-    raise NotImplementedError(
-        "--append-to: Stage 2 of the v0.14.0 plan implements this helper."
+    from infereval.retest import (
+        IntervalPair,
+        MultiIntervalRetestResult,
+        compute_interval_s,
+        multi_interval_retest_result_to_dict,
     )
+
+    log.info(
+        "retest.cli.auto.append_to.start multi=%s baseline_override=%s",
+        multi_path, baseline_override,
+    )
+
+    # 1. Load the existing MultiIntervalRetestResult JSON. We
+    # reconstruct the dataclass shape so the identity criterion
+    # threads through unmodified and the existing pairs are
+    # immutable (frozen-dataclass semantics).
+    try:
+        existing_raw = json.loads(multi_path.read_text(encoding="utf-8"))
+    except Exception as exc:  # noqa: BLE001
+        click.echo(
+            f"ERROR: could not read existing multi-result from "
+            f"{multi_path}: {exc}",
+            err=True,
+        )
+        sys.exit(2)
+
+    existing = _load_multi_interval_result(existing_raw, multi_path)
+
+    # 2. Resolve the baseline eta path. Default: sibling `eta-0.json`
+    # in the directory containing the multi.json (the canonical
+    # `--save-etas` convention from v0.12.0). Override: the
+    # `baseline_override` path (the --baseline-from flag carries
+    # this when supplied alongside --append-to for non-canonical
+    # layouts).
+    if baseline_override is not None:
+        baseline_path = baseline_override
+    else:
+        baseline_path = multi_path.parent / "eta-0.json"
+
+    if not baseline_path.is_file():
+        click.echo(
+            f"ERROR: baseline eta not found at {baseline_path}. "
+            f"Pass --baseline-from <path> to point at it explicitly "
+            f"if the multi.json was moved post-hoc, or recreate the "
+            f"`eta-0.json` sibling next to the multi.json.",
+            err=True,
+        )
+        sys.exit(2)
+
+    try:
+        baseline = Evaluation.load(baseline_path)
+    except Exception as exc:  # noqa: BLE001
+        click.echo(
+            f"ERROR: could not load baseline eta from {baseline_path}: {exc}",
+            err=True,
+        )
+        sys.exit(2)
+
+    # 3. Verify the existing artifact's baseline_run_id matches the
+    # loaded baseline's id. If they don't, the user pointed at the
+    # wrong baseline file — abort rather than silently composing
+    # pairs against the wrong anchor.
+    if existing.baseline_run_id != baseline.id:
+        click.echo(
+            f"ERROR: baseline-id mismatch — the existing multi-result's "
+            f"baseline_run_id={existing.baseline_run_id!r} does not "
+            f"match the loaded baseline eta's id={baseline.id!r}. "
+            f"Pass --baseline-from <path> to point at the correct "
+            f"baseline eta file.",
+            err=True,
+        )
+        sys.exit(2)
+
+    # 4. Run the fresh capture. The eta filename slot is the next
+    # numerical index after the existing pairs (eta-1, eta-2, ...).
+    # If the user didn't pass --save-etas, default to the same
+    # directory as the existing multi.json so the appended eta sits
+    # naturally next to the baseline + existing-pair etas.
+    next_slot = len(existing.pairs) + 1
+    eta_filename = f"eta-{next_slot}.json"
+    effective_save_dir = (
+        save_etas_dir if save_etas_dir is not None else multi_path.parent
+    )
+
+    fresh = _run_one_fresh_capture(
+        benchmark=benchmark,
+        provider_name=provider_name,
+        model_id=model_id,
+        n_samples=n_samples,
+        temperature=temperature,
+        max_tokens=max_tokens,
+        top_p=top_p,
+        seed=seed,
+        tie_break=tie_break,
+        strip_tex=strip_tex,
+        http_referer=http_referer,
+        x_title=x_title,
+        paraphrase_variant=paraphrase_variant,
+        save_etas_dir=effective_save_dir,
+        eta_filename=eta_filename,
+        # Distinct hex-8 prefix per --append-to invocation so the
+        # provenance is traceable: Phase 1 pairs share their original
+        # `retest-auto-<hex>` prefix; each --append-to mints its own.
+        run_id_prefix="retest-append-",
+    )
+
+    # 5. Compute the retest against the baseline, threading the
+    # existing criterion unmodified.
+    try:
+        retest = compute_retest(
+            baseline, fresh,
+            benchmark=benchmark,
+            identity_criterion=existing.identity_criterion,
+        )
+    except RetestConfigMismatchError as exc:
+        click.echo(f"ERROR: incompatible runs — {exc}", err=True)
+        sys.exit(1)
+    except Exception as exc:  # noqa: BLE001
+        click.echo(f"ERROR: unexpected failure during retest: {exc}", err=True)
+        sys.exit(1)
+
+    # 6. Build the appended IntervalPair and stamp a new wrapper.
+    interval_s = compute_interval_s(baseline, fresh)
+    new_pair = IntervalPair(
+        interval_s=interval_s, run_id=fresh.id, retest=retest,
+    )
+    from infereval import __version__ as framework_version
+    updated = MultiIntervalRetestResult(
+        schema_version=existing.schema_version,
+        # Stamp the current framework version on the updated artifact
+        # so the audit trail reflects when the append happened. Each
+        # pair's embedded retest still records its original
+        # framework_version.
+        framework_version=framework_version,
+        benchmark_id=existing.benchmark_id,
+        benchmark_hash=existing.benchmark_hash,
+        baseline_run_id=existing.baseline_run_id,
+        pairs=existing.pairs + (new_pair,),
+        identity_criterion=existing.identity_criterion,
+    )
+
+    # 7. Write back. Default: overwrite the input path in place
+    # (canonical "grow the artifact" semantics). Override: `-o` to
+    # write the updated result to a different path (useful for
+    # before/after comparisons or dry-run workflows).
+    target_path = output_path if output_path is not None else multi_path
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    target_path.write_text(
+        json.dumps(
+            multi_interval_retest_result_to_dict(updated), indent=2,
+        ) + "\n",
+        encoding="utf-8",
+    )
+
+    _print_multi_summary(updated)
+    log.info(
+        "retest.cli.auto.append_to.done baseline_run_id=%s "
+        "fresh_run_id=%s interval_s=%d new_n_pairs=%d kappa=%s",
+        updated.baseline_run_id, fresh.id, interval_s,
+        len(updated.pairs), retest.test_retest_kappa,
+    )
+
+
+def _load_multi_interval_result(
+    raw: dict[str, Any], src_path: Path,
+) -> Any:  # MultiIntervalRetestResult
+    """Reconstruct a MultiIntervalRetestResult from its dict form.
+
+    Mirrors :func:`infereval.retest.multi_interval_retest_result_to_dict`'s
+    shape exactly. On malformed input, prints a user-facing error
+    naming ``src_path`` and exits with code 2 rather than letting a
+    deep KeyError / Pydantic validation traceback escape.
+    """
+    from infereval.report import IdentityCriterion
+    from infereval.retest import (
+        FlippedItem,
+        IntervalPair,
+        ItemDelta,
+        MultiIntervalRetestResult,
+        RetestResult,
+    )
+
+    def _reconstruct_retest(d: dict[str, Any]) -> RetestResult:
+        flipped = tuple(
+            FlippedItem(
+                item_id=f["item_id"],
+                verdict_a=f["verdict_a"],
+                verdict_b=f["verdict_b"],
+                factor_levels=(
+                    dict(f["factor_levels"])
+                    if isinstance(f.get("factor_levels"), dict)
+                    else None
+                ),
+            )
+            for f in (d.get("flipped_items") or [])
+        )
+        item_deltas = tuple(
+            ItemDelta(
+                item_id=it["item_id"],
+                verdict_a=it["verdict_a"],
+                verdict_b=it["verdict_b"],
+                entropy_a=it["entropy_a"],
+                entropy_b=it["entropy_b"],
+                margin_a=it["margin_a"],
+                margin_b=it["margin_b"],
+            )
+            for it in (d.get("item_deltas") or [])
+        )
+        crit_dict = d.get("identity_criterion")
+        crit = (
+            IdentityCriterion(**crit_dict)
+            if isinstance(crit_dict, dict)
+            else None
+        )
+        return RetestResult(
+            schema_version="1.0",
+            framework_version=d.get("framework_version", "unknown"),
+            benchmark_id=d["benchmark_id"],
+            benchmark_hash=d.get("benchmark_hash"),
+            run_a_id=d["run_a_id"],
+            run_b_id=d["run_b_id"],
+            n_items=d["n_items"],
+            n_agreements=d["n_agreements"],
+            n_disagreements=d["n_disagreements"],
+            test_retest_kappa=d.get("test_retest_kappa"),
+            flipped_items=flipped,
+            item_deltas=item_deltas,
+            identity_criterion=crit,
+        )
+
+    try:
+        pairs = tuple(
+            IntervalPair(
+                interval_s=int(p["interval_s"]),
+                run_id=p["run_id"],
+                retest=_reconstruct_retest(p["retest"]),
+            )
+            for p in raw.get("pairs", [])
+        )
+        crit_dict = raw.get("identity_criterion")
+        wrapper_crit = (
+            IdentityCriterion(**crit_dict)
+            if isinstance(crit_dict, dict)
+            else None
+        )
+        return MultiIntervalRetestResult(
+            schema_version="1.0",
+            framework_version=raw.get("framework_version", "unknown"),
+            benchmark_id=raw["benchmark_id"],
+            benchmark_hash=raw.get("benchmark_hash"),
+            baseline_run_id=raw["baseline_run_id"],
+            pairs=pairs,
+            identity_criterion=wrapper_crit,
+        )
+    except (KeyError, TypeError, ValueError) as exc:
+        click.echo(
+            f"ERROR: malformed MultiIntervalRetestResult JSON at "
+            f"{src_path}: {exc}",
+            err=True,
+        )
+        sys.exit(2)
 
 
 def _print_multi_summary(result: Any) -> None:  # MultiIntervalRetestResult
