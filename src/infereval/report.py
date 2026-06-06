@@ -447,71 +447,15 @@ def collect_negative_findings(
                 )
 
     if retest_result is not None:
-        # Corpus-level finding: stability_verdict isn't "stable".
-        retest_verdict_raw = retest_result.get("stability_verdict", "")
-        retest_verdict_str = str(retest_verdict_raw)
-        # The stability_verdict strings are: "stable" (positive),
-        # "moderately stable" (negative — replication concern flagged),
-        # "substantively unstable" (negative — verdict-gating), and
-        # "undefined ..." (κ undefined; treat as negative for hygiene).
-        is_positive = (
-            retest_verdict_str.lower().startswith("test-retest reliability is stable")
-        )
-        if retest_verdict_str and not is_positive:
-            kappa = retest_result.get("test_retest_kappa")
-            flip_rate = retest_result.get("flip_rate")
-            kappa_str = (
-                f"κ = {kappa:+.3f}" if isinstance(kappa, (int, float))
-                else "κ undefined"
-            )
-            flip_str = (
-                f", flip rate = {flip_rate * 100:.1f}%"
-                if isinstance(flip_rate, (int, float))
-                else ""
-            )
-            findings.append(
-                NegativeFinding(
-                    source="retest",
-                    summary=(
-                        f"Test-retest reliability (R22): {retest_verdict_str} "
-                        f"[{kappa_str}{flip_str}]"
-                    ),
-                )
-            )
-        # Per-item findings: each flipped item is one finding (capped to
-        # 50 so an enormous flip list doesn't overwhelm the report;
-        # the full list is in the artifact JSON).
-        flipped_raw = retest_result.get("flipped_items", []) or []
-        flipped = flipped_raw if isinstance(flipped_raw, list) else []
-        cap = 50
-        for fi in flipped[:cap]:
-            if not isinstance(fi, dict):
-                continue
-            iid = fi.get("item_id", "?")
-            va = fi.get("verdict_a", "?")
-            vb = fi.get("verdict_b", "?")
-            fl = fi.get("factor_levels") or {}
-            fl_str = (
-                f" [{', '.join(f'{k}={v}' for k, v in fl.items())}]"
-                if isinstance(fl, dict) and fl
-                else ""
-            )
-            findings.append(
-                NegativeFinding(
-                    source="retest",
-                    summary=f"`{iid}`: verdict flipped {va} → {vb}{fl_str}",
-                )
-            )
-        if len(flipped) > cap:
-            findings.append(
-                NegativeFinding(
-                    source="retest",
-                    summary=(
-                        f"... and {len(flipped) - cap} more flipped items — "
-                        "see the retest-result JSON for the full list."
-                    ),
-                )
-            )
+        # v0.13.0: dispatch on artifact shape. Multi-interval emits one
+        # corpus-level finding per non-stable pair and pools flipped
+        # items across pairs by item_id (earliest-interval first-seen
+        # annotation). Single-interval keeps the v0.12.0 behavior
+        # verbatim.
+        if _retest_is_multi_interval(retest_result):
+            _collect_negative_findings_multi_interval(findings, retest_result)
+        else:
+            _collect_negative_findings_single(findings, retest_result)
 
     # Decomposition cells (v0.8.0, closes #84): under-powered by-tag /
     # by-rsr-target cells become section 4b negative findings. The
@@ -706,45 +650,117 @@ def compute_verdict(
             )
 
     # R22 audit cap: if test_retest_run is asserted and the supplied
-    # RetestResult shows substantively-unstable reliability (or κ is
-    # undefined), cap the verdict at partially_defensible. Same shape as
-    # the v0.5.3 structural-anomaly cap.
+    # retest artifact shows substantively-unstable reliability (or κ is
+    # undefined), cap the verdict at partially_defensible. Same shape
+    # as the v0.5.3 structural-anomaly cap.
+    #
+    # v0.13.0: the cap now handles both single-interval (v0.11.0+
+    # RetestResult) and multi-interval (v0.12.0+ MultiIntervalRetestResult)
+    # artifacts. Multi-interval is reduced via worst-case-across-pairs:
+    # if ANY captured interval is substantively unstable or has
+    # undefined κ, the cap fires. Conservative reading — the mastery
+    # claim has to hold at every time scale the analyst captured.
     retest_failed = False
     if (
         retest_result is not None
         and getattr(ce, "test_retest_run", False)
     ):
-        retest_verdict = str(retest_result.get("stability_verdict", ""))
-        retest_kappa = retest_result.get("test_retest_kappa")
-        retest_is_substantively_unstable = (
-            "substantively unstable" in retest_verdict.lower()
-        )
-        retest_undefined = retest_kappa is None
-        if retest_is_substantively_unstable or retest_undefined:
-            retest_failed = True
-            if retest_undefined:
-                rationale.append(
-                    "`test_retest_run` is marked True, but the supplied "
-                    "retest result has undefined κ (degenerate agreement "
-                    "structure on the comparison column) — the check "
-                    "ran but did not produce a usable reliability "
-                    "estimate. Verdict capped at partially_defensible."
+        if _retest_is_multi_interval(retest_result):
+            worst = _retest_worst_pair(retest_result)
+            if worst is not None:
+                worst_retest = (
+                    worst.get("retest") if isinstance(worst, dict) else None
                 )
-            else:
-                flip_rate = retest_result.get("flip_rate")
-                flip_str = (
-                    f", flip rate = {flip_rate * 100:.1f}%"
-                    if isinstance(flip_rate, (int, float))
+                worst_verdict_str = (
+                    str(worst_retest.get("stability_verdict", ""))
+                    if isinstance(worst_retest, dict)
                     else ""
                 )
-                rationale.append(
-                    f"`test_retest_run` is marked True, but the supplied "
-                    f"retest result is substantively unstable "
-                    f"(κ = {retest_kappa:+.3f}{flip_str}) — the check ran "
-                    f"but did not pass. The headline κ_C cannot be "
-                    f"interpreted as signal under this reliability. "
-                    f"Verdict capped at partially_defensible."
+                worst_kappa = (
+                    worst_retest.get("test_retest_kappa")
+                    if isinstance(worst_retest, dict)
+                    else None
                 )
+                worst_interval = worst.get("interval_s", 0)
+                retest_is_substantively_unstable = (
+                    "substantively unstable" in worst_verdict_str.lower()
+                )
+                retest_undefined = worst_kappa is None
+                if retest_is_substantively_unstable or retest_undefined:
+                    retest_failed = True
+                    n_pairs_raw = retest_result.get("pairs")
+                    n_pairs = (
+                        len(n_pairs_raw)
+                        if isinstance(n_pairs_raw, list)
+                        else 0
+                    )
+                    if retest_undefined:
+                        rationale.append(
+                            f"`test_retest_run` is marked True, but the "
+                            f"supplied multi-interval retest result has "
+                            f"undefined κ at interval {worst_interval}s "
+                            f"(degenerate agreement structure on the "
+                            f"comparison column) — the check ran across "
+                            f"{n_pairs} interval"
+                            f"{'s' if n_pairs != 1 else ''} but at least "
+                            f"one did not produce a usable reliability "
+                            f"estimate. Verdict capped at "
+                            f"partially_defensible."
+                        )
+                    else:
+                        flip_rate = (
+                            worst_retest.get("flip_rate")
+                            if isinstance(worst_retest, dict)
+                            else None
+                        )
+                        flip_str = (
+                            f", flip rate = {flip_rate * 100:.1f}%"
+                            if isinstance(flip_rate, (int, float))
+                            else ""
+                        )
+                        rationale.append(
+                            f"`test_retest_run` is marked True, but the "
+                            f"supplied multi-interval retest result has "
+                            f"a substantively-unstable pair at interval "
+                            f"{worst_interval}s "
+                            f"(κ = {worst_kappa:+.3f}{flip_str}); the "
+                            f"headline κ_C cannot be interpreted as "
+                            f"signal under this reliability across the "
+                            f"time scales captured. Verdict capped at "
+                            f"partially_defensible."
+                        )
+        else:
+            retest_verdict = str(retest_result.get("stability_verdict", ""))
+            retest_kappa = retest_result.get("test_retest_kappa")
+            retest_is_substantively_unstable = (
+                "substantively unstable" in retest_verdict.lower()
+            )
+            retest_undefined = retest_kappa is None
+            if retest_is_substantively_unstable or retest_undefined:
+                retest_failed = True
+                if retest_undefined:
+                    rationale.append(
+                        "`test_retest_run` is marked True, but the supplied "
+                        "retest result has undefined κ (degenerate agreement "
+                        "structure on the comparison column) — the check "
+                        "ran but did not produce a usable reliability "
+                        "estimate. Verdict capped at partially_defensible."
+                    )
+                else:
+                    flip_rate = retest_result.get("flip_rate")
+                    flip_str = (
+                        f", flip rate = {flip_rate * 100:.1f}%"
+                        if isinstance(flip_rate, (int, float))
+                        else ""
+                    )
+                    rationale.append(
+                        f"`test_retest_run` is marked True, but the supplied "
+                        f"retest result is substantively unstable "
+                        f"(κ = {retest_kappa:+.3f}{flip_str}) — the check ran "
+                        f"but did not pass. The headline κ_C cannot be "
+                        f"interpreted as signal under this reliability. "
+                        f"Verdict capped at partially_defensible."
+                    )
 
     # v0.6.1 R22 second leg: at scope >= domain_D_as_sampled, R22
     # satisfaction requires `test_retest_run=True` AND a declared
@@ -943,7 +959,18 @@ def render_markdown(
     lines.append("")
 
     # 2. Summary metrics
+    #
+    # v0.13.0 (#?): §2 is restructured into two sibling subheaded blocks
+    # — `### Agreement` (cov/κ_C/κ_F/κ_F*) and `### Reliability (R22)`
+    # (test-retest) — so test-retest reliability sits at the same visual
+    # level as agreement. The `## 2.` anchor is preserved (no
+    # renumbering cascade) but the visual hierarchy now reflects the
+    # methodology paper's framing: agreement and reliability are
+    # co-equal construct-validity dimensions, not a primary plus an
+    # optional footnote.
     lines.append("## 2. Summary metrics")
+    lines.append("")
+    lines.append("### Agreement")
     lines.append("")
     lines.append(f"- **Coverage**: {cov:.4f}")
     lines.append(f"- **Cohen's κ_C (vs consensus)**: {_format_kappa(kappa_c)}")
@@ -966,29 +993,20 @@ def render_markdown(
             )
     else:
         lines.append(f"- **Inter-analyst κ_F\\***: {_format_kappa(kappa_f_star)}")
+    lines.append("")
+    lines.append("### Reliability (R22)")
+    lines.append("")
     # Test-retest κ (R22): within-model analog of κ_F*. Always rendered
-    # when an artifact is supplied — informational at items_in_benchmark
-    # scope, verdict-gating at scope ≥ domain_D_as_sampled. v0.6.1: the
-    # κ is rendered with an explicit "under the declared identity
-    # criterion ..." suffix when the criterion is present in the
-    # supplied retest artifact, making explicit what the reliability
+    # — informational at items_in_benchmark scope, verdict-gating at
+    # scope ≥ domain_D_as_sampled. The renderer auto-detects single vs
+    # multi-interval shape via the presence of a `pairs` key on the
+    # supplied artifact, so a single CLI flag (--retest) consumes
+    # either v0.11.0+ RetestResult or v0.12.0+ MultiIntervalRetestResult
+    # JSON. v0.6.1: the κ row carries an explicit "under the declared
+    # identity criterion ..." suffix when the criterion is present in
+    # the supplied retest artifact, making explicit what the reliability
     # number is relative to (Hlobil's individuation point).
-    if retest_result is not None:
-        retest_kappa = retest_result.get("test_retest_kappa")
-        retest_kappa_v = (
-            retest_kappa if isinstance(retest_kappa, (int, float)) else None
-        )
-        criterion_clause = ""
-        embedded_crit = retest_result.get("identity_criterion")
-        if isinstance(embedded_crit, dict):
-            criterion_clause = (
-                " *under the declared identity criterion "
-                f"(`{_one_line_criterion_summary(embedded_crit)}`)*"
-            )
-        lines.append(
-            f"- **Test-retest κ (R22)**: "
-            f"{_format_kappa(retest_kappa_v)}{criterion_clause}"
-        )
+    _render_retest_section(lines, retest_result)
     lines.append("")
 
     # 3. Construct-validity claims (R16-R20)
@@ -1210,6 +1228,454 @@ def _format_kappa(value: float | None) -> str:
 
 def _human_label_for_check(name: str) -> str:
     return name.replace("_", " ").capitalize()
+
+
+# v0.13.0: stability-verdict ordering for worst-case selection. Lower
+# rank = better. Used by both the multi-interval renderer (to pick the
+# overall verdict line) and compute_verdict's R22 audit cap (to pick
+# the worst pair when capping). `undefined …` strings rank worst —
+# higher than substantively unstable — because an undefined κ means
+# the check ran but produced no usable reliability number, which is at
+# least as bad as a substantively-unstable result for audit purposes.
+_STABILITY_RANK: dict[str, int] = {
+    "stable": 0,
+    "moderately stable": 1,
+    "substantively unstable": 2,
+    "undefined": 3,
+}
+
+
+def _stability_rank(verdict_str: str) -> int:
+    """Map a stability_verdict prose string to its worst-case ordering rank.
+
+    Recognises the four canonical prefixes; falls back to the worst
+    rank for unknown strings so an unexpected verdict can't silently
+    lift a cap.
+    """
+    s = (verdict_str or "").lower()
+    if "substantively unstable" in s:
+        return _STABILITY_RANK["substantively unstable"]
+    if "moderately stable" in s:
+        return _STABILITY_RANK["moderately stable"]
+    if s.startswith("test-retest reliability is stable") or s == "stable":
+        return _STABILITY_RANK["stable"]
+    if "undefined" in s:
+        return _STABILITY_RANK["undefined"]
+    # Unknown / empty → treat as worst so we don't silently miss a cap.
+    return _STABILITY_RANK["undefined"]
+
+
+def _retest_is_multi_interval(retest_result: dict[str, object]) -> bool:
+    """True iff the supplied retest artifact has the v0.12.0+ multi-interval shape.
+
+    Detected by the presence of a list-typed ``pairs`` key. Single-pair
+    MultiIntervalRetestResult artifacts (N=1) still render with the
+    multi-interval table — the shape, not the count, drives the
+    renderer.
+    """
+    pairs = retest_result.get("pairs")
+    return isinstance(pairs, list)
+
+
+def _retest_worst_pair(
+    retest_result: dict[str, object],
+) -> dict[str, object] | None:
+    """Return the worst-case pair (by stability rank) from a multi-interval artifact.
+
+    Returns ``None`` if the artifact has no pairs or isn't
+    multi-interval. Ties broken by the largest interval (later
+    captures matter more for the methodological claim).
+    """
+    if not _retest_is_multi_interval(retest_result):
+        return None
+    pairs_raw = retest_result.get("pairs")
+    if not isinstance(pairs_raw, list) or not pairs_raw:
+        return None
+    best: dict[str, object] | None = None
+    best_key: tuple[int, int] = (-1, -1)
+    for pair in pairs_raw:
+        if not isinstance(pair, dict):
+            continue
+        retest_dict = pair.get("retest")
+        if not isinstance(retest_dict, dict):
+            continue
+        verdict_str = str(retest_dict.get("stability_verdict", ""))
+        rank = _stability_rank(verdict_str)
+        interval_raw = pair.get("interval_s", 0)
+        interval = interval_raw if isinstance(interval_raw, int) else 0
+        key = (rank, interval)
+        if key > best_key:
+            best_key = key
+            best = pair
+    return best
+
+
+def _collect_negative_findings_single(
+    findings: list[NegativeFinding], retest_result: dict[str, object]
+) -> None:
+    """v0.11.0+ single RetestResult → corpus finding + per-item flipped findings.
+
+    Lifted verbatim from the pre-v0.13.0 inline block in
+    :func:`collect_negative_findings` so single-interval behavior is
+    byte-identical to v0.12.0.
+    """
+    # Corpus-level finding: stability_verdict isn't "stable".
+    retest_verdict_raw = retest_result.get("stability_verdict", "")
+    retest_verdict_str = str(retest_verdict_raw)
+    # The stability_verdict strings are: "stable" (positive),
+    # "moderately stable" (negative — replication concern flagged),
+    # "substantively unstable" (negative — verdict-gating), and
+    # "undefined ..." (κ undefined; treat as negative for hygiene).
+    is_positive = (
+        retest_verdict_str.lower().startswith("test-retest reliability is stable")
+    )
+    if retest_verdict_str and not is_positive:
+        kappa = retest_result.get("test_retest_kappa")
+        flip_rate = retest_result.get("flip_rate")
+        kappa_str = (
+            f"κ = {kappa:+.3f}" if isinstance(kappa, (int, float))
+            else "κ undefined"
+        )
+        flip_str = (
+            f", flip rate = {flip_rate * 100:.1f}%"
+            if isinstance(flip_rate, (int, float))
+            else ""
+        )
+        findings.append(
+            NegativeFinding(
+                source="retest",
+                summary=(
+                    f"Test-retest reliability (R22): {retest_verdict_str} "
+                    f"[{kappa_str}{flip_str}]"
+                ),
+            )
+        )
+    # Per-item findings: each flipped item is one finding (capped to
+    # 50 so an enormous flip list doesn't overwhelm the report;
+    # the full list is in the artifact JSON).
+    flipped_raw = retest_result.get("flipped_items", []) or []
+    flipped = flipped_raw if isinstance(flipped_raw, list) else []
+    cap = 50
+    for fi in flipped[:cap]:
+        if not isinstance(fi, dict):
+            continue
+        iid = fi.get("item_id", "?")
+        va = fi.get("verdict_a", "?")
+        vb = fi.get("verdict_b", "?")
+        fl = fi.get("factor_levels") or {}
+        fl_str = (
+            f" [{', '.join(f'{k}={v}' for k, v in fl.items())}]"
+            if isinstance(fl, dict) and fl
+            else ""
+        )
+        findings.append(
+            NegativeFinding(
+                source="retest",
+                summary=f"`{iid}`: verdict flipped {va} → {vb}{fl_str}",
+            )
+        )
+    if len(flipped) > cap:
+        findings.append(
+            NegativeFinding(
+                source="retest",
+                summary=(
+                    f"... and {len(flipped) - cap} more flipped items — "
+                    "see the retest-result JSON for the full list."
+                ),
+            )
+        )
+
+
+def _collect_negative_findings_multi_interval(
+    findings: list[NegativeFinding], retest_result: dict[str, object]
+) -> None:
+    """v0.12.0+ MultiIntervalRetestResult → per-pair corpus findings + pooled flips.
+
+    Corpus level:
+      One :class:`NegativeFinding` per non-stable pair, summary
+      ``"Test-retest reliability (R22) at interval Ns: <verdict>
+      [κ=X, flip rate=Y%]"``. Bounded by number of intervals.
+
+    Per-item level:
+      Flipped items are pooled across all pairs by ``item_id``. The
+      earliest pair (smallest interval) in which an item flips
+      determines its "first seen at interval Ns" annotation, so an
+      item that flips in three pairs is one bullet, not three. Cap
+      remains at 50 unique items like the single-interval path.
+    """
+    pairs_raw = retest_result.get("pairs")
+    pairs: list[dict[str, object]] = (
+        [p for p in pairs_raw if isinstance(p, dict)]
+        if isinstance(pairs_raw, list)
+        else []
+    )
+
+    # Pass 1 — corpus-level findings: one row per non-stable pair, in
+    # the order they appear in `pairs` (analyst-supplied order).
+    for pair in pairs:
+        retest_dict = pair.get("retest")
+        if not isinstance(retest_dict, dict):
+            continue
+        verdict_str = str(retest_dict.get("stability_verdict", ""))
+        if not verdict_str:
+            continue
+        if verdict_str.lower().startswith("test-retest reliability is stable"):
+            continue
+        kappa = retest_dict.get("test_retest_kappa")
+        flip_rate = retest_dict.get("flip_rate")
+        kappa_str = (
+            f"κ = {kappa:+.3f}" if isinstance(kappa, (int, float))
+            else "κ undefined"
+        )
+        flip_str = (
+            f", flip rate = {flip_rate * 100:.1f}%"
+            if isinstance(flip_rate, (int, float))
+            else ""
+        )
+        interval_raw = pair.get("interval_s", 0)
+        interval = interval_raw if isinstance(interval_raw, int) else 0
+        findings.append(
+            NegativeFinding(
+                source="retest",
+                summary=(
+                    f"Test-retest reliability (R22) at interval "
+                    f"{interval}s: {verdict_str} [{kappa_str}{flip_str}]"
+                ),
+            )
+        )
+
+    # Pass 2 — pooled per-item flipped findings. Walk pairs in
+    # ascending interval order so the "first seen" annotation is
+    # genuinely the earliest interval, regardless of analyst-supplied
+    # pair ordering.
+    def _interval_key(p: dict[str, object]) -> int:
+        v = p.get("interval_s", 0)
+        return v if isinstance(v, int) else 0
+
+    pairs_by_interval = sorted(pairs, key=_interval_key)
+    seen: dict[str, NegativeFinding] = {}
+    for pair in pairs_by_interval:
+        retest_dict = pair.get("retest")
+        if not isinstance(retest_dict, dict):
+            continue
+        flipped_raw = retest_dict.get("flipped_items", []) or []
+        flipped = flipped_raw if isinstance(flipped_raw, list) else []
+        interval_raw = pair.get("interval_s", 0)
+        interval = interval_raw if isinstance(interval_raw, int) else 0
+        for fi in flipped:
+            if not isinstance(fi, dict):
+                continue
+            iid = str(fi.get("item_id", "?"))
+            if iid in seen:
+                # Already accounted for in an earlier (smaller-interval)
+                # pair. Skip — avoids the same flipped item appearing as
+                # three bullets when it shows up in three pairs.
+                continue
+            va = fi.get("verdict_a", "?")
+            vb = fi.get("verdict_b", "?")
+            fl = fi.get("factor_levels") or {}
+            fl_str = (
+                f" [{', '.join(f'{k}={v}' for k, v in fl.items())}]"
+                if isinstance(fl, dict) and fl
+                else ""
+            )
+            seen[iid] = NegativeFinding(
+                source="retest",
+                summary=(
+                    f"`{iid}`: verdict flipped {va} → {vb}"
+                    f"{fl_str} [first seen at interval {interval}s]"
+                ),
+            )
+
+    # Cap matches the single-interval path: at most 50 unique items
+    # surface; the full list lives in the artifact JSON.
+    pooled = list(seen.values())
+    cap = 50
+    findings.extend(pooled[:cap])
+    if len(pooled) > cap:
+        findings.append(
+            NegativeFinding(
+                source="retest",
+                summary=(
+                    f"... and {len(pooled) - cap} more flipped items "
+                    "(pooled across intervals) — see the multi-interval "
+                    "retest-result JSON for the full list."
+                ),
+            )
+        )
+
+
+def _render_retest_section(
+    lines: list[str], retest_result: dict[str, object] | None
+) -> None:
+    """Append the §2 Reliability (R22) block to ``lines``.
+
+    Shape auto-detection:
+    - ``retest_result is None`` → single "Not measured" bullet so the
+      Reliability subhead is never empty (a missing R22 capture is
+      itself a construct-validity signal).
+    - ``retest_result`` is a v0.11.0+ ``RetestResult`` dict (no
+      ``pairs`` key) → single-bullet rendering, preserving the exact
+      v0.12.0 bullet text byte-for-byte so existing rendering tests
+      continue to pass under the new subhead.
+    - ``retest_result`` is a v0.12.0+ ``MultiIntervalRetestResult`` dict
+      (``pairs`` list present) → per-interval markdown table +
+      overall-verdict line + (optional) identity-criterion clause.
+    """
+    if retest_result is None:
+        lines.append(
+            "- Not measured (R22 not run for this evaluation)."
+        )
+        return
+
+    if _retest_is_multi_interval(retest_result):
+        _render_retest_multi_interval(lines, retest_result)
+        return
+
+    # Single-interval (v0.11.0 RetestResult). Behavior verbatim from
+    # v0.12.0 — the same bullet line, just under the new ### subhead.
+    retest_kappa = retest_result.get("test_retest_kappa")
+    retest_kappa_v = (
+        retest_kappa if isinstance(retest_kappa, (int, float)) else None
+    )
+    criterion_clause = ""
+    embedded_crit = retest_result.get("identity_criterion")
+    if isinstance(embedded_crit, dict):
+        criterion_clause = (
+            " *under the declared identity criterion "
+            f"(`{_one_line_criterion_summary(embedded_crit)}`)*"
+        )
+    lines.append(
+        f"- **Test-retest κ (R22)**: "
+        f"{_format_kappa(retest_kappa_v)}{criterion_clause}"
+    )
+
+
+def _render_retest_multi_interval(
+    lines: list[str], retest_result: dict[str, object]
+) -> None:
+    """Append the per-interval R22 table + overall-verdict line.
+
+    Reads the MultiIntervalRetestResult dict shape produced by
+    ``infereval.retest.multi_interval_retest_result_to_dict``. Each
+    ``pairs[i]`` row carries ``interval_s``, ``run_id``, and an
+    embedded ``retest`` dict whose ``test_retest_kappa`` /
+    ``flipped_items`` / ``stability_verdict`` drive the row content.
+    The overall verdict line is the worst stability across all pairs
+    (cumulative-drift-since-baseline reading: if any captured interval
+    is unstable, the mastery claim does not hold at that time scale).
+    """
+    baseline_run_id = retest_result.get("baseline_run_id", "?")
+    benchmark_id = retest_result.get("benchmark_id", "?")
+    pairs_raw = retest_result.get("pairs")
+    pairs: list[dict[str, object]] = (
+        [p for p in pairs_raw if isinstance(p, dict)]
+        if isinstance(pairs_raw, list)
+        else []
+    )
+
+    lines.append(
+        f"- **Baseline run**: `{baseline_run_id}` (benchmark `{benchmark_id}`)."
+    )
+    lines.append("")
+    lines.append(
+        "| Interval (s) | Later run | κ vs baseline | Flips | Verdict |"
+    )
+    lines.append("|---:|---|---:|---:|---|")
+
+    n_items: int | None = None
+    for pair in pairs:
+        interval_raw = pair.get("interval_s", 0)
+        interval = interval_raw if isinstance(interval_raw, int) else 0
+        run_id = pair.get("run_id", "?")
+        retest_dict = pair.get("retest")
+        if not isinstance(retest_dict, dict):
+            lines.append(
+                f"| {interval} | `{run_id}` | undefined | ? | malformed |"
+            )
+            continue
+        kappa = retest_dict.get("test_retest_kappa")
+        kappa_v = kappa if isinstance(kappa, (int, float)) else None
+        flipped_raw = retest_dict.get("flipped_items", []) or []
+        n_flipped = len(flipped_raw) if isinstance(flipped_raw, list) else 0
+        # `n_items` comes off the embedded retest result; cached on first
+        # pair seen for the verdict-line denominator.
+        pair_n = retest_dict.get("n_items")
+        if isinstance(pair_n, int) and n_items is None:
+            n_items = pair_n
+        n_str = f"{n_flipped}/{pair_n}" if isinstance(pair_n, int) else f"{n_flipped}"
+        verdict_str = str(retest_dict.get("stability_verdict", "?"))
+        # Compress the prose verdict into a short table-row label.
+        verdict_short = _short_stability_label(verdict_str)
+        lines.append(
+            f"| {interval} | `{run_id}` | {_format_kappa(kappa_v)} | "
+            f"{n_str} | {verdict_short} |"
+        )
+
+    lines.append("")
+    worst = _retest_worst_pair(retest_result)
+    if worst is not None:
+        worst_retest = worst.get("retest") if isinstance(worst, dict) else None
+        worst_verdict_str = (
+            str(worst_retest.get("stability_verdict", "?"))
+            if isinstance(worst_retest, dict)
+            else "?"
+        )
+        worst_interval_raw = worst.get("interval_s", 0)
+        worst_interval = (
+            worst_interval_raw if isinstance(worst_interval_raw, int) else 0
+        )
+        lines.append(
+            f"- **Overall verdict**: {_short_stability_label(worst_verdict_str)} "
+            f"(worst-case across {len(pairs)} interval"
+            f"{'s' if len(pairs) != 1 else ''}; driven by interval "
+            f"{worst_interval}s)."
+        )
+    else:
+        lines.append(
+            "- **Overall verdict**: no pairs supplied "
+            "(MultiIntervalRetestResult artifact carries an empty `pairs` list)."
+        )
+
+    # Identity-criterion clause. The criterion is one-shot at the
+    # ReliabilityClaim / wrapper level; we look for it on the wrapper
+    # first, then fall back to the first pair's embedded criterion
+    # (for symmetry with the single-interval path, which reads it off
+    # the RetestResult itself).
+    crit = retest_result.get("identity_criterion")
+    if not isinstance(crit, dict):
+        for pair in pairs:
+            pair_retest = pair.get("retest")
+            if isinstance(pair_retest, dict):
+                maybe_crit = pair_retest.get("identity_criterion")
+                if isinstance(maybe_crit, dict):
+                    crit = maybe_crit
+                    break
+    if isinstance(crit, dict):
+        lines.append(
+            f"- *Every pair compared under the declared identity criterion "
+            f"(`{_one_line_criterion_summary(crit)}`).*"
+        )
+
+
+def _short_stability_label(verdict_str: str) -> str:
+    """Compress a stability_verdict prose string into a short table-row label.
+
+    Maps the four canonical prose verdicts to: ``stable``,
+    ``moderately stable``, ``substantively unstable``, ``undefined``.
+    Falls through to a leading-word abbreviation for unknown strings
+    so the column never blows out of its width.
+    """
+    s = (verdict_str or "").lower()
+    if "substantively unstable" in s:
+        return "substantively unstable"
+    if "moderately stable" in s:
+        return "moderately stable"
+    if "undefined" in s:
+        return "undefined"
+    if s.startswith("test-retest reliability is stable") or s == "stable":
+        return "stable"
+    return verdict_str.split(".")[0][:40] or "?"
 
 
 def _one_line_criterion_summary(crit: dict[str, object]) -> str:

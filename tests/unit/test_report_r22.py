@@ -223,6 +223,173 @@ def test_retest_audit_cap_does_not_fire_when_check_not_asserted() -> None:
     assert v.label == "defensible"
 
 
+# ---- v0.13.0: multi-interval audit cap (worst-case across pairs) --------
+#
+# The v0.12.0 MultiIntervalRetestResult artifact wraps N RetestResult
+# pairs anchored on a common baseline. compute_verdict's R22 audit
+# cap reduces them via worst-case: if ANY captured interval is
+# substantively unstable OR has undefined κ, the cap fires. Tests
+# below exercise the four combinations (all-stable / one-unstable /
+# one-undefined / back-to-back-clean-but-day-apart-unstable) so a
+# regression that silently lifts the cap on multi-interval input is
+# caught.
+
+
+def _multi_pair(
+    *,
+    interval_s: int,
+    run_id: str,
+    kappa: float | None,
+    verdict: str,
+    flip_rate: float = 0.0,
+) -> dict[str, object]:
+    """Build one IntervalPair dict for a synthetic MultiIntervalRetestResult."""
+    return {
+        "interval_s": interval_s,
+        "run_id": run_id,
+        "retest": {
+            "stability_verdict": verdict,
+            "test_retest_kappa": kappa,
+            "flip_rate": flip_rate,
+            "flipped_items": [],
+        },
+    }
+
+
+def _multi_retest_artifact(pairs: list[dict[str, object]]) -> dict[str, object]:
+    return {
+        "schema_version": "1.0",
+        "framework_version": "0.13.0",
+        "benchmark_id": "stop_sign_example",
+        "benchmark_hash": "abc",
+        "baseline_run_id": "run-0",
+        "pairs": pairs,
+    }
+
+
+def test_multi_interval_all_pairs_stable_does_not_cap() -> None:
+    """Three stable pairs: cap must not fire; rationale shouldn't mention R22."""
+    artifact = _multi_retest_artifact([
+        _multi_pair(
+            interval_s=0,
+            run_id="run-1",
+            kappa=1.0,
+            verdict="test-retest reliability is stable",
+        ),
+        _multi_pair(
+            interval_s=86400,
+            run_id="run-2",
+            kappa=0.95,
+            verdict="test-retest reliability is stable",
+            flip_rate=0.02,
+        ),
+        _multi_pair(
+            interval_s=604800,
+            run_id="run-3",
+            kappa=0.92,
+            verdict="test-retest reliability is stable",
+            flip_rate=0.04,
+        ),
+    ])
+    v = compute_verdict(_full_domain_d_claims(), retest_result=artifact)
+    assert v.label == "defensible"
+    # No R22-cap rationale.
+    assert not any("substantively unstable" in r for r in v.rationale)
+    assert not any("undefined κ at interval" in r for r in v.rationale)
+
+
+def test_multi_interval_one_substantively_unstable_pair_caps() -> None:
+    """[stable, stable, substantively_unstable] → cap fires; rationale
+    cites the unstable pair's interval."""
+    artifact = _multi_retest_artifact([
+        _multi_pair(
+            interval_s=0,
+            run_id="run-1",
+            kappa=1.0,
+            verdict="test-retest reliability is stable",
+        ),
+        _multi_pair(
+            interval_s=86400,
+            run_id="run-2",
+            kappa=0.95,
+            verdict="test-retest reliability is stable",
+        ),
+        _multi_pair(
+            interval_s=604800,
+            run_id="run-3",
+            kappa=0.20,
+            verdict=(
+                "test-retest reliability is substantively unstable "
+                "(κ = +0.200); 40.0% of items flipped between runs."
+            ),
+            flip_rate=0.4,
+        ),
+    ])
+    v = compute_verdict(_full_domain_d_claims(), retest_result=artifact)
+    assert v.label == "partially_defensible"
+    # Rationale must point at the worst pair's interval specifically so
+    # the analyst knows which time scale broke.
+    assert any("604800s" in r for r in v.rationale)
+    assert any("substantively-unstable pair" in r for r in v.rationale)
+
+
+def test_multi_interval_undefined_kappa_pair_caps() -> None:
+    """One pair has κ = None (undefined): cap fires with 'undefined κ at
+    interval Ns' rationale."""
+    artifact = _multi_retest_artifact([
+        _multi_pair(
+            interval_s=0,
+            run_id="run-1",
+            kappa=1.0,
+            verdict="test-retest reliability is stable",
+        ),
+        _multi_pair(
+            interval_s=3600,
+            run_id="run-2",
+            kappa=None,
+            verdict=(
+                "test-retest κ is undefined on this comparison "
+                "(degenerate agreement structure); reliability cannot "
+                "be assessed from this run pair"
+            ),
+        ),
+    ])
+    v = compute_verdict(_full_domain_d_claims(), retest_result=artifact)
+    assert v.label == "partially_defensible"
+    assert any("undefined κ at interval 3600s" in r for r in v.rationale)
+
+
+def test_multi_interval_worst_case_drives_cap_when_back_to_back_clean() -> None:
+    """Back-to-back stable, day-apart substantively unstable: the cap
+    must still fire. This is the methodological commitment — the
+    mastery claim has to hold at *every* captured time scale, not just
+    the back-to-back floor. A regression that anchors only on the
+    smallest interval (and lifts the cap because back-to-back was
+    clean) would slip past `_full_domain_d_claims` here.
+    """
+    artifact = _multi_retest_artifact([
+        _multi_pair(
+            interval_s=0,
+            run_id="run-1",
+            kappa=1.0,
+            verdict="test-retest reliability is stable",
+        ),
+        _multi_pair(
+            interval_s=86400,
+            run_id="run-2",
+            kappa=0.15,
+            verdict=(
+                "test-retest reliability is substantively unstable "
+                "(κ = +0.150)"
+            ),
+            flip_rate=0.5,
+        ),
+    ])
+    v = compute_verdict(_full_domain_d_claims(), retest_result=artifact)
+    assert v.label == "partially_defensible"
+    assert any("86400s" in r for r in v.rationale)
+
+
 # ---- Negative findings ---------------------------------------------------
 
 

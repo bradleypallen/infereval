@@ -371,10 +371,12 @@ infereval report \
 The report has seven sections:
 
 1. **Identity** — evaluation id, benchmark id, model, run date, item count, analyst count.
-2. **Summary metrics** — coverage, κ_C, κ_F, κ_F\*, and **test-retest κ (R22)** when a retest artifact is supplied.
+2. **Summary metrics** — split into two co-equal subheaded blocks (v0.13.0+):
+   - `### Agreement` — coverage, κ_C, κ_F, κ_F\* (and primary-panel sub-figure on panelled benchmarks).
+   - `### Reliability (R22)` — test-retest κ. When `--retest` is given a single `RetestResult` (v0.11.0+), the block renders the κ as a bullet with the declared identity-criterion clause (when present). When `--retest` is given a `MultiIntervalRetestResult` (v0.12.0+ multi-interval shape), the block renders a per-interval markdown table (`Interval (s) | Later run | κ vs baseline | Flips | Verdict`) with one row per captured interval, followed by an `Overall verdict` line that reports the **worst-case across pairs** — the cumulative-drift-since-baseline reading. When `--retest` is omitted, the block emits a single "Not measured (R22 not run for this evaluation)" bullet rather than hiding the empty subhead.
 3. **Construct-validity claims** — your declarations from the claims file, rendered as text.
 4. **Evidence** — auto-collected from the optional Phase 3 artifacts.
-4b. **Negative findings** — auto-collected from structure / sweep / model-fit / retest. Each subsection lists the items: structural anomalies, sweep instability, factor-effects null findings, test-retest anomalies (per-item flips).
+4b. **Negative findings** — auto-collected from structure / sweep / model-fit / retest. Each subsection lists the items: structural anomalies, sweep instability, factor-effects null findings, test-retest anomalies. For multi-interval retest artifacts the corpus-level row emits **one finding per non-stable pair** (annotated with its interval, e.g. `"Test-retest reliability (R22) at interval 86400s: substantively unstable [κ = +0.200, flip rate = 40.0%]"`), and per-item flipped findings are **pooled across pairs by `item_id`** (each item is one bullet, annotated with the earliest interval where it flipped — same item flipping in three pairs is still one bullet).
 5. **Unaddressed competing explanations** — the list of false flags in `competing_explanations`.
 6. **Summary verdict** — ✅ / ⚠️ / ❌ with rationale.
 

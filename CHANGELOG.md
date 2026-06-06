@@ -12,6 +12,63 @@ stable from 1.0 onward, regardless of the framework version.
 
 No changes yet.
 
+## [0.13.0] — 2026-06-06
+
+**Retest-aware `infereval report`**: §2 of the construct-validity report is restructured into two co-equal `###` subheaded blocks — **Agreement** (cov / κ_C / κ_F / κ_F\*) and **Reliability (R22)** (test-retest κ) — so test-retest reliability sits at the same visual level as agreement, the "co-equal §2 metric" framing the methodology paper has been pointing at. `--retest` auto-detects single (v0.11.0 `RetestResult`) vs multi-interval (v0.12.0 `MultiIntervalRetestResult`) artifact shape and renders accordingly: a single bullet under the Reliability subhead for single-interval (verbatim from v0.12.0), or a per-interval markdown table plus an `Overall verdict` line for multi-interval. The R22 audit cap and negative-findings collection both extend to multi-interval with a **worst-case across pairs** rule: if ANY captured interval is substantively unstable or has undefined κ, the cap fires and the bad pair surfaces as a corpus-level finding (annotated with its interval); per-item flipped findings are pooled across pairs by `item_id`.
+
+### Why the change
+
+v0.11.0 added `retest --auto`. v0.12.0 added multi-interval `--interval-s`, producing `MultiIntervalRetestResult` artifacts with N retest pairs anchored on a common baseline. But the report surface had not caught up:
+
+1. **Test-retest κ was buried as a single bullet** in §2 Summary metrics, rendered after cov / κ_C / κ_F / κ_F\*. The methodology paper treats R22 as a *co-equal* construct-validity dimension to per-evaluation agreement, but the report's visual hierarchy did not reflect that.
+2. **`MultiIntervalRetestResult` was invisible to `infereval report`**: `--retest` and `render_markdown()` both assumed the single-`RetestResult` shape; a multi-interval JSON would render as a single broken bullet.
+3. **Verdict gating + negative findings had no multi-interval logic.** `compute_verdict()` and `collect_negative_findings()` read `retest_result["test_retest_kappa"]` at the top level — for multi-interval those fields live inside each `pairs[i].retest`. No cap fired, no negative findings emitted.
+
+v0.13.0 closes all three gaps. Additive renderer changes only; no flag changes, no JSON-schema changes.
+
+### Added
+
+- **§2 restructure**: `## 2. Summary metrics` header preserved (anchor `#2-summary-metrics` unchanged). Now contains two `###` subheaded blocks:
+  - `### Agreement` — coverage, κ_C, κ_F, κ_F\* (and primary-panel sub-bullet on panelled benchmarks).
+  - `### Reliability (R22)` — test-retest κ. When `--retest` is omitted, emits "Not measured (R22 not run for this evaluation)" rather than hiding the subhead.
+- **Multi-interval rendering**: `--retest <path>` auto-detects shape via the presence of a `pairs` field. Multi-interval artifacts render a per-interval table (`Interval (s) | Later run | κ vs baseline | Flips | Verdict`) plus an `Overall verdict` line reporting the worst stability across all pairs. Identity-criterion clause rendered once under the subhead (not per row).
+- **Worst-case R22 audit cap**: `compute_verdict()`'s existing R22 audit cap (capping verdict at `partially_defensible` when `test_retest_run=True` but the supplied retest is substantively unstable or has undefined κ) now reduces multi-interval artifacts via worst-case across pairs. The mastery claim has to hold at every captured time scale; a clean back-to-back pair does not lift the cap if a later interval drifted.
+- **Pooled negative findings for multi-interval**: `collect_negative_findings()` emits one corpus-level finding per non-stable pair (annotated with its interval) and pools per-item flipped findings across pairs by `item_id` (each item is one bullet, annotated with the earliest interval where it flipped). The 50-item cap from v0.11.0 still applies to the pooled set.
+- **`_short_stability_label` + `_stability_rank` + `_retest_worst_pair` + `_retest_is_multi_interval` helpers** in `infereval.report` for shape detection, ranking, and worst-case selection. The single-interval / multi-interval dispatch lives in three places (`_render_retest_section`, `compute_verdict`'s R22 branch, `collect_negative_findings`'s retest branch) and is uniform across all three.
+- **Bundled demo report**: `experiments/results/stop_sign/retest/report-demo-opus47.md` + `claims-demo.json` — a real-data render against the v0.11.0 opus47 R22 capture, showing the new §2 layout. No new live captures. v0.14.0 will add multi-interval R22 evidence for the bundled demos.
+
+### What did not change
+
+- **Manual-mode `infereval retest <eta_a> <eta_b>`** — untouched.
+- **`RetestResult`, `MultiIntervalRetestResult`, `compute_retest`** and the retest CLI surface — untouched.
+- **§3 `ReliabilityClaim` rendering** — unchanged. The analyst's `IdentityCriterion` is a one-shot declaration regardless of single vs multi-interval result shape.
+- **Single-interval report output** — JSON-schema-stable. The single-bullet `Test-retest κ` line is byte-identical to v0.12.0; the only change in single-interval mode is that it now appears under the new `### Reliability (R22)` parent.
+- **All JSON content schemas** — only `framework_version.default` bumps to `0.13.0`.
+- **`MetricsReport.to_dict()`** — no retest slot added; retest continues to flow independently into `render_markdown()`.
+
+### Methodological framing
+
+The methodology paper's central claim about R22 — "any cross-family κ comparison without a retest discipline is reporting a point on an unknown distribution" — is now backed by a report surface that gives test-retest reliability the same visual prominence as agreement. The worst-case multi-interval rule makes the methodological commitment concrete: the mastery claim has to hold at every time scale the analyst captured, not just the back-to-back floor. The pulmonology drift result (Gemini 2.5 Pro shifting κ_C by 0.21 across 2.5 weeks, v0.10.0) is the shape this report layout was designed to surface clearly.
+
+### Docs
+
+- `docs/construct_validity.md` — Phase 6 (report rendering) section: §2 restructure description, multi-interval table example, worst-case verdict rule, multi-interval negative-findings pooling rule.
+- `docs/interpreting_metrics.md` — new `### R22 — test-retest reliability` subsection alongside `κ_C` / `κ_F` / `κ_F*`, signalling co-equal status with the agreement metrics.
+- `CLAUDE.md` — new locked-defaults entry on the retest-aware report (shape auto-detection, §2 subhead layout, worst-case verdict rule, pooled negative findings).
+- `README.md` — one-sentence mention in the existing R22 paragraph.
+- `experiments/results/stop_sign/retest/README.md` — new "v0.13.0 demo" subsection documenting `report-demo-opus47.md` + `claims-demo.json`.
+
+### Schemas
+
+- `framework_version.default` bumped to `0.13.0`. No content-schema changes.
+
+### Tests
+
+- New `tests/unit/test_report.py::TestMarkdownRendering` (5 tests) — §2 subhead order, single-interval bullet preservation, multi-interval table rendering, no-retest "not measured" bullet, worst-case overall-verdict line.
+- New `tests/unit/test_report.py::TestCollectNegativeFindings` (3 tests) — one finding per non-stable pair, per-item pooling across pairs, 50-item cap on pooled set.
+- New `tests/unit/test_report_r22.py` (4 tests) — multi-interval audit cap: all-stable does not cap, one substantively-unstable pair caps, one undefined-κ pair caps, worst-case drives cap when back-to-back is clean.
+- All 920 tests pass (908 prior + 12 new).
+
 ## [0.12.0] — 2026-06-06
 
 **Multi-interval `infereval retest --auto`**: `--interval-s` becomes repeatable. Each invocation adds one cumulative-anchor interval; the framework orchestrates N+1 captures in one CLI call and emits a `MultiIntervalRetestResult` with N retest pairs, all comparing baseline (capture 0) to each later capture. Closes the "we have one across-update data point and one within-session data point; we need more across-update data points" gap from v0.11.0's `stop_sign_2026-06-06.md`.

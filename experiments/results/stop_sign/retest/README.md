@@ -49,3 +49,22 @@ At scope ≥ `domain_D_as_sampled`, the verdict gate would cap to
 the retest κ without that machinery — the artifact's `stable`
 verdict is correct as-is at `items_in_benchmark` scope, which is the
 right scope for the paper's worked example.
+
+## v0.13.0 demo: retest-aware report layout
+
+`report-demo-opus47.md` (added in v0.13.0) shows the new §2 layout
+applied to the opus47 capture: §2 is split into two co-equal
+subheaded blocks — `### Agreement` (cov / κ_C / κ_F / κ_F\*) and
+`### Reliability (R22)` (test-retest). The bundled `claims-demo.json`
+is the claims file used to generate it (single-interval back-to-back
+shape; `MultiIntervalRetestResult` rendering will be demonstrated
+with real captures in v0.14.0). Regenerate with:
+
+```sh
+infereval report \
+  --evaluation experiments/results/stop_sign/retest/opus47/eta-a.json \
+  --benchmark examples/stop_sign/benchmark.json \
+  --claims experiments/results/stop_sign/retest/claims-demo.json \
+  --retest experiments/results/stop_sign/retest/opus47-retest.json \
+  -o experiments/results/stop_sign/retest/report-demo-opus47.md
+```
