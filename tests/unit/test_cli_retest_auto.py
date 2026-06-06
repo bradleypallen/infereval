@@ -345,6 +345,248 @@ class TestMultiInterval:
         assert [p["interval_s"] for p in loaded["pairs"]] == [0, 0, 0]
 
 
+# ---- v0.14.0: --baseline-from staged-composition primitive ---------------
+#
+# `--baseline-from <eta-path>` loads a saved baseline eta, runs ONE fresh
+# capture against it, and emits a one-pair MultiIntervalRetestResult whose
+# `interval_s` is computed from the elapsed wall-clock between
+# baseline.started_at and the fresh capture's started_at. This is the
+# primitive on top of which `--append-to` is built.
+
+
+def _capture_baseline_eta(tmp_path: Path) -> Path:
+    """Helper: run a default `--auto --interval-s 0` and return the
+    saved `eta-a.json` path. Used as the baseline fixture for the
+    TestBaselineFrom tests below — the resulting baseline is real
+    (ScriptedProvider-backed) so the parity check has something
+    real to validate against.
+    """
+    save_dir = tmp_path / "phase1"
+    provider = _scripted_provider(["GOOD"] * 24)
+    runner = CliRunner()
+    with patch("infereval.providers.get_provider", return_value=provider):
+        result = runner.invoke(
+            cli,
+            [
+                "retest", "--auto",
+                "--benchmark", str(STOP_SIGN_PATH),
+                "--provider", "openai", "--model", "gpt-4o",
+                "--n-samples", "3",
+                "--save-etas", str(save_dir),
+            ],
+        )
+    assert result.exit_code == 0, result.output
+    return save_dir / "eta-a.json"
+
+
+class TestBaselineFrom:
+    def test_baseline_from_emits_one_pair_multi_result(self, tmp_path: Path) -> None:
+        """Load a saved baseline, run one fresh capture against it,
+        confirm output JSON is a one-pair MultiIntervalRetestResult."""
+        baseline_path = _capture_baseline_eta(tmp_path)
+        out = tmp_path / "from-baseline.json"
+        fresh_provider = _scripted_provider(["GOOD"] * 12)
+        runner = CliRunner()
+        with patch(
+            "infereval.providers.get_provider", return_value=fresh_provider
+        ):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--baseline-from", str(baseline_path),
+                    "-o", str(out),
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        loaded = json.loads(out.read_text())
+        # MultiIntervalRetestResult shape: has `pairs` and `baseline_run_id`.
+        assert "pairs" in loaded
+        assert "baseline_run_id" in loaded
+        assert len(loaded["pairs"]) == 1
+        # The one pair is a valid retest result.
+        pair = loaded["pairs"][0]
+        assert "interval_s" in pair
+        assert "retest" in pair
+        assert pair["retest"]["n_items"] == 4
+
+    def test_baseline_from_computes_interval_s_from_started_at(
+        self, tmp_path: Path
+    ) -> None:
+        """The synthesized `interval_s` should reflect the actual
+        elapsed wall-clock between baseline.started_at and the fresh
+        capture's started_at — via `compute_interval_s`. Because the
+        ScriptedProvider runs at machine speed, the elapsed time
+        should be small but non-negative.
+        """
+        baseline_path = _capture_baseline_eta(tmp_path)
+        out = tmp_path / "from-baseline.json"
+        fresh_provider = _scripted_provider(["GOOD"] * 12)
+        runner = CliRunner()
+        with patch(
+            "infereval.providers.get_provider", return_value=fresh_provider
+        ):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--baseline-from", str(baseline_path),
+                    "-o", str(out),
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        loaded = json.loads(out.read_text())
+        interval_s = loaded["pairs"][0]["interval_s"]
+        # The fresh capture happens after the baseline (same tmp_path
+        # session), so interval_s must be >= 0. Upper bound is loose:
+        # the test setup + scripted-provider eval all complete in
+        # well under 60s on any modern machine.
+        assert interval_s >= 0
+        assert interval_s < 60
+
+    def test_baseline_from_parity_check_fires_on_benchmark_hash_mismatch(
+        self, tmp_path: Path
+    ) -> None:
+        """If the fresh capture is against a *different* benchmark than
+        the baseline was, the parity check in `compute_retest` must
+        fire with `RetestConfigMismatchError`."""
+        # Capture baseline against stop-sign.
+        baseline_path = _capture_baseline_eta(tmp_path)
+        # Build a different benchmark (one item dropped).
+        bench_data = json.loads(STOP_SIGN_PATH.read_text())
+        bench_data["id"] = "stop-sign-truncated"
+        bench_data["items"] = bench_data["items"][:3]
+        other_bench_path = tmp_path / "other-bench.json"
+        other_bench_path.write_text(json.dumps(bench_data))
+
+        fresh_provider = _scripted_provider(["GOOD"] * 9)
+        runner = CliRunner()
+        with patch(
+            "infereval.providers.get_provider", return_value=fresh_provider
+        ):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(other_bench_path),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--baseline-from", str(baseline_path),
+                ],
+            )
+        assert result.exit_code != 0, result.output
+        assert "incompatible runs" in result.output.lower()
+
+    def test_baseline_from_identity_criterion_threaded_via_claims(
+        self, tmp_path: Path
+    ) -> None:
+        """`--claims` with a non-empty reliability.identity_criterion
+        rationale → criterion appears in the emitted multi-result."""
+        baseline_path = _capture_baseline_eta(tmp_path)
+        claims_data = {
+            "mastery_sense": {"sense": "evaluative", "description": "x"},
+            "scope": {"scope": "items_in_benchmark", "justification": "x"},
+            "constitution": {
+                "position": "evidence_of_mastery", "justification": "x",
+            },
+            "carving": {
+                "acknowledges_carving_indexed": False, "notes": "",
+            },
+            "competing_explanations": {"test_retest_run": True},
+            "reliability": {
+                "identity_criterion": {
+                    "same_provider_model_id": True,
+                    "cross_update_identity_asserted": True,
+                    "same_scaffolding": True,
+                    "unverifiable_caveats": "test caveat",
+                    "rationale": "test rationale for v0.14.0 baseline-from",
+                },
+            },
+        }
+        claims_path = tmp_path / "claims.json"
+        claims_path.write_text(json.dumps(claims_data))
+        out = tmp_path / "from-baseline.json"
+
+        fresh_provider = _scripted_provider(["GOOD"] * 12)
+        runner = CliRunner()
+        with patch(
+            "infereval.providers.get_provider", return_value=fresh_provider
+        ):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--claims", str(claims_path),
+                    "--baseline-from", str(baseline_path),
+                    "-o", str(out),
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        loaded = json.loads(out.read_text())
+        # Criterion threaded through at the wrapper level.
+        assert "identity_criterion" in loaded
+        crit = loaded["identity_criterion"]
+        assert crit["rationale"] == (
+            "test rationale for v0.14.0 baseline-from"
+        )
+
+    def test_baseline_from_writes_to_output_path(self, tmp_path: Path) -> None:
+        """`-o /path/to/file.json` writes the multi-result there."""
+        baseline_path = _capture_baseline_eta(tmp_path)
+        out = tmp_path / "subdir" / "result.json"  # subdir doesn't exist yet
+        fresh_provider = _scripted_provider(["GOOD"] * 12)
+        runner = CliRunner()
+        with patch(
+            "infereval.providers.get_provider", return_value=fresh_provider
+        ):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--baseline-from", str(baseline_path),
+                    "-o", str(out),
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        assert out.is_file()
+        loaded = json.loads(out.read_text())
+        assert loaded["schema_version"] == "1.0"
+
+    def test_baseline_from_mutually_exclusive_with_multi_interval_s(
+        self, tmp_path: Path
+    ) -> None:
+        """`--baseline-from + --interval-s 0 --interval-s 3600` →
+        click error. The staged path runs one fresh capture; multi
+        `--interval-s` implies the N+1-capture orchestration path."""
+        baseline_path = _capture_baseline_eta(tmp_path)
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "retest", "--auto",
+                "--benchmark", str(STOP_SIGN_PATH),
+                "--provider", "openai", "--model", "gpt-4o",
+                "--baseline-from", str(baseline_path),
+                "--interval-s", "0",
+                "--interval-s", "3600",
+            ],
+        )
+        assert result.exit_code != 0
+        assert "incompatible with multiple --interval-s" in result.output
+
+
 class TestProviderErrors:
     def test_provider_error_during_capture_b_exits_nonzero(self, tmp_path: Path) -> None:
         """A ProviderError raised partway through capture B should exit

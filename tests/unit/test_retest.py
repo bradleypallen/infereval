@@ -387,6 +387,58 @@ def test_v0_6_1_relabel_error_message_names_setup_conformance() -> None:
     assert "individuation criterion" in msg
 
 
+# ---- v0.14.0: compute_interval_s helper ----------------------------------
+
+
+def test_compute_interval_s_basic_delta() -> None:
+    """Standard case: later capture's started_at is N seconds after baseline's."""
+    from datetime import datetime, timezone
+
+    from infereval.retest import compute_interval_s
+
+    baseline = _eval([], run_id="b")
+    later = _eval([], run_id="l")
+    # Force timestamps via Pydantic model_copy (Evaluation is frozen-ish
+    # but model_copy returns a new instance).
+    baseline = baseline.model_copy(update={
+        "started_at": datetime(2026, 6, 6, 12, 0, 0, tzinfo=timezone.utc),
+    })
+    later = later.model_copy(update={
+        "started_at": datetime(2026, 6, 6, 12, 10, 0, tzinfo=timezone.utc),
+    })
+    assert compute_interval_s(baseline, later) == 600
+
+
+def test_compute_interval_s_returns_zero_when_started_at_missing() -> None:
+    """Defensive: either eta missing started_at → return 0 (degenerate metadata)."""
+    from infereval.retest import compute_interval_s
+
+    baseline = _eval([], run_id="b").model_copy(update={"started_at": None})
+    later = _eval([], run_id="l")
+    assert compute_interval_s(baseline, later) == 0
+    # Also covers the reverse case.
+    baseline = _eval([], run_id="b")
+    later = _eval([], run_id="l").model_copy(update={"started_at": None})
+    assert compute_interval_s(baseline, later) == 0
+
+
+def test_compute_interval_s_clamps_negative_delta_to_zero() -> None:
+    """If later.started_at < baseline.started_at (clock skew or flipped
+    argument order), clamp to 0 rather than raising. Same effect as the
+    within-session-floor reading for `--interval-s 0`."""
+    from datetime import datetime, timezone
+
+    from infereval.retest import compute_interval_s
+
+    baseline = _eval([], run_id="b").model_copy(update={
+        "started_at": datetime(2026, 6, 6, 13, 0, 0, tzinfo=timezone.utc),
+    })
+    later = _eval([], run_id="l").model_copy(update={
+        "started_at": datetime(2026, 6, 6, 12, 0, 0, tzinfo=timezone.utc),
+    })
+    assert compute_interval_s(baseline, later) == 0
+
+
 # ---- v0.12.0: MultiIntervalRetestResult ----------------------------------
 
 

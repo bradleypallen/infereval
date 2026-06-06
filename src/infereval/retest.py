@@ -305,6 +305,32 @@ def _retest_cohens_kappa(
     return (p_o - p_e) / (1.0 - p_e)
 
 
+def compute_interval_s(eta_a: Evaluation, eta_b: Evaluation) -> int:
+    """Cumulative elapsed seconds from ``eta_a.started_at`` to ``eta_b.started_at``.
+
+    The single source of truth for the ``interval_s`` field on
+    :class:`IntervalPair` when the framework synthesizes a pair from
+    two evaluations whose timestamps are known (e.g. v0.14.0's
+    ``--baseline-from`` and ``--append-to`` CLI paths, which capture
+    one fresh eta against a saved baseline at a later wall-clock time).
+
+    Returns ``0`` if either evaluation has ``started_at = None``
+    (degenerate metadata) or the later capture's timestamp precedes
+    the baseline's (clock skew or already-flipped argument order —
+    treat as back-to-back rather than raising). Otherwise returns the
+    integer second count of the delta.
+
+    Mirrors the semantics of ``--interval-s 0`` for the back-to-back
+    case: a synthesized pair with ``interval_s == 0`` is the
+    within-session reliability floor, exactly the same shape v0.11.0
+    captured.
+    """
+    if eta_a.started_at is None or eta_b.started_at is None:
+        return 0
+    delta = eta_b.started_at - eta_a.started_at
+    return max(0, int(delta.total_seconds()))
+
+
 def compute_retest(
     eta_a: Evaluation,
     eta_b: Evaluation,
@@ -585,6 +611,7 @@ __all__ = [
     "MultiIntervalRetestResult",
     "RetestConfigMismatchError",
     "RetestResult",
+    "compute_interval_s",
     "compute_retest",
     "multi_interval_retest_result_to_dict",
     "retest_result_to_dict",
