@@ -12,6 +12,73 @@ stable from 1.0 onward, regardless of the framework version.
 
 No changes yet.
 
+## [0.14.0] — 2026-06-07
+
+**Staged-composition R22 + bundled cross-family retrofit**: two new `infereval retest --auto` flags (`--baseline-from <eta-path>` primitive, `--append-to <multi.json>` composer) enable Phase 2 day-out / week-out R22 evidence to ship as separate CLI invocations days or weeks after Phase 1, without the CLI process needing to stay alive for the elapsed window. Every bundled cross-family experiment (39 stop-sign cells + 6 pulmonology cells) gains companion Phase 1 R22 evidence (back-to-back + 1h drift) under the v0.14.0 methodology so the bundled distribution is conformant.
+
+### Why the change
+
+v0.11.0 added `retest --auto`, v0.12.0 made `--interval-s` repeatable, v0.13.0 made `infereval report` surface the multi-interval shape — but two methodological gaps remained:
+
+1. **`--interval-s 86400` is operationally fragile.** Capturing day-out drift required the CLI process to stay alive 24+ hours: a tmux session has to survive, no checkpointing, all-or-nothing. The v0.12.0 plan explicitly punted a `--baseline-from <existing-eta>` mode that would enable staged composition.
+
+2. **The bundled experimental record had no R22 backing.** The v0.5.18 stop-sign 13-model × 3-paraphrase-variant sweep (39 cells under `experiments/results/stop_sign/`) and the v0.10.0 pulmonology 6-model sweep (`experiments/results/pulmonology/`) shipped without companion R22 evidence. The bundled distribution wasn't yet conformant with the v0.13.0 retest-aware report layout it was designed to render.
+
+v0.14.0 closes both gaps.
+
+### Added
+
+- **`--baseline-from <eta-path>` (primitive).** Load a saved baseline eta via `Evaluation.load`, run ONE fresh capture via `evaluate`, compute retest, and emit a **one-pair `MultiIntervalRetestResult`** whose `pairs[0].interval_s` is computed from the actual elapsed wall clock between `baseline.started_at` and the fresh capture's `started_at` (via the new `infereval.retest.compute_interval_s` helper). Mutually exclusive with multi `--interval-s` (the interval is auto-computed). Requires `--auto`.
+- **`--append-to <multi.json>` (composer).** Load an existing `MultiIntervalRetestResult`, resolve the baseline eta from sibling `eta-0.json` by default (or `--baseline-from <override>` for non-canonical layouts), run ONE fresh capture, append a new `IntervalPair` to the existing pairs tuple, and write back in place (or `-o <override>`). The loaded artifact's `identity_criterion` is preserved verbatim — the criterion is a one-shot claim-level declaration that applies to every pair, including each Phase 2 append.
+- **`compute_interval_s(eta_a, eta_b) -> int`** in `infereval.retest`. Single source of truth for the `interval_s` field on `IntervalPair` when the framework synthesizes a pair from two evaluations whose timestamps are known. Returns 0 if either `started_at` is None (degenerate metadata) or the delta is negative (clock skew); otherwise integer seconds.
+- **Run-id provenance markers.** `--append-to` mints `retest-append-<hex8>` prefixes (distinct from Phase 1's `retest-auto-<hex8>` prefixes) so each invocation's staged provenance is traceable in logs and audit trails. The appended eta is named `eta-{N+1}.json` next to the existing pair etas.
+- **Baseline-id verification on `--append-to`.** The existing artifact's `baseline_run_id` must match the loaded baseline eta's `id`. Catches the wrong-baseline-file mistake at source rather than silently composing pairs against the wrong anchor.
+- **Two Phase 1 orchestrator scripts** (Python, parallelized via `concurrent.futures.ThreadPoolExecutor`):
+  - `experiments/scripts/stop_sign_multiinterval_r22_retrofit.py` — 39 cells (13 models × 3 paraphrase variants), `--interval-s 0 --interval-s 3600`, ~1404 LLM calls. Uses the v0.5.18 `defeasible-explicit-v1` prompt and `make_variant_benchmark` from `paraphrase_axis_triangulation.py` so the R22 captures are taken under identical endorsement conditions to the original cross-family sweep.
+  - `experiments/scripts/pulmonology_multiinterval_r22_retrofit.py` — 6 cells, `--interval-s 0 --interval-s 3600`, ~1620 LLM calls. Uses the benchmark-embedded `defeasible-clinical-v1` prompt.
+  - Both support `--dry-run` (lists planned invocations + env-var status without LLM calls), `--only <label>` (filter to subset, repeatable), and `--max-parallel N` (default 8).
+- **Phase 1 identity-criterion declarations** at `experiments/results/{stop_sign,pulmonology}/retest/claims-r22-phase1.json`. Each declares the doubly-relative R22 commitment (same provider+model id, cross-update identity asserted, same scaffolding) with rationale explaining the within-CLI-invocation framework-substantiated + analyst-substantiated portions.
+- **45 Phase 1 multi-retest artifacts** committed at:
+  - `experiments/results/stop_sign/retest/<model>-<variant>-multi-retest.json` × 39
+  - `experiments/results/pulmonology/retest/<model>-multi-retest.json` × 6
+  - Plus per-cell saved etas at `<cell>/{eta-0,eta-1,eta-2}.{json,run.jsonl}` for full audit-grade reproducibility.
+- **Refreshed analysis markdowns**:
+  - `experiments/results/stop_sign_2026-06-07.md` — 39-cell multi-interval R22 analysis grouped by variant; complements the v0.5.18 paraphrase-axis findings with within-day reliability evidence per cell.
+  - `experiments/results/pulmonology_2026-06-07.md` — 6-cell multi-interval R22 analysis; reads the v0.10.0 Gemini 2.5 Pro 0.21 κ_C drift result through the within-day timeline.
+- **Bundled retest-aware reports** for one representative cell per benchmark, demonstrating the v0.13.0 §2 Reliability layout against real multi-interval Phase 1 data.
+
+### What did not change
+
+- **`infereval retest` manual mode** (positional `<eta_a> <eta_b>`) — untouched.
+- **`MultiIntervalRetestResult`, `IntervalPair`, `RetestResult` schemas** — unchanged; v0.12.0 model is sufficient.
+- **`infereval report` rendering** — v0.13.0 layout consumes Phase 1 artifacts unchanged.
+- **Existing v0.5.18 / v0.10.0 cross-family eta files** — retained as historical agreement record. v0.14.0 adds R22 reliability evidence alongside; it does NOT regenerate the agreement evidence.
+- **All JSON content schemas** — only `framework_version.default` bumps to `0.14.0`.
+
+### Methodological framing
+
+The staged-composition pattern operationalizes what the methodology paper has been pointing at all along: reliability is not a single back-to-back floor measurement but a *time-scale-indexed* commitment that the analyst grows over the time scales relevant to their scope claim. Phase 1 captures the within-day floor; Phase 2 appends day-out / week-out evidence as the analyst's time budget allows. Each `--append-to` invocation is the analyst recommitting to the same individuation criterion across the elapsed wall clock — the act of appending IS the methodological commitment that R22 requires. Without the staged-composition machinery, capturing week-scale R22 evidence requires a week-long process lifetime; with it, week-scale R22 evidence ships as a one-minute invocation after the week has elapsed.
+
+The 45 Phase 1 artifacts are the bundled demonstration that this discipline is operationally cheap. They sit at v0.14.0 as the "every cell has R22 backing" anchor of the conformant distribution; subsequent Phase 2 appends will ship as commits to `main` over the following weeks.
+
+### Docs
+
+- `docs/construct_validity.md` — Phase 2 section: new "v0.14.0+ staged-composition pattern" sub-paragraph documenting `--baseline-from` and `--append-to` semantics, run-id minting, identity-criterion threading.
+- `CLAUDE.md` — new locked-defaults entry on the staged-composition CLI surface.
+- `README.md` — one-sentence mention in the existing R22 paragraph.
+- `experiments/results/{stop_sign,pulmonology}/retest/README.md` — refreshed (stop-sign) / new (pulmonology) with Phase 1 layout + reproducibility command.
+
+### Schemas
+
+- `framework_version.default` bumped to `0.14.0`. No content-schema changes.
+
+### Tests
+
+- New `tests/unit/test_cli_retest_auto.py::TestBaselineFrom` (6 tests) — one-pair MultiIntervalRetestResult emission, interval_s computation, parity-check fail-on-mismatch, identity-criterion threading, output-path writing, mutual exclusion with multi `--interval-s`.
+- New `tests/unit/test_cli_retest_auto.py::TestAppendTo` (6 tests) — pairs-count growth, identity-criterion preservation, parity-check fail-on-config-mismatch, sibling `eta-0.json` resolution, distinct `retest-append-` run-id prefix, in-place write-back.
+- New `tests/unit/test_retest.py` — 3 `compute_interval_s` tests (basic delta, missing `started_at` → 0, negative delta → 0).
+- All 935 tests pass (920 prior + 15 new).
+
 ## [0.13.0] — 2026-06-06
 
 **Retest-aware `infereval report`**: §2 of the construct-validity report is restructured into two co-equal `###` subheaded blocks — **Agreement** (cov / κ_C / κ_F / κ_F\*) and **Reliability (R22)** (test-retest κ) — so test-retest reliability sits at the same visual level as agreement, the "co-equal §2 metric" framing the methodology paper has been pointing at. `--retest` auto-detects single (v0.11.0 `RetestResult`) vs multi-interval (v0.12.0 `MultiIntervalRetestResult`) artifact shape and renders accordingly: a single bullet under the Reliability subhead for single-interval (verbatim from v0.12.0), or a per-interval markdown table plus an `Overall verdict` line for multi-interval. The R22 audit cap and negative-findings collection both extend to multi-interval with a **worst-case across pairs** rule: if ANY captured interval is substantively unstable or has undefined κ, the cap fires and the bad pair surfaces as a corpus-level finding (annotated with its interval); per-item flipped findings are pooled across pairs by `item_id`.

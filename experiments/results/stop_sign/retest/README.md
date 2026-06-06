@@ -57,8 +57,8 @@ applied to the opus47 capture: §2 is split into two co-equal
 subheaded blocks — `### Agreement` (cov / κ_C / κ_F / κ_F\*) and
 `### Reliability (R22)` (test-retest). The bundled `claims-demo.json`
 is the claims file used to generate it (single-interval back-to-back
-shape; `MultiIntervalRetestResult` rendering will be demonstrated
-with real captures in v0.14.0). Regenerate with:
+shape; `MultiIntervalRetestResult` rendering is demonstrated with
+real captures in v0.14.0 — see below). Regenerate with:
 
 ```sh
 infereval report \
@@ -68,3 +68,48 @@ infereval report \
   --retest experiments/results/stop_sign/retest/opus47-retest.json \
   -o experiments/results/stop_sign/retest/report-demo-opus47.md
 ```
+
+## v0.14.0 Phase 1 retrofit (39 cells)
+
+The v0.14.0 release retrofits multi-interval R22 evidence onto every
+cell in the v0.5.18 cross-family sweep — 13 models × 3 paraphrase
+variants = 39 cells. Each cell carries:
+
+- `<model>-<variant>/eta-0.json` + `.run.jsonl` — baseline capture.
+- `<model>-<variant>/eta-1.json` + `.run.jsonl` — back-to-back capture.
+- `<model>-<variant>/eta-2.json` + `.run.jsonl` — 1h-later capture.
+- `<model>-<variant>-multi-retest.json` — `MultiIntervalRetestResult`
+  wrapping baseline_run_id + 2 `IntervalPair`s (one per non-baseline
+  capture, anchored on the baseline). Carries the
+  `identity_criterion` from `claims-r22-phase1.json`.
+
+`claims-r22-phase1.json` declares the Phase 1 identity criterion
+(same provider+model id, cross-update identity asserted, same
+scaffolding over the 1h window). The same claims file is threaded
+into every cell's multi-retest artifact.
+
+Generation: `experiments/scripts/stop_sign_multiinterval_r22_retrofit.py`
+(see top-level `experiments/results/stop_sign_2026-06-07.md` for the
+full analysis + interpretation).
+
+## v0.14.0 Phase 2: staged-composition appends
+
+The v0.14.0 staged-composition CLI surface (`--baseline-from`,
+`--append-to`) lets day-out and week-out R22 evidence ship as
+incremental commits to `main` without the orchestrator process
+needing to stay alive for the elapsed window. To append a new pair
+to any Phase 1 multi-retest artifact:
+
+```sh
+infereval retest --auto \
+  --benchmark <the-same-variant-benchmark-as-Phase-1.json> \
+  --provider <same-as-Phase-1> --model <same-as-Phase-1> \
+  --n-samples 3 --temperature 0.0 --max-tokens 2048 \
+  --append-to experiments/results/stop_sign/retest/<cell>-multi-retest.json
+```
+
+The append resolves the baseline eta from sibling `eta-0.json`
+automatically and computes `interval_s` from the elapsed wall clock
+between the saved baseline's `started_at` and the fresh capture's
+`started_at`. The loaded artifact's `identity_criterion` is preserved
+verbatim across the append.
