@@ -103,6 +103,18 @@ If your benchmark declares **reference panels** (per-analyst `panel` plus a benc
 
 The same `undefined` rules apply as for the corresponding base metrics (empty substantive intersection, `p_e = 1`, single-analyst panel).
 
+### R22 — test-retest reliability (`κ_test-retest`)
+
+Test-retest reliability is the **co-equal §2 reliability metric** alongside agreement (`κ_C`, `κ_F`, `κ_F*`). The agreement metrics tell you how well one capture of `M`'s endorsement column matches the analyst column; `κ_test-retest` tells you whether *that capture is repeatable*. A high `κ_C` whose underlying η you couldn't reproduce twenty minutes later is reporting a sample from an unknown distribution, not a model-level signal.
+
+- **Definition.** Two captures of the same evaluation under the same parameters: `η_a` (baseline) and `η_b` (retest). `κ_test-retest = Cohen's κ` computed over the *consensus column* of each capture, item-by-item. With `n_samples ≥ 3` and majority-vote consensus, sample-internal noise is already smoothed out; the residual disagreement is the cross-capture noise.
+- **Within-model analog of `κ_F*(β)`.** Just as `κ_F*` is the analyst-internal baseline above which `M`'s participation is a real signal, `κ_test-retest` is the *model-internal* baseline against which a single-capture `κ_C` should be read. Without it you don't know whether a `κ_C` of `+0.5` reflects the model's actual practice or one moment in a noisy stream.
+- **Verdict thresholds.** The framework labels the stability verdict (`stable` / `moderately stable` / `substantively unstable` / `undefined`) using a κ threshold and a verdict-flip-rate threshold; see `infereval.retest`.
+- **Audit cap (R22 enforcement).** At scope ≥ `domain_D_as_sampled`, if `competing_explanations.test_retest_run = True` but the supplied retest result is substantively unstable or has undefined κ, the construct-validity verdict caps at `partially_defensible`. The headline `κ_C` cannot be interpreted as signal under a reliability that didn't hold up. A second leg also fires at this scope: the analyst must declare an `IdentityCriterion` under which the across-update comparison is principled.
+- **Multi-interval (v0.12.0+).** `infereval retest --auto --interval-s S1 --interval-s S2 ...` captures the baseline once and N timed follow-ups, producing a `MultiIntervalRetestResult` whose `pairs` field carries N retest results, each anchored on the same baseline (cumulative-drift-since-baseline reading). The construct-validity report's worst-case rule applies: if any captured interval is substantively unstable or undefined, the audit cap fires. The methodological commitment: the mastery claim has to hold at *every* time scale the analyst captured, not just the back-to-back floor.
+
+When `κ_test-retest` is **not measured** (no `--retest` artifact supplied), the report explicitly says so under §2 Reliability — a missing R22 capture is itself a construct-validity signal, not a silent zero.
+
 ## Decompositions: when the overall number isn't enough
 
 A single `κ_C = 0.40` could mean many different things:

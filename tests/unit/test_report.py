@@ -336,6 +336,196 @@ class TestMarkdownRendering:
         assert "⚠️" in verdict_section
         assert "1 anomaly" in verdict_section
 
+    # ---- v0.13.0: §2 restructure + multi-interval rendering ---------------
+    #
+    # All five tests below exercise the new §2 layout. The Agreement
+    # subhead carries cov/κ_C/κ_F/κ_F* (unchanged content, just under a
+    # new `### Agreement` parent). The Reliability (R22) subhead either
+    # carries (a) "Not measured ..." when no artifact supplied, (b) the
+    # v0.11.0+ single-bullet `Test-retest κ` line for a single
+    # RetestResult shape, or (c) a per-interval markdown table +
+    # overall-verdict line for a MultiIntervalRetestResult shape.
+    # Shape detection is by presence of a `pairs` list on the artifact.
+
+    @staticmethod
+    def _single_retest_artifact(
+        *, kappa: float = 1.0, n_items: int = 4
+    ) -> dict[str, object]:
+        """A minimal v0.11.0+ RetestResult-shaped dict for rendering tests."""
+        return {
+            "schema_version": "1.0",
+            "framework_version": "0.13.0",
+            "run_id_a": "run-a",
+            "run_id_b": "run-b",
+            "benchmark_id": "stop_sign_example",
+            "benchmark_hash": "abc",
+            "n_items": n_items,
+            "test_retest_kappa": kappa,
+            "flip_rate": 0.0,
+            "stability_verdict": (
+                "Test-retest reliability is stable."
+            ),
+            "flipped_items": [],
+            "item_deltas": [],
+        }
+
+    @classmethod
+    def _multi_retest_artifact(
+        cls,
+        *,
+        intervals: tuple[int, ...] = (0, 86400, 604800),
+        per_pair_verdicts: tuple[str, ...] = (
+            "Test-retest reliability is stable.",
+            "Test-retest reliability is moderately stable.",
+            "Test-retest reliability is substantively unstable.",
+        ),
+        per_pair_kappas: tuple[float | None, ...] = (1.0, 0.65, 0.20),
+    ) -> dict[str, object]:
+        """A minimal v0.12.0+ MultiIntervalRetestResult-shaped dict.
+
+        Each entry in ``intervals`` becomes one pair, anchored on the
+        same baseline. Defaults to a stable→moderately→unstable
+        progression so worst-case selection has something to bite on.
+        """
+        assert len(intervals) == len(per_pair_verdicts) == len(per_pair_kappas)
+        pairs: list[dict[str, object]] = []
+        for i, (interval, verdict, kappa) in enumerate(
+            zip(intervals, per_pair_verdicts, per_pair_kappas, strict=True)
+        ):
+            pairs.append(
+                {
+                    "interval_s": interval,
+                    "run_id": f"run-{i + 1}",
+                    "retest": {
+                        "schema_version": "1.0",
+                        "framework_version": "0.13.0",
+                        "run_id_a": "run-0",
+                        "run_id_b": f"run-{i + 1}",
+                        "benchmark_id": "stop_sign_example",
+                        "benchmark_hash": "abc",
+                        "n_items": 4,
+                        "test_retest_kappa": kappa,
+                        "flip_rate": 0.0 if kappa == 1.0 else 0.25,
+                        "stability_verdict": verdict,
+                        "flipped_items": [],
+                        "item_deltas": [],
+                    },
+                }
+            )
+        return {
+            "schema_version": "1.0",
+            "framework_version": "0.13.0",
+            "benchmark_id": "stop_sign_example",
+            "benchmark_hash": "abc",
+            "baseline_run_id": "run-0",
+            "pairs": pairs,
+        }
+
+    def test_section_2_has_agreement_and_reliability_subheads(self) -> None:
+        bench, eta = self._bench_and_eta()
+        md = render_markdown(
+            evaluation=eta,  # type: ignore[arg-type]
+            benchmark=bench,
+            claims=_minimal_claims(),
+            retest_result=self._single_retest_artifact(),
+        )
+        # The two §2 subheads must both exist, in the documented order
+        # (Agreement first because κ_C / κ_F are the per-evaluation
+        # primary; Reliability second because it relates two evaluations).
+        section_2 = md.split("## 2. Summary metrics")[1].split("## 3.")[0]
+        assert "### Agreement" in section_2
+        assert "### Reliability (R22)" in section_2
+        assert section_2.index("### Agreement") < section_2.index(
+            "### Reliability (R22)"
+        )
+
+    def test_section_2_reliability_renders_single_interval_bullet(self) -> None:
+        bench, eta = self._bench_and_eta()
+        artifact = self._single_retest_artifact(kappa=0.85)
+        md = render_markdown(
+            evaluation=eta,  # type: ignore[arg-type]
+            benchmark=bench,
+            claims=_minimal_claims(),
+            retest_result=artifact,
+        )
+        reliability = md.split("### Reliability (R22)")[1].split("## 3.")[0]
+        # Verbatim v0.12.0 bullet text — backward-compat regression guard.
+        assert "**Test-retest κ (R22)**" in reliability
+        assert "+0.8500" in reliability
+        # Multi-interval table elements must NOT appear under the
+        # single-interval path.
+        assert "Interval (s)" not in reliability
+        assert "Baseline run" not in reliability
+
+    def test_section_2_reliability_renders_multi_interval_table(self) -> None:
+        bench, eta = self._bench_and_eta()
+        artifact = self._multi_retest_artifact()
+        md = render_markdown(
+            evaluation=eta,  # type: ignore[arg-type]
+            benchmark=bench,
+            claims=_minimal_claims(),
+            retest_result=artifact,
+        )
+        reliability = md.split("### Reliability (R22)")[1].split("## 3.")[0]
+        assert "**Baseline run**: `run-0`" in reliability
+        # Per-interval table with the documented column header row.
+        assert (
+            "| Interval (s) | Later run | κ vs baseline | Flips | Verdict |"
+            in reliability
+        )
+        # Three data rows for three intervals.
+        assert "| 0 |" in reliability
+        assert "| 86400 |" in reliability
+        assert "| 604800 |" in reliability
+        # Overall-verdict line is rendered.
+        assert "**Overall verdict**" in reliability
+
+    def test_section_2_reliability_when_no_retest_supplied(self) -> None:
+        bench, eta = self._bench_and_eta()
+        md = render_markdown(
+            evaluation=eta,  # type: ignore[arg-type]
+            benchmark=bench,
+            claims=_minimal_claims(),
+            retest_result=None,
+        )
+        reliability = md.split("### Reliability (R22)")[1].split("## 3.")[0]
+        # A missing R22 capture is itself a construct-validity signal —
+        # render an explicit "not measured" bullet instead of leaving
+        # the subhead empty.
+        assert "Not measured" in reliability
+        assert "R22 not run" in reliability
+
+    def test_section_2_reliability_worst_case_overall_verdict(self) -> None:
+        # Back-to-back stable, day-apart stable, week-apart substantively
+        # unstable. Overall verdict must reflect the worst case, NOT the
+        # back-to-back result — that's the methodological commitment
+        # documented in CLAUDE.md (worst-case across intervals).
+        bench, eta = self._bench_and_eta()
+        artifact = self._multi_retest_artifact(
+            intervals=(0, 86400, 604800),
+            per_pair_verdicts=(
+                "Test-retest reliability is stable.",
+                "Test-retest reliability is stable.",
+                "Test-retest reliability is substantively unstable.",
+            ),
+            per_pair_kappas=(1.0, 1.0, 0.10),
+        )
+        md = render_markdown(
+            evaluation=eta,  # type: ignore[arg-type]
+            benchmark=bench,
+            claims=_minimal_claims(),
+            retest_result=artifact,
+        )
+        reliability = md.split("### Reliability (R22)")[1].split("## 3.")[0]
+        overall_line = [
+            ln for ln in reliability.splitlines()
+            if "**Overall verdict**" in ln
+        ][0]
+        assert "substantively unstable" in overall_line
+        # Worst-case line must cite the driving interval explicitly so
+        # the analyst can see which time scale broke the claim.
+        assert "604800" in overall_line
+
 
 # ---- CLI ------------------------------------------------------------------
 
@@ -523,6 +713,152 @@ class TestCollectNegativeFindings:
         assert len(findings) == 1
         assert "weakens the mastery claim" not in findings[0].summary
         assert "strengthens the mastery claim" not in findings[0].summary
+
+    # ---- v0.13.0: multi-interval pooling ----------------------------------
+    #
+    # collect_negative_findings, when given a MultiIntervalRetestResult
+    # artifact, must (a) emit one corpus-level finding per non-stable
+    # pair (NOT one per pair regardless of verdict — stable pairs are
+    # positive evidence) and (b) pool flipped items across pairs by
+    # item_id so an item that flips in three pairs is one bullet, not
+    # three, with a "[first seen at interval Ns]" annotation pointing
+    # at the smallest interval where it appeared.
+
+    @staticmethod
+    def _multi_retest_artifact_with_pairs(
+        pairs: list[dict[str, object]],
+    ) -> dict[str, object]:
+        return {
+            "schema_version": "1.0",
+            "framework_version": "0.13.0",
+            "benchmark_id": "stop_sign_example",
+            "benchmark_hash": "abc",
+            "baseline_run_id": "run-0",
+            "pairs": pairs,
+        }
+
+    @staticmethod
+    def _pair(
+        *,
+        interval_s: int,
+        run_id: str,
+        verdict: str,
+        kappa: float | None = 0.5,
+        flip_rate: float = 0.0,
+        flipped_items: list[dict[str, object]] | None = None,
+    ) -> dict[str, object]:
+        return {
+            "interval_s": interval_s,
+            "run_id": run_id,
+            "retest": {
+                "stability_verdict": verdict,
+                "test_retest_kappa": kappa,
+                "flip_rate": flip_rate,
+                "flipped_items": flipped_items or [],
+            },
+        }
+
+    def test_multi_interval_emits_one_finding_per_non_stable_pair(self) -> None:
+        from infereval.report import collect_negative_findings
+        artifact = self._multi_retest_artifact_with_pairs([
+            self._pair(
+                interval_s=0,
+                run_id="run-1",
+                verdict="test-retest reliability is stable",
+                kappa=1.0,
+            ),
+            self._pair(
+                interval_s=86400,
+                run_id="run-2",
+                verdict=(
+                    "test-retest reliability is moderately stable "
+                    "(κ = +0.700)"
+                ),
+                kappa=0.7,
+                flip_rate=0.15,
+            ),
+            self._pair(
+                interval_s=604800,
+                run_id="run-3",
+                verdict=(
+                    "test-retest reliability is substantively unstable "
+                    "(κ = +0.200)"
+                ),
+                kappa=0.2,
+                flip_rate=0.4,
+            ),
+        ])
+        findings = collect_negative_findings(retest_result=artifact)
+        # Exactly two corpus findings (stable pair contributes nothing).
+        corpus = [f for f in findings if "at interval" in f.summary]
+        assert len(corpus) == 2
+        assert any("86400s" in f.summary for f in corpus)
+        assert any("604800s" in f.summary for f in corpus)
+        # Stable pair must NOT show up.
+        assert not any("interval 0s" in f.summary for f in corpus)
+
+    def test_multi_interval_pools_flipped_items_across_pairs(self) -> None:
+        """Same item_id flips in pair 1 (interval=0) and pair 2
+        (interval=86400). One bullet must surface, annotated with the
+        earlier interval as 'first seen'."""
+        from infereval.report import collect_negative_findings
+        same_flip = {"item_id": "row-3", "verdict_a": "good", "verdict_b": "bad"}
+        artifact = self._multi_retest_artifact_with_pairs([
+            self._pair(
+                interval_s=0,
+                run_id="run-1",
+                verdict=(
+                    "test-retest reliability is moderately stable "
+                    "(κ = +0.700)"
+                ),
+                kappa=0.7,
+                flipped_items=[same_flip],
+            ),
+            self._pair(
+                interval_s=86400,
+                run_id="run-2",
+                verdict=(
+                    "test-retest reliability is moderately stable "
+                    "(κ = +0.700)"
+                ),
+                kappa=0.7,
+                flipped_items=[same_flip],
+            ),
+        ])
+        findings = collect_negative_findings(retest_result=artifact)
+        per_item = [f for f in findings if "row-3" in f.summary]
+        assert len(per_item) == 1
+        assert "first seen at interval 0s" in per_item[0].summary
+
+    def test_multi_interval_flip_cap_still_applies(self) -> None:
+        """Pool of >50 unique items still caps at 50 bullets with a
+        '... and X more' summary. Same shape as single-interval cap."""
+        from infereval.report import collect_negative_findings
+        many_flips = [
+            {"item_id": f"row-{i}", "verdict_a": "good", "verdict_b": "bad"}
+            for i in range(75)
+        ]
+        artifact = self._multi_retest_artifact_with_pairs([
+            self._pair(
+                interval_s=0,
+                run_id="run-1",
+                verdict=(
+                    "test-retest reliability is substantively unstable "
+                    "(κ = +0.100)"
+                ),
+                kappa=0.1,
+                flip_rate=0.5,
+                flipped_items=many_flips,
+            ),
+        ])
+        findings = collect_negative_findings(retest_result=artifact)
+        per_item = [
+            f for f in findings
+            if "row-" in f.summary and "flipped good → bad" in f.summary
+        ]
+        assert len(per_item) == 50
+        # Tail summary present.
+        assert any("25 more flipped items" in f.summary for f in findings)
 
 
 # ---- compute_verdict audit caps (v0.5.3 review fix #1) -------------------
