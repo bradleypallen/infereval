@@ -1,0 +1,42 @@
+{
+  "mastery_sense": {
+    "sense": "evaluative",
+    "description": "Mastery is operationalised as agreement with the analyst column on the pulmonary edema benchmark (v0.2, n=30, m=1 placeholder pending recruit). The v0.14.0 Phase 1 R22 captures supplement the v0.10.0 cross-family agreement evidence with within-day reliability evidence."
+  },
+  "scope": {
+    "scope": "items_in_benchmark",
+    "justification": "The pulmonology benchmark is still scoped narrowly (n=30, m=1 placeholder); the v0.14.0 R22 retrofit demonstrates the within-day reliability discipline at the items_in_benchmark scope. Broader-scope claims await an independent clinician panel."
+  },
+  "constitution": {
+    "position": "evidence_of_mastery",
+    "justification": "Agreement on the pulmonology cells is evidence bearing on a mastery attribution (Allen 2026, Remark 8), not a measurement of mastery."
+  },
+  "carving": {
+    "acknowledges_carving_indexed": false,
+    "notes": ""
+  },
+  "competing_explanations": {
+    "paraphrase_sweep_run": false,
+    "sensitivity_sweep_run": false,
+    "structural_check_run": false,
+    "cross_panel_check_run": false,
+    "independent_reference_panel_used": false,
+    "held_out_items_used": false,
+    "training_data_separation_verified": false,
+    "cross_domain_comparison_run": false,
+    "replication_attempted": false,
+    "test_retest_run": true
+  },
+  "reliability": {
+    "identity_criterion": {
+      "same_benchmark_hash": true,
+      "same_endorsement_config": true,
+      "same_paraphrase_variant": true,
+      "same_provider_model_id": true,
+      "cross_update_identity_asserted": true,
+      "same_scaffolding": true,
+      "unverifiable_caveats": "Provider APIs (Anthropic, OpenAI, OpenRouter) do not expose model-version snapshots for the providers used here; cross_update_identity_asserted is recorded on faith. The 1h elapsed window between baseline and capture-2 is short enough that across-update model swaps would be exceptional on these providers, but the framework cannot mechanically verify the absence of one.",
+      "rationale": "All three captures of each cell run within the same Python orchestrator invocation against the same provider+model_id, with identical EndorsementConfig (defeasible-clinical-v1 prompt embedded in the benchmark, n_samples=3, temperature=0.0, max_tokens=2048) and ProviderParams. The 1h elapsed window between baseline and capture-2 captures the short-horizon across-update drift component of R22; longer intervals will ship as Phase 2 commits via `infereval retest --auto --append-to`."
+    }
+  }
+}

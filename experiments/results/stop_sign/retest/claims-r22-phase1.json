@@ -1,0 +1,42 @@
+{
+  "mastery_sense": {
+    "sense": "evaluative",
+    "description": "Mastery is operationalised as agreement with the analyst column on the stop-sign benchmark (Example 1 of Allen 2026), under each of the three δ(ra) paraphrase variants (original, intrinsic, perceptual). The v0.14.0 Phase 1 R22 captures supplement the v0.5.18 cross-family agreement evidence with within-day reliability evidence per variant cell."
+  },
+  "scope": {
+    "scope": "items_in_benchmark",
+    "justification": "The stop-sign demonstration benchmark is small (n=4, m=1); this v0.14.0 R22 retrofit demonstrates the within-day reliability discipline at the items_in_benchmark scope. The headline cross-family agreement claim from v0.5.18 (11/13 models reproduce Simonelli's analyst row under the original δ(ra) at κ_C = +1.00) is the empirical anchor; Phase 1 R22 supplies its reliability gloss."
+  },
+  "constitution": {
+    "position": "evidence_of_mastery",
+    "justification": "Agreement on the stop-sign cells is evidence bearing on a mastery attribution (Allen 2026, Remark 8), not a measurement of mastery."
+  },
+  "carving": {
+    "acknowledges_carving_indexed": false,
+    "notes": ""
+  },
+  "competing_explanations": {
+    "paraphrase_sweep_run": true,
+    "sensitivity_sweep_run": false,
+    "structural_check_run": false,
+    "cross_panel_check_run": false,
+    "independent_reference_panel_used": false,
+    "held_out_items_used": false,
+    "training_data_separation_verified": false,
+    "cross_domain_comparison_run": false,
+    "replication_attempted": false,
+    "test_retest_run": true
+  },
+  "reliability": {
+    "identity_criterion": {
+      "same_benchmark_hash": true,
+      "same_endorsement_config": true,
+      "same_paraphrase_variant": true,
+      "same_provider_model_id": true,
+      "cross_update_identity_asserted": true,
+      "same_scaffolding": true,
+      "unverifiable_caveats": "Provider APIs (Anthropic, OpenAI, OpenRouter) do not expose model-version snapshots for the providers used; cross_update_identity_asserted is recorded on faith. The 1h elapsed window between baseline and capture-2 is short enough that across-update model swaps would be exceptional, but the framework cannot mechanically verify the absence of one.",
+      "rationale": "All three captures of each cell run within the same Python orchestrator invocation against the same provider+model_id, with identical EndorsementConfig (defeasible-explicit-v1 prompt via DEFEASIBLE_PROMPT constant from paraphrase_axis_triangulation.py, n_samples=3, temperature=0.0, max_tokens=2048) and ProviderParams. The variant benchmark is constructed once per cell (the δ(ra) expression is swapped at runtime) and reused identically across all three captures of that cell. The 1h elapsed window between baseline and capture-2 captures the short-horizon across-update drift component of R22; longer intervals will ship as Phase 2 commits via `infereval retest --auto --append-to`."
+    }
+  }
+}
