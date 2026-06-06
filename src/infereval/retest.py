@@ -481,12 +481,111 @@ def retest_result_to_dict(result: RetestResult) -> dict[str, object]:
     return out
 
 
+# ---- Multi-interval retest (v0.12.0) -------------------------------------
+
+
+@dataclass(frozen=True)
+class IntervalPair:
+    """One retest pair at a given interval since the baseline capture.
+
+    Embeds a :class:`RetestResult` produced by
+    :func:`compute_retest(baseline_eta, later_eta)`. The
+    ``interval_s`` field is the *cumulative* seconds since the baseline
+    capture began, not the gap from the previous capture — see the
+    docstring on :class:`MultiIntervalRetestResult` for the
+    anchored-on-baseline semantics.
+    """
+
+    interval_s: int
+    """Cumulative wall-clock seconds between baseline (capture 0) and
+    this later capture."""
+
+    run_id: str
+    """``run_id`` of the later capture in this pair."""
+
+    retest: RetestResult
+    """``compute_retest(baseline_eta, later_eta)`` — the underlying
+    test-retest comparison. Stable shape across single- and
+    multi-interval modes."""
+
+
+@dataclass(frozen=True)
+class MultiIntervalRetestResult:
+    """N retest pairs anchored on a common baseline capture (v0.12.0+).
+
+    Output of ``infereval retest --auto`` when ``--interval-s`` is
+    passed multiple times. The semantics is **cumulative drift since
+    baseline**: every entry in :attr:`pairs` is
+    ``compute_retest(baseline_eta, later_eta)``, NOT pairwise-
+    consecutive comparisons. So
+    ``--interval-s 0 --interval-s 86400 --interval-s 604800`` yields
+    three pairs: baseline→back-to-back, baseline→1-day, baseline→
+    1-week. The cleanest write-up framing for the methodology paper's
+    discussion of drift since baseline.
+
+    Single-interval calls (``--interval-s`` passed once, including the
+    default ``(0,)``) emit a single :class:`RetestResult` directly for
+    v0.11.0 backward compatibility — this wrapper is only used when
+    the user requested two or more intervals.
+    """
+
+    schema_version: Literal["1.0"]
+    framework_version: str
+    benchmark_id: str
+    benchmark_hash: str | None
+    baseline_run_id: str
+    """``run_id`` of capture 0 — the implicit anchor every pair
+    references."""
+
+    pairs: tuple[IntervalPair, ...]
+    """N pairs, one per non-baseline capture. Ordered by capture
+    index (and equivalently by ``interval_s`` ascending, since
+    intervals are cumulative-since-baseline and captures happen in
+    sequence)."""
+
+    identity_criterion: IdentityCriterion | None = None
+
+
+def multi_interval_retest_result_to_dict(
+    result: MultiIntervalRetestResult,
+) -> dict[str, object]:
+    """Render :class:`MultiIntervalRetestResult` as JSON-friendly dict.
+
+    Each embedded :class:`RetestResult` serializes via the existing
+    :func:`retest_result_to_dict` for shape stability across
+    consumers.
+    """
+    out: dict[str, object] = {
+        "schema_version": result.schema_version,
+        "framework_version": result.framework_version,
+        "benchmark_id": result.benchmark_id,
+        "benchmark_hash": result.benchmark_hash,
+        "baseline_run_id": result.baseline_run_id,
+        "pairs": [
+            {
+                "interval_s": p.interval_s,
+                "run_id": p.run_id,
+                "retest": retest_result_to_dict(p.retest),
+            }
+            for p in result.pairs
+        ],
+    }
+    if result.identity_criterion is not None:
+        out["identity_criterion"] = result.identity_criterion.model_dump(
+            mode="json"
+        )
+    return out
+
+
 __all__ = [
     "SCHEMA_VERSION",
     "FlippedItem",
+    "IntervalPair",
     "ItemDelta",
+    "MultiIntervalRetestResult",
     "RetestConfigMismatchError",
     "RetestResult",
     "compute_retest",
+    "multi_interval_retest_result_to_dict",
     "retest_result_to_dict",
 ]

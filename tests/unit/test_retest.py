@@ -385,3 +385,149 @@ def test_v0_6_1_relabel_error_message_names_setup_conformance() -> None:
     msg = str(exc_info.value)
     assert "setup-conformance" in msg
     assert "individuation criterion" in msg
+
+
+# ---- v0.12.0: MultiIntervalRetestResult ----------------------------------
+
+
+class TestMultiIntervalRetestResult:
+    """v0.12.0: anchored-on-baseline N-pair retest wrapper."""
+
+    @staticmethod
+    def _three_item_eval(run_id: str) -> Evaluation:
+        items = [
+            _item(f"item-{i}", analyst_verdicts=[Verdict.GOOD],
+                  model_verdict=Verdict.GOOD, good=3, bad=0, abstain=0)
+            for i in range(3)
+        ]
+        return _eval(items, run_id=run_id)
+
+    def test_pairs_carry_per_interval_metadata(self) -> None:
+        from infereval.retest import IntervalPair, MultiIntervalRetestResult
+        baseline = self._three_item_eval("baseline")
+        later1 = self._three_item_eval("later-1")
+        later2 = self._three_item_eval("later-2")
+
+        pair1 = IntervalPair(
+            interval_s=0,
+            run_id=later1.id,
+            retest=compute_retest(baseline, later1),
+        )
+        pair2 = IntervalPair(
+            interval_s=86400,
+            run_id=later2.id,
+            retest=compute_retest(baseline, later2),
+        )
+
+        result = MultiIntervalRetestResult(
+            schema_version="1.0",
+            framework_version="0.12.0",
+            benchmark_id="bench",
+            benchmark_hash="abc123",
+            baseline_run_id=baseline.id,
+            pairs=(pair1, pair2),
+        )
+
+        assert result.baseline_run_id == "baseline"
+        assert len(result.pairs) == 2
+        assert result.pairs[0].interval_s == 0
+        assert result.pairs[1].interval_s == 86400
+        # Each embedded retest is the baseline-vs-later comparison.
+        assert result.pairs[0].retest.run_a_id == baseline.id
+        assert result.pairs[0].retest.run_b_id == later1.id
+        assert result.pairs[1].retest.run_a_id == baseline.id
+        assert result.pairs[1].retest.run_b_id == later2.id
+
+    def test_frozen_dataclass_contract(self) -> None:
+        """Mirrors RetestResult's frozen=True invariant."""
+        from infereval.retest import MultiIntervalRetestResult
+
+        result = MultiIntervalRetestResult(
+            schema_version="1.0", framework_version="0.12.0",
+            benchmark_id="b", benchmark_hash="h",
+            baseline_run_id="bl", pairs=(),
+        )
+        with pytest.raises((AttributeError, TypeError)):
+            result.baseline_run_id = "different"  # type: ignore[misc]
+
+    def test_dict_serialization_round_trip(self) -> None:
+        from infereval.retest import (
+            IntervalPair,
+            MultiIntervalRetestResult,
+            multi_interval_retest_result_to_dict,
+        )
+        baseline = self._three_item_eval("baseline")
+        later = self._three_item_eval("later-1")
+
+        result = MultiIntervalRetestResult(
+            schema_version="1.0", framework_version="0.12.0",
+            benchmark_id="bench", benchmark_hash="abc123",
+            baseline_run_id=baseline.id,
+            pairs=(IntervalPair(
+                interval_s=0, run_id=later.id,
+                retest=compute_retest(baseline, later),
+            ),),
+        )
+        d = multi_interval_retest_result_to_dict(result)
+        assert d["schema_version"] == "1.0"
+        assert d["benchmark_id"] == "bench"
+        assert d["baseline_run_id"] == "baseline"
+        assert len(d["pairs"]) == 1
+        p = d["pairs"][0]
+        assert p["interval_s"] == 0
+        assert p["run_id"] == later.id
+        # Embedded retest dict carries the standard RetestResult shape.
+        assert p["retest"]["benchmark_id"] == "bench"
+        assert "test_retest_kappa" in p["retest"]
+        # Multi-interval default has no identity_criterion.
+        assert "identity_criterion" not in d
+
+    def test_empty_pairs_is_legal_but_pointless(self) -> None:
+        """The dataclass admits an empty pairs tuple — caller's
+        responsibility to not construct one in practice. This regression-
+        guards that no validator silently rejects the shape."""
+        from infereval.retest import MultiIntervalRetestResult
+        result = MultiIntervalRetestResult(
+            schema_version="1.0", framework_version="0.12.0",
+            benchmark_id="b", benchmark_hash=None,
+            baseline_run_id="bl", pairs=(),
+        )
+        assert result.pairs == ()
+
+    def test_identity_criterion_threading(self) -> None:
+        """When supplied at construction time, identity_criterion is
+        carried in serialization (mirrors RetestResult's pattern)."""
+        from infereval.report import IdentityCriterion
+        from infereval.retest import (
+            MultiIntervalRetestResult,
+            multi_interval_retest_result_to_dict,
+        )
+
+        crit = IdentityCriterion(
+            same_benchmark_hash=True,
+            same_endorsement_config=True,
+            same_paraphrase_variant=True,
+            same_provider_model_id=True,
+            cross_update_identity_asserted=False,
+            same_scaffolding=True,
+            unverifiable_caveats="back-to-back captures same process",
+            rationale="multi-interval same-process anchor",
+        )
+        result = MultiIntervalRetestResult(
+            schema_version="1.0", framework_version="0.12.0",
+            benchmark_id="b", benchmark_hash="h",
+            baseline_run_id="bl", pairs=(),
+            identity_criterion=crit,
+        )
+        d = multi_interval_retest_result_to_dict(result)
+        assert "identity_criterion" in d
+        assert d["identity_criterion"]["rationale"] == (
+            "multi-interval same-process anchor"
+        )
+
+    def test_exposed_in_module_all(self) -> None:
+        """Stage-1 contract: the new symbols are in infereval.retest.__all__."""
+        import infereval.retest as r
+        assert "IntervalPair" in r.__all__
+        assert "MultiIntervalRetestResult" in r.__all__
+        assert "multi_interval_retest_result_to_dict" in r.__all__

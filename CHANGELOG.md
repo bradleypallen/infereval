@@ -12,6 +12,58 @@ stable from 1.0 onward, regardless of the framework version.
 
 No changes yet.
 
+## [0.12.0] — 2026-06-06
+
+**Multi-interval `infereval retest --auto`**: `--interval-s` becomes repeatable. Each invocation adds one cumulative-anchor interval; the framework orchestrates N+1 captures in one CLI call and emits a `MultiIntervalRetestResult` with N retest pairs, all comparing baseline (capture 0) to each later capture. Closes the "we have one across-update data point and one within-session data point; we need more across-update data points" gap from v0.11.0's `stop_sign_2026-06-06.md`.
+
+### Why the change
+
+v0.11.0's stop-sign R22 capture established the within-session reliability floor at zero (all three models κ = +1.000 back-to-back). The companion methodological reading was that v0.10.0's Gemini drift (κ_C dropping 0.21 across 2.5 weeks) is genuinely cross-capture, not sampling noise — but that argument rested on **one** within-session data point and **one** across-update data point. v0.12.0 makes capturing more across-update data points operationally trivial: one CLI call orchestrates baseline + N timed follow-up captures + N anchored retests.
+
+### Added
+
+- **Repeatable `--interval-s` flag** on `infereval retest --auto`. Pass once (default `(0,)`) reproduces v0.11.0 back-to-back single retest, with the same `RetestResult` output JSON shape. Pass N ≥ 2 times → orchestrates N+1 captures and emits a `MultiIntervalRetestResult` with N retest pairs.
+- **`MultiIntervalRetestResult` frozen dataclass** in `infereval.retest`. Carries the baseline run id and a tuple of `IntervalPair` (one per non-baseline capture, each embedding a `compute_retest` result against the baseline). Mirrors the existing `RetestResult` shape; serialized via the new `multi_interval_retest_result_to_dict`.
+- **`IntervalPair` frozen dataclass** — `(interval_s, run_id, retest)` triple. `interval_s` is the cumulative seconds since the baseline started, not the gap from the previous capture.
+- **`--save-etas DIR` multi-interval naming**: writes `eta-0.json` … `eta-N.json` (and matching `.run.jsonl` files) for multi-interval mode. Single-interval mode keeps `eta-a.json` / `eta-b.json` for v0.11.0 backward compatibility.
+
+### Semantics: anchored on baseline, not pairwise-consecutive
+
+`--interval-s 0 --interval-s 86400 --interval-s 604800` produces:
+
+- Capture 0 (baseline)
+- Capture 1 (back-to-back) → `compute_retest(baseline, capture-1)` → 1st pair
+- 86400s sleep → Capture 2 → `compute_retest(baseline, capture-2)` → 2nd pair
+- 604800s sleep → Capture 3 → `compute_retest(baseline, capture-3)` → 3rd pair
+
+Every pair compares back to the same baseline — *cumulative drift since baseline*, not pairwise-adjacent drift. The methodology paper's discussion section can directly cite "κ shifted by X from baseline over interval Y" without conflating baseline drift with sample-pair noise.
+
+### Backward compatibility
+
+- Single-interval calls (default, or `--interval-s 0` once) emit a single `RetestResult` JSON byte-identical to v0.11.0 output. Regression-guarded by an explicit test.
+- Manual-mode `infereval retest <eta_a.json> <eta_b.json>` unchanged.
+- `--save-etas` directory layout is preserved for single-interval mode (`eta-a` / `eta-b`).
+
+### Methodological framing
+
+R22 evidence at multiple time scales is now operationally one CLI call. The methodology paper's "any cross-family κ comparison without a retest discipline is reporting a point on an unknown distribution" framing can be strengthened: *with multi-interval retest, the distribution can be characterized at the time scales the analyst cares about (back-to-back, day-apart, week-apart), in one orchestrated run.* v0.14.0 will use this to retrofit the bundled pulmonology and stop-sign demos with multi-interval R22 evidence.
+
+### Docs
+
+- `docs/construct_validity.md` — R22 entry gains a v0.12.0 multi-interval sub-paragraph.
+- `CLAUDE.md` — new locked-defaults entry on multi-interval semantics and `--save-etas` naming.
+- `README.md` — one-sentence mention.
+
+### Schemas
+
+- `framework_version.default` bumped to `0.12.0`. No content-schema changes; no benchmark / evaluation / claims / retest persisted-artifact shape change.
+
+### Tests
+
+- New `tests/unit/test_retest.py::TestMultiIntervalRetestResult` (6 tests) — model construction, serializer round-trip, frozen contract, identity-criterion threading, `__all__` exposure.
+- New `tests/unit/test_cli_retest_auto.py::TestMultiInterval` (6 tests) — multi-interval orchestration, single-interval regression guard, `--save-etas` naming convention, `--interval-s` sleep timing, drift-between-captures lowers κ on pair 2, `interval_s` field matches input.
+- All 908 tests pass (896 prior + 12 new).
+
 ## [0.11.0] — 2026-06-06
 
 **`infereval retest --auto`**: collapses the historical four-step manual R22 workflow (evaluate, evaluate again, retest, optionally thread `--claims`) into one CLI invocation. Adds the bundled stop-sign R22 capture against the 4-item paper-aligned benchmark — backfilling the R22 evidence the v0.5.18 cross-family sweep lacked.

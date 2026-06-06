@@ -192,16 +192,19 @@ _AUTO_RUN_ID_PREFIX = "retest-auto-"
 # --- auto-mode: retest-specific flags -----------------------------------
 @click.option(
     "--interval-s",
-    "interval_s",
+    "intervals_s",
     type=click.IntRange(min=0),
-    default=0,
+    multiple=True,
+    default=(0,),
     show_default=True,
     help=(
-        "Wall-clock seconds to sleep between the two auto-mode "
-        "captures. Default 0 (back-to-back) captures provider-side "
-        "stochasticity + sampling noise. Larger values (60, 3600, "
-        "86400, ...) capture caching effects, silent server-side "
-        "updates, and longer-term drift."
+        "Wall-clock seconds between captures. Repeatable: each "
+        "invocation adds one cumulative-anchor interval. Pass once "
+        "(default) = back-to-back single retest, v0.11.0-compatible. "
+        "Pass N>=2 times = baseline capture + N later captures, each "
+        "compared to the baseline (cumulative drift since baseline). "
+        "Total wall time = sum of intervals. `--interval-s 86400` "
+        "requires the CLI process to stay alive 24+ hours."
     ),
 )
 @click.option(
@@ -234,7 +237,7 @@ def retest_cmd(  # noqa: PLR0913 -- cumulative CLI option set
     http_referer: str | None,
     x_title: str | None,
     paraphrase_variant: int,
-    interval_s: int,
+    intervals_s: tuple[int, ...],
     save_etas_dir: Path | None,
 ) -> None:
     """Run the test-retest comparison and print a summary."""
@@ -276,13 +279,14 @@ def retest_cmd(  # noqa: PLR0913 -- cumulative CLI option set
             sys.exit(2)
         bench = _maybe_load_benchmark(benchmark_path)
 
-    # ---- Auto mode: run evaluate twice ----------------------------------
+    # ---- Auto mode: run evaluate N+1 times -------------------------------
     else:
         assert benchmark_path is not None  # noqa: S101 -- validated above
         assert provider_name is not None and model_id is not None  # noqa: S101
         log.info(
-            "retest.cli.auto.start benchmark=%s provider=%s model=%s interval_s=%d",
-            benchmark_path, provider_name, model_id, interval_s,
+            "retest.cli.auto.start benchmark=%s provider=%s model=%s "
+            "intervals_s=%s",
+            benchmark_path, provider_name, model_id, list(intervals_s),
         )
         try:
             bench = Benchmark.load(benchmark_path)
@@ -290,7 +294,7 @@ def retest_cmd(  # noqa: PLR0913 -- cumulative CLI option set
             click.echo(f"ERROR: could not load benchmark: {exc}", err=True)
             sys.exit(2)
 
-        eta_a, eta_b = _run_auto_captures(
+        captures = _run_auto_captures(
             benchmark=bench,
             provider_name=provider_name,
             model_id=model_id,
@@ -304,14 +308,28 @@ def retest_cmd(  # noqa: PLR0913 -- cumulative CLI option set
             http_referer=http_referer,
             x_title=x_title,
             paraphrase_variant=paraphrase_variant,
-            interval_s=interval_s,
+            intervals_s=intervals_s,
             save_etas_dir=save_etas_dir,
         )
+
+        # Dispatch: single-interval keeps v0.11.0 backward-compat shape;
+        # multi-interval emits MultiIntervalRetestResult.
+        if len(intervals_s) == 1:
+            eta_a, eta_b = captures[0], captures[1]
+        else:
+            _emit_multi_interval(
+                captures=captures,
+                intervals_s=intervals_s,
+                bench=bench,
+                claims_path=claims_path,
+                output_path=output_path,
+            )
+            return  # multi-interval emission handles output + summary
 
     # ---- Identity criterion threading (v0.6.1) --------------------------
     identity_criterion = _maybe_load_identity_criterion(claims_path)
 
-    # ---- Compute + emit --------------------------------------------------
+    # ---- Compute + emit (single-pair path; v0.11.0 backward compat) -----
     try:
         result = compute_retest(
             eta_a, eta_b, benchmark=bench, identity_criterion=identity_criterion
@@ -387,20 +405,41 @@ def _run_auto_captures(
     http_referer: str | None,
     x_title: str | None,
     paraphrase_variant: int,
-    interval_s: int,
+    intervals_s: tuple[int, ...],
     save_etas_dir: Path | None,
-) -> tuple[Evaluation, Evaluation]:
-    """Run :func:`evaluate` twice and persist the etas.
+) -> list[Evaluation]:
+    """Run :func:`evaluate` N+1 times and persist all captures.
 
-    Returns the two :class:`~infereval.evaluation.Evaluation` objects
-    ready for :func:`compute_retest`.
+    With N intervals supplied, takes N+1 captures: baseline (capture 0),
+    then capture i after sleeping ``intervals_s[i-1]`` seconds before
+    each. Returns the list of N+1 :class:`Evaluation` objects ready for
+    :func:`compute_retest`.
+
+    Saved-etas directory naming:
+
+    - Single-interval (N=1, v0.11.0 backward compat): ``eta-a.json``,
+      ``eta-b.json``, plus ``.run.jsonl`` siblings.
+    - Multi-interval (N>=2, v0.12.0+): ``eta-0.json`` … ``eta-N.json``
+      and the same ``.run.jsonl`` pattern.
+
+    Run-ids are generated as ``f"{base_run_id}-{label}"`` where label
+    follows the same naming convention.
     """
     # Local imports — keep CLI import cost low for the manual-mode path.
     from infereval.providers import get_provider
     from infereval.providers.base import ProviderConfigError, ProviderError
 
-    # Build a single provider client and reuse it for both captures —
-    # this models the realistic "same client, two requests" shape.
+    n_intervals = len(intervals_s)
+    n_captures = n_intervals + 1
+    # Single-interval mode keeps v0.11.0's eta-a / eta-b naming; multi
+    # uses eta-0 … eta-N.
+    labels = (
+        ["a", "b"] if n_intervals == 1
+        else [str(i) for i in range(n_captures)]
+    )
+
+    # Build a single provider client and reuse it for all captures —
+    # this models the realistic "same client, N requests" shape.
     provider_kwargs: dict[str, object] = {}
     if provider_name.lower() == "openrouter":
         if http_referer is not None:
@@ -424,11 +463,10 @@ def _run_auto_captures(
         seed=seed,
     )
 
-    # Auto-generate run ids per capture so the two etas are distinguishable
-    # in logs and in the saved-etas directory.
+    # Auto-generate run ids per capture so each is distinguishable in
+    # logs and in the saved-etas directory.
     base_run_id = f"{_AUTO_RUN_ID_PREFIX}{uuid.uuid4().hex[:8]}"
-    run_id_a = f"{base_run_id}-a"
-    run_id_b = f"{base_run_id}-b"
+    run_ids = [f"{base_run_id}-{lbl}" for lbl in labels]
 
     # Persist etas to either the user-supplied dir or a tmpdir.
     if save_etas_dir is not None:
@@ -437,67 +475,74 @@ def _run_auto_captures(
     else:
         ctx = tempfile.TemporaryDirectory()  # type: ignore[assignment]
 
+    captures: list[Evaluation] = []
     with ctx as etas_dir_str:
         etas_dir = Path(etas_dir_str)
-        eta_a_path = etas_dir / "eta-a.json"
-        eta_b_path = etas_dir / "eta-b.json"
-        log_a_path = etas_dir / "eta-a.run.jsonl"
-        log_b_path = etas_dir / "eta-b.run.jsonl"
 
-        click.echo(
-            f"retest --auto: capture A starting "
-            f"(benchmark={benchmark.id!r}, run_id={run_id_a!r})",
-            err=True,
-        )
-        try:
-            eta_a = evaluate(
-                benchmark, provider,
-                config=config, params=params,
-                strip_tex=strip_tex, run_id=run_id_a,
-                log_path=log_a_path, variant=paraphrase_variant,
-            )
-        except ProviderError as exc:
-            click.echo(f"ERROR: provider error during capture A: {exc}", err=True)
-            sys.exit(1)
-        eta_a.dump(eta_a_path)
-        log.info("retest.cli.auto.capture_a_done run_id=%s items=%d",
-                 eta_a.id, eta_a.n)
+        for i in range(n_captures):
+            label = labels[i]
+            eta_path = etas_dir / f"eta-{label}.json"
+            log_path = etas_dir / f"eta-{label}.run.jsonl"
+            run_id_i = run_ids[i]
 
-        if interval_s > 0:
+            # Sleep before captures 1..N according to the supplied
+            # intervals. Capture 0 (baseline) starts immediately.
+            if i > 0:
+                interval_s = intervals_s[i - 1]
+                if interval_s > 0:
+                    click.echo(
+                        f"retest --auto: sleeping {interval_s}s before "
+                        f"capture {label}",
+                        err=True,
+                    )
+                    time.sleep(interval_s)
+                log.info("retest.cli.auto.interval_s=%d", interval_s)
+
             click.echo(
-                f"retest --auto: sleeping {interval_s}s between captures",
+                f"retest --auto: capture {label} starting "
+                f"(benchmark={benchmark.id!r}, run_id={run_id_i!r})",
                 err=True,
             )
-            time.sleep(interval_s)
+            try:
+                eta = evaluate(
+                    benchmark, provider,
+                    config=config, params=params,
+                    strip_tex=strip_tex, run_id=run_id_i,
+                    log_path=log_path, variant=paraphrase_variant,
+                )
+            except ProviderError as exc:
+                # On failure mid-sequence, surface the failure with a
+                # pointer to the preceding captures already on disk
+                # under --save-etas.
+                preceding = [str(etas_dir / f"eta-{labels[j]}.json")
+                             for j in range(i)]
+                preceding_note = (
+                    f" (preceding captures at {preceding})" if preceding else ""
+                )
+                # Backward-compat: v0.11.0 single-interval mode used
+                # the "capture A" / "capture B" labels in error strings;
+                # preserve those exact strings to keep tests stable.
+                cap_label = label.upper() if n_intervals == 1 else label
+                click.echo(
+                    f"ERROR: provider error during capture {cap_label}: "
+                    f"{exc}{preceding_note}",
+                    err=True,
+                )
+                sys.exit(1)
+            eta.dump(eta_path)
+            log.info("retest.cli.auto.capture_done label=%s run_id=%s items=%d",
+                     label, eta.id, eta.n)
+            captures.append(eta)
 
-        click.echo(
-            f"retest --auto: capture B starting (run_id={run_id_b!r})",
-            err=True,
-        )
-        try:
-            eta_b = evaluate(
-                benchmark, provider,
-                config=config, params=params,
-                strip_tex=strip_tex, run_id=run_id_b,
-                log_path=log_b_path, variant=paraphrase_variant,
-            )
-        except ProviderError as exc:
-            click.echo(
-                f"ERROR: provider error during capture B: {exc} "
-                f"(capture A is at {eta_a_path})",
-                err=True,
-            )
-            sys.exit(1)
-        eta_b.dump(eta_b_path)
-        log.info("retest.cli.auto.capture_b_done run_id=%s items=%d",
-                 eta_b.id, eta_b.n)
+        # Inside the with-block: re-load from disk so the returned
+        # objects are independent of the (possibly transient) etas_dir
+        # context.
+        captures = [
+            Evaluation.load(etas_dir / f"eta-{labels[i]}.json")
+            for i in range(n_captures)
+        ]
 
-        # Inside the with-block: re-load from disk so the returned objects
-        # are independent of the (possibly transient) etas_dir context.
-        eta_a = Evaluation.load(eta_a_path)
-        eta_b = Evaluation.load(eta_b_path)
-
-    return eta_a, eta_b
+    return captures
 
 
 class _NoopCtx:
@@ -514,6 +559,110 @@ class _NoopCtx:
 
     def __exit__(self, *exc: object) -> None:
         return None
+
+
+def _emit_multi_interval(
+    *,
+    captures: list[Evaluation],
+    intervals_s: tuple[int, ...],
+    bench: Benchmark | None,
+    claims_path: Path | None,
+    output_path: Path | None,
+) -> None:
+    """Compute the N anchored-on-baseline retest pairs and emit them.
+
+    Baseline is ``captures[0]``; each ``captures[i+1]`` is compared back
+    to baseline and packaged as :class:`IntervalPair`. The wrapper is
+    a :class:`MultiIntervalRetestResult`. Output:
+
+    - ``-o <path>``: writes ``multi_interval_retest_result_to_dict``
+      JSON to the path.
+    - stdout: a per-interval summary table.
+    """
+    from infereval.retest import (
+        IntervalPair,
+        MultiIntervalRetestResult,
+        multi_interval_retest_result_to_dict,
+    )
+
+    identity_criterion = _maybe_load_identity_criterion(claims_path)
+    baseline = captures[0]
+
+    pairs: list[IntervalPair] = []
+    for i, later in enumerate(captures[1:], start=1):
+        interval_s = intervals_s[i - 1]
+        try:
+            retest = compute_retest(
+                baseline, later,
+                benchmark=bench, identity_criterion=identity_criterion,
+            )
+        except RetestConfigMismatchError as exc:
+            click.echo(
+                f"ERROR: incompatible runs at interval index {i}: {exc}",
+                err=True,
+            )
+            sys.exit(1)
+        pairs.append(IntervalPair(
+            interval_s=interval_s, run_id=later.id, retest=retest,
+        ))
+        log.info(
+            "retest.cli.auto.multi_pair_done interval_s=%d kappa=%s flips=%d",
+            interval_s, retest.test_retest_kappa, retest.n_disagreements,
+        )
+
+    from infereval import __version__ as framework_version
+    result = MultiIntervalRetestResult(
+        schema_version="1.0",
+        framework_version=framework_version,
+        benchmark_id=baseline.benchmark_id,
+        benchmark_hash=baseline.benchmark_hash,
+        baseline_run_id=baseline.id,
+        pairs=tuple(pairs),
+        identity_criterion=identity_criterion,
+    )
+
+    if output_path is not None:
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(
+            json.dumps(
+                multi_interval_retest_result_to_dict(result), indent=2,
+            ) + "\n",
+            encoding="utf-8",
+        )
+
+    _print_multi_summary(result)
+    log.info(
+        "retest.cli.auto.multi_done baseline_run_id=%s n_pairs=%d",
+        result.baseline_run_id, len(result.pairs),
+    )
+
+
+def _print_multi_summary(result: Any) -> None:  # MultiIntervalRetestResult
+    """Per-interval table for ``MultiIntervalRetestResult``."""
+    click.echo("test-retest reliability (multi-interval, anchored on baseline)")
+    click.echo("=" * 60)
+    click.echo("")
+    click.echo(f"benchmark:        {result.benchmark_id}")
+    click.echo(f"baseline run id:  {result.baseline_run_id}")
+    click.echo("")
+    click.echo(
+        f"{'interval (s)':>12}  {'run b':<24}  {'agree':>5}  "
+        f"{'flips':>5}  {'κ':>8}  verdict"
+    )
+    click.echo("-" * 75)
+    for pair in result.pairs:
+        r = pair.retest
+        k_str = (
+            f"{r.test_retest_kappa:+8.4f}"
+            if r.test_retest_kappa is not None
+            else "undefined"
+        )
+        # Shortened verdict for the table — first 30 chars.
+        verdict = r.stability_verdict.split(";")[0].strip()
+        click.echo(
+            f"{pair.interval_s:>12}  {pair.run_id:<24}  "
+            f"{r.n_agreements:>5}  {r.n_disagreements:>5}  {k_str}  {verdict}"
+        )
 
 
 def _print_summary(result: Any) -> None:  # RetestResult
