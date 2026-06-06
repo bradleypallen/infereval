@@ -80,6 +80,8 @@ infereval evaluate examples/stop_sign/benchmark.json \
 
 The JSONL run log under `/tmp/run.jsonl` records one event per provider call (prompt hash, raw response, parsed verdict, usage, timing) so the evaluation is auditable end to end.
 
+For the R22 test-retest discipline, `infereval retest --auto --benchmark <b> --provider X --model Y [--interval-s N] [--save-etas DIR]` (v0.11.0+) collapses the four-step manual workflow (evaluate, evaluate again, retest, optionally `--claims`) into one CLI call — runs the same evaluation twice with an optional inter-capture sleep and emits the standard `RetestResult` directly. See the [stop-sign R22 capture](experiments/results/stop_sign/retest/) for the worked end-to-end demo.
+
 ## What this is and isn't
 
 **This is:** a research tool that formalizes Simonelli's stop-sign dialogue into a repeatable evaluation procedure. Given (i) a bearer set, (ii) expression and context-construction functions, (iii) a benchmark of implications labeled by one or more analysts, the framework drives an LLM through endorsement-probing for each implication and reports the resulting agreement with analyst practice along three axes:
