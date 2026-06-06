@@ -593,11 +593,12 @@ class TestDescribeItemsFlag:
         result = runner.invoke(cli, ["describe", "--items", str(self.PULM_PATH)])
         assert "T1 (12 items):" in result.output
         assert "T2 (10 items):" in result.output
-        assert "cross-cutting (7 items):" in result.output
+        # v0.10.0 added x3 to the cross-cutting family (n: 7 → 8).
+        assert "cross-cutting (8 items):" in result.output
         # T1 group sorts before T2 sorts before cross-cutting.
         idx_t1 = result.output.index("T1 (12 items):")
         idx_t2 = result.output.index("T2 (10 items):")
-        idx_cc = result.output.index("cross-cutting (7 items):")
+        idx_cc = result.output.index("cross-cutting (8 items):")
         assert idx_t1 < idx_t2 < idx_cc
 
     def test_items_flat_layout_when_no_target_tags(self, tmp_path: Path) -> None:

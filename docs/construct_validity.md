@@ -185,7 +185,7 @@ The methodology runs in nine phases. The framework handles phases 1–7; phases 
 | 7 | Publish artifacts | reproducible JSON + hashes | host & cite |
 | 8 | Stand behind the claim | nothing — interpretation is yours | argue the case in your write-up |
 
-The two demos bundled with the framework illustrate the workflow at different scales: the **stop-sign cross-family experiment** (`examples/stop_sign/`, with results at `experiments/results/stop_sign/` and a 13-model writeup at `experiments/results/stop_sign_2026-05-18.md`) is the minimal end-to-end shape — 4 items, 1 analyst panel, paper-aligned. The **pulmonology benchmark** (`examples/pulmonary_edema/`, with results at `experiments/results/pulmonology/`) is the more elaborate construction — 20 bearers, 29 items, factorial design, RSR-targeted structure, and a 6-model multi-family run.
+The two demos bundled with the framework illustrate the workflow at different scales: the **stop-sign cross-family experiment** (`examples/stop_sign/`, with results at `experiments/results/stop_sign/` and a 13-model writeup at `experiments/results/stop_sign_2026-05-18.md`) is the minimal end-to-end shape — 4 items, 1 analyst panel, paper-aligned. The **pulmonology benchmark** (`examples/pulmonary_edema/`, with results at `experiments/results/pulmonology/`) is the more elaborate construction — 20 bearers, 30 items, factorial design, RSR-targeted structure, and a 6-model multi-family run.
 
 ### Phase 0: Plan the experiment
 

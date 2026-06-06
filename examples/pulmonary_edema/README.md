@@ -1,6 +1,6 @@
 # Pulmonary edema differential benchmark
 
-A demonstration-stage `infereval` benchmark targeting the inferential structure of cardiogenic vs. non-cardiogenic (ARDS) pulmonary edema differential diagnosis. Twenty bearers, 29 items, one analyst panel, defeasible-clinical verification prompt.
+A demonstration-stage `infereval` benchmark targeting the inferential structure of cardiogenic vs. non-cardiogenic (ARDS) pulmonary edema differential diagnosis. Twenty bearers, 30 items, one analyst panel, defeasible-clinical verification prompt.
 
 ## Status
 
@@ -8,7 +8,7 @@ A demonstration-stage `infereval` benchmark targeting the inferential structure 
 
 The benchmark file is reference-annotated as of v0.2.2 — every item carries a citation pointing to the guideline section, clinical-trial paper, or regulatory document that justifies the placeholder verdict. The annotations are best-effort by a non-clinician; the real respondent should treat them as a starting point and adjust freely.
 
-Item `a9` carries an explicit `FLAG FOR PULMONOLOGIST REVIEW` reference noting that the bearer's wording ("cardiotoxic agent") points to cardiogenic, not ARDS — the unanimous cross-family model disagreement supports revisiting the verdict.
+Items `a9` and `x3` carry explicit `FLAG FOR PULMONOLOGIST REVIEW` references. `a9` notes that the bearer's wording ("cardiotoxic agent") points to cardiogenic, not ARDS — the unanimous cross-family model disagreement supports revisiting the verdict. `x3` (new in this benchmark's `v0.2`) probes the sepsis-induced cardiomyopathy confounder in ARDS-side BNP reasoning; the placeholder verdict is `bad` but a real pulmonologist may want to adjust depending on how strictly they read "documented sepsis" as implying possible septic cardiomyopathy.
 
 ## Bearers (20)
 
@@ -35,7 +35,7 @@ Three levels of citation provenance (per Issue #18, shipped in v0.2.2):
 
 - **Benchmark.references** (6): Berlin definition (Ranieri 2012), Ware & Matthay NEJM 2005, Maisel NEJM 2002 (BNP), 2022 AHA/ACC/HFSA HF guideline, 2021 ESC HF guideline, Allen 2026 (this methodology).
 - **Bearer.references** (7/20): the bearers whose definitions derive from a specific source — `ards`, `pf`, `el`, `nl`, `pcwp`, `kb`, `bp`.
-- **BenchmarkItem.references** (29/29): every item anchored to the literature justifying its placeholder verdict.
+- **BenchmarkItem.references** (30/30): every item anchored to the literature justifying its placeholder verdict.
 
 ## Run it
 

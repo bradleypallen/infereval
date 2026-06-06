@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
-  "id": "pulm-gemini-2.5-pro-2026-06-06",
-  "benchmark_id": "pulmonary-edema-differential-v0.2",
-  "benchmark_hash": "sha256:4f58fef6736a1e5b462e32ca37cc47a87896805885c133f261239932bc8aa81d",
+  "id": "pulm-gemini-2026-05-19",
+  "benchmark_id": "pulmonary-edema-differential-v0.1",
+  "benchmark_hash": "sha256:0659167c476622806f4b6906985630d66c408a6485550685f42e7c751fed078b",
   "model": {
     "provider": "openrouter",
     "model_id": "google/gemini-2.5-pro",
@@ -19,9 +19,9 @@
     "context_builder_premise_id": "conjunction-and-v1",
     "context_builder_conclusion_id": "disjunction-or-v1"
   },
-  "framework_version": "0.10.0",
-  "started_at": "2026-06-06T16:22:11.955701Z",
-  "finished_at": "2026-06-06T16:37:47.013858Z",
+  "framework_version": "0.2.1",
+  "started_at": "2026-05-19T15:32:45.955424Z",
+  "finished_at": "2026-05-19T15:48:47.121181Z",
   "items": [
     {
       "id": "c1",
@@ -42,42 +42,42 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c1:sample-0",
-          "wall_time_ms": 11322.014290999505,
+          "request_id": "pulm-gemini-2026-05-19:c1:sample-0",
+          "wall_time_ms": 9642.967833089642,
           "usage": {
             "input_tokens": 205,
-            "output_tokens": 982
+            "output_tokens": 980
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 981
+          "reasoning_tokens": 979
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c1:sample-1",
-          "wall_time_ms": 10234.005666992743,
+          "request_id": "pulm-gemini-2026-05-19:c1:sample-1",
+          "wall_time_ms": 10946.866916958243,
           "usage": {
             "input_tokens": 205,
-            "output_tokens": 980
+            "output_tokens": 948
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 979
+          "reasoning_tokens": 947
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c1:sample-2",
-          "wall_time_ms": 9788.02175000601,
+          "request_id": "pulm-gemini-2026-05-19:c1:sample-2",
+          "wall_time_ms": 10357.228457927704,
           "usage": {
             "input_tokens": 205,
-            "output_tokens": 980
+            "output_tokens": 982
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 979
+          "reasoning_tokens": 981
         }
       ],
       "majority_vote": {
@@ -91,13 +91,6 @@
         "base-inference",
         "T1",
         "dialectical-low"
-      ],
-      "references": [
-        {
-          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
-          "doi": "10.1056/NEJMcp052699",
-          "note": "Bilateral infiltrates + acute dyspnea: base presentation consistent with cardiogenic edema, pending further evidence."
-        }
       ]
     },
     {
@@ -120,8 +113,8 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c2:sample-0",
-          "wall_time_ms": 11854.30679100682,
+          "request_id": "pulm-gemini-2026-05-19:c2:sample-0",
+          "wall_time_ms": 11794.847292010672,
           "usage": {
             "input_tokens": 220,
             "output_tokens": 936
@@ -134,22 +127,22 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c2:sample-1",
-          "wall_time_ms": 11839.793249993818,
+          "request_id": "pulm-gemini-2026-05-19:c2:sample-1",
+          "wall_time_ms": 10004.835625062697,
           "usage": {
             "input_tokens": 220,
-            "output_tokens": 936
+            "output_tokens": 981
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 935
+          "reasoning_tokens": 980
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c2:sample-2",
-          "wall_time_ms": 10328.202999997302,
+          "request_id": "pulm-gemini-2026-05-19:c2:sample-2",
+          "wall_time_ms": 10173.085708054714,
           "usage": {
             "input_tokens": 220,
             "output_tokens": 981
@@ -170,13 +163,6 @@
         "T1",
         "biomarker",
         "dialectical-low"
-      ],
-      "references": [
-        {
-          "citation": "Maisel AS et al. (2002). Rapid measurement of B-type natriuretic peptide in the emergency diagnosis of heart failure. N Engl J Med 347(3):161-167.",
-          "doi": "10.1056/NEJMoa020233",
-          "note": "Elevated BNP supports cardiogenic etiology over non-cardiogenic."
-        }
       ]
     },
     {
@@ -199,22 +185,8 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c3:sample-0",
-          "wall_time_ms": 10619.656916998792,
-          "usage": {
-            "input_tokens": 217,
-            "output_tokens": 972
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 971
-        },
-        {
-          "sample_index": 1,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
-          "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c3:sample-1",
-          "wall_time_ms": 9390.774125000462,
+          "request_id": "pulm-gemini-2026-05-19:c3:sample-0",
+          "wall_time_ms": 10446.682958980091,
           "usage": {
             "input_tokens": 217,
             "output_tokens": 921
@@ -223,12 +195,26 @@
           "reasoning_tokens": 920
         },
         {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "pulm-gemini-2026-05-19:c3:sample-1",
+          "wall_time_ms": 11126.232583075762,
+          "usage": {
+            "input_tokens": 217,
+            "output_tokens": 972
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 971
+        },
+        {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c3:sample-2",
-          "wall_time_ms": 11730.689332995098,
+          "request_id": "pulm-gemini-2026-05-19:c3:sample-2",
+          "wall_time_ms": 11576.359582948498,
           "usage": {
             "input_tokens": 217,
             "output_tokens": 984
@@ -249,18 +235,6 @@
         "T1",
         "imaging",
         "dialectical-low"
-      ],
-      "references": [
-        {
-          "citation": "Heidenreich PA et al. (2022). 2022 AHA/ACC/HFSA Guideline for the Management of Heart Failure. J Am Coll Cardiol 79(17):e263-e421.",
-          "doi": "10.1016/j.jacc.2021.12.012",
-          "note": "Reduced LVEF is a canonical cardiogenic-edema indicator."
-        },
-        {
-          "citation": "McDonagh TA et al. (2021). 2021 ESC Guidelines for the diagnosis and treatment of acute and chronic heart failure. Eur Heart J 42(36):3599-3726.",
-          "doi": "10.1093/eurheartj/ehab368",
-          "note": "HFrEF classification by LVEF threshold."
-        }
       ]
     },
     {
@@ -283,22 +257,22 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c4:sample-0",
-          "wall_time_ms": 8922.856374992989,
+          "request_id": "pulm-gemini-2026-05-19:c4:sample-0",
+          "wall_time_ms": 9807.365583023056,
           "usage": {
             "input_tokens": 216,
-            "output_tokens": 768
+            "output_tokens": 951
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 767
+          "reasoning_tokens": 950
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c4:sample-1",
-          "wall_time_ms": 10648.37466699828,
+          "request_id": "pulm-gemini-2026-05-19:c4:sample-1",
+          "wall_time_ms": 9820.821583969519,
           "usage": {
             "input_tokens": 216,
             "output_tokens": 961
@@ -311,14 +285,14 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c4:sample-2",
-          "wall_time_ms": 10233.329041002435,
+          "request_id": "pulm-gemini-2026-05-19:c4:sample-2",
+          "wall_time_ms": 9015.403750003316,
           "usage": {
             "input_tokens": 216,
-            "output_tokens": 961
+            "output_tokens": 951
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 960
+          "reasoning_tokens": 950
         }
       ],
       "majority_vote": {
@@ -333,13 +307,6 @@
         "T1",
         "imaging",
         "dialectical-low"
-      ],
-      "references": [
-        {
-          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
-          "doi": "10.1056/NEJMcp052699",
-          "note": "Kerley B lines: interstitial-edema sign classically cardiogenic."
-        }
       ]
     },
     {
@@ -362,42 +329,42 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c5:sample-0",
-          "wall_time_ms": 10079.78645899857,
+          "request_id": "pulm-gemini-2026-05-19:c5:sample-0",
+          "wall_time_ms": 9809.241709066555,
           "usage": {
             "input_tokens": 220,
-            "output_tokens": 982
+            "output_tokens": 956
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 981
+          "reasoning_tokens": 955
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c5:sample-1",
-          "wall_time_ms": 9805.045999994036,
-          "usage": {
-            "input_tokens": 220,
-            "output_tokens": 982
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 981
-        },
-        {
-          "sample_index": 2,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
-          "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c5:sample-2",
-          "wall_time_ms": 9780.871750001097,
+          "request_id": "pulm-gemini-2026-05-19:c5:sample-1",
+          "wall_time_ms": 9294.424208928831,
           "usage": {
             "input_tokens": 220,
             "output_tokens": 927
           },
           "finish_reason": "stop",
           "reasoning_tokens": 926
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "pulm-gemini-2026-05-19:c5:sample-2",
+          "wall_time_ms": 9788.456666981801,
+          "usage": {
+            "input_tokens": 220,
+            "output_tokens": 956
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 955
         }
       ],
       "majority_vote": {
@@ -412,13 +379,6 @@
         "T1",
         "hemodynamic",
         "dialectical-low"
-      ],
-      "references": [
-        {
-          "citation": "Heidenreich PA et al. (2022). 2022 AHA/ACC/HFSA Guideline for the Management of Heart Failure. J Am Coll Cardiol 79(17):e263-e421.",
-          "doi": "10.1016/j.jacc.2021.12.012",
-          "note": "Elevated PCWP > 18 mmHg defines hydrostatic edema by mechanism."
-        }
       ]
     },
     {
@@ -441,8 +401,8 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c6:sample-0",
-          "wall_time_ms": 9071.477874997072,
+          "request_id": "pulm-gemini-2026-05-19:c6:sample-0",
+          "wall_time_ms": 9416.64850001689,
           "usage": {
             "input_tokens": 220,
             "output_tokens": 828
@@ -455,28 +415,28 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c6:sample-1",
-          "wall_time_ms": 9470.029916992644,
+          "request_id": "pulm-gemini-2026-05-19:c6:sample-1",
+          "wall_time_ms": 10432.948458008468,
           "usage": {
             "input_tokens": 220,
-            "output_tokens": 765
+            "output_tokens": 868
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 764
+          "reasoning_tokens": 867
         },
         {
           "sample_index": 2,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c6:sample-2",
-          "wall_time_ms": 8421.271833998617,
+          "request_id": "pulm-gemini-2026-05-19:c6:sample-2",
+          "wall_time_ms": 7568.21758300066,
           "usage": {
             "input_tokens": 220,
-            "output_tokens": 729
+            "output_tokens": 692
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 728
+          "reasoning_tokens": 691
         }
       ],
       "majority_vote": {
@@ -491,13 +451,6 @@
         "T1",
         "biomarker",
         "dialectical-medium"
-      ],
-      "references": [
-        {
-          "citation": "Maisel AS et al. (2002). Rapid measurement of B-type natriuretic peptide in the emergency diagnosis of heart failure. N Engl J Med 347(3):161-167.",
-          "doi": "10.1056/NEJMoa020233",
-          "note": "Normal BNP < 100: high NPV for HF, defeats cardiogenic etiology."
-        }
       ]
     },
     {
@@ -520,22 +473,22 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c7:sample-0",
-          "wall_time_ms": 9322.712833003607,
+          "request_id": "pulm-gemini-2026-05-19:c7:sample-0",
+          "wall_time_ms": 10416.331125074066,
           "usage": {
             "input_tokens": 211,
-            "output_tokens": 981
+            "output_tokens": 884
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 980
+          "reasoning_tokens": 883
         },
         {
           "sample_index": 1,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c7:sample-1",
-          "wall_time_ms": 9421.378625003854,
+          "request_id": "pulm-gemini-2026-05-19:c7:sample-1",
+          "wall_time_ms": 12299.95187500026,
           "usage": {
             "input_tokens": 211,
             "output_tokens": 981
@@ -548,14 +501,14 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c7:sample-2",
-          "wall_time_ms": 10439.249582996126,
+          "request_id": "pulm-gemini-2026-05-19:c7:sample-2",
+          "wall_time_ms": 10454.61904106196,
           "usage": {
             "input_tokens": 211,
-            "output_tokens": 980
+            "output_tokens": 979
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 979
+          "reasoning_tokens": 978
         }
       ],
       "majority_vote": {
@@ -570,13 +523,6 @@
         "T1",
         "context",
         "dialectical-high"
-      ],
-      "references": [
-        {
-          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
-          "doi": "10.1056/NEJMcp052699",
-          "note": "Sepsis-induced edema is non-cardiogenic by mechanism (capillary leak); sepsis defeats a cardiogenic conclusion."
-        }
       ]
     },
     {
@@ -599,36 +545,36 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c8:sample-0",
-          "wall_time_ms": 11439.305249994504,
+          "request_id": "pulm-gemini-2026-05-19:c8:sample-0",
+          "wall_time_ms": 12359.077874920331,
           "usage": {
             "input_tokens": 213,
-            "output_tokens": 980
+            "output_tokens": 965
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 979
+          "reasoning_tokens": 964
         },
         {
           "sample_index": 1,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c8:sample-1",
-          "wall_time_ms": 9401.59633300209,
+          "request_id": "pulm-gemini-2026-05-19:c8:sample-1",
+          "wall_time_ms": 12053.87708300259,
           "usage": {
             "input_tokens": 213,
-            "output_tokens": 932
+            "output_tokens": 969
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 931
+          "reasoning_tokens": 968
         },
         {
           "sample_index": 2,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c8:sample-2",
-          "wall_time_ms": 10808.487542002695,
+          "request_id": "pulm-gemini-2026-05-19:c8:sample-2",
+          "wall_time_ms": 10251.403584028594,
           "usage": {
             "input_tokens": 213,
             "output_tokens": 980
@@ -649,13 +595,6 @@
         "T1",
         "etiology",
         "dialectical-medium"
-      ],
-      "references": [
-        {
-          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
-          "doi": "10.1056/NEJMcp052699",
-          "note": "Aspiration produces non-cardiogenic edema / direct lung injury; defeats a cardiogenic conclusion."
-        }
       ]
     },
     {
@@ -679,8 +618,8 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c9:sample-0",
-          "wall_time_ms": 13103.525915998034,
+          "request_id": "pulm-gemini-2026-05-19:c9:sample-0",
+          "wall_time_ms": 21907.996708061546,
           "usage": {
             "input_tokens": 230,
             "output_tokens": 981
@@ -693,8 +632,8 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c9:sample-1",
-          "wall_time_ms": 10440.138874997501,
+          "request_id": "pulm-gemini-2026-05-19:c9:sample-1",
+          "wall_time_ms": 11569.307083962485,
           "usage": {
             "input_tokens": 230,
             "output_tokens": 981
@@ -707,8 +646,8 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c9:sample-2",
-          "wall_time_ms": 10848.727208998753,
+          "request_id": "pulm-gemini-2026-05-19:c9:sample-2",
+          "wall_time_ms": 13804.348249919713,
           "usage": {
             "input_tokens": 230,
             "output_tokens": 981
@@ -729,18 +668,6 @@
         "T1",
         "history",
         "dialectical-medium"
-      ],
-      "references": [
-        {
-          "citation": "Heidenreich PA et al. (2022). 2022 AHA/ACC/HFSA Guideline for the Management of Heart Failure. J Am Coll Cardiol 79(17):e263-e421.",
-          "doi": "10.1016/j.jacc.2021.12.012",
-          "note": "Iatrogenic volume overload in a patient with cardiac substrate is a common precipitant of cardiogenic decompensation."
-        },
-        {
-          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
-          "doi": "10.1056/NEJMcp052699",
-          "note": "Volume overload as etiology of cardiogenic edema."
-        }
       ]
     },
     {
@@ -764,8 +691,8 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c10:sample-0",
-          "wall_time_ms": 11989.43825000606,
+          "request_id": "pulm-gemini-2026-05-19:c10:sample-0",
+          "wall_time_ms": 12160.84679204505,
           "usage": {
             "input_tokens": 226,
             "output_tokens": 986
@@ -778,28 +705,28 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c10:sample-1",
-          "wall_time_ms": 10110.015333004412,
+          "request_id": "pulm-gemini-2026-05-19:c10:sample-1",
+          "wall_time_ms": 11856.160083087161,
           "usage": {
             "input_tokens": 226,
-            "output_tokens": 981
+            "output_tokens": 986
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 980
+          "reasoning_tokens": 985
         },
         {
           "sample_index": 2,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c10:sample-2",
-          "wall_time_ms": 10461.028582998551,
+          "request_id": "pulm-gemini-2026-05-19:c10:sample-2",
+          "wall_time_ms": 10995.87662506383,
           "usage": {
             "input_tokens": 226,
-            "output_tokens": 983
+            "output_tokens": 980
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 982
+          "reasoning_tokens": 979
         }
       ],
       "majority_vote": {
@@ -813,18 +740,6 @@
         "mixed-evidence",
         "T1",
         "dialectical-high"
-      ],
-      "references": [
-        {
-          "citation": "Maisel AS et al. (2002). Rapid measurement of B-type natriuretic peptide in the emergency diagnosis of heart failure. N Engl J Med 347(3):161-167.",
-          "doi": "10.1056/NEJMoa020233",
-          "note": "BNP elevation in sepsis is contaminated by sepsis-induced myocardial depression and demand on the ventricle; ↑BNP in a septic patient is not a clean cardiogenic indicator. This item is genuinely contested."
-        },
-        {
-          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
-          "doi": "10.1056/NEJMcp052699",
-          "note": "Differential reasoning when sepsis coexists with cardiac signs."
-        }
       ]
     },
     {
@@ -847,8 +762,8 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c11:sample-0",
-          "wall_time_ms": 10748.911582995788,
+          "request_id": "pulm-gemini-2026-05-19:c11:sample-0",
+          "wall_time_ms": 11175.65095901955,
           "usage": {
             "input_tokens": 212,
             "output_tokens": 982
@@ -861,28 +776,28 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c11:sample-1",
-          "wall_time_ms": 9948.732374992687,
+          "request_id": "pulm-gemini-2026-05-19:c11:sample-1",
+          "wall_time_ms": 12740.722040995024,
           "usage": {
             "input_tokens": 212,
-            "output_tokens": 980
+            "output_tokens": 981
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 979
+          "reasoning_tokens": 980
         },
         {
           "sample_index": 2,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c11:sample-2",
-          "wall_time_ms": 9870.89874999947,
+          "request_id": "pulm-gemini-2026-05-19:c11:sample-2",
+          "wall_time_ms": 12907.547874958254,
           "usage": {
             "input_tokens": 212,
-            "output_tokens": 982
+            "output_tokens": 981
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 981
+          "reasoning_tokens": 980
         }
       ],
       "majority_vote": {
@@ -897,13 +812,6 @@
         "T1",
         "alternative-diagnosis",
         "dialectical-medium"
-      ],
-      "references": [
-        {
-          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
-          "doi": "10.1056/NEJMcp052699",
-          "note": "Acute PE: hemodynamic compromise without classical cardiogenic edema; the imaging picture is more typically focal/wedge, not symmetric pulmonary edema."
-        }
       ]
     },
     {
@@ -919,15 +827,15 @@
       "analyst_verdicts": [
         "good"
       ],
-      "model_verdict": "bad",
+      "model_verdict": "good",
       "samples": [
         {
           "sample_index": 0,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c12:sample-0",
-          "wall_time_ms": 11567.032292005024,
+          "request_id": "pulm-gemini-2026-05-19:c12:sample-0",
+          "wall_time_ms": 12335.849415976554,
           "usage": {
             "input_tokens": 215,
             "output_tokens": 980
@@ -940,35 +848,35 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c12:sample-1",
-          "wall_time_ms": 9265.371542001958,
-          "usage": {
-            "input_tokens": 215,
-            "output_tokens": 910
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 909
-        },
-        {
-          "sample_index": 2,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
-          "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:c12:sample-2",
-          "wall_time_ms": 10227.497542000492,
+          "request_id": "pulm-gemini-2026-05-19:c12:sample-1",
+          "wall_time_ms": 10642.267958028242,
           "usage": {
             "input_tokens": 215,
             "output_tokens": 982
           },
           "finish_reason": "stop",
           "reasoning_tokens": 981
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "pulm-gemini-2026-05-19:c12:sample-2",
+          "wall_time_ms": 11592.51145797316,
+          "usage": {
+            "input_tokens": 215,
+            "output_tokens": 980
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 979
         }
       ],
       "majority_vote": {
-        "good": 1,
-        "bad": 2,
+        "good": 2,
+        "bad": 1,
         "abstain": 0,
-        "verdict": "bad",
+        "verdict": "good",
         "tie_broken": false
       },
       "tags": [
@@ -976,13 +884,6 @@
         "T1",
         "etiology",
         "dialectical-high"
-      ],
-      "references": [
-        {
-          "citation": "Heidenreich PA et al. (2022). 2022 AHA/ACC/HFSA Guideline for the Management of Heart Failure. J Am Coll Cardiol 79(17):e263-e421.",
-          "doi": "10.1016/j.jacc.2021.12.012",
-          "note": "Acute renal failure with volume overload produces hydrostatic / cardiogenic-equivalent edema."
-        }
       ]
     },
     {
@@ -1004,22 +905,8 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a1:sample-0",
-          "wall_time_ms": 10302.754250005819,
-          "usage": {
-            "input_tokens": 205,
-            "output_tokens": 981
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 980
-        },
-        {
-          "sample_index": 1,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
-          "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a1:sample-1",
-          "wall_time_ms": 10821.775458010961,
+          "request_id": "pulm-gemini-2026-05-19:a1:sample-0",
+          "wall_time_ms": 11032.76683401782,
           "usage": {
             "input_tokens": 205,
             "output_tokens": 939
@@ -1028,18 +915,32 @@
           "reasoning_tokens": 938
         },
         {
-          "sample_index": 2,
+          "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a1:sample-2",
-          "wall_time_ms": 11489.050666001276,
+          "request_id": "pulm-gemini-2026-05-19:a1:sample-1",
+          "wall_time_ms": 9780.54045792669,
           "usage": {
             "input_tokens": 205,
             "output_tokens": 981
           },
           "finish_reason": "stop",
           "reasoning_tokens": 980
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "pulm-gemini-2026-05-19:a1:sample-2",
+          "wall_time_ms": 10492.82733304426,
+          "usage": {
+            "input_tokens": 205,
+            "output_tokens": 939
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 938
         }
       ],
       "majority_vote": {
@@ -1053,13 +954,6 @@
         "base-inference",
         "T2",
         "dialectical-low"
-      ],
-      "references": [
-        {
-          "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
-          "doi": "10.1001/jama.2012.5669",
-          "note": "Bilateral opacities + acute hypoxemic respiratory failure: ARDS base case, pending exclusion of cardiogenic origin and P/F measurement."
-        }
       ]
     },
     {
@@ -1082,8 +976,8 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a2:sample-0",
-          "wall_time_ms": 10307.478041999275,
+          "request_id": "pulm-gemini-2026-05-19:a2:sample-0",
+          "wall_time_ms": 9838.765583001077,
           "usage": {
             "input_tokens": 224,
             "output_tokens": 980
@@ -1096,8 +990,8 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a2:sample-1",
-          "wall_time_ms": 10437.885042003472,
+          "request_id": "pulm-gemini-2026-05-19:a2:sample-1",
+          "wall_time_ms": 9917.123749968596,
           "usage": {
             "input_tokens": 224,
             "output_tokens": 981
@@ -1110,14 +1004,14 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a2:sample-2",
-          "wall_time_ms": 9807.06375000591,
+          "request_id": "pulm-gemini-2026-05-19:a2:sample-2",
+          "wall_time_ms": 9872.026833007112,
           "usage": {
             "input_tokens": 224,
-            "output_tokens": 980
+            "output_tokens": 981
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 979
+          "reasoning_tokens": 980
         }
       ],
       "majority_vote": {
@@ -1132,14 +1026,6 @@
         "T2",
         "criterion",
         "dialectical-low"
-      ],
-      "references": [
-        {
-          "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
-          "doi": "10.1001/jama.2012.5669",
-          "section": "Hypoxemia criterion",
-          "note": "Hypoxemia criterion P/F < 300 (mild ARDS) per the Berlin definition."
-        }
       ]
     },
     {
@@ -1159,51 +1045,50 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
-          "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a3:sample-0",
-          "wall_time_ms": 10056.812040988007,
+          "raw_response": "",
+          "parsed_verdict": "abstain",
+          "parse_status": "unparseable",
+          "request_id": "pulm-gemini-2026-05-19:a3:sample-0",
+          "wall_time_ms": 7710.827708011493,
           "usage": {
-            "input_tokens": 211,
-            "output_tokens": 983
+            "input_tokens": 0,
+            "output_tokens": 0
           },
-          "finish_reason": "stop",
-          "reasoning_tokens": 982
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a3:sample-1",
-          "wall_time_ms": 10495.853833010187,
+          "request_id": "pulm-gemini-2026-05-19:a3:sample-1",
+          "wall_time_ms": 10231.196124921553,
           "usage": {
             "input_tokens": 211,
-            "output_tokens": 982
+            "output_tokens": 965
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 981
+          "reasoning_tokens": 964
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a3:sample-2",
-          "wall_time_ms": 10768.549000000348,
+          "request_id": "pulm-gemini-2026-05-19:a3:sample-2",
+          "wall_time_ms": 22868.0567080155,
           "usage": {
             "input_tokens": 211,
-            "output_tokens": 982
+            "output_tokens": 981
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 981
+          "reasoning_tokens": 980
         }
       ],
       "majority_vote": {
-        "good": 3,
+        "good": 2,
         "bad": 0,
-        "abstain": 0,
+        "abstain": 1,
         "verdict": "good",
         "tie_broken": false
       },
@@ -1212,19 +1097,6 @@
         "T2",
         "etiology",
         "dialectical-low"
-      ],
-      "references": [
-        {
-          "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
-          "doi": "10.1001/jama.2012.5669",
-          "section": "Risk factors",
-          "note": "Sepsis listed as a canonical ARDS risk factor."
-        },
-        {
-          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
-          "doi": "10.1056/NEJMcp052699",
-          "note": "Sepsis is the most common ARDS etiology in clinical practice."
-        }
       ]
     },
     {
@@ -1247,8 +1119,8 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a4:sample-0",
-          "wall_time_ms": 11729.653166999924,
+          "request_id": "pulm-gemini-2026-05-19:a4:sample-0",
+          "wall_time_ms": 11784.487666911446,
           "usage": {
             "input_tokens": 213,
             "output_tokens": 984
@@ -1261,8 +1133,8 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a4:sample-1",
-          "wall_time_ms": 11975.6283339957,
+          "request_id": "pulm-gemini-2026-05-19:a4:sample-1",
+          "wall_time_ms": 11064.546458073892,
           "usage": {
             "input_tokens": 213,
             "output_tokens": 984
@@ -1275,14 +1147,14 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a4:sample-2",
-          "wall_time_ms": 11299.650208005914,
+          "request_id": "pulm-gemini-2026-05-19:a4:sample-2",
+          "wall_time_ms": 13148.887458024547,
           "usage": {
             "input_tokens": 213,
-            "output_tokens": 981
+            "output_tokens": 984
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 980
+          "reasoning_tokens": 983
         }
       ],
       "majority_vote": {
@@ -1297,19 +1169,6 @@
         "T2",
         "etiology",
         "dialectical-low"
-      ],
-      "references": [
-        {
-          "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
-          "doi": "10.1001/jama.2012.5669",
-          "section": "Risk factors",
-          "note": "Aspiration listed as a canonical ARDS risk factor."
-        },
-        {
-          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
-          "doi": "10.1056/NEJMcp052699",
-          "note": "Aspiration is a canonical direct-lung-injury etiology."
-        }
       ]
     },
     {
@@ -1332,22 +1191,22 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a5:sample-0",
-          "wall_time_ms": 9261.268290996668,
+          "request_id": "pulm-gemini-2026-05-19:a5:sample-0",
+          "wall_time_ms": 10609.718375024386,
           "usage": {
             "input_tokens": 213,
-            "output_tokens": 976
+            "output_tokens": 982
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 975
+          "reasoning_tokens": 981
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a5:sample-1",
-          "wall_time_ms": 12076.00645799539,
+          "request_id": "pulm-gemini-2026-05-19:a5:sample-1",
+          "wall_time_ms": 10158.069624914788,
           "usage": {
             "input_tokens": 213,
             "output_tokens": 982
@@ -1360,14 +1219,14 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a5:sample-2",
-          "wall_time_ms": 9684.341583997593,
+          "request_id": "pulm-gemini-2026-05-19:a5:sample-2",
+          "wall_time_ms": 10469.668708043173,
           "usage": {
             "input_tokens": 213,
-            "output_tokens": 976
+            "output_tokens": 982
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 975
+          "reasoning_tokens": 981
         }
       ],
       "majority_vote": {
@@ -1382,14 +1241,6 @@
         "T2",
         "etiology",
         "dialectical-low"
-      ],
-      "references": [
-        {
-          "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
-          "doi": "10.1001/jama.2012.5669",
-          "section": "Risk factors",
-          "note": "Significant trauma listed as a canonical ARDS risk factor."
-        }
       ]
     },
     {
@@ -1412,8 +1263,22 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a6:sample-0",
-          "wall_time_ms": 10133.882082998753,
+          "request_id": "pulm-gemini-2026-05-19:a6:sample-0",
+          "wall_time_ms": 8777.954666991718,
+          "usage": {
+            "input_tokens": 217,
+            "output_tokens": 754
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 753
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "pulm-gemini-2026-05-19:a6:sample-1",
+          "wall_time_ms": 10007.094874978065,
           "usage": {
             "input_tokens": 217,
             "output_tokens": 925
@@ -1422,32 +1287,18 @@
           "reasoning_tokens": 924
         },
         {
-          "sample_index": 1,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
-          "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a6:sample-1",
-          "wall_time_ms": 9051.025542008574,
-          "usage": {
-            "input_tokens": 217,
-            "output_tokens": 848
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 847
-        },
-        {
           "sample_index": 2,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a6:sample-2",
-          "wall_time_ms": 8574.625292007113,
+          "request_id": "pulm-gemini-2026-05-19:a6:sample-2",
+          "wall_time_ms": 10306.666750111617,
           "usage": {
             "input_tokens": 217,
-            "output_tokens": 754
+            "output_tokens": 982
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 753
+          "reasoning_tokens": 981
         }
       ],
       "majority_vote": {
@@ -1462,14 +1313,6 @@
         "T2",
         "competing-finding",
         "dialectical-medium"
-      ],
-      "references": [
-        {
-          "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
-          "doi": "10.1001/jama.2012.5669",
-          "section": "Exclusion criterion",
-          "note": "Berlin definition exclusion: 'not fully explained by cardiac failure or fluid overload.' Reduced LVEF triggers this exclusion clause."
-        }
       ]
     },
     {
@@ -1492,42 +1335,42 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a7:sample-0",
-          "wall_time_ms": 9684.564625000348,
+          "request_id": "pulm-gemini-2026-05-19:a7:sample-0",
+          "wall_time_ms": 10953.581499983557,
           "usage": {
             "input_tokens": 216,
-            "output_tokens": 983
+            "output_tokens": 982
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 982
+          "reasoning_tokens": 981
         },
         {
           "sample_index": 1,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a7:sample-1",
-          "wall_time_ms": 9074.026375004905,
+          "request_id": "pulm-gemini-2026-05-19:a7:sample-1",
+          "wall_time_ms": 11990.456292056479,
           "usage": {
             "input_tokens": 216,
-            "output_tokens": 947
+            "output_tokens": 982
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 946
+          "reasoning_tokens": 981
         },
         {
           "sample_index": 2,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a7:sample-2",
-          "wall_time_ms": 9546.265707991552,
+          "request_id": "pulm-gemini-2026-05-19:a7:sample-2",
+          "wall_time_ms": 10346.592833986506,
           "usage": {
             "input_tokens": 216,
-            "output_tokens": 947
+            "output_tokens": 983
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 946
+          "reasoning_tokens": 982
         }
       ],
       "majority_vote": {
@@ -1542,13 +1385,6 @@
         "T2",
         "competing-finding",
         "dialectical-medium"
-      ],
-      "references": [
-        {
-          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
-          "doi": "10.1056/NEJMcp052699",
-          "note": "Kerley B lines argue strongly for cardiogenic edema, defeating ARDS (absent another precipitant)."
-        }
       ]
     },
     {
@@ -1572,8 +1408,8 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a8:sample-0",
-          "wall_time_ms": 10850.027583001065,
+          "request_id": "pulm-gemini-2026-05-19:a8:sample-0",
+          "wall_time_ms": 10267.806584015489,
           "usage": {
             "input_tokens": 236,
             "output_tokens": 980
@@ -1586,8 +1422,8 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a8:sample-1",
-          "wall_time_ms": 10437.72600000375,
+          "request_id": "pulm-gemini-2026-05-19:a8:sample-1",
+          "wall_time_ms": 11013.412207947113,
           "usage": {
             "input_tokens": 236,
             "output_tokens": 980
@@ -1600,14 +1436,14 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a8:sample-2",
-          "wall_time_ms": 9422.322416998213,
+          "request_id": "pulm-gemini-2026-05-19:a8:sample-2",
+          "wall_time_ms": 10020.180583000183,
           "usage": {
             "input_tokens": 236,
-            "output_tokens": 980
+            "output_tokens": 983
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 979
+          "reasoning_tokens": 982
         }
       ],
       "majority_vote": {
@@ -1621,14 +1457,6 @@
         "mixed-evidence",
         "T2",
         "dialectical-high"
-      ],
-      "references": [
-        {
-          "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
-          "doi": "10.1001/jama.2012.5669",
-          "section": "Exclusion criterion",
-          "note": "Mixed evidence: P/F < 300 meets the hypoxemia criterion, but ↓LVEF triggers the exclusion clause. Strict-Berlin reading: bad. Defeasible-practice reading where ARDS and HF coexist: arguable."
-        }
       ]
     },
     {
@@ -1651,8 +1479,8 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a9:sample-0",
-          "wall_time_ms": 9090.489583002636,
+          "request_id": "pulm-gemini-2026-05-19:a9:sample-0",
+          "wall_time_ms": 10865.956540917978,
           "usage": {
             "input_tokens": 217,
             "output_tokens": 980
@@ -1665,8 +1493,8 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a9:sample-1",
-          "wall_time_ms": 10196.0645839863,
+          "request_id": "pulm-gemini-2026-05-19:a9:sample-1",
+          "wall_time_ms": 10519.00262502022,
           "usage": {
             "input_tokens": 217,
             "output_tokens": 982
@@ -1679,8 +1507,8 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a9:sample-2",
-          "wall_time_ms": 9960.108375002164,
+          "request_id": "pulm-gemini-2026-05-19:a9:sample-2",
+          "wall_time_ms": 10964.681749930605,
           "usage": {
             "input_tokens": 217,
             "output_tokens": 982
@@ -1701,12 +1529,6 @@
         "T2",
         "etiology-ambiguous",
         "dialectical-medium"
-      ],
-      "references": [
-        {
-          "citation": "FLAG FOR PULMONOLOGIST REVIEW. Cardiotoxic chemotherapy (anthracyclines, trastuzumab) typically causes chemotherapy-induced CARDIOMYOPATHY → cardiogenic edema, not ARDS. Drug-induced ARDS-like toxicity is associated with a different set of agents (bleomycin, gemcitabine, methotrexate). Placeholder verdict 'good' should be revisited; the literal wording of the bearer 'cardiotoxic agent' argues against ARDS.",
-          "note": "All six models in the cross-family panel disagree with the placeholder here."
-        }
       ]
     },
     {
@@ -1730,42 +1552,42 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a10:sample-0",
-          "wall_time_ms": 12118.784916005097,
-          "usage": {
-            "input_tokens": 225,
-            "output_tokens": 980
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 979
-        },
-        {
-          "sample_index": 1,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
-          "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a10:sample-1",
-          "wall_time_ms": 11469.914250003058,
-          "usage": {
-            "input_tokens": 225,
-            "output_tokens": 980
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 979
-        },
-        {
-          "sample_index": 2,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
-          "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:a10:sample-2",
-          "wall_time_ms": 11389.308500001789,
+          "request_id": "pulm-gemini-2026-05-19:a10:sample-0",
+          "wall_time_ms": 10503.20995808579,
           "usage": {
             "input_tokens": 225,
             "output_tokens": 982
           },
           "finish_reason": "stop",
           "reasoning_tokens": 981
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "pulm-gemini-2026-05-19:a10:sample-1",
+          "wall_time_ms": 9996.259917039424,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 982
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 981
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "pulm-gemini-2026-05-19:a10:sample-2",
+          "wall_time_ms": 10068.908166955225,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 983
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 982
         }
       ],
       "majority_vote": {
@@ -1779,14 +1601,6 @@
         "mixed-evidence",
         "T2",
         "dialectical-high"
-      ],
-      "references": [
-        {
-          "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
-          "doi": "10.1001/jama.2012.5669",
-          "section": "Exclusion criterion + Risk factors",
-          "note": "Mixed evidence: aspiration is a canonical ARDS etiology AND ↓LVEF triggers the cardiac-failure exclusion. Strict-Berlin reading: bad. Defeasible reading where aspiration 'fully explains' the picture: good. Both have weight in the literature."
-        }
       ]
     },
     {
@@ -1807,42 +1621,42 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x1:sample-0",
-          "wall_time_ms": 10915.751125008683,
+          "request_id": "pulm-gemini-2026-05-19:x1:sample-0",
+          "wall_time_ms": 9797.197167063132,
           "usage": {
             "input_tokens": 202,
-            "output_tokens": 964
+            "output_tokens": 980
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 963
+          "reasoning_tokens": 979
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x1:sample-1",
-          "wall_time_ms": 11907.936165996944,
+          "request_id": "pulm-gemini-2026-05-19:x1:sample-1",
+          "wall_time_ms": 10316.709832986817,
           "usage": {
             "input_tokens": 202,
-            "output_tokens": 964
+            "output_tokens": 980
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 963
+          "reasoning_tokens": 979
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x1:sample-2",
-          "wall_time_ms": 10200.567083011265,
+          "request_id": "pulm-gemini-2026-05-19:x1:sample-2",
+          "wall_time_ms": 10356.526791932993,
           "usage": {
             "input_tokens": 202,
-            "output_tokens": 981
+            "output_tokens": 980
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 980
+          "reasoning_tokens": 979
         }
       ],
       "majority_vote": {
@@ -1856,13 +1670,6 @@
         "cross-cutting",
         "marker-inference",
         "dialectical-low"
-      ],
-      "references": [
-        {
-          "citation": "Maisel AS et al. (2002). Rapid measurement of B-type natriuretic peptide in the emergency diagnosis of heart failure. N Engl J Med 347(3):161-167.",
-          "doi": "10.1056/NEJMoa020233",
-          "note": "Cardiogenic edema almost always elevates BNP; defeasible marker inference."
-        }
       ]
     },
     {
@@ -1883,8 +1690,8 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x2:sample-0",
-          "wall_time_ms": 10874.794415998622,
+          "request_id": "pulm-gemini-2026-05-19:x2:sample-0",
+          "wall_time_ms": 11705.541250063106,
           "usage": {
             "input_tokens": 202,
             "output_tokens": 983
@@ -1897,8 +1704,8 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x2:sample-1",
-          "wall_time_ms": 11266.818000003695,
+          "request_id": "pulm-gemini-2026-05-19:x2:sample-1",
+          "wall_time_ms": 10884.895542054437,
           "usage": {
             "input_tokens": 202,
             "output_tokens": 982
@@ -1911,14 +1718,14 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x2:sample-2",
-          "wall_time_ms": 10224.668583003222,
+          "request_id": "pulm-gemini-2026-05-19:x2:sample-2",
+          "wall_time_ms": 10992.644916987047,
           "usage": {
             "input_tokens": 202,
-            "output_tokens": 981
+            "output_tokens": 982
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 980
+          "reasoning_tokens": 981
         }
       ],
       "majority_vote": {
@@ -1932,90 +1739,6 @@
         "cross-cutting",
         "marker-inference",
         "dialectical-medium"
-      ],
-      "references": [
-        {
-          "citation": "Maisel AS et al. (2002). Rapid measurement of B-type natriuretic peptide in the emergency diagnosis of heart failure. N Engl J Med 347(3):161-167.",
-          "doi": "10.1056/NEJMoa020233",
-          "note": "ARDS without cardiac component should NOT elevate BNP. An elevated BNP in suspected ARDS argues for occult cardiac contribution."
-        }
-      ]
-    },
-    {
-      "id": "x3",
-      "premises": [
-        "ards",
-        "sep"
-      ],
-      "conclusions": [
-        "el"
-      ],
-      "analyst_verdicts": [
-        "bad"
-      ],
-      "model_verdict": "good",
-      "samples": [
-        {
-          "sample_index": 0,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
-          "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x3:sample-0",
-          "wall_time_ms": 12035.20604201185,
-          "usage": {
-            "input_tokens": 208,
-            "output_tokens": 982
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 981
-        },
-        {
-          "sample_index": 1,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
-          "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x3:sample-1",
-          "wall_time_ms": 11940.761959005613,
-          "usage": {
-            "input_tokens": 208,
-            "output_tokens": 982
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 981
-        },
-        {
-          "sample_index": 2,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
-          "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x3:sample-2",
-          "wall_time_ms": 10182.497792004142,
-          "usage": {
-            "input_tokens": 208,
-            "output_tokens": 981
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 980
-        }
-      ],
-      "majority_vote": {
-        "good": 3,
-        "bad": 0,
-        "abstain": 0,
-        "verdict": "good",
-        "tie_broken": false
-      },
-      "tags": [
-        "cross-cutting",
-        "marker-inference",
-        "dialectical-medium"
-      ],
-      "references": [
-        {
-          "citation": "FLAG FOR PULMONOLOGIST REVIEW — Charpentier J et al. (2004). Brain natriuretic peptide: A marker of myocardial dysfunction and prognosis during severe sepsis. Crit Care Med 32(3):660-665.",
-          "doi": "10.1097/01.CCM.0000114827.93410.D8",
-          "note": "Probes the sepsis-induced cardiomyopathy confounder in ARDS-side BNP reasoning. The placeholder verdict is 'bad' because pure ARDS — even with concurrent sepsis — is not expected to elevate BNP via a pulmonary mechanism; any BNP elevation in this presentation argues for an occult cardiac contribution (which is itself why the case is dialectical-medium, not -low). A real pulmonologist may want to revisit this verdict depending on how strictly they read 'documented sepsis' as implying possible septic cardiomyopathy."
-        }
       ]
     },
     {
@@ -2038,36 +1761,36 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x4:sample-0",
-          "wall_time_ms": 10058.35104099242,
+          "request_id": "pulm-gemini-2026-05-19:x4:sample-0",
+          "wall_time_ms": 10052.014332963154,
           "usage": {
             "input_tokens": 225,
-            "output_tokens": 983
+            "output_tokens": 922
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 982
+          "reasoning_tokens": 921
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x4:sample-1",
-          "wall_time_ms": 9511.548166992725,
+          "request_id": "pulm-gemini-2026-05-19:x4:sample-1",
+          "wall_time_ms": 9885.543833952397,
           "usage": {
             "input_tokens": 225,
-            "output_tokens": 983
+            "output_tokens": 922
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 982
+          "reasoning_tokens": 921
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x4:sample-2",
-          "wall_time_ms": 9462.402374992962,
+          "request_id": "pulm-gemini-2026-05-19:x4:sample-2",
+          "wall_time_ms": 11187.648041988723,
           "usage": {
             "input_tokens": 225,
             "output_tokens": 983
@@ -2087,13 +1810,6 @@
         "cross-cutting",
         "marker-inference",
         "dialectical-low"
-      ],
-      "references": [
-        {
-          "citation": "Maisel AS et al. (2002). Rapid measurement of B-type natriuretic peptide in the emergency diagnosis of heart failure. N Engl J Med 347(3):161-167.",
-          "doi": "10.1056/NEJMoa020233",
-          "note": "Multi-feature cardiogenic presentation (↓LVEF + Kerley B + CPE) is essentially always associated with ↑BNP."
-        }
       ]
     },
     {
@@ -2115,22 +1831,8 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x5:sample-0",
-          "wall_time_ms": 13104.18654201203,
-          "usage": {
-            "input_tokens": 212,
-            "output_tokens": 980
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 979
-        },
-        {
-          "sample_index": 1,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
-          "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x5:sample-1",
-          "wall_time_ms": 10648.480207993998,
+          "request_id": "pulm-gemini-2026-05-19:x5:sample-0",
+          "wall_time_ms": 11718.043332919478,
           "usage": {
             "input_tokens": 212,
             "output_tokens": 983
@@ -2139,18 +1841,32 @@
           "reasoning_tokens": 982
         },
         {
-          "sample_index": 2,
+          "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x5:sample-2",
-          "wall_time_ms": 10251.770624992787,
+          "request_id": "pulm-gemini-2026-05-19:x5:sample-1",
+          "wall_time_ms": 10184.133249917068,
           "usage": {
             "input_tokens": 212,
             "output_tokens": 877
           },
           "finish_reason": "stop",
           "reasoning_tokens": 876
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "pulm-gemini-2026-05-19:x5:sample-2",
+          "wall_time_ms": 13221.383042051457,
+          "usage": {
+            "input_tokens": 212,
+            "output_tokens": 980
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 979
         }
       ],
       "majority_vote": {
@@ -2164,13 +1880,6 @@
         "cross-cutting",
         "context-only",
         "dialectical-high"
-      ],
-      "references": [
-        {
-          "citation": "Heidenreich PA et al. (2022). 2022 AHA/ACC/HFSA Guideline for the Management of Heart Failure. J Am Coll Cardiol 79(17):e263-e421.",
-          "doi": "10.1016/j.jacc.2021.12.012",
-          "note": "Volume challenge in a patient with cardiac substrate precipitates cardiogenic decompensation by the established pathophysiology."
-        }
       ]
     },
     {
@@ -2191,42 +1900,42 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x6:sample-0",
-          "wall_time_ms": 8485.220457994728,
-          "usage": {
-            "input_tokens": 195,
-            "output_tokens": 781
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 780
-        },
-        {
-          "sample_index": 1,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
-          "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x6:sample-1",
-          "wall_time_ms": 7940.571957995417,
-          "usage": {
-            "input_tokens": 195,
-            "output_tokens": 781
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 780
-        },
-        {
-          "sample_index": 2,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
-          "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x6:sample-2",
-          "wall_time_ms": 10569.934875005856,
+          "request_id": "pulm-gemini-2026-05-19:x6:sample-0",
+          "wall_time_ms": 11409.91349995602,
           "usage": {
             "input_tokens": 195,
             "output_tokens": 971
           },
           "finish_reason": "stop",
           "reasoning_tokens": 970
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "pulm-gemini-2026-05-19:x6:sample-1",
+          "wall_time_ms": 10839.768250007182,
+          "usage": {
+            "input_tokens": 195,
+            "output_tokens": 980
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 979
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "pulm-gemini-2026-05-19:x6:sample-2",
+          "wall_time_ms": 10053.602042025886,
+          "usage": {
+            "input_tokens": 195,
+            "output_tokens": 901
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 900
         }
       ],
       "majority_vote": {
@@ -2240,13 +1949,6 @@
         "cross-cutting",
         "consequence",
         "dialectical-medium"
-      ],
-      "references": [
-        {
-          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
-          "doi": "10.1056/NEJMcp052699",
-          "note": "Bilateral pleural effusions accompany cardiogenic edema in the majority of cases (transudative effusions from elevated hydrostatic pressure)."
-        }
       ]
     },
     {
@@ -2260,15 +1962,15 @@
       "analyst_verdicts": [
         "bad"
       ],
-      "model_verdict": "good",
+      "model_verdict": "bad",
       "samples": [
         {
           "sample_index": 0,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x7:sample-0",
-          "wall_time_ms": 10091.409874992678,
+          "request_id": "pulm-gemini-2026-05-19:x7:sample-0",
+          "wall_time_ms": 11173.67716692388,
           "usage": {
             "input_tokens": 195,
             "output_tokens": 980
@@ -2278,25 +1980,25 @@
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x7:sample-1",
-          "wall_time_ms": 10150.051791992155,
+          "request_id": "pulm-gemini-2026-05-19:x7:sample-1",
+          "wall_time_ms": 11236.867166939192,
           "usage": {
             "input_tokens": 195,
-            "output_tokens": 980
+            "output_tokens": 982
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 979
+          "reasoning_tokens": 981
         },
         {
           "sample_index": 2,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x7:sample-2",
-          "wall_time_ms": 9889.597667002818,
+          "request_id": "pulm-gemini-2026-05-19:x7:sample-2",
+          "wall_time_ms": 11080.470707966015,
           "usage": {
             "input_tokens": 195,
             "output_tokens": 982
@@ -2306,23 +2008,16 @@
         }
       ],
       "majority_vote": {
-        "good": 2,
-        "bad": 1,
+        "good": 1,
+        "bad": 2,
         "abstain": 0,
-        "verdict": "good",
+        "verdict": "bad",
         "tie_broken": false
       },
       "tags": [
         "cross-cutting",
         "consequence",
         "dialectical-medium"
-      ],
-      "references": [
-        {
-          "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
-          "doi": "10.1001/jama.2012.5669",
-          "note": "ARDS classically presents with little or no pleural effusion; large bilateral effusions argue against ARDS (Berlin 'not fully explained by...' clause)."
-        }
       ]
     },
     {
@@ -2344,8 +2039,8 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x8:sample-0",
-          "wall_time_ms": 10238.83204201411,
+          "request_id": "pulm-gemini-2026-05-19:x8:sample-0",
+          "wall_time_ms": 11174.020375008695,
           "usage": {
             "input_tokens": 210,
             "output_tokens": 982
@@ -2358,8 +2053,8 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x8:sample-1",
-          "wall_time_ms": 10322.0318340027,
+          "request_id": "pulm-gemini-2026-05-19:x8:sample-1",
+          "wall_time_ms": 13125.48849999439,
           "usage": {
             "input_tokens": 210,
             "output_tokens": 982
@@ -2372,8 +2067,8 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "pulm-gemini-2.5-pro-2026-06-06:x8:sample-2",
-          "wall_time_ms": 10238.330124993809,
+          "request_id": "pulm-gemini-2026-05-19:x8:sample-2",
+          "wall_time_ms": 12570.49495796673,
           "usage": {
             "input_tokens": 210,
             "output_tokens": 982
@@ -2393,46 +2088,7 @@
         "cross-cutting",
         "coexistence",
         "dialectical-high"
-      ],
-      "references": [
-        {
-          "citation": "Maisel AS et al. (2002). Rapid measurement of B-type natriuretic peptide in the emergency diagnosis of heart failure. N Engl J Med 347(3):161-167.",
-          "doi": "10.1056/NEJMoa020233",
-          "note": "When ARDS and CPE coexist, the cardiogenic component drives the BNP elevation; the marker inference holds."
-        }
       ]
     }
-  ],
-  "references": [
-    {
-      "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
-      "doi": "10.1001/jama.2012.5669",
-      "note": "Defining reference for the ARDS target (T2)."
-    },
-    {
-      "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
-      "doi": "10.1056/NEJMcp052699",
-      "note": "Canonical clinical review of acute pulmonary edema differential diagnosis (both cardiogenic and non-cardiogenic). Anchors most cross-cutting items."
-    },
-    {
-      "citation": "Maisel AS et al. (2002). Rapid measurement of B-type natriuretic peptide in the emergency diagnosis of heart failure. N Engl J Med 347(3):161-167.",
-      "doi": "10.1056/NEJMoa020233",
-      "note": "Defining reference for BNP cutoffs used in items c2, c6, c10, x1, x2, x4, x8."
-    },
-    {
-      "citation": "Heidenreich PA et al. (2022). 2022 AHA/ACC/HFSA Guideline for the Management of Heart Failure. J Am Coll Cardiol 79(17):e263-e421.",
-      "doi": "10.1016/j.jacc.2021.12.012",
-      "note": "Heart failure guideline (US); anchors the T1 cardiogenic items."
-    },
-    {
-      "citation": "McDonagh TA et al. (2021). 2021 ESC Guidelines for the diagnosis and treatment of acute and chronic heart failure. Eur Heart J 42(36):3599-3726.",
-      "doi": "10.1093/eurheartj/ehab368",
-      "note": "Heart failure guideline (Europe); parallel anchor to AHA HF guideline."
-    },
-    {
-      "citation": "Allen BP (2026). Note on Simonelli's Stop Sign Dialogue: An Implication-Space Instrument for Probing LLM Endorsement of Material Inferential Rules.",
-      "note": "The infereval methodology this benchmark instantiates."
-    }
-  ],
-  "paraphrase_variant": 0
+  ]
 }

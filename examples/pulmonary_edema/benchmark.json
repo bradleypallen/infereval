@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "id": "pulmonary-edema-differential-v0.1",
+  "id": "pulmonary-edema-differential-v0.2",
   "title": "Pulmonary edema differential: cardiogenic vs. non-cardiogenic (ARDS)",
   "domain": "Pulmonology — diagnostic reasoning under defeasibility",
   "description": "A demonstration-stage infereval benchmark targeting the inferential structure of cardiogenic vs. non-cardiogenic (ARDS) pulmonary edema differential diagnosis. Items probe two target inferences (T1: bilateral infiltrates + acute dyspnea => cardiogenic edema; T2: bilateral infiltrates + acute dyspnea => ARDS) and their ranges of subjunctive robustness under defeater and supporter side premises. Cross-cutting items probe inferential relationships between the conditions and their typical markers. Items marked with dialectical-interest tags identify edge cases where the methodology is expected to do substantive refinement work during Elenchus construction. THIS IS A DEMONSTRATION BENCHMARK authored without clinical credentials; analyst verdicts represent placeholder guesses to be corrected and validated by a pulmonologist respondent during the planned Elenchus study. Not for clinical use.",
@@ -1042,6 +1042,31 @@
           "citation": "Maisel AS et al. (2002). Rapid measurement of B-type natriuretic peptide in the emergency diagnosis of heart failure. N Engl J Med 347(3):161-167.",
           "doi": "10.1056/NEJMoa020233",
           "note": "ARDS without cardiac component should NOT elevate BNP. An elevated BNP in suspected ARDS argues for occult cardiac contribution."
+        }
+      ]
+    },
+    {
+      "id": "x3",
+      "premises": [
+        "ards",
+        "sep"
+      ],
+      "conclusions": [
+        "el"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "tags": [
+        "cross-cutting",
+        "marker-inference",
+        "dialectical-medium"
+      ],
+      "references": [
+        {
+          "citation": "FLAG FOR PULMONOLOGIST REVIEW — Charpentier J et al. (2004). Brain natriuretic peptide: A marker of myocardial dysfunction and prognosis during severe sepsis. Crit Care Med 32(3):660-665.",
+          "doi": "10.1097/01.CCM.0000114827.93410.D8",
+          "note": "Probes the sepsis-induced cardiomyopathy confounder in ARDS-side BNP reasoning. The placeholder verdict is 'bad' because pure ARDS — even with concurrent sepsis — is not expected to elevate BNP via a pulmonary mechanism; any BNP elevation in this presentation argues for an occult cardiac contribution (which is itself why the case is dialectical-medium, not -low). A real pulmonologist may want to revisit this verdict depending on how strictly they read 'documented sepsis' as implying possible septic cardiomyopathy."
         }
       ]
     },

@@ -4,9 +4,11 @@ A 6-model evaluation against the demonstration-stage pulmonary-edema differentia
 
 > **The benchmark labels are placeholder, not clinical.** See `examples/pulmonary_edema/README.md` for the full caveat. Everything below describes the *framework producing coherent values*, **not** model agreement with a real pulmonologist's practice. The interpretation paragraphs below would change substantially once the real respondent's labels arrive.
 
+> **Snapshot caveat (v0.10.0):** this analysis describes the 6-model sweep against the **29-item v0.1** of the benchmark. v0.10.0 added a 30th item (`x3` — ARDS + sepsis → elevated BNP, dialectical-medium marker-inference) and bumped the benchmark id to `pulmonary-edema-differential-v0.2`. The captured eta + run.jsonl files are preserved at `experiments/results/pulmonology/archive-29-items-v0.1/`. A refreshed 30-item cross-family sweep against benchmark v0.2 is **pending** — see `experiments/scripts/rerun_pulmonology_cross_family.sh`.
+
 ## Setup
 
-- **Benchmark**: `examples/pulmonary_edema/benchmark.json` (29 items, 20 bearers, m = 1).
+- **Benchmark**: `examples/pulmonary_edema/benchmark.json` **v0.1** (29 items, 20 bearers, m = 1). v0.10.0+ ships v0.2 (30 items); see snapshot caveat above.
 - **Verification prompt**: the benchmark's embedded `defeasible-clinical-v1` template, which spells out defeasible-not-deductive semantics in the clinical idiom and includes a bird-flies / penguin-flies grounding example.
 - **Parameters**: `n_samples=3`, `max_tokens=1024`, `temperature=0.0` (except where the provider rejected it — see "Framework patches" below).
 - **Models** (one flagship per family, plus GPT-4.1 as anchor and GPT-5.5 as the newest OpenAI generation):
