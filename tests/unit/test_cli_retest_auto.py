@@ -587,6 +587,234 @@ class TestBaselineFrom:
         assert "incompatible with multiple --interval-s" in result.output
 
 
+# ---- v0.14.0: --append-to staged-composition composer --------------------
+#
+# `--append-to <multi.json>` loads an existing MultiIntervalRetestResult,
+# runs ONE fresh capture against the baseline (sibling `eta-0.json` by
+# default), appends the new pair, and writes the updated multi-result
+# back to the same path (or `-o` override).
+
+
+def _phase1_multi(tmp_path: Path) -> tuple[Path, Path]:
+    """Capture a 2-pair Phase 1 multi.json (back-to-back + 0s sleep so
+    the test is fast). Returns (multi_path, retest_dir). The retest_dir
+    contains the saved etas (`eta-0.json`, `eta-1.json`, `eta-2.json`)
+    AND the multi.json; sibling-resolution will then find `eta-0.json`
+    naturally.
+    """
+    retest_dir = tmp_path / "phase1"
+    retest_dir.mkdir(parents=True, exist_ok=True)
+    multi_path = retest_dir / "multi.json"
+    # 3 captures × 4 items × 3 samples = 36 responses.
+    provider = _scripted_provider(["GOOD"] * 36)
+    runner = CliRunner()
+    with patch("infereval.providers.get_provider", return_value=provider):
+        result = runner.invoke(
+            cli,
+            [
+                "retest", "--auto",
+                "--benchmark", str(STOP_SIGN_PATH),
+                "--provider", "openai", "--model", "gpt-4o",
+                "--n-samples", "3",
+                "--interval-s", "0",
+                "--interval-s", "0",
+                "--save-etas", str(retest_dir),
+                "-o", str(multi_path),
+            ],
+        )
+    assert result.exit_code == 0, result.output
+    return multi_path, retest_dir
+
+
+class TestAppendTo:
+    def test_append_to_grows_pairs_count(self, tmp_path: Path) -> None:
+        """Load a 2-pair Phase 1 multi.json, append one fresh capture,
+        confirm output has 3 pairs."""
+        multi_path, _ = _phase1_multi(tmp_path)
+        before = json.loads(multi_path.read_text())
+        assert len(before["pairs"]) == 2
+
+        fresh_provider = _scripted_provider(["GOOD"] * 12)
+        runner = CliRunner()
+        with patch(
+            "infereval.providers.get_provider", return_value=fresh_provider
+        ):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--append-to", str(multi_path),
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        after = json.loads(multi_path.read_text())
+        # In-place update: same path, +1 pair.
+        assert len(after["pairs"]) == 3
+        # The baseline anchor is preserved across the append.
+        assert after["baseline_run_id"] == before["baseline_run_id"]
+
+    def test_append_to_preserves_identity_criterion(
+        self, tmp_path: Path
+    ) -> None:
+        """If the existing multi.json carries an identity_criterion,
+        the appended-to artifact preserves it verbatim — the criterion
+        applies to every pair including the appended one."""
+        multi_path, _ = _phase1_multi(tmp_path)
+        # Inject a criterion into the loaded JSON, then write it back
+        # (simulates a Phase 1 capture run with --claims).
+        data = json.loads(multi_path.read_text())
+        data["identity_criterion"] = {
+            "same_benchmark_hash": True,
+            "same_endorsement_config": True,
+            "same_paraphrase_variant": True,
+            "same_provider_model_id": True,
+            "cross_update_identity_asserted": True,
+            "same_scaffolding": True,
+            "unverifiable_caveats": "test caveat",
+            "rationale": "Phase 1 identity criterion for --append-to test",
+        }
+        multi_path.write_text(json.dumps(data))
+
+        fresh_provider = _scripted_provider(["GOOD"] * 12)
+        runner = CliRunner()
+        with patch(
+            "infereval.providers.get_provider", return_value=fresh_provider
+        ):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--append-to", str(multi_path),
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        after = json.loads(multi_path.read_text())
+        assert "identity_criterion" in after
+        assert after["identity_criterion"]["rationale"] == (
+            "Phase 1 identity criterion for --append-to test"
+        )
+
+    def test_append_to_parity_check_fires_on_config_mismatch(
+        self, tmp_path: Path
+    ) -> None:
+        """If the fresh capture's config differs from the baseline
+        (different n_samples), the parity check in compute_retest
+        fires with RetestConfigMismatchError."""
+        multi_path, _ = _phase1_multi(tmp_path)
+        # _phase1_multi used --n-samples 3; now use --n-samples 5
+        # for the fresh capture → endorsement_config mismatch.
+        fresh_provider = _scripted_provider(["GOOD"] * 20)
+        runner = CliRunner()
+        with patch(
+            "infereval.providers.get_provider", return_value=fresh_provider
+        ):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "5",  # mismatch
+                    "--append-to", str(multi_path),
+                ],
+            )
+        assert result.exit_code != 0
+        assert "incompatible runs" in result.output.lower()
+
+    def test_append_to_resolves_baseline_from_sibling_eta_0_by_default(
+        self, tmp_path: Path
+    ) -> None:
+        """Default baseline-resolution looks for `eta-0.json` in the
+        directory containing the multi.json. _phase1_multi writes both
+        next to each other, so no `--baseline-from` override is needed."""
+        multi_path, retest_dir = _phase1_multi(tmp_path)
+        assert (retest_dir / "eta-0.json").is_file()
+
+        fresh_provider = _scripted_provider(["GOOD"] * 12)
+        runner = CliRunner()
+        with patch(
+            "infereval.providers.get_provider", return_value=fresh_provider
+        ):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--append-to", str(multi_path),
+                ],
+            )
+        assert result.exit_code == 0, result.output
+
+    def test_append_to_runid_uses_distinct_append_prefix(
+        self, tmp_path: Path
+    ) -> None:
+        """The new pair's run_id must have a distinct prefix from the
+        existing pairs (which share the Phase 1 `retest-auto-<hex>`
+        prefix); --append-to mints `retest-append-<hex>`."""
+        multi_path, _ = _phase1_multi(tmp_path)
+        before = json.loads(multi_path.read_text())
+        existing_run_ids = {p["run_id"] for p in before["pairs"]}
+
+        fresh_provider = _scripted_provider(["GOOD"] * 12)
+        runner = CliRunner()
+        with patch(
+            "infereval.providers.get_provider", return_value=fresh_provider
+        ):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--append-to", str(multi_path),
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        after = json.loads(multi_path.read_text())
+        new_pair = after["pairs"][-1]
+        assert new_pair["run_id"] not in existing_run_ids
+        # Distinct prefix marks the staged provenance.
+        assert new_pair["run_id"].startswith("retest-append-")
+
+    def test_append_to_writes_back_to_same_path_in_place(
+        self, tmp_path: Path
+    ) -> None:
+        """No `-o` → updates the supplied multi.json file in place.
+        Output file path unchanged; existing pairs untouched; only
+        the new pair appended."""
+        multi_path, _ = _phase1_multi(tmp_path)
+        original_size = multi_path.stat().st_size
+
+        fresh_provider = _scripted_provider(["GOOD"] * 12)
+        runner = CliRunner()
+        with patch(
+            "infereval.providers.get_provider", return_value=fresh_provider
+        ):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--append-to", str(multi_path),
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        # In-place: same path, larger content (new pair appended).
+        assert multi_path.is_file()
+        assert multi_path.stat().st_size > original_size
+
+
 class TestProviderErrors:
     def test_provider_error_during_capture_b_exits_nonzero(self, tmp_path: Path) -> None:
         """A ProviderError raised partway through capture B should exit
