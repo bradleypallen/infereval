@@ -12,6 +12,41 @@ stable from 1.0 onward, regardless of the framework version.
 
 No changes yet.
 
+## [0.10.0] — 2026-06-06
+
+**Pulmonology demonstration benchmark bumped to v0.2** (30 items, n added: `x3` = ARDS + sepsis → elevated BNP). Cross-family evaluations refreshed against the 30-item shape; v0.1 capture archived. No library code surface changes.
+
+### Why the change
+
+The bundled pulmonology demonstration benchmark was a clean 29 items. The cross-cutting family already had an `x3`-shaped gap in its id sequence (x1, x2, x4, x5, x6, x7, x8) where an earlier marker-inference probe had been left vacant. Rounding up to 30 items by filling that slot lets the demo present a cleaner numeric story *and* extends the cross-cutting marker-inference probe family in a methodologically symmetric way: now both T1- and T2-side marker rules have a dialectical-medium probe targeting a known confounder.
+
+### Added
+
+- **`x3` item**: ARDS + sepsis → elevated BNP (`["cross-cutting", "marker-inference", "dialectical-medium"]`). Placeholder verdict `bad` with a FLAG FOR PULMONOLOGIST REVIEW reference noting the sepsis-induced-cardiomyopathy confounder. Cites Charpentier 2004 (Crit Care Med 32(3):660–665). Slots in between `x2` (ARDS → BNP, BAD) and `x4` (CPE + Kerley B + ↓LVEF → BNP, GOOD).
+- **Benchmark id bumped**: `pulmonary-edema-differential-v0.1` → `pulmonary-edema-differential-v0.2`. The benchmark hash changes accordingly; downstream consumers pinning by id are explicitly signalled to refresh their captured evaluations.
+- **Six refreshed cross-family evaluations** at `experiments/results/pulmonology/` against benchmark v0.2: GPT-4.1, GPT-5.5, Claude Opus 4.7, DeepSeek v4-pro, Gemini 2.5 Pro, Qwen3-max. Same provider + model_id combinations as the v0.1 capture, same `n_samples=3 / max_tokens=1024 / T=0.0` parameters — comparable to the archived v0.1 etas modulo benchmark version.
+- **`experiments/scripts/rerun_pulmonology_cross_family.sh`**: reproducible cross-family rerun script. Mirrors the v0.1 capture for diff-of-runs analysis.
+- **`experiments/results/pulmonology_2026-06-06.md`**: refreshed cross-family analysis against benchmark v0.2.
+
+### Changed
+
+- `examples/pulmonary_edema/README.md`: item count 29 → 30; added `x3` to the `FLAG FOR PULMONOLOGIST REVIEW` paragraph alongside `a9`.
+- `docs/construct_validity.md`: pulmonology demo cross-reference 29 → 30 items.
+- `tests/unit/test_cli_describe.py`: updated `cross-cutting (N items)` assertion 7 → 8.
+
+### Preserved
+
+- `experiments/results/pulmonology/archive-29-items-v0.1/`: the six v0.1 etas + run.jsonl files. They remain tied to benchmark id `pulmonary-edema-differential-v0.1` and a different `benchmark_hash`; useful for longitudinal comparison once the v0.2 reruns settle. See the directory's README for re-analysis instructions.
+- `experiments/results/pulmonology_2026-05-19.md`: original v0.1 analysis, retained with a snapshot caveat at the top noting v0.10.0 supersedes it for the bundled demo.
+
+### Schemas
+
+- `framework_version.default` in `evaluation.schema.json` bumped to `0.10.0`. No content-schema changes; no benchmark / evaluation / claims / retest persisted-artifact shape change.
+
+### Library code surface
+
+Unchanged. v0.10.0 is a bundled-asset release (benchmark + experimental artifacts + rerun script + analysis) on top of v0.9.2's code surface. `pip install --upgrade infereval` brings down the 30-item bundled benchmark; everything else is identical to v0.9.2.
+
 ## [0.9.2] — 2026-06-03
 
 **Bug fix**: shorten the Google Forms / SurveyMonkey question titles so CSV column headers are scannable.
