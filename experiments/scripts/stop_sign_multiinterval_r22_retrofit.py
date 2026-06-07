@@ -223,12 +223,27 @@ def _capture_one_cell(
     try:
         for capture_idx in range(3):
             if capture_idx == 2:
+                # Heartbeat every 300s during the 3600s sleep so the
+                # parent harness sees periodic stdout activity and
+                # doesn't treat the process as hung. Each heartbeat
+                # also reports remaining sleep time for visibility.
                 print(
                     f"[{cell_label}] sleeping {INTERVAL_DRIFT_S}s before "
                     f"capture {capture_idx}…",
                     flush=True,
                 )
-                time.sleep(INTERVAL_DRIFT_S)
+                heartbeat_s = 300
+                slept = 0
+                while slept < INTERVAL_DRIFT_S:
+                    chunk = min(heartbeat_s, INTERVAL_DRIFT_S - slept)
+                    time.sleep(chunk)
+                    slept += chunk
+                    if slept < INTERVAL_DRIFT_S:
+                        print(
+                            f"[{cell_label}] heartbeat: slept {slept}s of "
+                            f"{INTERVAL_DRIFT_S}s",
+                            flush=True,
+                        )
 
             run_id_i = f"{base_run_id}-{capture_idx}"
             eta_path = cell_dir / f"eta-{capture_idx}.json"
@@ -312,6 +327,17 @@ def main() -> int:
         ),
     )
     parser.add_argument("--max-parallel", type=int, default=8)
+    parser.add_argument(
+        "--skip-completed",
+        action="store_true",
+        help=(
+            "Skip cells whose <cell>-multi-retest.json already exists. "
+            "Use this to resume after an interrupted run without redoing "
+            "the cells that finished. The skip check uses the bundled "
+            "filename convention: experiments/results/stop_sign/retest/"
+            "<model>-<variant>-multi-retest.json."
+        ),
+    )
     args = parser.parse_args()
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -346,9 +372,27 @@ def main() -> int:
         for vname, vexpr in VARIANTS.items()
     ]
 
+    if args.skip_completed:
+        skipped_completed: list[str] = []
+        remaining_cells = []
+        for spec, vname, vexpr in cells:
+            cell_label = f"{spec.label}-{vname}"
+            multi_path = RESULTS_DIR / f"{cell_label}-multi-retest.json"
+            if multi_path.is_file():
+                skipped_completed.append(cell_label)
+            else:
+                remaining_cells.append((spec, vname, vexpr))
+        if skipped_completed:
+            print(
+                f"--skip-completed: skipping {len(skipped_completed)} "
+                f"cells with existing multi-retest.json "
+                f"({skipped_completed[:3]}{'...' if len(skipped_completed) > 3 else ''})"
+            )
+        cells = remaining_cells
+
     print(
         f"Stop-sign Phase 1 R22 retrofit: {len(cells)} cells "
-        f"({len(selected_models)} models × {len(VARIANTS)} variants, "
+        f"(of {len(selected_models)} models × {len(VARIANTS)} variants, "
         f"max_parallel={args.max_parallel})"
     )
     if args.dry_run:
