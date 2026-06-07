@@ -204,12 +204,26 @@ def _capture_one_cell(
                 # back-to-back, no sleep
                 intervals_actually_slept.append(0)
             elif capture_idx == 2:
+                # Heartbeat every 300s during the 3600s sleep so the
+                # parent harness sees periodic stdout activity and
+                # doesn't treat the process as hung.
                 print(
                     f"[{spec.label}] sleeping {INTERVAL_DRIFT_S}s before "
                     f"capture {capture_idx}…",
                     flush=True,
                 )
-                time.sleep(INTERVAL_DRIFT_S)
+                heartbeat_s = 300
+                slept = 0
+                while slept < INTERVAL_DRIFT_S:
+                    chunk = min(heartbeat_s, INTERVAL_DRIFT_S - slept)
+                    time.sleep(chunk)
+                    slept += chunk
+                    if slept < INTERVAL_DRIFT_S:
+                        print(
+                            f"[{spec.label}] heartbeat: slept {slept}s of "
+                            f"{INTERVAL_DRIFT_S}s",
+                            flush=True,
+                        )
                 intervals_actually_slept.append(INTERVAL_DRIFT_S)
 
             run_id_i = f"{base_run_id}-{capture_idx}"
@@ -314,6 +328,14 @@ def main() -> int:
             "clock by the longest single cell rather than the sum."
         ),
     )
+    parser.add_argument(
+        "--skip-completed",
+        action="store_true",
+        help=(
+            "Skip cells whose <model>-multi-retest.json already exists. "
+            "Use to resume after an interrupted run."
+        ),
+    )
     args = parser.parse_args()
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -329,6 +351,22 @@ def main() -> int:
                 file=sys.stderr,
             )
             return 2
+
+    if args.skip_completed:
+        skipped_completed: list[str] = []
+        remaining: list[ModelSpec] = []
+        for spec in selected:
+            multi_path = RESULTS_DIR / f"{spec.label}-multi-retest.json"
+            if multi_path.is_file():
+                skipped_completed.append(spec.label)
+            else:
+                remaining.append(spec)
+        if skipped_completed:
+            print(
+                f"--skip-completed: skipping {len(skipped_completed)} "
+                f"cells with existing multi-retest.json: {skipped_completed}"
+            )
+        selected = remaining
 
     if not args.dry_run:
         identity_criterion = _load_identity_criterion()

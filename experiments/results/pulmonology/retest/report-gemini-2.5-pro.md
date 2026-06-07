@@ -1,14 +1,14 @@
 # Construct-validity report
 
-_Generated: 2026-06-06T19:10:04.892668+00:00_
+_Generated: 2026-06-06T23:21:01.957664+00:00_
 
 ## 1. Identity
 
-- **Evaluation**: `retest-auto-058beae7-a`
-- **Benchmark**: `stop-sign-example-1`
-- **Model**: `anthropic` / `claude-opus-4-7`
-- **Run started**: 2026-06-06T17:52:03.743020+00:00
-- **Items**: 4
+- **Evaluation**: `retest-auto-0f33413c-0`
+- **Benchmark**: `pulmonary-edema-differential-v0.2`
+- **Model**: `openrouter` / `google/gemini-2.5-pro`
+- **Run started**: 2026-06-06T21:24:59.126599+00:00
+- **Items**: 30
 - **Analysts**: 1
 
 ## 2. Summary metrics
@@ -16,27 +16,35 @@ _Generated: 2026-06-06T19:10:04.892668+00:00_
 ### Agreement
 
 - **Coverage**: 1.0000
-- **Cohen's κ_C (vs consensus)**: +1.0000
-- **Fleiss' κ_F**: +1.0000
+- **Cohen's κ_C (vs consensus)**: +0.5714
+- **Fleiss' κ_F**: +0.5694
 - **Inter-analyst κ_F\***: undefined
 
 ### Reliability (R22)
 
-- **Test-retest κ (R22)**: +1.0000
+- **Baseline run**: `retest-auto-0f33413c-0` (benchmark `pulmonary-edema-differential-v0.2`).
+
+| Interval (s) | Later run | κ vs baseline | Flips | Verdict |
+|---:|---|---:|---:|---|
+| 1203 | `retest-auto-0f33413c-1` | +1.0000 | 0/30 | stable |
+| 5814 | `retest-auto-0f33413c-2` | +1.0000 | 0/30 | stable |
+
+- **Overall verdict**: stable (worst-case across 2 intervals; driven by interval 5814s).
+- *Every pair compared under the declared identity criterion (`provider+model_id, cross-update identity asserted, scaffolding constant`).*
 
 ## 3. Construct-validity claims (R16–R20)
 
 **Mastery sense (R16)**: evaluative
 
-> Mastery is operationalised as agreement with the analyst column on the stop-sign benchmark (Example 1 of Allen 2026), under the analyst's intrinsic reading of `is red` and the original delta(ra).
+> Mastery is operationalised as agreement with the analyst column on the pulmonary edema benchmark v0.2 (n=30, m=1 placeholder). The v0.14.0 Phase 1 R22 captures characterize within-day reliability for the v0.10.0 cross-family Gemini drift cell.
 
 **Scope (R17)**: items_in_benchmark
 
-> The stop-sign demonstration benchmark is small (n=4); this v0.13.0 sample report scope-narrows to items_in_benchmark to focus on the section-2 layout change and avoid the broader-scope checks the demo doesn't address.
+> The pulmonology benchmark is still scoped narrowly (n=30, m=1 placeholder); the v0.14.0 R22 retrofit demonstrates the within-day reliability discipline at the items_in_benchmark scope.
 
 **Constitution vs. evidence (R18)**: evidence_of_mastery
 
-> Agreement on the stop-sign cells is read as evidence bearing on a mastery attribution (Allen 2026, Remark 8), not as a measurement of mastery.
+> Agreement on the pulmonology cells is evidence bearing on a mastery attribution (Allen 2026, Remark 8), not a measurement of mastery.
 
 **Carving-indexed framing (R19)**: not acknowledged
 
@@ -45,9 +53,9 @@ _Generated: 2026-06-06T19:10:04.892668+00:00_
 - Framework-substantiated: same_benchmark_hash=`True`, same_endorsement_config=`True`, same_paraphrase_variant=`True`.
 - Analyst-substantiated: same_provider_model_id=`True`, cross_update_identity_asserted=`True`, same_scaffolding=`True`.
 
-> _Unverifiable caveats:_ Anthropic API does not expose model snapshots; cross_update_identity_asserted is recorded on faith.
+> _Unverifiable caveats:_ OpenRouter Gemini routing does not expose model-version snapshots; cross_update_identity_asserted is recorded on faith for the 1h window. The v0.10.0 2.5-week 0.21 κ_C drift is presumptive evidence of cross-update routing changes at longer time scales.
 
-> _Rationale:_ Both captures run back-to-back (interval 0s) within the same CLI invocation, against the same model id, with identical params and prompt scaffolding.
+> _Rationale:_ All three captures of this cell run within the same Python orchestrator invocation against the same OpenRouter google/gemini-2.5-pro model_id, with identical EndorsementConfig (defeasible-clinical-v1 prompt embedded in benchmark, n_samples=3, temperature=0.0, max_tokens=2048) and ProviderParams. The 1h elapsed window between baseline and capture-2 captures the short-horizon across-update drift component of R22; the cleanly-stable κ=+1.000 result rules out provider-side routing changes inside the 1h window.
 
 ## 4. Evidence
 
@@ -56,7 +64,7 @@ Auto-collected from optional Phase 2 artifacts:
 - **Structural coherence checks** (R13): NOT SUPPLIED.
 - **Sensitivity sweep** (R11): NOT SUPPLIED.
 - **Factor-effects model fit** (R7, R12): NOT SUPPLIED.
-- **Test-retest reliability** (R22): test-retest reliability is stable (κ = +1.000); verdict-flip rate 0.0%. (0 item(s) flipped between runs).
+- **Test-retest reliability** (R22): ? (0 item(s) flipped between runs).
 
 ## 4b. Negative findings
 
