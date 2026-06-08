@@ -28,13 +28,11 @@ Total cost ~72 LLM calls, under US$1.
 
 ## Headline result
 
-All three models produced **κ = +1.000, 0 flips, stable** retests at
-the back-to-back interval. The full analysis at
-`experiments/results/stop_sign_2026-06-06.md` discusses what
-`--interval-s 0` captures and what it doesn't — the v0.10.0
-pulmonology Gemini drift result (0.21 κ_C shift across 2.5 weeks) is
-a different class of variance, one that requires longer-interval
-captures to surface.
+(Bundled data pending v0.16.0 fresh re-capture under the v0.15.2
+framework. Multi-interval retest analyses — what `--interval-s 0`
+captures vs longer intervals — will land as a fresh top-level
+writeup at `experiments/results/stop_sign_2026-XX-XX.md` after the
+re-capture completes.)
 
 ## Identity criterion
 
@@ -88,9 +86,10 @@ variants = 39 cells. Each cell carries:
 scaffolding over the 1h window). The same claims file is threaded
 into every cell's multi-retest artifact.
 
-Generation: `experiments/scripts/stop_sign_multiinterval_r22_retrofit.py`
-(see top-level `experiments/results/stop_sign_2026-06-07.md` for the
-full analysis + interpretation).
+Generation: `experiments/scripts/stop_sign_multiinterval_r22_retrofit.py`.
+Full analysis + interpretation will land at
+`experiments/results/stop_sign_2026-XX-XX.md` after the v0.16.0
+re-capture completes.
 
 ## v0.14.0 Phase 2: staged-composition appends
 

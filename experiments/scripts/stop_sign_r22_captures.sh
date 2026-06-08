@@ -2,8 +2,7 @@
 #
 # Stop-sign R22 retest captures against the 4-item paper-aligned benchmark.
 # Uses `infereval retest --auto` (v0.11.0) to capture per-model test-retest
-# evidence that the historical stop-sign cross-family sweep
-# (experiments/results/stop_sign_2026-05-18.md) lacked.
+# evidence that the pre-v0.11.0 stop-sign cross-family sweeps lacked.
 #
 # Three representative models, one per family:
 #   - Claude Opus 4.7      (anthropic)
@@ -91,7 +90,7 @@ echo "successes (${#SUCCESSES[@]}): ${SUCCESSES[*]:-}" >&2
 echo "failures  (${#FAILURES[@]}): ${FAILURES[*]:-}" >&2
 echo "" >&2
 echo "Output in ${OUT_DIR}" >&2
-echo "Next: refresh ${REPO_ROOT}/experiments/results/stop_sign_2026-06-06.md" >&2
+echo "Next: write fresh analysis writeup at ${REPO_ROOT}/experiments/results/stop_sign_2026-XX-XX.md" >&2
 echo "      with R22 retest table + R12 under-powered decomposition rendering." >&2
 
 if [[ "${#FAILURES[@]}" -gt 0 ]]; then
