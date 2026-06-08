@@ -39,7 +39,7 @@ from pathlib import Path
 
 import click
 
-from infereval.evaluation import Evaluation, SampleRecord
+from infereval.evaluation import Evaluation, EvaluationItem, SampleRecord
 from infereval.metrics import (
     cohens_kappa,
     consensus_reference,
@@ -71,7 +71,7 @@ def _is_known_failure(sample: SampleRecord) -> bool:
     return sample.provider_error is not None
 
 
-def _audit_item(item) -> tuple[int, int, int]:  # noqa: ANN001 -- EvaluationItem
+def _audit_item(item: EvaluationItem) -> tuple[int, int, int]:
     """Return ``(n_samples, n_known_failures, n_suspected_failures)`` for ``item``."""
     known = 0
     suspected = 0
