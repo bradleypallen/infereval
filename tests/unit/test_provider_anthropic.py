@@ -8,7 +8,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from infereval.providers.anthropic import ANTHROPIC_API_KEY_ENV, AnthropicProvider
-from infereval.providers.base import ProviderConfigError, SampleRequest
+from infereval.providers.base import ProviderConfigError, RetryPolicy, SampleRequest
 
 
 def _fake_response(
@@ -36,12 +36,18 @@ def _fake_response(
     )
 
 
-def _provider_with_mock_client(create_returns) -> tuple[AnthropicProvider, MagicMock]:
+def _provider_with_mock_client(
+    create_returns, *, retry_policy: RetryPolicy | None = None
+) -> tuple[AnthropicProvider, MagicMock]:
     """Build an AnthropicProvider backed by a MagicMock client."""
     mock_client = MagicMock()
     mock_client.messages.create.return_value = create_returns
     return (
-        AnthropicProvider("claude-haiku-4-5-20251001", client=mock_client),
+        AnthropicProvider(
+            "claude-haiku-4-5-20251001",
+            client=mock_client,
+            retry_policy=retry_policy,
+        ),
         mock_client,
     )
 
@@ -219,6 +225,53 @@ class TestResponseParsing:
         p, _ = _provider_with_mock_client(resp)
         result = p.sample(SampleRequest(prompt="Q"))
         assert result.text == "GOOD"
+
+    def test_empty_content_with_end_turn_raises(self) -> None:
+        """v0.15.0+: empty response body with stop_reason='end_turn' is
+        treated as a silent API failure (rate-limit or transient provider
+        failure), not as success-with-empty-text. The provider raises
+        EmptyResponseError, which BaseProvider's retry loop classifies
+        as always-transient and retries; after exhausted retries surfaces
+        as ProviderSampleError. The v0.14.0 silent-failure bug fix — see
+        KNOWN_ISSUES_v0.14.0.md."""
+        from infereval.providers.base import ProviderSampleError
+
+        resp = SimpleNamespace(
+            id="x",
+            content=[SimpleNamespace(text="", type="text")],
+            usage=SimpleNamespace(input_tokens=1, output_tokens=0),
+            stop_reason="end_turn",
+            model_dump=lambda: {},
+        )
+        p, _ = _provider_with_mock_client(
+            resp,
+            retry_policy=RetryPolicy(max_attempts=2, backoff_initial_s=0.0),
+        )
+        try:
+            p.sample(SampleRequest(prompt="Q"))
+        except ProviderSampleError as exc:
+            assert "empty response body" in str(exc).lower()
+        else:
+            raise AssertionError(
+                "Expected ProviderSampleError from empty response body"
+            )
+
+    def test_empty_content_with_max_tokens_returns_empty(self) -> None:
+        """v0.15.0+: empty response body with stop_reason='max_tokens' is
+        a *real* budget-clipped model response, not an API failure.
+        Returns empty text (existing v0.14.0 behavior); endorsement
+        handles via the budget-clipped detection path."""
+        resp = SimpleNamespace(
+            id="x",
+            content=[SimpleNamespace(text="", type="text")],
+            usage=SimpleNamespace(input_tokens=1, output_tokens=0),
+            stop_reason="max_tokens",
+            model_dump=lambda: {},
+        )
+        p, _ = _provider_with_mock_client(resp)
+        r = p.sample(SampleRequest(prompt="Q"))
+        assert r.text == ""
+        assert r.finish_reason == "max_tokens"
 
 
 # ---- Transient classification ---------------------------------------------

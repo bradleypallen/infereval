@@ -327,9 +327,23 @@ def endorse(
         sample_records.append(record)
         verdicts.append(verdict)
 
-    final, tie_broken = majority_vote(verdicts, tie_break=config.tie_break)
+    # v0.15.0: skip samples whose provider call failed (provider_error set)
+    # when computing the majority vote and the per-verdict counts. The
+    # raw SampleRecord retains the placeholder ABSTAIN parsed_verdict so
+    # the eta JSON round-trips for v0.14.0 consumers; the *aggregated*
+    # majority vote and counts reflect only samples that actually
+    # produced a real model response. If every sample failed, the vote
+    # collapses to ABSTAIN (the existing majority_vote(empty) contract)
+    # — a fuller "model_verdict = None" representation is deferred to a
+    # later release per the v0.15.0 plan.
+    voting_verdicts = [
+        rec.parsed_verdict
+        for rec in sample_records
+        if rec.provider_error is None
+    ]
+    final, tie_broken = majority_vote(voting_verdicts, tie_break=config.tie_break)
     counts: dict[Verdict, int] = {v: 0 for v in Verdict}
-    for v in verdicts:
+    for v in voting_verdicts:
         counts[v] += 1
 
     log_event(
