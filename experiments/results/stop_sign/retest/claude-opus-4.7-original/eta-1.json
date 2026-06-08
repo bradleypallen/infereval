@@ -1,0 +1,296 @@
+{
+  "schema_version": "1.0",
+  "id": "retest-auto-71ea8bd4-1",
+  "benchmark_id": "stop-sign-original",
+  "benchmark_hash": "sha256:1e7c656324a15ff5c08e2c92d15ecb2e7bb91912b7f33c0139e6354b0203be52",
+  "model": {
+    "provider": "anthropic",
+    "model_id": "claude-opus-4-7",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 3,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-explicit-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1"
+  },
+  "framework_version": "0.15.2",
+  "started_at": "2026-06-08T05:56:08.594253Z",
+  "finished_at": "2026-06-08T05:56:27.717925Z",
+  "items": [
+    {
+      "id": "row-0",
+      "premises": [
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-71ea8bd4-1:row-0:sample-0",
+          "wall_time_ms": 788.2032080087811,
+          "usage": {
+            "input_tokens": 365,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-71ea8bd4-1:row-0:sample-1",
+          "wall_time_ms": 913.2833750045393,
+          "usage": {
+            "input_tokens": 365,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-71ea8bd4-1:row-0:sample-2",
+          "wall_time_ms": 1327.2797910030931,
+          "usage": {
+            "input_tokens": 365,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-1",
+      "premises": [
+        "n",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-71ea8bd4-1:row-1:sample-0",
+          "wall_time_ms": 1943.090500019025,
+          "usage": {
+            "input_tokens": 372,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-71ea8bd4-1:row-1:sample-1",
+          "wall_time_ms": 778.3207089814823,
+          "usage": {
+            "input_tokens": 372,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-71ea8bd4-1:row-1:sample-2",
+          "wall_time_ms": 2440.9543340152595,
+          "usage": {
+            "input_tokens": 372,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nighttime"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-2",
+      "premises": [
+        "n",
+        "nr",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-71ea8bd4-1:row-2:sample-0",
+          "wall_time_ms": 2413.9060829766095,
+          "usage": {
+            "input_tokens": 382,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-71ea8bd4-1:row-2:sample-1",
+          "wall_time_ms": 1726.1492919933517,
+          "usage": {
+            "input_tokens": 382,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-71ea8bd4-1:row-2:sample-2",
+          "wall_time_ms": 2649.8769170138985,
+          "usage": {
+            "input_tokens": 382,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nonreflective"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-3",
+      "premises": [
+        "ba",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-71ea8bd4-1:row-3:sample-0",
+          "wall_time_ms": 1608.1081659940537,
+          "usage": {
+            "input_tokens": 373,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-71ea8bd4-1:row-3:sample-1",
+          "wall_time_ms": 1350.7250830007251,
+          "usage": {
+            "input_tokens": 373,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-71ea8bd4-1:row-3:sample-2",
+          "wall_time_ms": 1169.7826670133509,
+          "usage": {
+            "input_tokens": 373,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "painted-blue"
+      ],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}

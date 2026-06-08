@@ -1,0 +1,2438 @@
+{
+  "schema_version": "1.0",
+  "id": "retest-auto-8e6286a3-1",
+  "benchmark_id": "pulmonary-edema-differential-v0.2",
+  "benchmark_hash": "sha256:4f58fef6736a1e5b462e32ca37cc47a87896805885c133f261239932bc8aa81d",
+  "model": {
+    "provider": "openai",
+    "model_id": "gpt-5.5",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 3,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-clinical-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1"
+  },
+  "framework_version": "0.15.2",
+  "started_at": "2026-06-08T06:04:00.179744Z",
+  "finished_at": "2026-06-08T06:12:57.103626Z",
+  "items": [
+    {
+      "id": "c1",
+      "premises": [
+        "ad",
+        "bi"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c1:sample-0",
+          "wall_time_ms": 17081.423625000753,
+          "usage": {
+            "input_tokens": 218,
+            "output_tokens": 464
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 454
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c1:sample-1",
+          "wall_time_ms": 12927.26758401841,
+          "usage": {
+            "input_tokens": 218,
+            "output_tokens": 444
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 434
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c1:sample-2",
+          "wall_time_ms": 13672.183209011564,
+          "usage": {
+            "input_tokens": 218,
+            "output_tokens": 522
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 512
+        }
+      ],
+      "majority_vote": {
+        "good": 2,
+        "bad": 1,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference",
+        "T1",
+        "dialectical-low"
+      ],
+      "references": [
+        {
+          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
+          "doi": "10.1056/NEJMcp052699",
+          "note": "Bilateral infiltrates + acute dyspnea: base presentation consistent with cardiogenic edema, pending further evidence."
+        }
+      ]
+    },
+    {
+      "id": "c2",
+      "premises": [
+        "ad",
+        "bi",
+        "el"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c2:sample-0",
+          "wall_time_ms": 2375.1269160129596,
+          "usage": {
+            "input_tokens": 232,
+            "output_tokens": 49
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 39
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c2:sample-1",
+          "wall_time_ms": 2442.944540991448,
+          "usage": {
+            "input_tokens": 232,
+            "output_tokens": 48
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 38
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c2:sample-2",
+          "wall_time_ms": 2015.8853750035632,
+          "usage": {
+            "input_tokens": 232,
+            "output_tokens": 44
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 34
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "supporter",
+        "T1",
+        "biomarker",
+        "dialectical-low"
+      ],
+      "references": [
+        {
+          "citation": "Maisel AS et al. (2002). Rapid measurement of B-type natriuretic peptide in the emergency diagnosis of heart failure. N Engl J Med 347(3):161-167.",
+          "doi": "10.1056/NEJMoa020233",
+          "note": "Elevated BNP supports cardiogenic etiology over non-cardiogenic."
+        }
+      ]
+    },
+    {
+      "id": "c3",
+      "premises": [
+        "ad",
+        "bi",
+        "lv"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c3:sample-0",
+          "wall_time_ms": 1569.5687079860363,
+          "usage": {
+            "input_tokens": 233,
+            "output_tokens": 42
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 32
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c3:sample-1",
+          "wall_time_ms": 1853.0544580135029,
+          "usage": {
+            "input_tokens": 233,
+            "output_tokens": 44
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 34
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c3:sample-2",
+          "wall_time_ms": 1638.5357909894083,
+          "usage": {
+            "input_tokens": 233,
+            "output_tokens": 41
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 31
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "supporter",
+        "T1",
+        "imaging",
+        "dialectical-low"
+      ],
+      "references": [
+        {
+          "citation": "Heidenreich PA et al. (2022). 2022 AHA/ACC/HFSA Guideline for the Management of Heart Failure. J Am Coll Cardiol 79(17):e263-e421.",
+          "doi": "10.1016/j.jacc.2021.12.012",
+          "note": "Reduced LVEF is a canonical cardiogenic-edema indicator."
+        },
+        {
+          "citation": "McDonagh TA et al. (2021). 2021 ESC Guidelines for the diagnosis and treatment of acute and chronic heart failure. Eur Heart J 42(36):3599-3726.",
+          "doi": "10.1093/eurheartj/ehab368",
+          "note": "HFrEF classification by LVEF threshold."
+        }
+      ]
+    },
+    {
+      "id": "c4",
+      "premises": [
+        "ad",
+        "bi",
+        "kb"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c4:sample-0",
+          "wall_time_ms": 2087.3834590020124,
+          "usage": {
+            "input_tokens": 229,
+            "output_tokens": 55
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 45
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c4:sample-1",
+          "wall_time_ms": 1790.7888329937123,
+          "usage": {
+            "input_tokens": 229,
+            "output_tokens": 50
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 40
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c4:sample-2",
+          "wall_time_ms": 3065.3691250190604,
+          "usage": {
+            "input_tokens": 229,
+            "output_tokens": 83
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 73
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "supporter",
+        "T1",
+        "imaging",
+        "dialectical-low"
+      ],
+      "references": [
+        {
+          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
+          "doi": "10.1056/NEJMcp052699",
+          "note": "Kerley B lines: interstitial-edema sign classically cardiogenic."
+        }
+      ]
+    },
+    {
+      "id": "c5",
+      "premises": [
+        "ad",
+        "bi",
+        "pcwp"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c5:sample-0",
+          "wall_time_ms": 1962.734625005396,
+          "usage": {
+            "input_tokens": 234,
+            "output_tokens": 45
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 35
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c5:sample-1",
+          "wall_time_ms": 1556.6582500177901,
+          "usage": {
+            "input_tokens": 234,
+            "output_tokens": 44
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 34
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c5:sample-2",
+          "wall_time_ms": 2023.2628340017982,
+          "usage": {
+            "input_tokens": 234,
+            "output_tokens": 45
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 35
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "supporter",
+        "T1",
+        "hemodynamic",
+        "dialectical-low"
+      ],
+      "references": [
+        {
+          "citation": "Heidenreich PA et al. (2022). 2022 AHA/ACC/HFSA Guideline for the Management of Heart Failure. J Am Coll Cardiol 79(17):e263-e421.",
+          "doi": "10.1016/j.jacc.2021.12.012",
+          "note": "Elevated PCWP > 18 mmHg defines hydrostatic edema by mechanism."
+        }
+      ]
+    },
+    {
+      "id": "c6",
+      "premises": [
+        "ad",
+        "bi",
+        "nl"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c6:sample-0",
+          "wall_time_ms": 2661.424707999686,
+          "usage": {
+            "input_tokens": 232,
+            "output_tokens": 69
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 59
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c6:sample-1",
+          "wall_time_ms": 2683.841082995059,
+          "usage": {
+            "input_tokens": 232,
+            "output_tokens": 69
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 59
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c6:sample-2",
+          "wall_time_ms": 2844.136083003832,
+          "usage": {
+            "input_tokens": 232,
+            "output_tokens": 74
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 64
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "T1",
+        "biomarker",
+        "dialectical-medium"
+      ],
+      "references": [
+        {
+          "citation": "Maisel AS et al. (2002). Rapid measurement of B-type natriuretic peptide in the emergency diagnosis of heart failure. N Engl J Med 347(3):161-167.",
+          "doi": "10.1056/NEJMoa020233",
+          "note": "Normal BNP < 100: high NPV for HF, defeats cardiogenic etiology."
+        }
+      ]
+    },
+    {
+      "id": "c7",
+      "premises": [
+        "ad",
+        "bi",
+        "sep"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c7:sample-0",
+          "wall_time_ms": 10184.237207984552,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 87
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 77
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c7:sample-1",
+          "wall_time_ms": 2615.1159580040257,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 77
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 67
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c7:sample-2",
+          "wall_time_ms": 2864.409957983298,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 73
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 63
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "T1",
+        "context",
+        "dialectical-high"
+      ],
+      "references": [
+        {
+          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
+          "doi": "10.1056/NEJMcp052699",
+          "note": "Sepsis-induced edema is non-cardiogenic by mechanism (capillary leak); sepsis defeats a cardiogenic conclusion."
+        }
+      ]
+    },
+    {
+      "id": "c8",
+      "premises": [
+        "ad",
+        "asp",
+        "bi"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c8:sample-0",
+          "wall_time_ms": 2613.672957988456,
+          "usage": {
+            "input_tokens": 226,
+            "output_tokens": 66
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 56
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c8:sample-1",
+          "wall_time_ms": 2606.658500008052,
+          "usage": {
+            "input_tokens": 226,
+            "output_tokens": 90
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 80
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c8:sample-2",
+          "wall_time_ms": 9700.299457996152,
+          "usage": {
+            "input_tokens": 226,
+            "output_tokens": 89
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 79
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "T1",
+        "etiology",
+        "dialectical-medium"
+      ],
+      "references": [
+        {
+          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
+          "doi": "10.1056/NEJMcp052699",
+          "note": "Aspiration produces non-cardiogenic edema / direct lung injury; defeats a cardiogenic conclusion."
+        }
+      ]
+    },
+    {
+      "id": "c9",
+      "premises": [
+        "ad",
+        "bi",
+        "cv",
+        "iv"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c9:sample-0",
+          "wall_time_ms": 2920.9530410007574,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 71
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 61
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c9:sample-1",
+          "wall_time_ms": 3555.2627919823863,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 80
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 70
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c9:sample-2",
+          "wall_time_ms": 1884.0943329851143,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 54
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 44
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "supporter",
+        "T1",
+        "history",
+        "dialectical-medium"
+      ],
+      "references": [
+        {
+          "citation": "Heidenreich PA et al. (2022). 2022 AHA/ACC/HFSA Guideline for the Management of Heart Failure. J Am Coll Cardiol 79(17):e263-e421.",
+          "doi": "10.1016/j.jacc.2021.12.012",
+          "note": "Iatrogenic volume overload in a patient with cardiac substrate is a common precipitant of cardiogenic decompensation."
+        },
+        {
+          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
+          "doi": "10.1056/NEJMcp052699",
+          "note": "Volume overload as etiology of cardiogenic edema."
+        }
+      ]
+    },
+    {
+      "id": "c10",
+      "premises": [
+        "ad",
+        "bi",
+        "el",
+        "sep"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c10:sample-0",
+          "wall_time_ms": 21713.91720799147,
+          "usage": {
+            "input_tokens": 239,
+            "output_tokens": 522
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 512
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c10:sample-1",
+          "wall_time_ms": 19333.556416007923,
+          "usage": {
+            "input_tokens": 239,
+            "output_tokens": 522
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 512
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c10:sample-2",
+          "wall_time_ms": 22501.75225001294,
+          "usage": {
+            "input_tokens": 239,
+            "output_tokens": 522
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 512
+        }
+      ],
+      "majority_vote": {
+        "good": 2,
+        "bad": 1,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "mixed-evidence",
+        "T1",
+        "dialectical-high"
+      ],
+      "references": [
+        {
+          "citation": "Maisel AS et al. (2002). Rapid measurement of B-type natriuretic peptide in the emergency diagnosis of heart failure. N Engl J Med 347(3):161-167.",
+          "doi": "10.1056/NEJMoa020233",
+          "note": "BNP elevation in sepsis is contaminated by sepsis-induced myocardial depression and demand on the ventricle; ↑BNP in a septic patient is not a clean cardiogenic indicator. This item is genuinely contested."
+        },
+        {
+          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
+          "doi": "10.1056/NEJMcp052699",
+          "note": "Differential reasoning when sepsis coexists with cardiac signs."
+        }
+      ]
+    },
+    {
+      "id": "c11",
+      "premises": [
+        "ad",
+        "bi",
+        "pe"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c11:sample-0",
+          "wall_time_ms": 6359.216624987312,
+          "usage": {
+            "input_tokens": 226,
+            "output_tokens": 149
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 139
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c11:sample-1",
+          "wall_time_ms": 3872.06612501177,
+          "usage": {
+            "input_tokens": 226,
+            "output_tokens": 101
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 91
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c11:sample-2",
+          "wall_time_ms": 5646.867332980037,
+          "usage": {
+            "input_tokens": 226,
+            "output_tokens": 131
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 121
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "T1",
+        "alternative-diagnosis",
+        "dialectical-medium"
+      ],
+      "references": [
+        {
+          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
+          "doi": "10.1056/NEJMcp052699",
+          "note": "Acute PE: hemodynamic compromise without classical cardiogenic edema; the imaging picture is more typically focal/wedge, not symmetric pulmonary edema."
+        }
+      ]
+    },
+    {
+      "id": "c12",
+      "premises": [
+        "ad",
+        "bi",
+        "rf"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c12:sample-0",
+          "wall_time_ms": 14266.054042003816,
+          "usage": {
+            "input_tokens": 228,
+            "output_tokens": 522
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 512
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c12:sample-1",
+          "wall_time_ms": 15350.282290979521,
+          "usage": {
+            "input_tokens": 228,
+            "output_tokens": 522
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 512
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:c12:sample-2",
+          "wall_time_ms": 18029.145875014365,
+          "usage": {
+            "input_tokens": 228,
+            "output_tokens": 522
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 512
+        }
+      ],
+      "majority_vote": {
+        "good": 1,
+        "bad": 2,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "supporter",
+        "T1",
+        "etiology",
+        "dialectical-high"
+      ],
+      "references": [
+        {
+          "citation": "Heidenreich PA et al. (2022). 2022 AHA/ACC/HFSA Guideline for the Management of Heart Failure. J Am Coll Cardiol 79(17):e263-e421.",
+          "doi": "10.1016/j.jacc.2021.12.012",
+          "note": "Acute renal failure with volume overload produces hydrostatic / cardiogenic-equivalent edema."
+        }
+      ]
+    },
+    {
+      "id": "a1",
+      "premises": [
+        "ad",
+        "bi"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a1:sample-0",
+          "wall_time_ms": 4790.812624996761,
+          "usage": {
+            "input_tokens": 218,
+            "output_tokens": 170
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 160
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a1:sample-1",
+          "wall_time_ms": 7222.066624992294,
+          "usage": {
+            "input_tokens": 218,
+            "output_tokens": 227
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 217
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a1:sample-2",
+          "wall_time_ms": 4611.512041010428,
+          "usage": {
+            "input_tokens": 218,
+            "output_tokens": 159
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 149
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference",
+        "T2",
+        "dialectical-low"
+      ],
+      "references": [
+        {
+          "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
+          "doi": "10.1001/jama.2012.5669",
+          "note": "Bilateral opacities + acute hypoxemic respiratory failure: ARDS base case, pending exclusion of cardiogenic origin and P/F measurement."
+        }
+      ]
+    },
+    {
+      "id": "a2",
+      "premises": [
+        "ad",
+        "bi",
+        "pf"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a2:sample-0",
+          "wall_time_ms": 4431.970917008584,
+          "usage": {
+            "input_tokens": 235,
+            "output_tokens": 105
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 95
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a2:sample-1",
+          "wall_time_ms": 3696.19600000442,
+          "usage": {
+            "input_tokens": 235,
+            "output_tokens": 123
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 113
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a2:sample-2",
+          "wall_time_ms": 4693.1372079998255,
+          "usage": {
+            "input_tokens": 235,
+            "output_tokens": 91
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 81
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "supporter",
+        "T2",
+        "criterion",
+        "dialectical-low"
+      ],
+      "references": [
+        {
+          "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
+          "doi": "10.1001/jama.2012.5669",
+          "section": "Hypoxemia criterion",
+          "note": "Hypoxemia criterion P/F < 300 (mild ARDS) per the Berlin definition."
+        }
+      ]
+    },
+    {
+      "id": "a3",
+      "premises": [
+        "ad",
+        "bi",
+        "sep"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a3:sample-0",
+          "wall_time_ms": 4143.913125008112,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 112
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 102
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a3:sample-1",
+          "wall_time_ms": 3438.433041999815,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 105
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 95
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a3:sample-2",
+          "wall_time_ms": 5752.37312502577,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 164
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 154
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "supporter",
+        "T2",
+        "etiology",
+        "dialectical-low"
+      ],
+      "references": [
+        {
+          "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
+          "doi": "10.1001/jama.2012.5669",
+          "section": "Risk factors",
+          "note": "Sepsis listed as a canonical ARDS risk factor."
+        },
+        {
+          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
+          "doi": "10.1056/NEJMcp052699",
+          "note": "Sepsis is the most common ARDS etiology in clinical practice."
+        }
+      ]
+    },
+    {
+      "id": "a4",
+      "premises": [
+        "ad",
+        "asp",
+        "bi"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a4:sample-0",
+          "wall_time_ms": 11027.734957984649,
+          "usage": {
+            "input_tokens": 226,
+            "output_tokens": 259
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 249
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a4:sample-1",
+          "wall_time_ms": 16897.456499980763,
+          "usage": {
+            "input_tokens": 226,
+            "output_tokens": 522
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 512
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a4:sample-2",
+          "wall_time_ms": 15178.232000005664,
+          "usage": {
+            "input_tokens": 226,
+            "output_tokens": 472
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 462
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "supporter",
+        "T2",
+        "etiology",
+        "dialectical-low"
+      ],
+      "references": [
+        {
+          "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
+          "doi": "10.1001/jama.2012.5669",
+          "section": "Risk factors",
+          "note": "Aspiration listed as a canonical ARDS risk factor."
+        },
+        {
+          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
+          "doi": "10.1056/NEJMcp052699",
+          "note": "Aspiration is a canonical direct-lung-injury etiology."
+        }
+      ]
+    },
+    {
+      "id": "a5",
+      "premises": [
+        "ad",
+        "bi",
+        "tr"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a5:sample-0",
+          "wall_time_ms": 4475.12624997762,
+          "usage": {
+            "input_tokens": 226,
+            "output_tokens": 117
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 107
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a5:sample-1",
+          "wall_time_ms": 1948.8892079971265,
+          "usage": {
+            "input_tokens": 226,
+            "output_tokens": 53
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 43
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a5:sample-2",
+          "wall_time_ms": 3482.1050410100725,
+          "usage": {
+            "input_tokens": 226,
+            "output_tokens": 80
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 70
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "supporter",
+        "T2",
+        "etiology",
+        "dialectical-low"
+      ],
+      "references": [
+        {
+          "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
+          "doi": "10.1001/jama.2012.5669",
+          "section": "Risk factors",
+          "note": "Significant trauma listed as a canonical ARDS risk factor."
+        }
+      ]
+    },
+    {
+      "id": "a6",
+      "premises": [
+        "ad",
+        "bi",
+        "lv"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a6:sample-0",
+          "wall_time_ms": 3087.3659170174506,
+          "usage": {
+            "input_tokens": 233,
+            "output_tokens": 96
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 86
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a6:sample-1",
+          "wall_time_ms": 2645.2040419972036,
+          "usage": {
+            "input_tokens": 233,
+            "output_tokens": 84
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 74
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a6:sample-2",
+          "wall_time_ms": 2230.4656250053085,
+          "usage": {
+            "input_tokens": 233,
+            "output_tokens": 83
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 73
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "T2",
+        "competing-finding",
+        "dialectical-medium"
+      ],
+      "references": [
+        {
+          "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
+          "doi": "10.1001/jama.2012.5669",
+          "section": "Exclusion criterion",
+          "note": "Berlin definition exclusion: 'not fully explained by cardiac failure or fluid overload.' Reduced LVEF triggers this exclusion clause."
+        }
+      ]
+    },
+    {
+      "id": "a7",
+      "premises": [
+        "ad",
+        "bi",
+        "kb"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a7:sample-0",
+          "wall_time_ms": 5344.0426250163,
+          "usage": {
+            "input_tokens": 229,
+            "output_tokens": 190
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 180
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a7:sample-1",
+          "wall_time_ms": 5581.849833019078,
+          "usage": {
+            "input_tokens": 229,
+            "output_tokens": 193
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 183
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a7:sample-2",
+          "wall_time_ms": 3634.309790999396,
+          "usage": {
+            "input_tokens": 229,
+            "output_tokens": 137
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 127
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "T2",
+        "competing-finding",
+        "dialectical-medium"
+      ],
+      "references": [
+        {
+          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
+          "doi": "10.1056/NEJMcp052699",
+          "note": "Kerley B lines argue strongly for cardiogenic edema, defeating ARDS (absent another precipitant)."
+        }
+      ]
+    },
+    {
+      "id": "a8",
+      "premises": [
+        "ad",
+        "bi",
+        "lv",
+        "pf"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a8:sample-0",
+          "wall_time_ms": 4196.20412500808,
+          "usage": {
+            "input_tokens": 250,
+            "output_tokens": 159
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 149
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a8:sample-1",
+          "wall_time_ms": 3109.4654579937924,
+          "usage": {
+            "input_tokens": 250,
+            "output_tokens": 119
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 109
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a8:sample-2",
+          "wall_time_ms": 6154.007083998295,
+          "usage": {
+            "input_tokens": 250,
+            "output_tokens": 186
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 176
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "mixed-evidence",
+        "T2",
+        "dialectical-high"
+      ],
+      "references": [
+        {
+          "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
+          "doi": "10.1001/jama.2012.5669",
+          "section": "Exclusion criterion",
+          "note": "Mixed evidence: P/F < 300 meets the hypoxemia criterion, but ↓LVEF triggers the exclusion clause. Strict-Berlin reading: bad. Defeasible-practice reading where ARDS and HF coexist: arguable."
+        }
+      ]
+    },
+    {
+      "id": "a9",
+      "premises": [
+        "ad",
+        "bi",
+        "cd"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a9:sample-0",
+          "wall_time_ms": 4943.201624992071,
+          "usage": {
+            "input_tokens": 229,
+            "output_tokens": 165
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 155
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a9:sample-1",
+          "wall_time_ms": 7336.559624993242,
+          "usage": {
+            "input_tokens": 229,
+            "output_tokens": 161
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 151
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a9:sample-2",
+          "wall_time_ms": 6025.567082979251,
+          "usage": {
+            "input_tokens": 229,
+            "output_tokens": 211
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 201
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "supporter",
+        "T2",
+        "etiology-ambiguous",
+        "dialectical-medium"
+      ],
+      "references": [
+        {
+          "citation": "FLAG FOR PULMONOLOGIST REVIEW. Cardiotoxic chemotherapy (anthracyclines, trastuzumab) typically causes chemotherapy-induced CARDIOMYOPATHY → cardiogenic edema, not ARDS. Drug-induced ARDS-like toxicity is associated with a different set of agents (bleomycin, gemcitabine, methotrexate). Placeholder verdict 'good' should be revisited; the literal wording of the bearer 'cardiotoxic agent' argues against ARDS.",
+          "note": "All six models in the cross-family panel disagree with the placeholder here."
+        }
+      ]
+    },
+    {
+      "id": "a10",
+      "premises": [
+        "ad",
+        "asp",
+        "bi",
+        "lv"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a10:sample-0",
+          "wall_time_ms": 13791.731165983947,
+          "usage": {
+            "input_tokens": 241,
+            "output_tokens": 372
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 362
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a10:sample-1",
+          "wall_time_ms": 11228.059832996223,
+          "usage": {
+            "input_tokens": 241,
+            "output_tokens": 308
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 298
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:a10:sample-2",
+          "wall_time_ms": 6369.082332996186,
+          "usage": {
+            "input_tokens": 241,
+            "output_tokens": 219
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 209
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "mixed-evidence",
+        "T2",
+        "dialectical-high"
+      ],
+      "references": [
+        {
+          "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
+          "doi": "10.1001/jama.2012.5669",
+          "section": "Exclusion criterion + Risk factors",
+          "note": "Mixed evidence: aspiration is a canonical ARDS etiology AND ↓LVEF triggers the cardiac-failure exclusion. Strict-Berlin reading: bad. Defeasible reading where aspiration 'fully explains' the picture: good. Both have weight in the literature."
+        }
+      ]
+    },
+    {
+      "id": "x1",
+      "premises": [
+        "cpe"
+      ],
+      "conclusions": [
+        "el"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x1:sample-0",
+          "wall_time_ms": 4214.298917009728,
+          "usage": {
+            "input_tokens": 214,
+            "output_tokens": 107
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 97
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x1:sample-1",
+          "wall_time_ms": 2894.0263749973383,
+          "usage": {
+            "input_tokens": 214,
+            "output_tokens": 82
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 72
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x1:sample-2",
+          "wall_time_ms": 5554.3290409841575,
+          "usage": {
+            "input_tokens": 214,
+            "output_tokens": 173
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 163
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "cross-cutting",
+        "marker-inference",
+        "dialectical-low"
+      ],
+      "references": [
+        {
+          "citation": "Maisel AS et al. (2002). Rapid measurement of B-type natriuretic peptide in the emergency diagnosis of heart failure. N Engl J Med 347(3):161-167.",
+          "doi": "10.1056/NEJMoa020233",
+          "note": "Cardiogenic edema almost always elevates BNP; defeasible marker inference."
+        }
+      ]
+    },
+    {
+      "id": "x2",
+      "premises": [
+        "ards"
+      ],
+      "conclusions": [
+        "el"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x2:sample-0",
+          "wall_time_ms": 2541.866708023008,
+          "usage": {
+            "input_tokens": 214,
+            "output_tokens": 66
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 56
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x2:sample-1",
+          "wall_time_ms": 3896.140957978787,
+          "usage": {
+            "input_tokens": 214,
+            "output_tokens": 84
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 74
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x2:sample-2",
+          "wall_time_ms": 3391.033416992286,
+          "usage": {
+            "input_tokens": 214,
+            "output_tokens": 84
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 74
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "cross-cutting",
+        "marker-inference",
+        "dialectical-medium"
+      ],
+      "references": [
+        {
+          "citation": "Maisel AS et al. (2002). Rapid measurement of B-type natriuretic peptide in the emergency diagnosis of heart failure. N Engl J Med 347(3):161-167.",
+          "doi": "10.1056/NEJMoa020233",
+          "note": "ARDS without cardiac component should NOT elevate BNP. An elevated BNP in suspected ARDS argues for occult cardiac contribution."
+        }
+      ]
+    },
+    {
+      "id": "x3",
+      "premises": [
+        "ards",
+        "sep"
+      ],
+      "conclusions": [
+        "el"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x3:sample-0",
+          "wall_time_ms": 5346.286957996199,
+          "usage": {
+            "input_tokens": 221,
+            "output_tokens": 170
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 160
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x3:sample-1",
+          "wall_time_ms": 8027.968666021479,
+          "usage": {
+            "input_tokens": 221,
+            "output_tokens": 218
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 208
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x3:sample-2",
+          "wall_time_ms": 3341.259250009898,
+          "usage": {
+            "input_tokens": 221,
+            "output_tokens": 111
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 101
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "cross-cutting",
+        "marker-inference",
+        "dialectical-medium"
+      ],
+      "references": [
+        {
+          "citation": "FLAG FOR PULMONOLOGIST REVIEW — Charpentier J et al. (2004). Brain natriuretic peptide: A marker of myocardial dysfunction and prognosis during severe sepsis. Crit Care Med 32(3):660-665.",
+          "doi": "10.1097/01.CCM.0000114827.93410.D8",
+          "note": "Probes the sepsis-induced cardiomyopathy confounder in ARDS-side BNP reasoning. The placeholder verdict is 'bad' because pure ARDS — even with concurrent sepsis — is not expected to elevate BNP via a pulmonary mechanism; any BNP elevation in this presentation argues for an occult cardiac contribution (which is itself why the case is dialectical-medium, not -low). A real pulmonologist may want to revisit this verdict depending on how strictly they read 'documented sepsis' as implying possible septic cardiomyopathy."
+        }
+      ]
+    },
+    {
+      "id": "x4",
+      "premises": [
+        "cpe",
+        "kb",
+        "lv"
+      ],
+      "conclusions": [
+        "el"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x4:sample-0",
+          "wall_time_ms": 2985.592084005475,
+          "usage": {
+            "input_tokens": 240,
+            "output_tokens": 63
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 53
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x4:sample-1",
+          "wall_time_ms": 2589.284207992023,
+          "usage": {
+            "input_tokens": 240,
+            "output_tokens": 55
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 45
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x4:sample-2",
+          "wall_time_ms": 2699.2750829958823,
+          "usage": {
+            "input_tokens": 240,
+            "output_tokens": 74
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 64
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "cross-cutting",
+        "marker-inference",
+        "dialectical-low"
+      ],
+      "references": [
+        {
+          "citation": "Maisel AS et al. (2002). Rapid measurement of B-type natriuretic peptide in the emergency diagnosis of heart failure. N Engl J Med 347(3):161-167.",
+          "doi": "10.1056/NEJMoa020233",
+          "note": "Multi-feature cardiogenic presentation (↓LVEF + Kerley B + CPE) is essentially always associated with ↑BNP."
+        }
+      ]
+    },
+    {
+      "id": "x5",
+      "premises": [
+        "cv",
+        "iv"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x5:sample-0",
+          "wall_time_ms": 6075.30808300362,
+          "usage": {
+            "input_tokens": 226,
+            "output_tokens": 223
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 213
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x5:sample-1",
+          "wall_time_ms": 10472.02220899635,
+          "usage": {
+            "input_tokens": 226,
+            "output_tokens": 294
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 284
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x5:sample-2",
+          "wall_time_ms": 10005.471541982843,
+          "usage": {
+            "input_tokens": 226,
+            "output_tokens": 332
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 322
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "cross-cutting",
+        "context-only",
+        "dialectical-high"
+      ],
+      "references": [
+        {
+          "citation": "Heidenreich PA et al. (2022). 2022 AHA/ACC/HFSA Guideline for the Management of Heart Failure. J Am Coll Cardiol 79(17):e263-e421.",
+          "doi": "10.1016/j.jacc.2021.12.012",
+          "note": "Volume challenge in a patient with cardiac substrate precipitates cardiogenic decompensation by the established pathophysiology."
+        }
+      ]
+    },
+    {
+      "id": "x6",
+      "premises": [
+        "cpe"
+      ],
+      "conclusions": [
+        "pv"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x6:sample-0",
+          "wall_time_ms": 9829.179374995874,
+          "usage": {
+            "input_tokens": 209,
+            "output_tokens": 277
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 267
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x6:sample-1",
+          "wall_time_ms": 3278.0807499948423,
+          "usage": {
+            "input_tokens": 209,
+            "output_tokens": 105
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 95
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x6:sample-2",
+          "wall_time_ms": 6552.336666994961,
+          "usage": {
+            "input_tokens": 209,
+            "output_tokens": 222
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 212
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "cross-cutting",
+        "consequence",
+        "dialectical-medium"
+      ],
+      "references": [
+        {
+          "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
+          "doi": "10.1056/NEJMcp052699",
+          "note": "Bilateral pleural effusions accompany cardiogenic edema in the majority of cases (transudative effusions from elevated hydrostatic pressure)."
+        }
+      ]
+    },
+    {
+      "id": "x7",
+      "premises": [
+        "ards"
+      ],
+      "conclusions": [
+        "pv"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x7:sample-0",
+          "wall_time_ms": 3030.1249579933938,
+          "usage": {
+            "input_tokens": 209,
+            "output_tokens": 87
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 77
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x7:sample-1",
+          "wall_time_ms": 5348.287500004517,
+          "usage": {
+            "input_tokens": 209,
+            "output_tokens": 132
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 122
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x7:sample-2",
+          "wall_time_ms": 2850.27287498815,
+          "usage": {
+            "input_tokens": 209,
+            "output_tokens": 74
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 64
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "cross-cutting",
+        "consequence",
+        "dialectical-medium"
+      ],
+      "references": [
+        {
+          "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
+          "doi": "10.1001/jama.2012.5669",
+          "note": "ARDS classically presents with little or no pleural effusion; large bilateral effusions argue against ARDS (Berlin 'not fully explained by...' clause)."
+        }
+      ]
+    },
+    {
+      "id": "x8",
+      "premises": [
+        "ards",
+        "cpe"
+      ],
+      "conclusions": [
+        "el"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x8:sample-0",
+          "wall_time_ms": 2507.6203340140637,
+          "usage": {
+            "input_tokens": 222,
+            "output_tokens": 81
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 71
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x8:sample-1",
+          "wall_time_ms": 3152.1942499966826,
+          "usage": {
+            "input_tokens": 222,
+            "output_tokens": 99
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 89
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-8e6286a3-1:x8:sample-2",
+          "wall_time_ms": 2526.303167018341,
+          "usage": {
+            "input_tokens": 222,
+            "output_tokens": 89
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 79
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "cross-cutting",
+        "coexistence",
+        "dialectical-high"
+      ],
+      "references": [
+        {
+          "citation": "Maisel AS et al. (2002). Rapid measurement of B-type natriuretic peptide in the emergency diagnosis of heart failure. N Engl J Med 347(3):161-167.",
+          "doi": "10.1056/NEJMoa020233",
+          "note": "When ARDS and CPE coexist, the cardiogenic component drives the BNP elevation; the marker inference holds."
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "citation": "Ranieri VM et al. ARDS Definition Task Force (2012). Acute respiratory distress syndrome: the Berlin Definition. JAMA 307(23):2526-2533.",
+      "doi": "10.1001/jama.2012.5669",
+      "note": "Defining reference for the ARDS target (T2)."
+    },
+    {
+      "citation": "Ware LB, Matthay MA (2005). Clinical practice: Acute pulmonary edema. N Engl J Med 353:2788-2796.",
+      "doi": "10.1056/NEJMcp052699",
+      "note": "Canonical clinical review of acute pulmonary edema differential diagnosis (both cardiogenic and non-cardiogenic). Anchors most cross-cutting items."
+    },
+    {
+      "citation": "Maisel AS et al. (2002). Rapid measurement of B-type natriuretic peptide in the emergency diagnosis of heart failure. N Engl J Med 347(3):161-167.",
+      "doi": "10.1056/NEJMoa020233",
+      "note": "Defining reference for BNP cutoffs used in items c2, c6, c10, x1, x2, x4, x8."
+    },
+    {
+      "citation": "Heidenreich PA et al. (2022). 2022 AHA/ACC/HFSA Guideline for the Management of Heart Failure. J Am Coll Cardiol 79(17):e263-e421.",
+      "doi": "10.1016/j.jacc.2021.12.012",
+      "note": "Heart failure guideline (US); anchors the T1 cardiogenic items."
+    },
+    {
+      "citation": "McDonagh TA et al. (2021). 2021 ESC Guidelines for the diagnosis and treatment of acute and chronic heart failure. Eur Heart J 42(36):3599-3726.",
+      "doi": "10.1093/eurheartj/ehab368",
+      "note": "Heart failure guideline (Europe); parallel anchor to AHA HF guideline."
+    },
+    {
+      "citation": "Allen BP (2026). Note on Simonelli's Stop Sign Dialogue: An Implication-Space Instrument for Probing LLM Endorsement of Material Inferential Rules.",
+      "note": "The infereval methodology this benchmark instantiates."
+    }
+  ],
+  "paraphrase_variant": 0
+}

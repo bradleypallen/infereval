@@ -1,0 +1,296 @@
+{
+  "schema_version": "1.0",
+  "id": "retest-auto-255d2417-1",
+  "benchmark_id": "stop-sign-original",
+  "benchmark_hash": "sha256:1e7c656324a15ff5c08e2c92d15ecb2e7bb91912b7f33c0139e6354b0203be52",
+  "model": {
+    "provider": "anthropic",
+    "model_id": "claude-haiku-4-5-20251001",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 3,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-explicit-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1"
+  },
+  "framework_version": "0.15.2",
+  "started_at": "2026-06-08T05:56:17.297596Z",
+  "finished_at": "2026-06-08T05:56:36.672025Z",
+  "items": [
+    {
+      "id": "row-0",
+      "premises": [
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD\n\nStop signs are standardly octagonal and red in most jurisdictions, but the premise only establishes that something is a stop sign—it does not entail or ordinarily warrant the conclusion that it is red. Stop signs could theoretically be other colors in different contexts or jurisdictions, and the color is not a defining feature of what makes something a stop sign (the shape and function are). While red is the typical color, the premise alone does not materially support the color conclusion in defeasible reasoning.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-255d2417-1:row-0:sample-0",
+          "wall_time_ms": 1908.2775420101825,
+          "usage": {
+            "input_tokens": 251,
+            "output_tokens": 110
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD\n\nStop signs are typically red in the United States, but the premise only states \"a is a stop sign\" without specifying jurisdiction or context. Stop signs can be other colors in different countries or contexts (e.g., some historical or non-standard signs). More importantly, the premise does not establish that we're in a context where the standard American convention applies. A material inference requires that the conclusion ordinarily follows under default conditions, but \"stop sign\" alone does not guarantee \"red\" across all reasonable interpretations.\n\nActually, reconsidering: In standard everyday reasoning within typical Western contexts (particularly North America), stop signs are conventionally and legally red. An ordinary reasoner would default to this inference.\n\nGOOD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-255d2417-1:row-0:sample-1",
+          "wall_time_ms": 2507.933042012155,
+          "usage": {
+            "input_tokens": 251,
+            "output_tokens": 154
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD\n\nStop signs are standardly octagonal and red in most jurisdictions, but the premise only establishes that something is a stop sign—it does not entail or ordinarily warrant the conclusion that it is red. Stop signs could theoretically be other colors in different contexts or jurisdictions, and the color is not a defining feature of what makes something a stop sign (the shape and function are). While red is the typical color, the premise alone does not materially support this conclusion in defeasible reasoning.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-255d2417-1:row-0:sample-2",
+          "wall_time_ms": 2822.4088749848306,
+          "usage": {
+            "input_tokens": 251,
+            "output_tokens": 109
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-1",
+      "premises": [
+        "n",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD\n\nThe premise that \"it is nighttime\" is a defeater for the conclusion that \"a is red.\" At night, without artificial lighting, a stop sign would not appear red—it would appear dark or black. The visibility of the red color depends on adequate lighting, which nighttime conditions typically lack.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-255d2417-1:row-1:sample-0",
+          "wall_time_ms": 2004.0358749974985,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 68
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD\n\nThe premise that \"it is nighttime\" is a defeater. At night, a stop sign would not appear red due to lack of light—it would appear dark or black. While stop signs are typically red during the day, the nighttime condition explicitly undermines the inference that a is red.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-255d2417-1:row-1:sample-1",
+          "wall_time_ms": 1278.6346659995615,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 67
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD\n\nThe premise that \"it is nighttime\" is a defeater for the conclusion that \"a is red.\" At night, without artificial lighting, a stop sign would not appear red—it would appear dark or black. The visibility of the red color depends on adequate lighting, which nighttime conditions typically lack.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-255d2417-1:row-1:sample-2",
+          "wall_time_ms": 1146.552708989475,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 68
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nighttime"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-2",
+      "premises": [
+        "n",
+        "nr",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD\n\nThe premises explicitly state it is nighttime. At night, without reflective material, a stop sign would not be visibly red—it would appear dark or black due to lack of light. The first premise (nighttime) combined with the second premise (not reflective) creates a defeater for the ordinary inference that a stop sign is red (which would hold during daytime or with reflective properties).",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-255d2417-1:row-2:sample-0",
+          "wall_time_ms": 1435.0185420189518,
+          "usage": {
+            "input_tokens": 265,
+            "output_tokens": 89
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD\n\nThe premises explicitly state it is nighttime and that object a is not made with reflective material. Under these conditions, even though stop signs are typically red, the object would not be visibly red at night without reflective properties to make it visible. The premise that a lacks reflective material is a defeater for the ordinary inference that a stop sign is red (in the sense of being perceptibly red in the current conditions).",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-255d2417-1:row-2:sample-1",
+          "wall_time_ms": 1402.4731249955948,
+          "usage": {
+            "input_tokens": 265,
+            "output_tokens": 94
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD\n\nThe premises explicitly state it is nighttime and that a is not made with reflective material. Stop signs are red, but at nighttime without reflective material, the red color would not be visible or perceptible. The premises contain a defeater to the ordinary inference that a stop sign is red (in the sense of being visibly red). The conclusion conflates the intrinsic property of being a red stop sign with the perceptual fact of appearing red under the given conditions.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-255d2417-1:row-2:sample-2",
+          "wall_time_ms": 1545.5004590039607,
+          "usage": {
+            "input_tokens": 265,
+            "output_tokens": 106
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nonreflective"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-3",
+      "premises": [
+        "ba",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD\n\nThe premise that \"a has been painted blue\" directly contradicts the conclusion that \"a is red.\" Additionally, while stop signs are typically red, the explicit statement that the object has been painted blue serves as a defeater to any default inference about its color.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-255d2417-1:row-3:sample-0",
+          "wall_time_ms": 1139.3590829975437,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 59
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD\n\nThe premise that \"a has been painted blue\" directly contradicts the conclusion that \"a is red.\" Additionally, while stop signs are typically red, the explicit statement that the object has been painted blue serves as a defeater to any default inference about its color.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-255d2417-1:row-3:sample-1",
+          "wall_time_ms": 1032.0155840017833,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 59
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD\n\nThe premise that \"a has been painted blue\" directly contradicts the conclusion that \"a is red.\" Additionally, while stop signs are typically red, the explicit statement that the object has been painted blue is a defeater that overrides the default expectation. The premises positively rule out the conclusion.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-255d2417-1:row-3:sample-2",
+          "wall_time_ms": 1138.8024170009885,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 67
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "painted-blue"
+      ],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}

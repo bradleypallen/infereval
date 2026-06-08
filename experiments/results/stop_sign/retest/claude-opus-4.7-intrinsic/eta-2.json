@@ -1,0 +1,296 @@
+{
+  "schema_version": "1.0",
+  "id": "retest-auto-38afd45e-2",
+  "benchmark_id": "stop-sign-intrinsic",
+  "benchmark_hash": "sha256:e33415c3433ef36b9be304d0c7ed4d6f97e58cac02168e173fcef80da7023d08",
+  "model": {
+    "provider": "anthropic",
+    "model_id": "claude-opus-4-7",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 3,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-explicit-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1"
+  },
+  "framework_version": "0.15.2",
+  "started_at": "2026-06-08T06:56:49.135270Z",
+  "finished_at": "2026-06-08T06:57:05.889552Z",
+  "items": [
+    {
+      "id": "row-0",
+      "premises": [
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-38afd45e-2:row-0:sample-0",
+          "wall_time_ms": 1136.8553749925923,
+          "usage": {
+            "input_tokens": 373,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-38afd45e-2:row-0:sample-1",
+          "wall_time_ms": 1197.973959002411,
+          "usage": {
+            "input_tokens": 373,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-38afd45e-2:row-0:sample-2",
+          "wall_time_ms": 1824.5313340157736,
+          "usage": {
+            "input_tokens": 373,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-1",
+      "premises": [
+        "n",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-38afd45e-2:row-1:sample-0",
+          "wall_time_ms": 839.0384159865789,
+          "usage": {
+            "input_tokens": 380,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-38afd45e-2:row-1:sample-1",
+          "wall_time_ms": 1553.3122079796158,
+          "usage": {
+            "input_tokens": 380,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-38afd45e-2:row-1:sample-2",
+          "wall_time_ms": 982.2455839894246,
+          "usage": {
+            "input_tokens": 380,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nighttime"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-2",
+      "premises": [
+        "n",
+        "nr",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-38afd45e-2:row-2:sample-0",
+          "wall_time_ms": 1244.4469580077566,
+          "usage": {
+            "input_tokens": 390,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-38afd45e-2:row-2:sample-1",
+          "wall_time_ms": 1265.2099589759018,
+          "usage": {
+            "input_tokens": 390,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-38afd45e-2:row-2:sample-2",
+          "wall_time_ms": 1458.2041669928003,
+          "usage": {
+            "input_tokens": 390,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nonreflective"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-3",
+      "premises": [
+        "ba",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-38afd45e-2:row-3:sample-0",
+          "wall_time_ms": 1913.1165420112666,
+          "usage": {
+            "input_tokens": 381,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-38afd45e-2:row-3:sample-1",
+          "wall_time_ms": 1764.638249995187,
+          "usage": {
+            "input_tokens": 381,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-38afd45e-2:row-3:sample-2",
+          "wall_time_ms": 1565.4259999864735,
+          "usage": {
+            "input_tokens": 381,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "painted-blue"
+      ],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}
