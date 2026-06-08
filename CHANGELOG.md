@@ -12,6 +12,22 @@ stable from 1.0 onward, regardless of the framework version.
 
 No changes yet.
 
+## [0.15.1] — 2026-06-07
+
+**Patch: validation-test-discovered race in `configure_run_logging`.** While writing post-v0.15.0 validation tests to answer the "how do we really know this works" question, the new `ThreadPoolExecutor` isolation test caught a secondary race in the logger setup code (separate from the v0.14.0 cross-contamination bug fixed in v0.15.0): when one thread exited its `configure_run_logging` block and restored the logger level, concurrent threads' INFO events could drop at the logger gate. The level-restore now reference-counts active calls and only restores when the last one exits.
+
+### Fixed
+
+- **`configure_run_logging` level-restore race.** Multiple concurrent `with configure_run_logging(...):` blocks no longer drop each other's events during exit. The level raise/restore is now reference-counted and serialized under a module-level lock. Cross-contamination guarantees from v0.15.0 unchanged.
+
+### Added (validation tests)
+
+- **`tests/unit/test_provider_openai.py::test_empty_content_recovers_on_retry`** — first call returns empty body (triggers `EmptyResponseError`), second call returns clean "GOOD". Verifies the retry path actually delivers the recovered text rather than just suppressing the failure.
+- **`tests/unit/test_endorsement.py::test_empty_response_retry_recovers_cleanly`** — end-to-end through real `OpenAIProvider` + endorsement: 3 samples, each first-call-empty then-succeed. All three samples must end up as clean GOOD with `provider_error is None`.
+- **`tests/unit/test_logging_setup.py::test_thread_pool_executor_isolation`** — four concurrent `evaluate()`-pattern calls under `ThreadPoolExecutor`. Each file must contain exactly its own run's events (no contamination, no drops). This is the test that caught the level-reset race above.
+
+951/951 unit tests pass.
+
 ## [0.15.0] — 2026-06-07
 
 **Framework instrumentation fixes for the three v0.14.0 silent-failure bugs caught by the framework's own R22 discipline.** v0.14.0's Phase 2 day-out staged-composition sweep produced an implausibly uniform "coverage collapse" finding in the pulmonology cells. Forensic audit (the framework's R22 cap firing correctly) revealed it was an instrumentation artifact: the framework had three latent bugs — silent empty-response → ABSTAIN; cross-thread logger contamination; no rate-limit retry on burst-parallel OpenRouter calls — composing to fabricate "model behavior" out of provider failures. v0.15.0 fixes all three, adds an `infereval audit` CLI to post-hoc characterize legacy captures, and ships backfill audit reports for the qwen3-max cells that were meaningfully affected. **The canonical bug-analysis doc lives at [`KNOWN_ISSUES_v0.14.0.md`](./KNOWN_ISSUES_v0.14.0.md) at the repo root.**

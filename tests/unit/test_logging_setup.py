@@ -259,6 +259,53 @@ class TestConcurrentRunIsolation:
             # And we got every tick we issued (no drops).
             assert len(records) == 5
 
+    def test_thread_pool_executor_isolation(self, tmp_path: Path) -> None:
+        """v0.15.0+: real-world orchestrators (e.g. the Phase 2 append
+        script) submit evaluate() calls via concurrent.futures.ThreadPoolExecutor.
+        TPE does NOT auto-propagate the parent's contextvars — each
+        worker thread starts with the contextvar at its default.
+
+        Our fix relies on configure_run_logging being called *inside*
+        each worker (which sets the contextvar in that worker's
+        context). This test confirms that pattern works under TPE.
+        If it breaks, user-orchestrators that fan out evaluate() via
+        TPE would see cross-thread bleed-through despite the v0.15.0
+        fix — and we'd need to document the requirement or use
+        copy_context().run for submissions.
+        """
+        from concurrent.futures import ThreadPoolExecutor
+
+        runs: list[tuple[Path, str, int]] = [
+            (tmp_path / f"run-{i}.jsonl", f"R{i}", 5) for i in range(4)
+        ]
+
+        def worker(log_path: Path, run_id: str, n: int) -> None:
+            # Pattern: each worker calls configure_run_logging itself.
+            # This is what infereval.evaluation.evaluate() does — the
+            # contextvar is set in the worker's own context, not the
+            # parent's.
+            logger = logging.getLogger("infereval")
+            with configure_run_logging(log_path, run_id=run_id):
+                for i in range(n):
+                    log_event(logger, "tick", run=run_id, i=i)
+
+        # Submit all four jobs and let them run truly concurrently.
+        with ThreadPoolExecutor(max_workers=4) as pool:
+            futures = [pool.submit(worker, *args) for args in runs]
+            for f in futures:
+                f.result()  # propagate any exceptions
+
+        # Each file must contain exactly its own run's events.
+        for log_path, expected_run, _ in runs:
+            records = [
+                json.loads(line) for line in log_path.read_text().splitlines()
+            ]
+            assert all(r.get("run_id") == expected_run for r in records), (
+                f"{log_path.name} contaminated with foreign run_id: "
+                f"{[r.get('run_id') for r in records]}"
+            )
+            assert len(records) == 5
+
     def test_no_run_id_falls_through_unchanged(self, tmp_path: Path) -> None:
         """When no run_id is set anywhere, all handlers receive all
         events (legacy behaviour preserved for tests and direct callers)."""

@@ -30,6 +30,7 @@ import contextvars
 import hashlib
 import json
 import logging
+import threading
 from collections.abc import Iterator
 from contextlib import contextmanager
 from datetime import datetime, timezone
@@ -55,6 +56,21 @@ from typing import Any
 _current_run_id: contextvars.ContextVar[str | None] = contextvars.ContextVar(
     "infereval_run_id", default=None
 )
+
+# v0.15.1+: reference-count active configure_run_logging() invocations
+# per (logger_name, raised_level) so concurrent calls don't restore the
+# level prematurely while another thread is still mid-write.
+#
+# The v0.15.0 fix correctly stopped CROSS-CONTAMINATION (a thread's
+# events landing in another thread's log file) but it left a secondary
+# race: when one thread exits its `with configure_run_logging(...)`
+# block and resets the logger level to its saved value, any *other*
+# thread mid-log might have its INFO events dropped at the logger
+# level gate. Reference counting eliminates that by deferring the
+# level restore until the last active call exits.
+_level_refcount_lock = threading.Lock()
+_level_refcount: dict[tuple[str, int], int] = {}
+_level_saved: dict[str, int] = {}
 
 
 def current_run_id() -> str | None:
@@ -241,11 +257,21 @@ def configure_run_logging(
     pkg_logger = logging.getLogger(logger_name)
     pkg_logger.addHandler(handler)
 
-    # stdlib logging gates twice: first the logger, then the handler.
-    # Raise the logger floor only if it's stricter than the handler's level.
-    saved_level = pkg_logger.level
-    if saved_level == logging.NOTSET or saved_level > level:
-        pkg_logger.setLevel(level)
+    # v0.15.1: reference-count the level-raise so concurrent
+    # configure_run_logging() calls don't restore the level
+    # prematurely while another thread is still mid-write. stdlib
+    # logging gates twice: first the logger, then the handler. We
+    # raise the logger floor only if needed; the first call records
+    # the saved level, subsequent concurrent calls just bump the ref
+    # count, and the LAST call to exit restores it.
+    key = (logger_name, level)
+    with _level_refcount_lock:
+        if not _level_refcount:
+            _level_saved[logger_name] = pkg_logger.level
+        current = pkg_logger.level
+        if current == logging.NOTSET or current > level:
+            pkg_logger.setLevel(level)
+        _level_refcount[key] = _level_refcount.get(key, 0) + 1
 
     # v0.15.0: set the contextvar so the run-scoped filter on this
     # handler — and on any other concurrent handler — can detect which
@@ -258,7 +284,14 @@ def configure_run_logging(
     finally:
         handler.flush()
         pkg_logger.removeHandler(handler)
-        pkg_logger.setLevel(saved_level)
+        with _level_refcount_lock:
+            _level_refcount[key] -= 1
+            if _level_refcount[key] == 0:
+                del _level_refcount[key]
+            # Only restore the level when ALL active calls have exited.
+            if not _level_refcount:
+                saved = _level_saved.pop(logger_name, logging.NOTSET)
+                pkg_logger.setLevel(saved)
         handler.close()
         if token is not None:
             _current_run_id.reset(token)
