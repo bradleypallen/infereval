@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+> ⚠️ **v0.14.0 RELEASE-BLOCKING ISSUES.** v0.14.0 is on PyPI but ships three framework bugs (silent empty-response → ABSTAIN, cross-thread logger contamination, no rate-limit retry). The Phase 2 day-out pulmonology coverage-collapse finding published in `experiments/results/pulmonology_2026-06-07.md` is artifact, not real model behavior. The bugs were caught by the framework's own R22 discipline. **Read [`KNOWN_ISSUES_v0.14.0.md`](KNOWN_ISSUES_v0.14.0.md) at the repo root before doing anything related to R22, Phase 2 captures, or methodology-paper writeup.** v0.15.0 will fix; that issue file is the single source of truth on what to retract, what to fix, and what to re-run.
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Repository contents
