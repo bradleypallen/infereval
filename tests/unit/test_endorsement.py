@@ -283,6 +283,80 @@ class TestSampleFailures:
         assert record.counts[Verdict.GOOD] == 0
         assert record.counts[Verdict.BAD] == 0
 
+    def test_empty_response_retry_recovers_cleanly(self) -> None:
+        """v0.15.0+: the full bug-fix loop end-to-end. A real provider
+        whose first attempt raises EmptyResponseError (mimicking
+        OpenRouter's 200 + empty body on rate-limit) and whose retry
+        succeeds must produce a clean SampleRecord:
+
+        - parsed_verdict reflects the *recovered* response, not ABSTAIN
+        - provider_error stays None (the failure was suppressed by the
+          retry, so this isn't an instrument failure from the
+          downstream consumer's perspective)
+        - the recovered verdict participates in the majority vote
+
+        This is the partial-recovery scenario the v0.14.0 silent-
+        failure bug never reached: previously the empty body got
+        parsed as ABSTAIN with no retry; the framework couldn't tell
+        anything was wrong. With v0.15.0 the empty body raises and
+        the retry succeeds — the user sees clean evidence.
+        """
+        from unittest.mock import MagicMock
+
+        from infereval.providers.base import RetryPolicy
+        from infereval.providers.openai import OpenAIProvider
+
+        # Build a real provider with mocked SDK client that fails
+        # the first call (empty body) and succeeds on the second.
+        empty_resp = MagicMock()
+        empty_resp.id = "empty"
+        empty_resp.choices = [MagicMock()]
+        empty_resp.choices[0].message.content = None
+        empty_resp.choices[0].finish_reason = "stop"
+        empty_resp.usage.prompt_tokens = 1
+        empty_resp.usage.completion_tokens = 0
+        empty_resp.model_dump = lambda: {}
+        good_resp = MagicMock()
+        good_resp.id = "good"
+        good_resp.choices = [MagicMock()]
+        good_resp.choices[0].message.content = "GOOD"
+        good_resp.choices[0].finish_reason = "stop"
+        good_resp.usage.prompt_tokens = 1
+        good_resp.usage.completion_tokens = 1
+        good_resp.model_dump = lambda: {}
+
+        # Three samples, each first-call-empty then succeed. So six
+        # total client calls; sequence rotates through [empty, good]
+        # for each sample independently.
+        mock_client = MagicMock()
+        mock_client.chat.completions.create.side_effect = [
+            empty_resp, good_resp,
+            empty_resp, good_resp,
+            empty_resp, good_resp,
+        ]
+        provider = OpenAIProvider(
+            "gpt-4o",
+            client=mock_client,
+            retry_policy=RetryPolicy(max_attempts=3, backoff_initial_s=0.0),
+        )
+        # Use the same _run helper but pass the real provider.
+        record = _run(provider, n_samples=3)
+        # All three samples recovered to GOOD — none are silent ABSTAINs.
+        assert record.verdict == Verdict.GOOD
+        assert record.counts[Verdict.GOOD] == 3
+        assert record.counts[Verdict.ABSTAIN] == 0
+        # And no provider_error on any sample — the failure was
+        # transparently suppressed by the retry.
+        for s in record.samples:
+            assert s.provider_error is None, (
+                f"sample {s.sample_index} unexpectedly has provider_error: "
+                f"{s.provider_error}"
+            )
+            assert s.parsed_verdict == Verdict.GOOD
+        # Sanity: the provider was called twice per sample (one empty,
+        # one recovery) for a total of 6 calls.
+        assert mock_client.chat.completions.create.call_count == 6
+
     def test_provider_failure_excluded_from_majority(self) -> None:
         """A 2-good-1-failure item resolves to a clean GOOD with count 2,
         not GOOD-with-one-abstain."""

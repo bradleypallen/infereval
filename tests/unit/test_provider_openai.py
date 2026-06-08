@@ -286,6 +286,43 @@ class TestResponseParsing:
                 "Expected ProviderSampleError from empty response body"
             )
 
+    def test_empty_content_recovers_on_retry(self) -> None:
+        """v0.15.0+: when the first call returns an empty body
+        (transient OpenRouter rate-limit) and the retry succeeds,
+        the SampleResult should carry the real model response — NOT
+        the empty placeholder. This is the partial-recovery scenario
+        the v0.14.0 silent-failure bug never reached: the retry path
+        must actually deliver the recovered text, not just suppress
+        the failure."""
+        empty_resp = SimpleNamespace(
+            id="empty",
+            choices=[
+                SimpleNamespace(
+                    message=SimpleNamespace(content=None),
+                    index=0,
+                    finish_reason="stop",
+                )
+            ],
+            usage=SimpleNamespace(prompt_tokens=1, completion_tokens=0),
+            model_dump=lambda: {},
+        )
+        good_resp = _fake_response(text="GOOD", finish_reason="stop")
+        mock_client = MagicMock()
+        # First call returns empty body (triggers EmptyResponseError);
+        # second call returns a clean GOOD response.
+        mock_client.chat.completions.create.side_effect = [empty_resp, good_resp]
+        p = OpenAIProvider(
+            "gpt-4o",
+            client=mock_client,
+            retry_policy=RetryPolicy(max_attempts=3, backoff_initial_s=0.0),
+        )
+        result = p.sample(SampleRequest(prompt="Q"))
+        assert result.text == "GOOD"
+        assert result.finish_reason == "stop"
+        # And the provider should have been called exactly twice — once
+        # for the failed empty body, once for the successful retry.
+        assert mock_client.chat.completions.create.call_count == 2
+
     def test_empty_content_with_length_finish_reason_returns_empty(self) -> None:
         """v0.15.0+: empty response body with finish_reason='length' is
         a *real* budget-clipped model response, not an API failure.
