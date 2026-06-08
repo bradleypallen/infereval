@@ -8,15 +8,15 @@ v0.10.0 cross-family sweep used, so the R22 evidence is directly
 comparable to the v0.10.0 agreement measurements at
 `experiments/results/pulmonology/<model>-eta.json`.
 
-The methodological motivation: the v0.10.0 cross-family rerun found
-Gemini 2.5 Pro shifting κ_C by 0.21 across captures 2.5 weeks apart
-with identical params (see `pulmonology_2026-06-06.md`'s Δ vs v0.1
-κ_C column, the −0.207 row). That single across-update data point
-suggested cross-update drift but didn't characterize the drift's
-time-scale signature. v0.14.0 Phase 1 captures the within-day
-component (back-to-back floor + 1h drift) for all 6 cells; Phase 2
-captures (forthcoming as commits to `main`) will extend that to
-day-out and week-out time scales.
+The methodological motivation: cross-update drift on the order of
+0.2 κ_C observed in earlier captures of the same model–benchmark
+pair across multi-week intervals suggested cross-update drift but
+didn't characterize the drift's time-scale signature. Phase 1
+captures the within-day component (back-to-back floor + 1h drift)
+for each cell; Phase 2 captures extend that to day-out and week-out
+time scales. The bundled `*-multi-retest.json` artifacts compose
+those intervals into one `MultiIntervalRetestResult`. (Bundled
+data pending v0.16.0 fresh re-capture.)
 
 ## Per-cell layout
 
@@ -86,8 +86,9 @@ python experiments/scripts/pulmonology_multiinterval_r22_retrofit.py --only gemi
 python experiments/scripts/pulmonology_multiinterval_r22_retrofit.py --dry-run
 ```
 
-See the top-level `experiments/results/pulmonology_2026-06-07.md` for
-the full analysis + interpretation of the Phase 1 results.
+The full analysis + interpretation will land as a fresh top-level
+writeup at `experiments/results/pulmonology_2026-XX-XX.md` after the
+v0.16.0 re-capture completes.
 
 ## v0.14.0 Phase 2: staged-composition appends
 
