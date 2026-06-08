@@ -66,7 +66,7 @@ from typing import NamedTuple
 REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
-from infereval import __version__ as FRAMEWORK_VERSION  # noqa: E402
+from infereval import __version__ as FRAMEWORK_VERSION  # noqa: E402, N812
 from infereval.benchmark import Benchmark  # noqa: E402
 from infereval.evaluation import (  # noqa: E402
     EndorsementConfig,
@@ -265,7 +265,7 @@ def _capture_one_cell(
     # Build the MultiIntervalRetestResult.
     baseline = captures[0]
     pairs: list[IntervalPair] = []
-    for i, later in enumerate(captures[1:], start=1):
+    for _i, later in enumerate(captures[1:], start=1):
         retest = compute_retest(
             baseline, later, benchmark=bench,
             identity_criterion=identity_criterion,

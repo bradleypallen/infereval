@@ -1,6 +1,6 @@
 # Construct-validity report
 
-_Generated: 2026-06-07T05:56:53.579568+00:00_
+_Generated: 2026-06-08T01:51:37.036968+00:00_
 
 ## 1. Identity
 
@@ -28,8 +28,9 @@ _Generated: 2026-06-07T05:56:53.579568+00:00_
 |---:|---|---:|---:|---|
 | 88 | `retest-auto-16f4c06b-1` | +1.0000 | 0/4 | stable |
 | 3779 | `retest-auto-16f4c06b-2` | +0.5000 | 1/4 | substantively unstable |
+| 85771 | `retest-append-f9dd686d-3` | +0.5000 | 1/4 | substantively unstable |
 
-- **Overall verdict**: substantively unstable (worst-case across 2 intervals; driven by interval 3779s).
+- **Overall verdict**: substantively unstable (worst-case across 3 intervals; driven by interval 85771s).
 - *Every pair compared under the declared identity criterion (`provider+model_id, cross-update identity asserted, scaffolding constant`).*
 
 ## 3. Construct-validity claims (R16–R20)
@@ -70,8 +71,9 @@ Auto-collected from optional Phase 2 artifacts:
 
 The framework auto-collects negative findings from the supplied Phase 2 artifacts. Each item below represents a check that ran but returned a finding that *weakens or complicates* the mastery claim.
 
-### Test-retest anomalies (R22) (2 flagged)
+### Test-retest anomalies (R22) (3 flagged)
 - Test-retest reliability (R22) at interval 3779s: test-retest reliability is substantively unstable under the declared identity criterion (κ = +0.500); 25.0% of items flipped between runs — model output for this benchmark is not reliable enough for the headline κ_C to be interpreted as signal. [κ = +0.500, flip rate = 25.0%]
+- Test-retest reliability (R22) at interval 85771s: test-retest reliability is substantively unstable under the declared identity criterion (κ = +0.500); 25.0% of items flipped between runs — model output for this benchmark is not reliable enough for the headline κ_C to be interpreted as signal. [κ = +0.500, flip rate = 25.0%]
 - `row-1`: verdict flipped good → bad [first seen at interval 3779s]
 
 
@@ -94,7 +96,7 @@ The following checks were NOT run. Each omission weakens the defensibility of th
 
 - 2 of 2 required checks NOT run: ['sensitivity_sweep_run', 'structural_check_run'].
 - Benchmark has m=1 analyst(s); κ_F\*(β) is undefined and there is no independent reference column. A green verdict at items_in_benchmark scope would certify agreement with a single labeler — capped at partially_defensible.
-- `test_retest_run` is marked True, but the supplied multi-interval retest result has a substantively-unstable pair at interval 3779s (κ = +0.500, flip rate = 25.0%); the headline κ_C cannot be interpreted as signal under this reliability across the time scales captured. Verdict capped at partially_defensible.
+- `test_retest_run` is marked True, but the supplied multi-interval retest result has a substantively-unstable pair at interval 85771s (κ = +0.500, flip rate = 25.0%); the headline κ_C cannot be interpreted as signal under this reliability across the time scales captured. Verdict capped at partially_defensible.
 
 ---
 

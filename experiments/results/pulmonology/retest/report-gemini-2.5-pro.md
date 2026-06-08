@@ -1,6 +1,6 @@
 # Construct-validity report
 
-_Generated: 2026-06-06T23:21:01.957664+00:00_
+_Generated: 2026-06-08T01:51:36.767308+00:00_
 
 ## 1. Identity
 
@@ -28,8 +28,9 @@ _Generated: 2026-06-06T23:21:01.957664+00:00_
 |---:|---|---:|---:|---|
 | 1203 | `retest-auto-0f33413c-1` | +1.0000 | 0/30 | stable |
 | 5814 | `retest-auto-0f33413c-2` | +1.0000 | 0/30 | stable |
+| 101843 | `retest-append-f987ca5b-3` | undefined | 29/30 | undefined |
 
-- **Overall verdict**: stable (worst-case across 2 intervals; driven by interval 5814s).
+- **Overall verdict**: undefined (worst-case across 3 intervals; driven by interval 101843s).
 - *Every pair compared under the declared identity criterion (`provider+model_id, cross-update identity asserted, scaffolding constant`).*
 
 ## 3. Construct-validity claims (R16–R20)
@@ -68,7 +69,40 @@ Auto-collected from optional Phase 2 artifacts:
 
 ## 4b. Negative findings
 
-No negative findings detected in the supplied Phase 2 artifacts.
+The framework auto-collects negative findings from the supplied Phase 2 artifacts. Each item below represents a check that ran but returned a finding that *weakens or complicates* the mastery claim.
+
+### Test-retest anomalies (R22) (30 flagged)
+- Test-retest reliability (R22) at interval 101843s: test-retest κ is undefined on this comparison (degenerate agreement structure); reliability cannot be assessed from this run pair under the declared identity criterion [κ undefined, flip rate = 96.7%]
+- `a1`: verdict flipped good → abstain [first seen at interval 101843s]
+- `a10`: verdict flipped bad → abstain [first seen at interval 101843s]
+- `a2`: verdict flipped good → abstain [first seen at interval 101843s]
+- `a3`: verdict flipped good → abstain [first seen at interval 101843s]
+- `a4`: verdict flipped good → abstain [first seen at interval 101843s]
+- `a5`: verdict flipped good → abstain [first seen at interval 101843s]
+- `a6`: verdict flipped bad → abstain [first seen at interval 101843s]
+- `a7`: verdict flipped bad → abstain [first seen at interval 101843s]
+- `a8`: verdict flipped bad → abstain [first seen at interval 101843s]
+- `a9`: verdict flipped bad → abstain [first seen at interval 101843s]
+- `c10`: verdict flipped bad → abstain [first seen at interval 101843s]
+- `c11`: verdict flipped bad → abstain [first seen at interval 101843s]
+- `c12`: verdict flipped bad → abstain [first seen at interval 101843s]
+- `c2`: verdict flipped good → abstain [first seen at interval 101843s]
+- `c3`: verdict flipped good → abstain [first seen at interval 101843s]
+- `c4`: verdict flipped good → abstain [first seen at interval 101843s]
+- `c5`: verdict flipped good → abstain [first seen at interval 101843s]
+- `c6`: verdict flipped bad → abstain [first seen at interval 101843s]
+- `c7`: verdict flipped bad → abstain [first seen at interval 101843s]
+- `c8`: verdict flipped bad → abstain [first seen at interval 101843s]
+- `c9`: verdict flipped good → abstain [first seen at interval 101843s]
+- `x1`: verdict flipped good → abstain [first seen at interval 101843s]
+- `x2`: verdict flipped bad → abstain [first seen at interval 101843s]
+- `x3`: verdict flipped good → abstain [first seen at interval 101843s]
+- `x4`: verdict flipped good → abstain [first seen at interval 101843s]
+- `x5`: verdict flipped good → abstain [first seen at interval 101843s]
+- `x6`: verdict flipped good → abstain [first seen at interval 101843s]
+- `x7`: verdict flipped good → abstain [first seen at interval 101843s]
+- `x8`: verdict flipped good → abstain [first seen at interval 101843s]
+
 
 ## 5. Unaddressed competing explanations
 
@@ -90,6 +124,7 @@ The following checks were NOT run. Each omission weakens the defensibility of th
 
 - 2 of 2 required checks NOT run: ['sensitivity_sweep_run', 'structural_check_run'].
 - Benchmark has m=1 analyst(s); κ_F\*(β) is undefined and there is no independent reference column. A green verdict at items_in_benchmark scope would certify agreement with a single labeler — capped at partially_defensible.
+- `test_retest_run` is marked True, but the supplied multi-interval retest result has undefined κ at interval 101843s (degenerate agreement structure on the comparison column) — the check ran across 3 intervals but at least one did not produce a usable reliability estimate. Verdict capped at partially_defensible.
 
 ---
 

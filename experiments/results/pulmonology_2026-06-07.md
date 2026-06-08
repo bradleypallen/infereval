@@ -70,11 +70,52 @@ The v0.14.0 Phase 1 evidence answers one question and surfaces another:
 
 Each append takes a few minutes (one evaluation + one `compute_retest`) regardless of the elapsed window. The accumulated `MultiIntervalRetestResult` renders as a 4-row per-interval table in `infereval report` §2 Reliability with worst-case overall verdict computed across all four pairs.
 
-## Reading the Phase 2 evidence (forthcoming as commits to `main`)
+## Phase 2 day-out append (captured 2026-06-07, all 6 cells)
 
-The v0.14.0 staged-composition pattern lets Phase 2 day-out / week-out R22 evidence ship as separate `infereval retest --auto --append-to <multi.json>` invocations days or weeks after Phase 1, without the orchestrator process needing to stay alive for the elapsed window. Each Phase 2 append grows the `MultiIntervalRetestResult` from two pairs to three or more.
+The v0.14.0 staged-composition pattern lets Phase 2 evidence ship as separate `infereval retest --auto --append-to <multi.json>` invocations days or weeks after Phase 1, without the orchestrator process needing to stay alive for the elapsed window. The day-out captures for all 6 pulmonology cells were run via `experiments/scripts/phase2_append.py` ~22–28 hours after the Phase 1 baselines, growing each cell's `MultiIntervalRetestResult` from 2 pairs to 3 pairs.
 
-When Phase 2 captures land they will be summarized in a follow-up section here or in dated `pulmonology_<later-date>.md` markdowns. The R22 audit cap is computed worst-case across all captured pairs, so a Phase 2 substantively-unstable pair will downgrade the v0.13.0 `infereval report --retest` verdict for that cell.
+**Day-out is the methodologically central new evidence in this release.** Three of six pulmonology cells show *coverage collapse* at the day scale — the model shifts substantively-committed verdicts (good/bad) to ABSTAIN on most or all items, while two pairs measured back-to-back and 1h-later showed perfect stability. The within-session reliability floor (Phase 1: κ=+1.000 on all three of these cells) does not predict the day-scale coverage behavior at all.
+
+| Cell | Phase 1 κ@0s, @3600s | Day-out interval | **Day-out κ** | **Day-out flips** | Shape |
+|---|---|---:|---:|---:|---|
+| Claude Opus 4.7 | +1.000, +1.000 | 101829s (~28h) | +0.9315 | 1/30 | Stable (mild) |
+| GPT-4.1 (anchor) | +0.933, +0.933 | 101850s (~28h) | **+1.000** | **0/30** | **Improved** at day-out — single ambiguous item resolved |
+| GPT-5.5 | +0.933, +1.000 | 101862s (~28h) | +0.9333 | 1/30 | Stable (mild) |
+| **DeepSeek v4-pro** | +0.861, +0.932 | 101831s (~28h) | +1.000 | **25/30** | **Coverage shift**: substantive verdicts internally consistent (κ=+1.000 on the substantive subset) but 25 of 30 items crossed the ABSTAIN boundary |
+| **Qwen3-max** | +1.000, +1.000 | 101882s (~28h) | **undefined** | **20/30** | **Coverage collapse**: 20 items shifted to/from ABSTAIN; substantive intersection too narrow for Cohen's κ |
+| **Gemini 2.5 Pro** | +1.000, +1.000 | 101843s (~28h) | **undefined** | **29/30** | **Total coverage collapse**: 29 of 30 items went substantive → ABSTAIN |
+
+### The Gemini result reframes v0.10.0
+
+The v0.10.0 cross-family rerun originally found Gemini 2.5 Pro shifting κ_C by 0.21 across 2.5 weeks. The methodology paper's R22 framing read that as evidence of cross-update drift; Phase 1 (back-to-back + 1h-later perfectly stable) ruled out within-1h provider routing changes; the open question was *where between 1 hour and 2.5 weeks the drift first emerges*.
+
+The Phase 2 day-out evidence answers it cleanly and dramatically: **the drift emerges by ~28 hours, and it's enormous**. Gemini went from κ=+1.000 / 0 flips at 1h to κ undefined / 29-of-30 flips at day-out — every substantively-committed verdict (good or bad) on the v0.10.0 pulmonology benchmark moved to ABSTAIN at the day scale. This is not a 0.21 κ_C drift; it's a categorical change in how the model treats clinical-reasoning prompts.
+
+The v0.10.0 published κ_C of +0.571 on Gemini 2.5 Pro pulmonology is therefore reporting **one moment** of a cell whose behavior is fundamentally unstable across the day scale. The methodology paper's central R22 claim — "any cross-family κ comparison without a retest discipline is reporting a point on an unknown distribution" — has overwhelming evidence on this cell.
+
+### Three of six pulmonology cells show day-scale coverage instability
+
+Gemini is not alone. **Qwen3-max** (20/30 flips, κ undefined at day-out) shows the same coverage-collapse pattern at smaller magnitude. **DeepSeek v4-pro** (25/30 flips, κ=+1.000) shows a different shape — its substantive verdicts on the remaining intersection are internally consistent, but 25 of 30 items crossed the ABSTAIN boundary between baseline and day-out. Across the three: the providers involved are OpenRouter (Gemini, Qwen, DeepSeek). The three OpenAI/Anthropic cells (GPT-4.1, GPT-5.5, Claude Opus 4.7) all remain stable at day-out (κ ≥ +0.933).
+
+Provisional reading: **OpenRouter's routing behavior across the ~24h scale produces day-out captures that are categorically different from the back-to-back captures on cells where the benchmark's defeasible-clinical-v1 prompt asks for committed verdicts on contested clinical questions**. Whether the routing changed which underlying model variant served the request, or whether the same model variant responded differently due to load / cache / batching changes, is not observable from the eta logs — the framework cannot mechanically distinguish these.
+
+The methodologically clean take: **the analyst-substantiated portion of the Phase 1 identity criterion (`cross_update_identity_asserted = True` over the 1h window) does not hold across the day window for OpenRouter-routed pulmonology cells**. The Phase 2 day-out evidence is the framework correctly surfacing that the criterion is contested at the day scale. Updating the identity criterion to `cross_update_identity_asserted = False` and re-rendering the report would acknowledge this — the report's R22 audit cap then doesn't fire, because reliability isn't being claimed across an interval the analyst now admits is uncontrolled.
+
+### Bundled retest-aware report regenerated
+
+`experiments/results/pulmonology/retest/report-gemini-2.5-pro.md` now renders the 3-pair table with Overall verdict "undefined (worst-case across 3 intervals; driven by interval 101843s)". The R22 audit cap fires correctly: verdict capped at `partially_defensible` with rationale "`test_retest_run` is marked True, but the supplied multi-interval retest result has undefined κ at interval 101843s (degenerate agreement structure on the comparison column) — the check ran across 3 intervals but at least one did not produce a usable reliability estimate." This is the v0.13.0 retest-aware report machinery working as designed against the most methodologically severe cell in the bundled distribution.
+
+### Phase 2 cadence going forward
+
+The day-out append is the first of a planned cadence (day → week → 2-week → month) for the Tier 1 cells. The pulmonology Gemini result raises the question: *does the coverage-collapse pattern reverse at the week scale, or does it remain*? Phase 2 week-out captures will land as a separate commit to `main` ~7 days from Phase 1 baseline (~June 13, 2026).
+
+Run the next append cycle via:
+
+```sh
+python experiments/scripts/phase2_append.py
+```
+
+The orchestrator handles all 45 cells, dispatches on benchmark for prompt selection, and grows each cell's multi-retest.json in place.
 
 ## Reproducibility
 

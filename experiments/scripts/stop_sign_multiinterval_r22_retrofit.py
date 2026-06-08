@@ -72,8 +72,16 @@ sys.path.insert(0, str(REPO_ROOT / "src"))
 # Allow importing helpers from the triangulation script.
 sys.path.insert(0, str(REPO_ROOT / "experiments"))
 
-from infereval import __version__ as FRAMEWORK_VERSION  # noqa: E402
-from infereval.benchmark import Benchmark  # noqa: E402
+# Reuse the canonical defeasible-explicit prompt and variant-construction
+# helper from the v0.5.18 paraphrase-axis script so the R22 captures
+# use the same endorsement conditions as the original cross-family sweep.
+from paraphrase_axis_triangulation import (  # noqa: E402
+    DEFEASIBLE_PROMPT,
+    VARIANTS,
+    make_variant_benchmark,
+)
+
+from infereval import __version__ as FRAMEWORK_VERSION  # noqa: E402, N812
 from infereval.evaluation import (  # noqa: E402
     EndorsementConfig,
     Evaluation,
@@ -87,15 +95,6 @@ from infereval.retest import (  # noqa: E402
     compute_interval_s,
     compute_retest,
     multi_interval_retest_result_to_dict,
-)
-
-# Reuse the canonical defeasible-explicit prompt and variant-construction
-# helper from the v0.5.18 paraphrase-axis script so the R22 captures
-# use the same endorsement conditions as the original cross-family sweep.
-from paraphrase_axis_triangulation import (  # noqa: E402
-    DEFEASIBLE_PROMPT,
-    VARIANTS,
-    make_variant_benchmark,
 )
 
 RESULTS_DIR = REPO_ROOT / "experiments" / "results" / "stop_sign" / "retest"

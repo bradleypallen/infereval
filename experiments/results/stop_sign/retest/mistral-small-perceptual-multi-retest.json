@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "framework_version": "0.13.0",
+  "framework_version": "0.14.0",
   "benchmark_id": "stop-sign-perceptual",
   "benchmark_hash": "sha256:6688d2250abd980b6564a429d84dc69429bdf51f88677561797ecc16452bfb37",
   "baseline_run_id": "retest-auto-871882a9-0",
@@ -132,6 +132,82 @@
             "margin_a": 1.0,
             "margin_b": 0.3333333333333333,
             "margin_delta": 0.6666666666666667
+          },
+          {
+            "item_id": "row-3",
+            "verdict_a": "bad",
+            "verdict_b": "bad",
+            "entropy_a": 0.0,
+            "entropy_b": 0.0,
+            "entropy_delta": 0.0,
+            "margin_a": 1.0,
+            "margin_b": 1.0,
+            "margin_delta": 0.0
+          }
+        ],
+        "identity_criterion": {
+          "same_benchmark_hash": true,
+          "same_endorsement_config": true,
+          "same_paraphrase_variant": true,
+          "same_provider_model_id": true,
+          "cross_update_identity_asserted": true,
+          "same_scaffolding": true,
+          "unverifiable_caveats": "Provider APIs (Anthropic, OpenAI, OpenRouter) do not expose model-version snapshots for the providers used; cross_update_identity_asserted is recorded on faith. The 1h elapsed window between baseline and capture-2 is short enough that across-update model swaps would be exceptional, but the framework cannot mechanically verify the absence of one.",
+          "rationale": "All three captures of each cell run within the same Python orchestrator invocation against the same provider+model_id, with identical EndorsementConfig (defeasible-explicit-v1 prompt via DEFEASIBLE_PROMPT constant from paraphrase_axis_triangulation.py, n_samples=3, temperature=0.0, max_tokens=2048) and ProviderParams. The variant benchmark is constructed once per cell (the \u03b4(ra) expression is swapped at runtime) and reused identically across all three captures of that cell. The 1h elapsed window between baseline and capture-2 captures the short-horizon across-update drift component of R22; longer intervals will ship as Phase 2 commits via `infereval retest --auto --append-to`."
+        }
+      }
+    },
+    {
+      "interval_s": 78171,
+      "run_id": "retest-append-c73785ca-3",
+      "retest": {
+        "schema_version": "1.0",
+        "framework_version": "0.14.0",
+        "benchmark_id": "stop-sign-perceptual",
+        "benchmark_hash": "sha256:6688d2250abd980b6564a429d84dc69429bdf51f88677561797ecc16452bfb37",
+        "run_a_id": "retest-auto-871882a9-0",
+        "run_b_id": "retest-append-c73785ca-3",
+        "n_items": 4,
+        "n_agreements": 4,
+        "n_disagreements": 0,
+        "agreement_rate": 1.0,
+        "flip_rate": 0.0,
+        "test_retest_kappa": 1.0,
+        "stability_verdict": "test-retest reliability is stable under the declared identity criterion (\u03ba = +1.000); verdict-flip rate 0.0%.",
+        "flipped_items": [],
+        "item_deltas": [
+          {
+            "item_id": "row-0",
+            "verdict_a": "good",
+            "verdict_b": "good",
+            "entropy_a": 0.0,
+            "entropy_b": 0.0,
+            "entropy_delta": 0.0,
+            "margin_a": 1.0,
+            "margin_b": 1.0,
+            "margin_delta": 0.0
+          },
+          {
+            "item_id": "row-1",
+            "verdict_a": "good",
+            "verdict_b": "good",
+            "entropy_a": 0.0,
+            "entropy_b": 0.0,
+            "entropy_delta": 0.0,
+            "margin_a": 1.0,
+            "margin_b": 1.0,
+            "margin_delta": 0.0
+          },
+          {
+            "item_id": "row-2",
+            "verdict_a": "bad",
+            "verdict_b": "bad",
+            "entropy_a": 0.0,
+            "entropy_b": 0.0,
+            "entropy_delta": 0.0,
+            "margin_a": 1.0,
+            "margin_b": 1.0,
+            "margin_delta": 0.0
           },
           {
             "item_id": "row-3",
