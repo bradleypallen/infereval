@@ -10,6 +10,7 @@ import logging
 import click
 
 from infereval import __version__
+from infereval.cli.audit_cmd import audit_cmd
 from infereval.cli.describe_cmd import describe_cmd
 from infereval.cli.evaluate_cmd import evaluate_cmd
 from infereval.cli.metrics_cmd import metrics_cmd
@@ -37,6 +38,7 @@ def cli() -> None:
 
 
 cli.add_command(validate_cmd)
+cli.add_command(audit_cmd)
 cli.add_command(describe_cmd)
 cli.add_command(evaluate_cmd)
 cli.add_command(metrics_cmd)
