@@ -12,6 +12,41 @@ stable from 1.0 onward, regardless of the framework version.
 
 No changes yet.
 
+## [0.15.2] — 2026-06-07
+
+**Live-validation harness for the v0.15.x silent-failure fixes.** Adds `experiments/scripts/v0151_silent_failure_stress.py` — a permanent regression-test harness that replicates the v0.14.0 silent-failure bug conditions against the live OpenRouter API and verifies the v0.15.0/v0.15.1 framework fixes hold under real burst pressure.
+
+### Why
+
+The v0.15.0 / v0.15.1 unit tests validate the fix logic in isolation (with mocked providers). The audit CLI validates the historical reconciliation math. Neither proves the fix holds under **live network conditions** — burst-parallel calls against real OpenRouter rate limits. v0.15.2 ships a harness to close that gap.
+
+### What it does
+
+Runs three OpenRouter cells (gemini-2.5-pro, qwen3-max, deepseek-v4-pro — the same three that exhibited the worst v0.14.0 silent-failure collapse per `KNOWN_ISSUES_v0.14.0.md`) concurrently under `ThreadPoolExecutor(max_workers=3)` against the bundled pulmonology benchmark. After the run, calls `infereval audit --json` on each capture and prints a per-cell summary table comparing published vs recomputed coverage and κ_C.
+
+### First-run validation results (v0.15.1 framework, 2026-06-07)
+
+| Cell | Samples | Real failures caught | Suspected | Coverage | κ_C |
+|---|---:|---:|---:|---:|---:|
+| gemini-2.5-pro | 150 | 0 | 1 (budget-clipped) | 1.0000 | 0.5714 |
+| qwen3-max | 150 | **13** | 0 | 0.8000 | 0.8235 |
+| deepseek-v4-pro | 150 | 0 | 3 (all budget-clipped) | 0.9333 | 0.6500 |
+
+The qwen3-max burst caught 13 real OpenRouter `429 Rate limit exceeded` failures, all correctly recorded with `provider_error` set and surfaced by the audit as **known** (0 suspected). Coverage held in the 0.80–1.00 range vs the v0.14.0 day-out collapse to 1/30, 10/30, 5/30 — sensible model behavior, no instrument-artifact collapse. All "suspected" flags resolved to real `parse_status="budget_clipped"` calls (reasoning models exhausting token budget on silent CoT), documented audit-heuristic false-positives.
+
+### Usage
+
+```bash
+export OPENROUTER_API_KEY=...
+python experiments/scripts/v0151_silent_failure_stress.py
+```
+
+`--out-dir`, `--cell`, `--bench`, `--max-workers` flags supported. Default cell list and burst pattern matches the v0.14.0 bug condition exactly.
+
+### Cost / wall time
+
+~$0.20 against OpenRouter list pricing; 5–25 minutes wall time depending on which reasoning models are slowest. Single-cell smoke test ~$0.05.
+
 ## [0.15.1] — 2026-06-07
 
 **Patch: validation-test-discovered race in `configure_run_logging`.** While writing post-v0.15.0 validation tests to answer the "how do we really know this works" question, the new `ThreadPoolExecutor` isolation test caught a secondary race in the logger setup code (separate from the v0.14.0 cross-contamination bug fixed in v0.15.0): when one thread exited its `configure_run_logging` block and restored the logger level, concurrent threads' INFO events could drop at the logger gate. The level-restore now reference-counts active calls and only restores when the last one exits.
