@@ -20,6 +20,7 @@ from infereval.logging_setup import log_event
 
 from .base import (
     BaseProvider,
+    EmptyResponseError,
     ProviderConfigError,
     RetryPolicy,
     SampleRequest,
@@ -164,6 +165,24 @@ class OpenAIProvider(BaseProvider):
             fr = getattr(choice, "finish_reason", None)
             if isinstance(fr, str):
                 finish_reason = fr
+
+        # v0.15.0: raise EmptyResponseError if the response body is empty
+        # or whitespace-only — but ONLY when finish_reason isn't "length"
+        # (a budget-clipped response is a *real* model behavior, not an
+        # API failure; the endorsement code already handles that case via
+        # _BudgetClippedProvider-style detection). The empty-response case
+        # this catches: HTTP 200 with no content choice, which OpenRouter
+        # was returning under rate-limit pressure in the v0.14.0 silent-
+        # failure incident. Triggers BaseProvider's always-transient retry
+        # path; if all retries fail, surfaces as ProviderSampleError that
+        # the endorser records with `provider_error` set.
+        if not text.strip() and finish_reason != "length":
+            raise EmptyResponseError(
+                f"{self.name} returned empty response body "
+                f"(finish_reason={finish_reason!r}, model={self.model_id!r}). "
+                f"Likely a rate-limit or transient provider failure that "
+                f"returned HTTP 200 with no content."
+            )
 
         usage_obj = getattr(response, "usage", None)
         usage: dict[str, int] = {}

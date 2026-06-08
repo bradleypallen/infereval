@@ -245,7 +245,18 @@ class TestResponseParsing:
         result = p.sample(SampleRequest(prompt="Q"))
         assert result.reasoning_tokens is None
 
-    def test_empty_content_yields_empty_text(self) -> None:
+    def test_empty_content_with_stop_finish_reason_raises(self) -> None:
+        """v0.15.0+: empty response body with finish_reason='stop' is
+        treated as a silent API failure (likely rate-limit), not as
+        success-with-empty-text. The provider raises EmptyResponseError,
+        which BaseProvider's retry loop classifies as always-transient
+        and retries; after exhausted retries surfaces as
+        ProviderSampleError. The v0.14.0 silent-failure bug fix:
+        previously this case got parsed as ABSTAIN by the endorsement
+        regex, masquerading as a real model abstention. See
+        KNOWN_ISSUES_v0.14.0.md."""
+        from infereval.providers.base import ProviderSampleError
+
         resp = SimpleNamespace(
             id="x",
             choices=[
@@ -259,8 +270,39 @@ class TestResponseParsing:
             model_dump=lambda: {},
         )
         p, _ = _provider_with_mock_client(resp)
+        # Reduce retry-policy max_attempts so this test runs quickly.
+        p.retry_policy.max_attempts = 2
+        p.retry_policy.backoff_initial_s = 0.0
+        try:
+            p.sample(SampleRequest(prompt="Q"))
+        except ProviderSampleError as exc:
+            assert "empty response body" in str(exc).lower()
+        else:
+            raise AssertionError(
+                "Expected ProviderSampleError from empty response body"
+            )
+
+    def test_empty_content_with_length_finish_reason_returns_empty(self) -> None:
+        """v0.15.0+: empty response body with finish_reason='length' is
+        a *real* budget-clipped model response, not an API failure.
+        Returns empty text (existing v0.14.0 behavior); endorsement
+        handles via the budget-clipped detection path."""
+        resp = SimpleNamespace(
+            id="x",
+            choices=[
+                SimpleNamespace(
+                    message=SimpleNamespace(content=None),
+                    index=0,
+                    finish_reason="length",
+                )
+            ],
+            usage=SimpleNamespace(prompt_tokens=1, completion_tokens=0),
+            model_dump=lambda: {},
+        )
+        p, _ = _provider_with_mock_client(resp)
         r = p.sample(SampleRequest(prompt="Q"))
         assert r.text == ""
+        assert r.finish_reason == "length"
 
 
 # ---- Transient classification ---------------------------------------------

@@ -306,6 +306,12 @@ def endorse(
                 err=str(exc),
             )
             verdict = Verdict.ABSTAIN
+            # v0.15.0: provider_error carries the str of the underlying
+            # exception so downstream metrics / retest / report code can
+            # distinguish instrument failure from real model abstention.
+            # parsed_verdict stays ABSTAIN for backward compatibility
+            # with v0.14.0 consumers that don't understand the new field;
+            # aggregators that DO understand it (v0.15.0+) skip the sample.
             record = SampleRecord(
                 sample_index=i,
                 raw_response="",
@@ -316,6 +322,7 @@ def endorse(
                 usage=None,
                 finish_reason=None,
                 reasoning_tokens=None,
+                provider_error=str(exc),
             )
         sample_records.append(record)
         verdicts.append(verdict)
