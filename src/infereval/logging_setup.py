@@ -26,6 +26,7 @@ Reproducibility primitives:
 
 from __future__ import annotations
 
+import contextvars
 import hashlib
 import json
 import logging
@@ -34,6 +35,36 @@ from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+# v0.15.0: per-evaluate run_id scoped via contextvars so concurrent
+# ``evaluate()`` calls in different threads/tasks don't cross-contaminate
+# each other's JSONL log files. Set by :func:`configure_run_logging` for
+# the duration of the context-manager body; read by the run-scoping
+# filter attached to each FileHandler so a handler only emits records
+# whose calling context's ``run_id`` matches the handler's own.
+#
+# Note: ``ContextVar`` is per-thread AND per-asyncio-task, but
+# ``ThreadPoolExecutor`` does *not* automatically propagate context to
+# worker threads. Code that fans out evaluate() work across a
+# ThreadPoolExecutor needs to either submit via
+# ``ctx.run(...)`` or call ``configure_run_logging`` inside each worker.
+# In practice evaluate() itself is sequential (one item at a time); the
+# fan-out lives in user orchestrators that call evaluate() per thread —
+# each thread sets up its own logging via ``configure_run_logging``, so
+# the contextvar is correctly populated in each thread of execution.
+_current_run_id: contextvars.ContextVar[str | None] = contextvars.ContextVar(
+    "infereval_run_id", default=None
+)
+
+
+def current_run_id() -> str | None:
+    """Return the currently-active evaluation run_id, or ``None``.
+
+    v0.15.0+: exposed for diagnostics; downstream code generally doesn't
+    need to call this directly because :func:`configure_run_logging`
+    plumbs the run_id transparently.
+    """
+    return _current_run_id.get()
 
 # Builtin LogRecord attributes -- we don't want to serialize the formatter
 # plumbing into structured logs.
@@ -108,13 +139,41 @@ class JsonFormatter(logging.Formatter):
 
 
 class _RunContextFilter(logging.Filter):
-    """Inject persistent context (run_id, benchmark_id, …) into every record."""
+    """Inject persistent context (run_id, benchmark_id, …) into every record.
 
-    def __init__(self, context: dict[str, Any]) -> None:
+    v0.15.0: also enforces run scoping. If a non-``None`` ``run_id`` was
+    provided to :func:`configure_run_logging`, this filter is paired with
+    a specific FileHandler and:
+
+    1. Reads the current contextvar ``run_id`` (set per-thread by
+       :func:`configure_run_logging`).
+    2. If the contextvar is set and doesn't match this handler's run_id,
+       the record is dropped — preventing concurrent ``evaluate()``
+       calls in different threads from cross-contaminating each other's
+       JSONL log files (the v0.14.0 silent cross-thread bug).
+    3. If the contextvar isn't set (legacy callers using the module
+       logger outside a configured run), the record is allowed through
+       and stamped with this handler's static context.
+    """
+
+    def __init__(
+        self,
+        context: dict[str, Any],
+        *,
+        handler_run_id: str | None = None,
+    ) -> None:
         super().__init__()
         self.context = context
+        self._handler_run_id = handler_run_id
 
     def filter(self, record: logging.LogRecord) -> bool:
+        # v0.15.0: per-evaluate run scoping. Only enforce when this
+        # filter is bound to a specific run; legacy module-logger use
+        # (handler_run_id=None) is unaffected.
+        if self._handler_run_id is not None:
+            current = _current_run_id.get()
+            if current is not None and current != self._handler_run_id:
+                return False
         for key, value in self.context.items():
             if not hasattr(record, key):
                 setattr(record, key, value)
@@ -172,8 +231,12 @@ def configure_run_logging(
     context: dict[str, Any] = dict(extra_context or {})
     if run_id is not None:
         context["run_id"] = run_id
-    if context:
-        handler.addFilter(_RunContextFilter(context))
+    # v0.15.0: always attach a filter when a run_id is supplied so the
+    # handler is run-scoped (drops cross-thread events from other runs).
+    # When no run_id is given the filter is informational-only and lets
+    # everything through (legacy single-call behaviour).
+    if context or run_id is not None:
+        handler.addFilter(_RunContextFilter(context, handler_run_id=run_id))
 
     pkg_logger = logging.getLogger(logger_name)
     pkg_logger.addHandler(handler)
@@ -184,6 +247,12 @@ def configure_run_logging(
     if saved_level == logging.NOTSET or saved_level > level:
         pkg_logger.setLevel(level)
 
+    # v0.15.0: set the contextvar so the run-scoped filter on this
+    # handler — and on any other concurrent handler — can detect which
+    # run the event "belongs to". The token is reset on exit so nested
+    # / sequential evaluate() calls restore the outer context cleanly.
+    token = _current_run_id.set(run_id) if run_id is not None else None
+
     try:
         yield handler
     finally:
@@ -191,6 +260,8 @@ def configure_run_logging(
         pkg_logger.removeHandler(handler)
         pkg_logger.setLevel(saved_level)
         handler.close()
+        if token is not None:
+            _current_run_id.reset(token)
 
 
 def log_event(logger: logging.Logger, event: str, **fields: Any) -> None:
@@ -208,6 +279,7 @@ def log_event(logger: logging.Logger, event: str, **fields: Any) -> None:
 __all__ = [
     "JsonFormatter",
     "configure_run_logging",
+    "current_run_id",
     "log_event",
     "prompt_hash",
 ]

@@ -211,6 +211,64 @@ class TestConfigureRunLogging:
             assert record["i"] == i
 
 
+class TestConcurrentRunIsolation:
+    """v0.15.0+: concurrent ``configure_run_logging`` calls in different
+    threads must write to separate JSONL files without cross-contamination
+    (the v0.14.0 cross-thread logger contamination bug fix).
+    """
+
+    def test_concurrent_runs_do_not_cross_contaminate(self, tmp_path: Path) -> None:
+        """Two threads each run a configure_run_logging block; each
+        thread's events land only in its own log file."""
+        import threading
+
+        log_a = tmp_path / "run-a.jsonl"
+        log_b = tmp_path / "run-b.jsonl"
+        # Use a barrier so both threads have their handler attached
+        # *before* either thread logs — this forces the cross-thread
+        # broadcast scenario the v0.14.0 bug exhibited.
+        barrier = threading.Barrier(2)
+        # And another barrier so neither thread tears down its handler
+        # before the other has finished logging.
+        teardown_barrier = threading.Barrier(2)
+
+        def runner(log_path: Path, run_id: str, n: int) -> None:
+            logger = logging.getLogger("infereval")
+            with configure_run_logging(log_path, run_id=run_id):
+                barrier.wait()
+                for i in range(n):
+                    log_event(logger, "tick", run=run_id, i=i)
+                teardown_barrier.wait()
+
+        ta = threading.Thread(target=runner, args=(log_a, "A", 5))
+        tb = threading.Thread(target=runner, args=(log_b, "B", 5))
+        ta.start()
+        tb.start()
+        ta.join()
+        tb.join()
+
+        for path, expected_run in [(log_a, "A"), (log_b, "B")]:
+            lines = path.read_text().splitlines()
+            records = [json.loads(line) for line in lines]
+            # Every record in this file must belong to this run — no
+            # cross-thread bleed-through.
+            assert all(r.get("run_id") == expected_run for r in records), (
+                f"{path.name} contaminated with foreign run_id: "
+                f"{[r.get('run_id') for r in records]}"
+            )
+            # And we got every tick we issued (no drops).
+            assert len(records) == 5
+
+    def test_no_run_id_falls_through_unchanged(self, tmp_path: Path) -> None:
+        """When no run_id is set anywhere, all handlers receive all
+        events (legacy behaviour preserved for tests and direct callers)."""
+        log_path = tmp_path / "run.jsonl"
+        with configure_run_logging(log_path):  # no run_id
+            log_event(logging.getLogger("infereval"), "plain")
+        lines = log_path.read_text().splitlines()
+        assert len(lines) == 1
+
+
 # ---- log_event ------------------------------------------------------------
 
 
