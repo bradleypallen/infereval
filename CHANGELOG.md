@@ -12,6 +12,56 @@ stable from 1.0 onward, regardless of the framework version.
 
 No changes yet.
 
+## [0.15.0] — 2026-06-07
+
+**Framework instrumentation fixes for the three v0.14.0 silent-failure bugs caught by the framework's own R22 discipline.** v0.14.0's Phase 2 day-out staged-composition sweep produced an implausibly uniform "coverage collapse" finding in the pulmonology cells. Forensic audit (the framework's R22 cap firing correctly) revealed it was an instrumentation artifact: the framework had three latent bugs — silent empty-response → ABSTAIN; cross-thread logger contamination; no rate-limit retry on burst-parallel OpenRouter calls — composing to fabricate "model behavior" out of provider failures. v0.15.0 fixes all three, adds an `infereval audit` CLI to post-hoc characterize legacy captures, and ships backfill audit reports for the qwen3-max cells that were meaningfully affected. **The canonical bug-analysis doc lives at [`KNOWN_ISSUES_v0.14.0.md`](./KNOWN_ISSUES_v0.14.0.md) at the repo root.**
+
+### Why the change
+
+v0.14.0 Phase 2 day-out pulmonology results showed Gemini 2.5 Pro losing 29 of 30 substantive verdicts, Qwen3-max losing 20 of 30, DeepSeek v4-pro losing 25 of 30 — all OpenRouter-mediated, all "coverage collapse" matching no real model behavior. Inspection of the run.jsonl logs found 86/90 Gemini-pulm samples with `wall_time_ms=0` + `raw_response=""` — silent HTTP failures that the endorsement regex parsed as ABSTAIN, the aggregator counted as model abstention, and the metrics treated as real evidence. Audit of historical etas found the same bug firing at lower rates across every prior capture: 0.64% on v0.5.18, 1.85% on v0.10.0, 1.5–2.6% on v0.14.0 Phase 1.
+
+The framework's R22 cap caught the implausibly uniform burst-failure signal and forced the investigation. The fix below restores R22's distinguishing power between model failure and instrument failure.
+
+### Added
+
+- **`infereval.providers.base.EmptyResponseError`** raised by providers when the HTTP call returned 200 + an empty/whitespace body. Treated as always-transient by `BaseProvider.sample()`'s retry loop — every provider subclass inherits the classification without overriding `_is_transient`. After retry exhaustion, surfaces as `ProviderSampleError`.
+- **`SampleRecord.provider_error: str | None`** — a new optional field on the per-sample record carrying the string of the underlying provider exception. Aggregators that understand the field skip the sample entirely (no spurious ABSTAIN credit); aggregators that don't (v0.14.0 consumers) see the legacy placeholder ABSTAIN and round-trip the eta as before.
+- **`infereval audit <eta.json>`** — new CLI subcommand. Scans an evaluation JSON for silent-failure samples using two detection paths: (a) known failures via `provider_error` for v0.15.0+ captures; (b) heuristic flagging via `parsed_verdict == ABSTAIN AND (raw_response empty OR wall_time_ms in (0, None))` for pre-v0.15.0 etas. Reports published vs recomputed coverage and κ_C side-by-side. `--verbose` adds a per-item breakdown; `--json` emits a machine-readable report.
+- **`infereval.logging_setup.current_run_id()`** diagnostic helper exposing the per-thread run_id contextvar.
+
+### Changed
+
+- **`OpenAIProvider._sample_once`** raises `EmptyResponseError` when `text.strip() == ""` AND `finish_reason != "length"` (the latter is real budget-clipped output, not API failure).
+- **`AnthropicProvider._sample_once`** raises `EmptyResponseError` when the joined content text is empty AND `stop_reason != "max_tokens"`. Symmetric to the OpenAI change.
+- **`endorse()`** now skips samples with non-None `provider_error` when computing the majority vote and per-verdict counts. A 2-good-1-API-failure item now resolves to a clean GOOD with count 2, not GOOD-with-an-abstain. If every sample fails, the vote falls through `majority_vote([])` → ABSTAIN per the existing empty-list contract; a fuller `model_verdict = None` representation is deferred to a later release.
+- **`verdict_distribution()` fallback path** mirrors the same skip — provider_error samples drop out of good/bad/abstain counts when an item lacks a pre-computed `MajorityVote`.
+- **`configure_run_logging`** now scopes each FileHandler to its own run via a `contextvars.ContextVar`. Concurrent `evaluate()` calls in different threads no longer cross-contaminate each other's JSONL log files (the v0.14.0 cross-thread logger bug). Single-evaluate use is unchanged; the contextvar is set on entry and reset on exit.
+
+### Backfill audit & retractions on `main`
+
+- **`KNOWN_ISSUES_v0.14.0.md`** at the repo root — single source of truth on the three bugs, audit results across framework history, retraction list, fix plan.
+- **`experiments/results/pulmonology_2026-06-07.md`** — RETRACTED banner on Phase 2 day-out section.
+- **`experiments/results/stop_sign_2026-06-07.md`** — partial-retraction banners on Shape 4 (qwen3-max-intrinsic) and Phase 2 day-out (qwen3.6-flash-perceptual).
+- **`experiments/results/pulmonology/retest/report-gemini-2.5-pro.md`** — ARTIFACT WARNING banner.
+- **`experiments/results/pulmonology_2026-06-06.md`** — appended `Silent-failure audit (v0.15.0)` section with recomputed κ_C for the qwen3-max v0.10.0 capture (8 silent failures, coverage 0.6667 → 0.7333, κ_C 0.8864 → 0.8053).
+- **`experiments/results/stop_sign_2026-05-18.md`** — appended `Silent-failure audit (v0.15.0)` section covering all 12 qwen3-max retest etas across 3 variants × 4 intervals. Recomputed κ_C is uniformly equal to or higher than published on every tainted cell — the qwen3-max variant-sensitivity claim is strengthened, not weakened, by the audit.
+
+### Tests
+
+941 → 948 unit tests pass.
+
+- `tests/unit/test_provider_openai.py` — empty-response + finish_reason='stop' raises after retries (the v0.14.0 bug); empty + 'length' returns clean budget-clipped.
+- `tests/unit/test_provider_anthropic.py` — symmetric empty-response coverage.
+- `tests/unit/test_endorsement.py` — failed samples excluded from majority vote and per-verdict counts; partial-failure item resolves to clean substantive verdict.
+- `tests/unit/test_logging_setup.py` — concurrent `configure_run_logging` calls in two threads write to separate files without cross-contamination; no-run-id callers preserve legacy behavior.
+- `tests/unit/test_audit_cmd.py` — 7 cases covering both detection paths, both output modes, and edge cases (real-abstain not flagged, recomputed coverage recovers under all-silent-failure substitution).
+
+### Not in scope for v0.15.0
+
+- **Re-running Phase 2 day-out for pulmonology cells.** v0.15.0 ships the framework fixes + audit CLI; running Phase 2 day-out cleanly under `--max-parallel 1` against v0.15.0 comes as a follow-on commit (planned for v0.16.0).
+- **Migrating historical eta JSONs to include the `provider_error` field.** The legacy etas retain their original schema; the audit CLI heuristically re-classifies silent failures on the fly.
+- **Re-running v0.14.0 Phase 1 captures.** Phase 1 had 1.5–2.6% silent failure rates — low enough that published findings for non-qwen3-max cells remain valid. Only qwen3-max cells are re-examined.
+
 ## [0.14.0] — 2026-06-07
 
 **Staged-composition R22 + bundled cross-family retrofit**: two new `infereval retest --auto` flags (`--baseline-from <eta-path>` primitive, `--append-to <multi.json>` composer) enable Phase 2 day-out / week-out R22 evidence to ship as separate CLI invocations days or weeks after Phase 1, without the CLI process needing to stay alive for the elapsed window. Every bundled cross-family experiment (39 stop-sign cells + 6 pulmonology cells) gains companion Phase 1 R22 evidence (back-to-back + 1h drift) under the v0.14.0 methodology so the bundled distribution is conformant.
