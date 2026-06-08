@@ -63,9 +63,7 @@ def _is_suspected_silent_failure(sample: SampleRecord) -> bool:
     if not raw:
         return True
     wt = sample.wall_time_ms
-    if wt is None or wt == 0:
-        return True
-    return False
+    return wt is None or wt == 0
 
 
 def _is_known_failure(sample: SampleRecord) -> bool:
