@@ -137,3 +137,35 @@ The v0.1 analysis was captured against framework v0.2.x. The v0.2 capture runs a
 1. **m = 1.** Single-analyst panel; inter-analyst Fleiss `κ_F*` is undefined per Remark 4.
 2. **Placeholder labels.** The cross-family numbers describe the framework producing coherent values, not model agreement with a real pulmonologist.
 3. **Reference annotations** are best-effort by a non-clinician; the new `x3` reference flags this explicitly with `FLAG FOR PULMONOLOGIST REVIEW`.
+
+## Silent-failure audit (v0.15.0)
+
+Run via `infereval audit experiments/results/pulmonology/qwen3-max-eta.json`.
+Heuristic: a sample is flagged when `parsed_verdict == ABSTAIN` AND
+(`raw_response` is empty OR `wall_time_ms in (0, None)`). See
+[`KNOWN_ISSUES_v0.14.0.md`](../../KNOWN_ISSUES_v0.14.0.md) at the repo
+root for the underlying bug analysis.
+
+| Cell | Samples scanned | Suspected silent failures | Coverage (published) | Coverage (recomputed) | κ_C (published) | κ_C (recomputed) |
+|---|---|---|---|---|---|---|
+| pulmonary / qwen3-max (v0.10.0) | 90 | 8 (8.9% of samples) | 0.6667 | 0.7333 | 0.8864 | 0.8053 |
+| pulmonary / qwen3-max (v0.1 archive) | 87 | 0 | 0.7931 | 0.7931 | 0.8189 | 0.8189 |
+
+The v0.10.0 capture has 8 silent failures concentrated on 5 items
+(c10, a5, a6, x3, x4). Coverage rises after exclusion because items
+that flipped to ABSTAIN under the bug recover their substantive
+verdict; κ_C falls because the spurious-ABSTAIN agreement with
+ABSTAIN-coded analysts (none, here, so the exclusion just shrinks the
+substantive denominator) is removed. The v0.1 capture predates the
+burst-parallel orchestration that triggers OpenRouter rate-limit
+empty bodies and is silent-failure-clean.
+
+The non-qwen3-max pulmonology cells from v0.10.0 had silent failure
+rates below 1% per the KNOWN_ISSUES_v0.14.0.md audit table; their
+published findings stand unmodified.
+
+The above table will be regenerated cleanly in v0.16.0 after the pulm
+day-out re-run with `--max-parallel 1` and v0.15.0 framework
+(provider_error field + per-evaluate logger + retry-on-empty); until
+then this audit is the authoritative reconciliation for the qwen3-max
+cell.
