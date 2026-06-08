@@ -231,10 +231,11 @@ class BaseProvider(ABC):
                 # subclass provider inherits this classification without
                 # needing to override _is_transient. Catches the v0.14.0
                 # silent-empty-response failure mode.
-                if isinstance(exc, EmptyResponseError):
-                    transient = True
-                else:
-                    transient = self._is_transient(exc)
+                transient = (
+                    True
+                    if isinstance(exc, EmptyResponseError)
+                    else self._is_transient(exc)
+                )
                 log.warning(
                     "provider.sample.error",
                     extra={
