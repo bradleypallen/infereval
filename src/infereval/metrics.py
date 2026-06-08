@@ -165,6 +165,12 @@ def verdict_distribution(item: EvaluationItem) -> VerdictDistribution:
         )
     good = bad = abstain = 0
     for s in item.samples:
+        # v0.15.0: skip samples whose provider call failed (provider_error
+        # set) — those carry a placeholder ABSTAIN parsed_verdict that is
+        # not a real model decision. Mirrors the same skip in
+        # infereval.endorsement.endorse() when building MajorityVote.
+        if s.provider_error is not None:
+            continue
         if s.parsed_verdict == Verdict.GOOD:
             good += 1
         elif s.parsed_verdict == Verdict.BAD:

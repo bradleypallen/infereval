@@ -271,9 +271,56 @@ class TestSampleFailures:
     def test_provider_failure_yields_abstain_record(self) -> None:
         p = _AlwaysFailsProvider()
         record = _run(p, n_samples=3)  # type: ignore[arg-type]
+        # v0.15.0: every sample failed → verdict stays ABSTAIN (existing
+        # majority_vote([])-on-empty contract) but the per-verdict
+        # ``counts`` no longer credit the failed samples to ABSTAIN —
+        # they are excluded from the vote entirely because their
+        # ``provider_error`` is set.
         assert record.verdict == Verdict.ABSTAIN
         assert all(s.parse_status == "sample_failed" for s in record.samples)
-        assert record.counts[Verdict.ABSTAIN] == 3
+        assert all(s.provider_error is not None for s in record.samples)
+        assert record.counts[Verdict.ABSTAIN] == 0
+        assert record.counts[Verdict.GOOD] == 0
+        assert record.counts[Verdict.BAD] == 0
+
+    def test_provider_failure_excluded_from_majority(self) -> None:
+        """A 2-good-1-failure item resolves to a clean GOOD with count 2,
+        not GOOD-with-one-abstain."""
+        from infereval.providers.base import (
+            ProviderSampleError,
+            SampleRequest,
+            SampleResult,
+        )
+
+        class _PartialFailProvider:
+            name = "partial-fail"
+            model_id = "mock-v1"
+
+            def __init__(self) -> None:
+                self.n = 0
+
+            def sample(self, req: SampleRequest) -> SampleResult:
+                self.n += 1
+                if self.n == 1:
+                    raise ProviderSampleError("transient (simulated)")
+                return SampleResult(
+                    text="GOOD",
+                    provider=self.name,
+                    model_id=self.model_id,
+                    request_id=req.request_id,
+                    wall_time_ms=1.0,
+                    usage={},
+                    raw=None,
+                    finish_reason="stop",
+                )
+
+        record = _run(_PartialFailProvider(), n_samples=3)  # type: ignore[arg-type]
+        assert record.verdict == Verdict.GOOD
+        assert record.counts[Verdict.GOOD] == 2
+        assert record.counts[Verdict.ABSTAIN] == 0
+        # Failure is recorded on the failed sample, not counted in the vote.
+        provider_errors = [s for s in record.samples if s.provider_error is not None]
+        assert len(provider_errors) == 1
 
 
 # ---- Budget-clipped detection --------------------------------------------

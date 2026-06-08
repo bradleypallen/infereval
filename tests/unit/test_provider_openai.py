@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from infereval.providers.base import ProviderConfigError, SampleRequest
+from infereval.providers.base import ProviderConfigError, RetryPolicy, SampleRequest
 from infereval.providers.openai import OPENAI_API_KEY_ENV, OpenAIProvider
 
 
@@ -43,11 +43,13 @@ def _fake_response(
     )
 
 
-def _provider_with_mock_client(create_returns) -> tuple[OpenAIProvider, MagicMock]:
+def _provider_with_mock_client(
+    create_returns, *, retry_policy: RetryPolicy | None = None
+) -> tuple[OpenAIProvider, MagicMock]:
     mock_client = MagicMock()
     mock_client.chat.completions.create.return_value = create_returns
     return (
-        OpenAIProvider("gpt-4o", client=mock_client),
+        OpenAIProvider("gpt-4o", client=mock_client, retry_policy=retry_policy),
         mock_client,
     )
 
@@ -269,10 +271,12 @@ class TestResponseParsing:
             usage=SimpleNamespace(prompt_tokens=1, completion_tokens=0),
             model_dump=lambda: {},
         )
-        p, _ = _provider_with_mock_client(resp)
-        # Reduce retry-policy max_attempts so this test runs quickly.
-        p.retry_policy.max_attempts = 2
-        p.retry_policy.backoff_initial_s = 0.0
+        # RetryPolicy is a frozen dataclass — construct with reduced
+        # max_attempts + zero backoff so the test runs quickly.
+        p, _ = _provider_with_mock_client(
+            resp,
+            retry_policy=RetryPolicy(max_attempts=2, backoff_initial_s=0.0),
+        )
         try:
             p.sample(SampleRequest(prompt="Q"))
         except ProviderSampleError as exc:

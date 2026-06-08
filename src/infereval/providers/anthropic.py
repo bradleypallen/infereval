@@ -21,6 +21,7 @@ from infereval.logging_setup import log_event
 
 from .base import (
     BaseProvider,
+    EmptyResponseError,
     ProviderConfigError,
     RetryPolicy,
     SampleRequest,
@@ -127,6 +128,30 @@ class AnthropicProvider(BaseProvider):
                 text_parts.append(block_text)
         text = "".join(text_parts)
 
+        # Anthropic's stop_reason vocabulary: "end_turn", "max_tokens",
+        # "stop_sequence", "tool_use", "pause_turn", "refusal". Read it
+        # here (before the empty-response guard) so we can distinguish a
+        # budget-clipped real response (stop_reason="max_tokens") from a
+        # silent API failure.
+        finish_reason = getattr(response, "stop_reason", None)
+        if not isinstance(finish_reason, str):
+            finish_reason = None
+
+        # v0.15.0: raise EmptyResponseError if the response body is empty
+        # or whitespace-only — but ONLY when stop_reason isn't "max_tokens"
+        # (a budget-clipped response is real model behavior, not an API
+        # failure). Triggers BaseProvider's always-transient retry path;
+        # if all retries fail, surfaces as ProviderSampleError that the
+        # endorser records with `provider_error` set. See
+        # KNOWN_ISSUES_v0.14.0.md for the v0.14.0 silent-failure context.
+        if not text.strip() and finish_reason != "max_tokens":
+            raise EmptyResponseError(
+                f"{self.name} returned empty response body "
+                f"(stop_reason={finish_reason!r}, model={self.model_id!r}). "
+                f"Likely a rate-limit or transient provider failure that "
+                f"returned a content-less response."
+            )
+
         usage_obj = getattr(response, "usage", None)
         usage: dict[str, int] = {}
         reasoning_tokens: int | None = None
@@ -152,12 +177,6 @@ class AnthropicProvider(BaseProvider):
 
         provider_request_id = getattr(response, "id", None)
         request_id = req.request_id if req.request_id is not None else provider_request_id
-
-        # Anthropic's stop_reason vocabulary: "end_turn", "max_tokens",
-        # "stop_sequence", "tool_use", "pause_turn", "refusal".
-        finish_reason = getattr(response, "stop_reason", None)
-        if not isinstance(finish_reason, str):
-            finish_reason = None
 
         log_event(
             log,
