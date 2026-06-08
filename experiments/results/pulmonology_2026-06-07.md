@@ -72,6 +72,20 @@ Each append takes a few minutes (one evaluation + one `compute_retest`) regardle
 
 ## Phase 2 day-out append (captured 2026-06-07, all 6 cells)
 
+> ## ⚠️ RETRACTED — the Phase 2 day-out interpretation below is artifact, not real model behavior.
+>
+> The Phase 2 day-out captures ran as a 45-cell × `max_parallel=8` burst against OpenRouter. The 6 pulmonology cells issued ~540 simultaneous API calls in a short window; OpenRouter rate-limited or failed transiently; the v0.14.0 framework's provider code silently returned empty `raw_response = ""` strings on failure, which the endorsement parser then mapped to `ABSTAIN`. **86 of 90 gemini-2.5-pro samples, 88 of 90 qwen3-max samples, and 76 of 90 deepseek-v4-pro samples at day-out are silent API failures, not real model abstentions.** The "coverage collapse" interpretation below is an instrumentation artifact.
+>
+> The forensic signature for each affected sample is: `parsed_verdict = "abstain"` AND `raw_response = ""` AND `wall_time_ms = 0`. See `KNOWN_ISSUES_v0.14.0.md` at the repo root for the full audit, the three underlying framework bugs (silent empty-response → ABSTAIN; cross-thread logger contamination; no rate-limit retry), and the v0.15.0 fix plan.
+>
+> **What was retracted:** the "coverage collapse" framing, the "v0.10.0 drift sharpens to day-scale" claim, the "29-of-30 substantive → ABSTAIN" Gemini headline, the Qwen3-max and DeepSeek-v4-pro day-out interpretations, and the methodological reading that follows from them. The R22 framework's audit cap fires correctly given the data, but the data is not a measurement of model behavior.
+>
+> **What survives:** the three direct-provider pulm cells (Claude Opus 4.7, GPT-4.1, GPT-5.5) had 0 silent failures at day-out and their day-out κ values (+0.93, +1.0, +0.93) are valid. The Phase 1 baseline + back-to-back + 1h captures for all 6 cells are also clean — Phase 1 used `--max-parallel 8` *plus* a 1h sleep between captures, which spaced calls enough to avoid rate-limit pressure.
+>
+> **What's next:** v0.15.0 (in progress) ships provider error-handling fixes + retry policy + an `infereval audit` CLI. After v0.15.0, the pulm day-out captures will be re-run with `--max-parallel 1` (sequential) and the actual day-out reliability for these cells becomes measurable. Until then, the section below should be read as a record of the artifact, not as evidence.
+>
+> ---
+
 The v0.14.0 staged-composition pattern lets Phase 2 evidence ship as separate `infereval retest --auto --append-to <multi.json>` invocations days or weeks after Phase 1, without the orchestrator process needing to stay alive for the elapsed window. The day-out captures for all 6 pulmonology cells were run via `experiments/scripts/phase2_append.py` ~22–28 hours after the Phase 1 baselines, growing each cell's `MultiIntervalRetestResult` from 2 pairs to 3 pairs.
 
 **Day-out is the methodologically central new evidence in this release.** Three of six pulmonology cells show *coverage collapse* at the day scale — the model shifts substantively-committed verdicts (good/bad) to ABSTAIN on most or all items, while two pairs measured back-to-back and 1h-later showed perfect stability. The within-session reliability floor (Phase 1: κ=+1.000 on all three of these cells) does not predict the day-scale coverage behavior at all.

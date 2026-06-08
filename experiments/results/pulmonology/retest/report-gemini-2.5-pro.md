@@ -1,5 +1,17 @@
 # Construct-validity report
 
+> ## ⚠️ ARTIFACT WARNING — the day-out pair (interval 101843s) in this report is instrumentation artifact, not real model behavior.
+>
+> This report was rendered against `gemini-2.5-pro-multi-retest.json` which contains 3 pairs (Phase 1 back-to-back + Phase 1 1h + Phase 2 day-out). The day-out pair shows κ=undefined / 29-of-30 flips and the R22 audit cap fires correctly *given the data*. But the data is artifact: 86 of 90 day-out samples are silent API failures (empty `raw_response`, `wall_time_ms=0`) that the v0.14.0 framework's provider code returned during a burst-parallel sweep that exceeded OpenRouter's rate limits. The framework's endorsement parser maps empty responses to ABSTAIN; the aggregator counted 29 fake abstentions as real model decisions.
+>
+> The first two pairs (back-to-back + 1h) are clean (0 + 1 silent failures). The Gemini 2.5 Pro cell's actual day-out reliability is currently unknown.
+>
+> See `KNOWN_ISSUES_v0.14.0.md` at the repo root for the three underlying framework bugs and the v0.15.0 fix plan. After v0.15.0 ships, this cell will be re-captured with `--max-parallel 1` (sequential) and the day-out evidence becomes measurable.
+>
+> The report itself demonstrates a real property — the v0.13.0 retest-aware report's R22 audit cap fires correctly on the worst-case interval — but the audit-cap demonstration here is technically a demonstration of the cap firing on artifact data, not on real model drift.
+>
+> ---
+
 _Generated: 2026-06-08T01:51:36.767308+00:00_
 
 ## 1. Identity
