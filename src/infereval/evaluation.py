@@ -132,6 +132,22 @@ class SampleRecord(BaseModel):
     reasoning_tokens: int | None = None
     """Reasoning / thinking token count, when the provider reports it.
     See :class:`infereval.providers.base.SampleResult.reasoning_tokens`."""
+    provider_error: str | None = None
+    """v0.15.0+: non-None when the provider call failed (rate limit, HTTP
+    error, empty response body, malformed response). When set, this
+    sample represents an *instrument failure*, not a model decision —
+    aggregators (:class:`MajorityVote.from_samples`) skip these samples
+    rather than counting their ``parsed_verdict`` (which is left at
+    ``Verdict.ABSTAIN`` for backward compatibility with v0.14.0
+    consumers that don't understand the new field). The R22 audit and
+    metrics paths likewise treat ``provider_error is not None`` as
+    missing data, not as a model abstention.
+
+    Pre-v0.15.0 eta JSONs without this field load with the default
+    ``None`` — backward-compatible. Historical captures with silent
+    empty-response failures (the v0.14.0 bug; see
+    ``KNOWN_ISSUES_v0.14.0.md``) can be heuristically re-classified
+    post-hoc via ``infereval audit`` (new in v0.15.0)."""
 
 
 class MajorityVote(BaseModel):

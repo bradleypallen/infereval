@@ -49,7 +49,23 @@ class ProviderSampleError(ProviderError):
 
     The endorser treats this as a single failed sample and maps the verdict
     to ``abstain`` (the paper's Definition 2, "Unparseable responses are
-    mapped to abstain").
+    mapped to abstain"). v0.15.0+: the resulting ``SampleRecord`` carries
+    ``provider_error`` (the str of this exception) so downstream metrics
+    can distinguish instrument failure from real model abstention.
+    """
+
+
+class EmptyResponseError(ProviderError):
+    """v0.15.0+: raised when the provider returned HTTP 200 with an empty
+    or whitespace-only response body.
+
+    Treated as **always transient** by :meth:`BaseProvider.sample` —
+    triggers the retry loop. If all retries exhaust, surfaces as
+    :class:`ProviderSampleError`, which the endorser then records with
+    ``provider_error`` set. This catches the v0.14.0 silent-empty-response
+    bug (see ``KNOWN_ISSUES_v0.14.0.md``): OpenRouter rate-limit responses
+    that returned 200 + empty body previously got parsed as ABSTAIN by
+    the endorsement regex, masquerading as real model abstentions.
     """
 
 
@@ -211,7 +227,14 @@ class BaseProvider(ABC):
                 return result
             except Exception as exc:  # noqa: BLE001 -- intentional broad catch; classified below
                 last_exc = exc
-                transient = self._is_transient(exc)
+                # v0.15.0: EmptyResponseError is always-transient — every
+                # subclass provider inherits this classification without
+                # needing to override _is_transient. Catches the v0.14.0
+                # silent-empty-response failure mode.
+                if isinstance(exc, EmptyResponseError):
+                    transient = True
+                else:
+                    transient = self._is_transient(exc)
                 log.warning(
                     "provider.sample.error",
                     extra={
