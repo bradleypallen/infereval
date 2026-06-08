@@ -1,0 +1,308 @@
+{
+  "schema_version": "1.0",
+  "id": "retest-auto-6bbdd270-2",
+  "benchmark_id": "stop-sign-intrinsic",
+  "benchmark_hash": "sha256:e33415c3433ef36b9be304d0c7ed4d6f97e58cac02168e173fcef80da7023d08",
+  "model": {
+    "provider": "openrouter",
+    "model_id": "qwen/qwen3.6-flash",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 3,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-explicit-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1"
+  },
+  "framework_version": "0.15.2",
+  "started_at": "2026-06-08T06:58:16.945146Z",
+  "finished_at": "2026-06-08T06:59:16.324324Z",
+  "items": [
+    {
+      "id": "row-0",
+      "premises": [
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-6bbdd270-2:row-0:sample-0",
+          "wall_time_ms": 3410.3614170162473,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 589
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 583
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-6bbdd270-2:row-0:sample-1",
+          "wall_time_ms": 3871.1447500099894,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 598
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 593
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-6bbdd270-2:row-0:sample-2",
+          "wall_time_ms": 3998.518958018394,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 498
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 492
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-1",
+      "premises": [
+        "n",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-6bbdd270-2:row-1:sample-0",
+          "wall_time_ms": 3212.0817919785623,
+          "usage": {
+            "input_tokens": 252,
+            "output_tokens": 415
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 409
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-6bbdd270-2:row-1:sample-1",
+          "wall_time_ms": 4565.421916980995,
+          "usage": {
+            "input_tokens": 252,
+            "output_tokens": 662
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 657
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-6bbdd270-2:row-1:sample-2",
+          "wall_time_ms": 5274.274291004986,
+          "usage": {
+            "input_tokens": 252,
+            "output_tokens": 793
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 788
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nighttime"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-2",
+      "premises": [
+        "n",
+        "nr",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-6bbdd270-2:row-2:sample-0",
+          "wall_time_ms": 6924.088874977315,
+          "usage": {
+            "input_tokens": 260,
+            "output_tokens": 887
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 881
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-6bbdd270-2:row-2:sample-1",
+          "wall_time_ms": 7729.64024997782,
+          "usage": {
+            "input_tokens": 260,
+            "output_tokens": 1135
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1129
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-6bbdd270-2:row-2:sample-2",
+          "wall_time_ms": 6311.554209009046,
+          "usage": {
+            "input_tokens": 260,
+            "output_tokens": 906
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 901
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nonreflective"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-3",
+      "premises": [
+        "ba",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-6bbdd270-2:row-3:sample-0",
+          "wall_time_ms": 5060.414667008445,
+          "usage": {
+            "input_tokens": 254,
+            "output_tokens": 747
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 742
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-6bbdd270-2:row-3:sample-1",
+          "wall_time_ms": 4146.630915987771,
+          "usage": {
+            "input_tokens": 254,
+            "output_tokens": 699
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 693
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-6bbdd270-2:row-3:sample-2",
+          "wall_time_ms": 4860.902124986751,
+          "usage": {
+            "input_tokens": 254,
+            "output_tokens": 770
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 765
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "painted-blue"
+      ],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}

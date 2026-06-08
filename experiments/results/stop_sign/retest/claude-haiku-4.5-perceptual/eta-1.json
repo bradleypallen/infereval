@@ -1,0 +1,296 @@
+{
+  "schema_version": "1.0",
+  "id": "retest-auto-02f7a2c5-1",
+  "benchmark_id": "stop-sign-perceptual",
+  "benchmark_hash": "sha256:6688d2250abd980b6564a429d84dc69429bdf51f88677561797ecc16452bfb37",
+  "model": {
+    "provider": "anthropic",
+    "model_id": "claude-haiku-4-5-20251001",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 3,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-explicit-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1"
+  },
+  "framework_version": "0.15.2",
+  "started_at": "2026-06-08T05:56:22.481702Z",
+  "finished_at": "2026-06-08T05:56:37.631693Z",
+  "items": [
+    {
+      "id": "row-0",
+      "premises": [
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-02f7a2c5-1:row-0:sample-0",
+          "wall_time_ms": 538.6043750040699,
+          "usage": {
+            "input_tokens": 253,
+            "output_tokens": 5
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-02f7a2c5-1:row-0:sample-1",
+          "wall_time_ms": 619.9705830076709,
+          "usage": {
+            "input_tokens": 253,
+            "output_tokens": 5
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-auto-02f7a2c5-1:row-0:sample-2",
+          "wall_time_ms": 479.1173749836162,
+          "usage": {
+            "input_tokens": 253,
+            "output_tokens": 5
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-1",
+      "premises": [
+        "n",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD\n\nThe premise that it is nighttime is a defeater. At night, without artificial lighting, a stop sign would not visibly appear red—it would appear dark or black, as human vision cannot perceive color in low-light conditions. The nighttime condition explicitly undermines the conclusion that the stop sign visibly appears red.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-02f7a2c5-1:row-1:sample-0",
+          "wall_time_ms": 2132.77116700192,
+          "usage": {
+            "input_tokens": 258,
+            "output_tokens": 73
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD\n\nThe premise that it is nighttime is a defeater. At night, without artificial lighting, a stop sign would not visibly appear red—it would appear dark or black, as human vision cannot perceive color in low-light conditions. The nighttime condition explicitly undermines the typical inference that a stop sign appears red.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-02f7a2c5-1:row-1:sample-1",
+          "wall_time_ms": 1491.211457992904,
+          "usage": {
+            "input_tokens": 258,
+            "output_tokens": 72
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD\n\nThe premise that it is nighttime is a defeater. At night, without artificial lighting, a stop sign would not visibly appear red—it would appear dark or black. The visibility of the red color depends on adequate lighting, which nighttime conditions typically lack.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-02f7a2c5-1:row-1:sample-2",
+          "wall_time_ms": 1049.9839170079213,
+          "usage": {
+            "input_tokens": 258,
+            "output_tokens": 60
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nighttime"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-2",
+      "premises": [
+        "n",
+        "nr",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD\n\nThe premises explicitly state it is nighttime. At night, without reflective material, a stop sign would not visibly appear red—it would be dark or invisible without external light. The premise that \"a is not made with reflective material\" is a defeater that prevents the normal daytime inference that a stop sign appears red. The nighttime condition combined with the lack of reflective material makes it materially false that the stop sign would visibly appear red.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-02f7a2c5-1:row-2:sample-0",
+          "wall_time_ms": 2267.8002920001745,
+          "usage": {
+            "input_tokens": 267,
+            "output_tokens": 101
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD\n\nThe premises explicitly state it is nighttime. At night, without reflective material, a stop sign would not visibly appear red—it would be dark or invisible without external light. The premise that \"a is not made with reflective material\" is a defeater that prevents the normal daytime inference that a stop sign appears red. The nighttime condition combined with the lack of reflective material makes it materially false that the stop sign would visibly appear red.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-02f7a2c5-1:row-2:sample-1",
+          "wall_time_ms": 1767.2396670095623,
+          "usage": {
+            "input_tokens": 267,
+            "output_tokens": 101
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD\n\nThe premises explicitly state it is nighttime. At night, without reflective material, a stop sign would not visibly appear red—it would be dark or invisible without external light. The premise that \"a is not made with reflective material\" is a defeater that prevents the normal daytime inference that a stop sign appears red. The nighttime condition combined with the lack of reflective material makes it positively unlikely that the stop sign would visibly appear red.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-02f7a2c5-1:row-2:sample-2",
+          "wall_time_ms": 1450.3457079990767,
+          "usage": {
+            "input_tokens": 267,
+            "output_tokens": 101
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nonreflective"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-3",
+      "premises": [
+        "ba",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD\n\nThe premises state that object a has been painted blue and is a stop sign. Stop signs are typically red, but the premise explicitly states that a has been painted blue. This directly contradicts the conclusion that a visibly appears red. The explicit information that a has been painted blue is a defeater for the conclusion.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-02f7a2c5-1:row-3:sample-0",
+          "wall_time_ms": 1171.212374989409,
+          "usage": {
+            "input_tokens": 259,
+            "output_tokens": 70
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD\n\nThe premises state that object a has been painted blue and is a stop sign. Stop signs are typically red, but the premise explicitly states that a has been painted blue. This directly contradicts the conclusion that a visibly appears red. The explicit information that a has been painted blue is a defeater for the conclusion.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-02f7a2c5-1:row-3:sample-1",
+          "wall_time_ms": 1106.233832979342,
+          "usage": {
+            "input_tokens": 259,
+            "output_tokens": 70
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD\n\nThe premises state that object a has been painted blue and is a stop sign. Stop signs are typically red, but the premise explicitly states that a has been painted blue. This directly contradicts the conclusion that a visibly appears red. The explicit information that a has been painted blue is a defeater for the conclusion.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-auto-02f7a2c5-1:row-3:sample-2",
+          "wall_time_ms": 1062.465124996379,
+          "usage": {
+            "input_tokens": 259,
+            "output_tokens": 70
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "painted-blue"
+      ],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}
