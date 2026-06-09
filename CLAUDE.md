@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-> **v0.16.0 clean-recapture in progress.** v0.14.0 shipped three framework bugs (silent empty-response → ABSTAIN, cross-thread logger contamination, no rate-limit retry); v0.15.0/v0.15.1/v0.15.2 fixed them. v0.16.0 deletes all v0.14.0-era bundled captures and re-captures the cross-family demonstration suite from scratch under the v0.15.2 framework. Bundled `experiments/results/` is empty between Stage 1 (cleanup, complete) and Stage 5 (fresh analyses, pending live re-capture). See [`KNOWN_ISSUES_v0.14.0.md`](KNOWN_ISSUES_v0.14.0.md) for the historical bug record and the v0.16.0 CHANGELOG entry for the clean-recapture plan.
+> **v0.16.0 fresh demonstration suite landed (2026-06-09).** v0.14.0 shipped three framework bugs (silent empty-response → ABSTAIN, cross-thread logger contamination, no rate-limit retry); v0.15.0/v0.15.1/v0.15.2 fixed them. v0.16.0 deleted all v0.14.0-era bundled captures and re-captured the 45-cell cross-family demonstration suite from scratch under the v0.15.2 framework with three-interval R22 evidence per cell (back-to-back / 1h drift / day-out). See [`experiments/results/pulmonology_2026-06-09.md`](experiments/results/pulmonology_2026-06-09.md) and [`experiments/results/stop_sign_2026-06-09.md`](experiments/results/stop_sign_2026-06-09.md) for the fresh analyses. [`KNOWN_ISSUES_v0.14.0.md`](KNOWN_ISSUES_v0.14.0.md) remains as the historical bug record.
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
