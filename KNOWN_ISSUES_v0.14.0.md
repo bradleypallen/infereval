@@ -1,5 +1,7 @@
 # Known Issues — v0.14.0 (and predecessors)
 
+> **RESOLVED in v0.16.0 (2026-06-09).** All three bugs documented below were fixed in v0.15.0 / v0.15.1 / v0.15.2 (released to PyPI 2026-06-07). v0.16.0 deletes all v0.14.0-era bundled captures and re-captures the cross-family demonstration suite from scratch under the v0.15.2 framework — see [`experiments/results/pulmonology_2026-06-09.md`](experiments/results/pulmonology_2026-06-09.md) and [`experiments/results/stop_sign_2026-06-09.md`](experiments/results/stop_sign_2026-06-09.md) for the fresh analyses. The text below remains as the historical retraction record.
+
 **Status as of 2026-06-08.** v0.14.0 is on PyPI but ships three framework bugs that produce silent measurement artifacts under provider stress (rate limits, transient errors). The bugs were caught by the framework's own R22 discipline: a Phase 2 day-out parallel sweep produced implausibly uniform coverage-collapse on multiple cells, which led to a forensic audit that surfaced the underlying instrumentation problems. **The bugs affect every historical capture to some degree, not just v0.14.0.** This document is the single source of truth on the issues; the file lives at the repo root so it survives across conversation sessions.
 
 ---

@@ -12,6 +12,89 @@ stable from 1.0 onward, regardless of the framework version.
 
 No changes yet.
 
+## [0.16.0] — 2026-06-09
+
+**Clean re-capture of the bundled cross-family demonstration suite under the v0.15.2 framework.** v0.14.0 shipped three framework bugs that v0.15.0/v0.15.1/v0.15.2 fixed. v0.16.0 deletes all v0.14.0-era bundled artifacts and re-captures the entire 45-cell demonstration suite (39 stop-sign × 3 paraphrase variants + 6 pulmonology) from scratch with three-interval R22 evidence per cell. Pre-release software: this clears the bundled distribution of any tainted data so early adopters see only clean exemplars.
+
+### Why
+
+The v0.15.0 "preserve as audit trail with retraction banners" approach was internally consistent but created confusion risk: a user landing on a retracted writeup could skim past the banner and read bug-period findings as valid. For pre-release software the cleaner move is to delete every tainted artifact and replace with fresh captures — git history preserves the historical record, KNOWN_ISSUES_v0.14.0.md + the v0.15.x CHANGELOG entries serve as the canonical retraction record.
+
+### Captured
+
+45 cells × 4 captures each = 180 etas + 45 multi-retest artifacts. All captured under v0.15.2 framework with three time-scales of R22 evidence per cell:
+
+- **eta-0**: baseline
+- **eta-1**: back-to-back retest (≈45 s elapsed)
+- **eta-2**: 1h drift retest (≈3 600 s)
+- **eta-3**: day-out retest (≈126 700 s ≈ 35 h)
+
+In-band audit: 4032 total samples scanned, 81 known `provider_error` (OpenRouter 429 rate-limits, mostly on qwen3-max), **0 suspected silent failures**. Published metrics == recomputed metrics on every cell — the v0.15.2 aggregator-skip handles provider failures correctly in real burst conditions.
+
+### Added — bundled demonstration artifacts
+
+- `experiments/results/pulmonology/retest/<cell>/eta-{0..3}.json` for 6 cells: claude-opus-4.7, deepseek-v4-pro, gemini-2.5-pro, gpt-4.1, gpt-5.5, qwen3-max
+- `experiments/results/stop_sign/retest/<cell>/eta-{0..3}.json` for 39 cells (13 models × 3 paraphrase variants)
+- `experiments/results/pulmonology/retest/<cell>-multi-retest.json` (6) + same for stop-sign (39)
+
+### Added — analysis writeups
+
+- `experiments/results/pulmonology_2026-06-09.md` — 6-model pulmonary edema analysis. Headline: deepseek-v4-pro shows monotone κ decay across all three intervals (0.867 → 0.792 → 0.729) — the clearest published example of detectable across-update model drift via R22 staged composition. Five other cells held κ = 1.000 across every interval.
+- `experiments/results/stop_sign_2026-06-09.md` — 13-model × 3-variant analysis. Headline: under the paper-aligned δ(ra), 12 of 13 frontier LLMs reproduce Simonelli's analyst row exactly (κ_C = +1.000) — replicates the v0.5.18 sweep's headline under fresh v0.15.2 captures. Perceptual variant is the cleavage axis exactly as R10 predicts.
+
+### Removed (tainted v0.14.0-era artifacts)
+
+- 3 retracted analysis writeups (`pulmonology_2026-06-07.md`, `stop_sign_2026-06-07.md`, `pulmonology/retest/report-gemini-2.5-pro.md`)
+- 2 pre-bug writeups superseded by fresh analyses (`pulmonology_2026-06-06.md`, `stop_sign_2026-05-18.md`, `stop_sign_2026-06-06.md`)
+- 51 bundled cross-family etas + run.jsonl
+- 53 retest cell subdirectories under both benchmarks
+- 45 multi-retest artifacts containing v0.14.0-era Phase 2 day-out pairs
+- 2 bundled retest report markdowns
+- 5 macOS Finder duplicate `* 2/` directories
+- v0.10.0 qwen3-max pulm eta (the 8-silent-failure historical case)
+- All 12 stop-sign Phase 1 qwen3-max retest etas
+
+Total: ~470 files deleted in Stage 1; ~270 new files added in Stages 2–5. Net diff is a clean swap.
+
+### Updated
+
+- `KNOWN_ISSUES_v0.14.0.md`: RESOLVED header pointing at v0.16.0 release; pre-existing bug analysis preserved as historical record
+- `CLAUDE.md`: banner replaced from "v0.14.0 RELEASE-BLOCKING ISSUES" → "v0.16.0 fresh demonstration suite landed" with pointers to the new writeups
+- `README.md`: "Findings" section restored with substantive 2–3 sentence summary citing the new analyses
+- `examples/pulmonary_edema/README.md`: pointer to the new cross-family analysis
+- Retest-directory READMEs (`experiments/results/{pulm,stop_sign}/retest/README.md`): describe the v0.16.0 capture flow rather than v0.14.0 Phase 2 plans
+
+### Methodology paper material
+
+The v0.16.0 re-capture closes the methodological loop:
+
+1. v0.14.0 ships a silent-failure bug
+2. v0.14.0's R22 discipline catches the bug via implausibly-uniform coverage-collapse
+3. v0.15.0/v0.15.1/v0.15.2 fix the bug + add an audit CLI + a live stress harness
+4. v0.16.0 deletes the tainted data and re-captures under the fixed framework — producing 81 *observable* provider failures and 0 silent failures, validating the fix end-to-end under live OpenRouter burst conditions
+
+The v0.10.0 Gemini "across-update drift" finding that originally motivated R22 is replaced/superseded by the v0.16.0 deepseek-v4-pro pulmonology finding: clear monotone κ decay across three time-scales on a single bundled multi-retest artifact, captured under the fixed framework.
+
+### Reproducing the v0.16.0 captures
+
+```bash
+export ANTHROPIC_API_KEY=...
+export OPENAI_API_KEY=...
+export OPENROUTER_API_KEY=...
+
+# Phase 1 (baseline + back-to-back + 1h drift), ~1.5 h wall, ~$10–25:
+python experiments/scripts/pulmonology_multiinterval_r22_retrofit.py
+python experiments/scripts/stop_sign_multiinterval_r22_retrofit.py --max-parallel 39
+
+# Phase 2 (day-out append, after >24 h elapsed), ~30–60 min wall, ~$5–10:
+python experiments/scripts/phase2_append.py
+
+# Audit verification across all 180 eta files:
+for eta in experiments/results/*/retest/*/eta-?.json; do
+  infereval audit "$eta" --json | jq '.n_suspected_silent_failures'
+done | sort | uniq -c
+```
+
 ## [0.15.2] — 2026-06-07
 
 **Live-validation harness for the v0.15.x silent-failure fixes.** Adds `experiments/scripts/v0151_silent_failure_stress.py` — a permanent regression-test harness that replicates the v0.14.0 silent-failure bug conditions against the live OpenRouter API and verifies the v0.15.0/v0.15.1 framework fixes hold under real burst pressure.
