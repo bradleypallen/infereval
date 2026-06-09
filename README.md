@@ -21,7 +21,7 @@ The docs site at <https://www.bradleypallen.org/infereval/> covers a [Concepts](
 
 ## Findings
 
-> Pre-release software: the bundled demonstration suite is being re-captured under the v0.15.2+ framework as part of v0.16.0 (the v0.14.0-era captures were affected by a silent-failure bug — see [`KNOWN_ISSUES_v0.14.0.md`](https://github.com/bradleypallen/infereval/blob/main/KNOWN_ISSUES_v0.14.0.md)). Fresh cross-family results land in `experiments/results/` when the re-capture completes.
+A 13-model × 3-paraphrase-variant cross-family sweep against the stop-sign benchmark (2026-06-09) is committed at [`experiments/results/stop_sign_2026-06-09.md`](https://github.com/bradleypallen/infereval/blob/main/experiments/results/stop_sign_2026-06-09.md). Headline: under the paper-aligned δ(ra), 12 of 13 frontier LLMs across six families reproduce Simonelli's analyst row exactly (κ_C = +1.000) — a thirteen-model independent replication of the paper's empirical anchor under fresh v0.15.2 captures. The perceptual variant is the cleavage axis. A companion 6-model pulmonary edema sweep (n=30 items) at [`experiments/results/pulmonology_2026-06-09.md`](https://github.com/bradleypallen/infereval/blob/main/experiments/results/pulmonology_2026-06-09.md) characterizes within-day and day-out R22 reliability; the deepseek-v4-pro cell exhibits monotone κ decay across three time-scales (0.867 → 0.792 → 0.729) — the clearest published example of detectable across-update model drift the framework has produced.
 
 ## Install
 

@@ -51,7 +51,7 @@ infereval evaluate examples/pulmonary_edema/benchmark.json \
   -o /tmp/pulm-eta.json
 ```
 
-Pre-computed evaluations against six frontier models from four families (GPT-4.1, GPT-5.5, Claude Opus 4.7, Gemini 2.5 Pro, DeepSeek v4-pro, Qwen3-max) live alongside this file in `experiments/results/pulmonology/`. See `experiments/results/pulmonology_2026-05-19.md` for the cross-family analysis.
+Pre-computed evaluations against six frontier models from four families (GPT-4.1, GPT-5.5, Claude Opus 4.7, Gemini 2.5 Pro, DeepSeek v4-pro, Qwen3-max) live alongside this file in `experiments/results/pulmonology/retest/`. The current cross-family analysis (multi-interval R22 evidence under framework v0.15.2, captured 2026-06-09) lives at `experiments/results/pulmonology_2026-06-09.md`. An earlier v0.1.x-era analysis against the 29-item archive is at `experiments/results/pulmonology_2026-05-19.md`.
 
 ## Reproducibility
 
