@@ -1,0 +1,284 @@
+{
+  "schema_version": "1.0",
+  "id": "retest-append-928a4d5c-3",
+  "benchmark_id": "stop-sign-intrinsic",
+  "benchmark_hash": "sha256:e33415c3433ef36b9be304d0c7ed4d6f97e58cac02168e173fcef80da7023d08",
+  "model": {
+    "provider": "openrouter",
+    "model_id": "qwen/qwen3-max",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 3,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-explicit-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1"
+  },
+  "framework_version": "0.15.2",
+  "started_at": "2026-06-09T17:08:03.938367Z",
+  "finished_at": "2026-06-09T17:08:56.429971Z",
+  "items": [
+    {
+      "id": "row-0",
+      "premises": [
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-append-928a4d5c-3:row-0:sample-0",
+          "wall_time_ms": 1626.1214589467272,
+          "usage": {
+            "input_tokens": 238,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-append-928a4d5c-3:row-0:sample-1",
+          "wall_time_ms": 1388.597832992673,
+          "usage": {
+            "input_tokens": 238,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-append-928a4d5c-3:row-0:sample-2",
+          "wall_time_ms": 1160.4682080214843,
+          "usage": {
+            "input_tokens": 238,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-1",
+      "premises": [
+        "n",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-append-928a4d5c-3:row-1:sample-0",
+          "wall_time_ms": 1322.6849589846097,
+          "usage": {
+            "input_tokens": 242,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-append-928a4d5c-3:row-1:sample-1",
+          "wall_time_ms": 1371.9845410087146,
+          "usage": {
+            "input_tokens": 242,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-append-928a4d5c-3:row-1:sample-2",
+          "wall_time_ms": 1625.5864159902558,
+          "usage": {
+            "input_tokens": 242,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nighttime"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-2",
+      "premises": [
+        "n",
+        "nr",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-append-928a4d5c-3:row-2:sample-0",
+          "wall_time_ms": 1265.5032920301892,
+          "usage": {
+            "input_tokens": 250,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-append-928a4d5c-3:row-2:sample-1",
+          "wall_time_ms": 1189.3145409994759,
+          "usage": {
+            "input_tokens": 250,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "",
+          "parsed_verdict": "abstain",
+          "parse_status": "sample_failed",
+          "request_id": "retest-append-928a4d5c-3:row-2:sample-2",
+          "provider_error": "openrouter sample failed after 4 attempts: Error code: 429 - {'error': {'message': 'Rate limit exceeded: limit_rpm/qwen/qwen3-max/5e31ba3c-d5bf-4ced-a52d-96e2e6635f95. High demand for qwen/qwen3-max on OpenRouter - limited to 20 requests per minute. Please retry shortly.', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1781024940000'}, 'provider_name': None}}, 'user_id': 'user_2sjid3ytTLwC2UmpBALjWnIxwlB'}"
+        }
+      ],
+      "majority_vote": {
+        "good": 2,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nonreflective"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-3",
+      "premises": [
+        "ba",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "abstain",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "",
+          "parsed_verdict": "abstain",
+          "parse_status": "sample_failed",
+          "request_id": "retest-append-928a4d5c-3:row-3:sample-0",
+          "provider_error": "openrouter sample failed after 4 attempts: Error code: 429 - {'error': {'message': 'Rate limit exceeded: limit_rpm/qwen/qwen3-max/5e31ba3c-d5bf-4ced-a52d-96e2e6635f95. High demand for qwen/qwen3-max on OpenRouter - limited to 20 requests per minute. Please retry shortly.', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1781024940000'}, 'provider_name': None}}, 'user_id': 'user_2sjid3ytTLwC2UmpBALjWnIxwlB'}"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "",
+          "parsed_verdict": "abstain",
+          "parse_status": "sample_failed",
+          "request_id": "retest-append-928a4d5c-3:row-3:sample-1",
+          "provider_error": "openrouter sample failed after 4 attempts: Error code: 429 - {'error': {'message': 'Rate limit exceeded: limit_rpm/qwen/qwen3-max/5e31ba3c-d5bf-4ced-a52d-96e2e6635f95. High demand for qwen/qwen3-max on OpenRouter - limited to 20 requests per minute. Please retry shortly.', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1781024940000'}, 'provider_name': None}}, 'user_id': 'user_2sjid3ytTLwC2UmpBALjWnIxwlB'}"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "",
+          "parsed_verdict": "abstain",
+          "parse_status": "sample_failed",
+          "request_id": "retest-append-928a4d5c-3:row-3:sample-2",
+          "provider_error": "openrouter sample failed after 4 attempts: Error code: 429 - {'error': {'message': 'Rate limit exceeded: limit_rpm/qwen/qwen3-max/5e31ba3c-d5bf-4ced-a52d-96e2e6635f95. High demand for qwen/qwen3-max on OpenRouter - limited to 20 requests per minute. Please retry shortly.', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1781024940000'}, 'provider_name': None}}, 'user_id': 'user_2sjid3ytTLwC2UmpBALjWnIxwlB'}"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "abstain",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "painted-blue"
+      ],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}

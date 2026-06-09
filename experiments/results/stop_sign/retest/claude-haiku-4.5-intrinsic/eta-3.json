@@ -1,0 +1,296 @@
+{
+  "schema_version": "1.0",
+  "id": "retest-append-1d6c7c12-3",
+  "benchmark_id": "stop-sign-intrinsic",
+  "benchmark_hash": "sha256:e33415c3433ef36b9be304d0c7ed4d6f97e58cac02168e173fcef80da7023d08",
+  "model": {
+    "provider": "anthropic",
+    "model_id": "claude-haiku-4-5-20251001",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 3,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-explicit-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1"
+  },
+  "framework_version": "0.15.2",
+  "started_at": "2026-06-09T17:06:22.710191Z",
+  "finished_at": "2026-06-09T17:06:47.482608Z",
+  "items": [
+    {
+      "id": "row-0",
+      "premises": [
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-append-1d6c7c12-3:row-0:sample-0",
+          "wall_time_ms": 1676.3510000309907,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 5
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-append-1d6c7c12-3:row-0:sample-1",
+          "wall_time_ms": 2180.0146670429967,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 5
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-append-1d6c7c12-3:row-0:sample-2",
+          "wall_time_ms": 1125.6768750026822,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 5
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-1",
+      "premises": [
+        "n",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD\n\nUnder typical conditions, a stop sign retains its standard red color at nighttime. The fact that it is nighttime does not ordinarily prevent a stop sign from having its characteristic color—it may be less visible or harder to perceive in darkness, but the physical property of color remains. An ordinary reasoner would conclude that a stop sign has its standard color regardless of the time of day.",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-append-1d6c7c12-3:row-1:sample-0",
+          "wall_time_ms": 1770.1252499828115,
+          "usage": {
+            "input_tokens": 261,
+            "output_tokens": 86
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD\n\nUnder typical conditions, a stop sign retains its standard red color at nighttime. The fact that it is nighttime does not ordinarily prevent a stop sign from having its characteristic color—it may be less visible or harder to perceive in darkness, but the physical property of color remains. An ordinary reasoner would conclude that a stop sign has its standard color regardless of the time of day.",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-append-1d6c7c12-3:row-1:sample-1",
+          "wall_time_ms": 1901.4066659728996,
+          "usage": {
+            "input_tokens": 261,
+            "output_tokens": 86
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD\n\nUnder typical conditions, a stop sign retains its standard red color at nighttime. The fact that it is nighttime does not ordinarily prevent a stop sign from having its characteristic color—it may be less visible or harder to perceive in darkness, but the physical property of color remains. An ordinary reasoner would conclude that a stop sign has its standard color regardless of the time of day.",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "retest-append-1d6c7c12-3:row-1:sample-2",
+          "wall_time_ms": 1952.1237920271233,
+          "usage": {
+            "input_tokens": 261,
+            "output_tokens": 86
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nighttime"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-2",
+      "premises": [
+        "n",
+        "nr",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD\n\nThe premises explicitly state that it is nighttime and that \"a is not made with reflective material.\" A stop sign's standard color (red) would not be visually apparent or reliably discernible under nighttime conditions without reflective material. The premises contain a defeater to the inference that a has the standard color of stop signs—the combination of nighttime and lack of reflective material undermines our ability to conclude the sign displays its standard color.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-append-1d6c7c12-3:row-2:sample-0",
+          "wall_time_ms": 2086.232249974273,
+          "usage": {
+            "input_tokens": 270,
+            "output_tokens": 100
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD\n\nThe premises explicitly state that it is nighttime and that \"a is not made with reflective material.\" A stop sign's standard color (red) would not be visually apparent or reliably discernible under nighttime conditions without reflective material. The premises contain a defeater to the inference that a would have its standard visible color under these conditions.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-append-1d6c7c12-3:row-2:sample-1",
+          "wall_time_ms": 1813.7712919851765,
+          "usage": {
+            "input_tokens": 270,
+            "output_tokens": 78
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD\n\nThe premises explicitly state that it is nighttime and that \"a is not made with reflective material.\" A stop sign's standard color (red) would not be visibly apparent or reliably determinable under nighttime conditions without reflective material. The premises contain a defeater for the conclusion that a has the standard color of stop signs—the combination of darkness and lack of reflectivity undermines the ability to perceive or confirm the standard color.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-append-1d6c7c12-3:row-2:sample-2",
+          "wall_time_ms": 2132.1211659815162,
+          "usage": {
+            "input_tokens": 270,
+            "output_tokens": 98
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nonreflective"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-3",
+      "premises": [
+        "ba",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD\n\nThe premises explicitly state that \"a has been painted blue,\" which directly contradicts the conclusion that \"a has the standard color of stop signs\" (which is red). The first premise is a defeater for the conclusion.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-append-1d6c7c12-3:row-3:sample-0",
+          "wall_time_ms": 882.2917090146802,
+          "usage": {
+            "input_tokens": 262,
+            "output_tokens": 51
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD\n\nThe premises explicitly state that \"a has been painted blue,\" which directly contradicts the conclusion that \"a has the standard color of stop signs\" (which is red). The first premise is a defeater for the conclusion.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-append-1d6c7c12-3:row-3:sample-1",
+          "wall_time_ms": 867.0051249791868,
+          "usage": {
+            "input_tokens": 262,
+            "output_tokens": 51
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD\n\nThe premises explicitly state that \"a has been painted blue,\" which directly contradicts the conclusion that \"a has the standard color of stop signs\" (which is red). The first premise is a defeater for the conclusion.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "retest-append-1d6c7c12-3:row-3:sample-2",
+          "wall_time_ms": 1777.921625005547,
+          "usage": {
+            "input_tokens": 262,
+            "output_tokens": 51
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "painted-blue"
+      ],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}
