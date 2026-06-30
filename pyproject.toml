@@ -122,7 +122,12 @@ ignore = ["E501"]
 "tests/unit/test_metrics_*.py" = ["N802", "N806"]
 
 [tool.mypy]
-python_version = "3.10"
+# Type-check against 3.12 — CI runs on 3.12.x and numpy's bundled stubs
+# (>=2.x mid-2026) use the `type` statement (PEP 695, Python 3.12+).
+# Runtime minimum stays at >=3.10 per `requires-python` above; this only
+# governs which syntax the type-checker accepts in third-party stubs and
+# in our own source, not what we actually ship.
+python_version = "3.12"
 strict = true
 warn_return_any = true
 warn_unused_configs = true
