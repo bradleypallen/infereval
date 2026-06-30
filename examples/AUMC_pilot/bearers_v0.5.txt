@@ -1,0 +1,136 @@
+# bearers v0.5 — Bos round 2 (Q1/Q2 answers) folded in
+# diff workflow preserved: strip '#' lines to recover a clean <id> "<statement>" block.
+#
+# ============================================================================
+# CHANGELOG v0.4 -> v0.5 (from Bos's answers to Q1 and Q2)
+#   Q1 RESOLVED: `rs` IS an ordered scale of escalating support
+#     (high-flow < NIV < invasive low/mid/high PEEP). The @ordinal rs
+#     declaration stands; the v0.4 "# Q1: ordered?" caveat is removed.
+#   Q2 RESOLVED, and it CORRECTS the v0.4 encoding:
+#     - There are NO implausible pf x rs cells. Bos: "any P/F with any level
+#       of support." So @pair (which implied forbidden combinations) is WRONG
+#       and is removed. There is no plausibility grid to prune.
+#     - The real rule is REQUIRED CO-PRESENCE: a P/F is uninterpretable without
+#       its support context, so every oxygenation item must carry one pf AND
+#       one rs. Encoded as @copresent (a well-formedness/saturation rule on
+#       items, NOT an exclusion).
+#     - Bos also gave an empirical REGULARITY: more support generally raises
+#       P/F. This is defeasible ("generally"), so it is NOT a constraint on IM
+#       and is NOT enforced on item construction. It is recorded below as a
+#       tested regularity and evaluated as a target inference (see the
+#       cross-family ladder, item_ladders_v0.5_oxygenation.md).
+#   NET: the oxygenation half of the item set is now UNBLOCKED. Every (pf, rs)
+#        couple is a real patient; saturate the grid freely.
+#
+# CARRIED OPEN DECISIONS FROM v0.3 (still ours, untouched by Bos):
+#   - bi grading vs read-reliability; pna_multifocal vs bi_diffuse individuation;
+#     sep/septic_shock kept as entailment.
+#
+# SUGGESTED (for a later Bos round, NOT added unilaterally):
+#   - graded ARDS-severity targets (ards_mild/mod/severe), since Berlin/Global
+#     define severity by P/F UNDER a given support level. This is exactly where
+#     the pf x rs coupling becomes sharply testable; flag to Bos before adding.
+# ============================================================================
+
+# --- @ordinal declarations (ordered + mutually exclusive within family) ---
+# @ordinal bnp   = [bnp_lo, bnp_grey, bnp_mod, bnp_hi, bnp_vhi]            @target cpe
+# @ordinal pf    = [pf_normal, pf_mild, pf_mod, pf_severe]                 @target ards
+# @ordinal rs    = [rs_hfnc, rs_niv, rs_imvlow, rs_imvmiddle, rs_imvhigh]  @target ards
+# @ordinal ef    = [ef_preserved, ef_mid, ef_reduced, ef_severe]          @target cpe
+# @ordinal bi    = [bi_min, bi_mod, bi_diffuse]
+# @ordinal pv    = [pv_none, pv_small, pv_mod, pv_large]                   @target cpe
+# @ordinal bp    = [bp_partial, bp_classic]
+# @ordinal fluid = [fluid_neg, fluid_pos, fluid_verypos]                   @target cpe
+# @ordinal tr    = [tr_minor, tr_major]
+# @ordinal cv    = [cv_minor, cv_struct]
+# @ordinal pna   = [pna_focal, pna_multifocal]
+#
+# --- @entails ---
+# @entails septic_shock -> sep
+#
+# --- @copresent (replaces v0.4 @pair; NO forbidden cells) ---
+# @copresent pf & rs
+#   every oxygenation item carries exactly one pf AND one rs. This is a
+#   well-formedness rule on item construction, not an exclusion: all
+#   pf x rs combinations are admissible (Bos: any P/F with any support).
+#
+# --- tested regularity (NOT a constraint; evaluated, not enforced) ---
+# ~regularity: rs up => pf up (monotone, defeasible). Realized as the
+#   cross-family ladder, not as membership in IM.
+
+# --- BNP ---
+bnp_lo "the patient has BNP less than 100 pg/mL"
+bnp_grey "the patient has BNP between 100 and 500 pg/mL"
+bnp_mod "the patient has BNP between 500 and 900 pg/mL"
+bnp_hi "the patient has BNP between 900 and 5000 pg/mL"
+bnp_vhi "the patient has BNP greater than 5000 pg/mL"
+
+# --- PaO2/FiO2 ratio (co-present with rs) ---
+pf_normal "the patient has a PaO2/FiO2 ratio greater than 300"
+pf_mild "the patient has a PaO2/FiO2 ratio of 200-300"
+pf_mod "the patient has a PaO2/FiO2 ratio of 100-200"
+pf_severe "the patient has a PaO2/FiO2 ratio less than 100"
+
+# --- Respiratory support (ordered; co-present with pf) ---
+rs_hfnc "the patient receives high-flow nasal cannula at over 30 L/min and over 50% FiO2"
+rs_niv "the patient receives non-invasive ventilation with PEEP over 5 cmH2O"
+rs_imvlow "the patient receives invasive ventilation with PEEP 5-10 cmH2O"
+rs_imvmiddle "the patient receives invasive ventilation with PEEP 10-15 cmH2O"
+rs_imvhigh "the patient receives invasive ventilation with PEEP over 15 cmH2O"
+
+# --- LVEF ---
+ef_preserved "the patient has left ventricular ejection fraction of 50% or higher on echocardiogram"
+ef_mid "the patient has left ventricular ejection fraction of 40-49% on echocardiogram"
+ef_reduced "the patient has left ventricular ejection fraction of 30-39% on echocardiogram"
+ef_severe "the patient has left ventricular ejection fraction below 30% on echocardiogram"
+
+# --- bilateral infiltrates, extent ---
+bi_min "the patient has subtle or limited bilateral pulmonary infiltrates on imaging"
+bi_mod "the patient has moderate bilateral pulmonary infiltrates on imaging"
+bi_diffuse "the patient has extensive, diffuse bilateral airspace opacities on imaging"
+
+# --- infiltrate distribution ---
+bp_partial "the patient has partial perihilar predominance of pulmonary infiltrates on imaging"
+bp_classic "the patient has a classic bat-wing distribution of pulmonary infiltrates on imaging"
+
+# --- other imaging ---
+kb_present "the patient has Kerley B lines on chest imaging"
+
+# --- pleural effusions, size ---
+pv_none "the patient has no pleural effusions"
+pv_small "the patient has small bilateral pleural effusions"
+pv_mod "the patient has moderate bilateral pleural effusions"
+pv_large "the patient has large bilateral pleural effusions"
+
+# --- recent chemotherapy ---
+cd_cardiotox "the patient recently received chemotherapy with a cardiotoxic agent such as an anthracycline or trastuzumab"
+cd_pneumotox "the patient recently received chemotherapy with a pneumotoxic agent such as bleomycin, gemcitabine, or methotrexate"
+
+# --- fluid balance, 24h ---
+fluid_neg "the patient received diuretics in the past 24 hours and has a negative fluid balance"
+fluid_pos "the patient received moderate-volume intravenous fluids and had a moderately positive fluid balance in the past 24 hours"
+fluid_verypos "the patient received large-volume intravenous fluids and had a very positive fluid balance in the past 24 hours"
+
+# --- trauma ---
+tr_minor "the patient sustained recent minor or isolated trauma"
+tr_major "the patient sustained recent major multisystem trauma"
+
+# --- cardiovascular history ---
+cv_minor "the patient has cardiovascular risk factors or treated hypertension"
+cv_struct "the patient has a known history of structural heart disease or prior heart failure"
+
+# --- pneumonia, extent ---
+pna_focal "the patient has lobar or unilateral pneumonia"
+pna_multifocal "the patient has multilobar or bilateral pneumonia"
+
+# --- kept categorical ---
+asp "the patient has a documented aspiration event"
+rf "the patient has acute renal failure with volume overload"
+sep "the patient has documented sepsis"
+septic_shock "the patient has documented septic shock"
+pe "the patient has acute pulmonary embolism"
+ad "the patient has acute dyspnea"
+
+# --- targets ---
+cpe "the patient has cardiogenic pulmonary edema"
+ards "the patient has acute respiratory distress syndrome"
