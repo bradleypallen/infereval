@@ -27,7 +27,7 @@ from pydantic import (
 )
 
 from .types import Bearer as _RuntimeBearer
-from .types import Implication, Verdict
+from .types import Implication, PlaceholderVerdict, VariationType, Verdict
 
 SCHEMA_VERSION: Literal["1.0"] = "1.0"
 
@@ -90,6 +90,11 @@ class BearerModel(BaseModel):
     references: list[Reference] = Field(default_factory=list)
     """Provenance for the bearer's definition, e.g. the guideline section
     that defines the threshold ``"P/F < 300"`` is measured against."""
+    ordinal_family: str | None = None
+    """Name of the ordinal family this bearer is a tier of, when it is one
+    (e.g. ``"bnp"`` for ``bnp_lo``). Must name a family declared in
+    :attr:`Benchmark.ordinal_families`. ``None`` (default) for non-tier
+    bearers. Additive (v0.17.0): pre-existing benchmarks validate unchanged."""
 
     @field_validator("references", mode="before")
     @classmethod
@@ -282,6 +287,67 @@ class FactorConstraints(BaseModel):
     still run)."""
 
 
+class MonotonicityStep(BaseModel):
+    """Ordinal-family annotation for a ``monotonicity_step`` item (v0.5 schema).
+
+    Declares where the item sits on an ordinal ladder: the :attr:`family` walked,
+    the :attr:`tier` it occupies, that tier's 0-based :attr:`tier_index` in the
+    family's declared order, and the :attr:`expected` monotonicity direction of
+    endorsement as the tier rises. On a cross-family ladder, :attr:`fixed` names
+    the bearer id held constant in the other family. Consumed by the
+    monotonicity scorer (v0.17.1); never by the shape-blind measurement layer.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    family: str
+    tier: str
+    tier_index: int
+    expected: Literal["non_decreasing", "non_increasing"] = "non_decreasing"
+    fixed: str | None = None
+
+
+class CopresenceRule(BaseModel):
+    """``@copresent`` saturation / well-formedness rule over ordinal families.
+
+    Declares that a set of :attr:`families` must co-occur: an item carrying a
+    tier from any listed family must carry a tier from every listed family. This
+    is a *well-formedness* rule on item construction, NOT an exclusion of any
+    tier combination. With :attr:`exhaustivity` off (the default) the constraint
+    compiler emits only an admissibility rule and **no** sequents; turning it on
+    additionally makes exhaustivity itself testable (brief §2/§7).
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    families: list[str] = Field(min_length=2)
+    exhaustivity: bool = False
+
+
+class EntailmentRule(BaseModel):
+    """``@entails`` bearer-level entailment: ``antecedent`` present entails ``consequent``."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    antecedent: str
+    consequent: str
+
+
+class Regularity(BaseModel):
+    """``~regularity``: a tested-but-not-enforced defeasible regularity.
+
+    Documents a domain regularity that is *tested* (typically as a cross-family
+    ladder) rather than *enforced* — it earns no membership in the derived
+    implication frame. :attr:`test_item_ids` optionally names the items probing
+    it.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    description: str
+    test_item_ids: list[str] = Field(default_factory=list)
+
+
 class BenchmarkItem(BaseModel):
     """A single benchmark item: an implication paired with analyst verdicts."""
 
@@ -339,6 +405,32 @@ class BenchmarkItem(BaseModel):
     ``None`` by default; populate selectively for items where the
     provenance matters. Phase 1.3 of the construct-validity
     infrastructure (R5, R8, R9)."""
+    ladder: str | None = None
+    """Ladder identifier (v0.5 schema) grouping items into a directed
+    variation / monotonicity sequence, e.g. ``"A"`` … ``"G"``. Descriptive
+    metadata; the shape-blind measurement layer never branches on it.
+    Additive (v0.17.0)."""
+    variation: VariationType | None = None
+    """The item's role in its ladder: base / strengthen / contested / defeat /
+    abstain_anchor / monotonicity_step. Drives reporting stratification
+    (v0.17.1); the κ layer (Definitions 6–10) ignores it. Additive (v0.17.0)."""
+    target: str | None = None
+    """Differential / succedent label for the item (v0.5 schema), e.g.
+    ``"cpe"`` or ``"ards"``. In the single-succedent fragment it coincides with
+    the sole conclusion; kept explicit for per-target reporting. Must name a
+    declared :attr:`Benchmark.targets` entry when both are set. Additive."""
+    placeholder: PlaceholderVerdict | None = None
+    """Author-provided provisional verdict for pre-recruitment model dry-runs
+    ONLY. **Not** an analyst verdict: the measurement layer is mechanically
+    firewalled from reading it (the placeholder firewall). ``"contested"`` marks
+    an item the author expects the analyst panel to split on. Additive."""
+    construction_note: str | None = None
+    """Author's prose justifying the item's design (e.g. why an item is
+    contested). Distinct from :attr:`references` (citations) and
+    :attr:`analyst_rationales` (per-analyst verdict reasons). Additive."""
+    monotonicity_step: MonotonicityStep | None = None
+    """Ordinal-ladder annotation, present iff :attr:`variation` is
+    ``"monotonicity_step"``. Consumed by the monotonicity scorer (v0.17.1)."""
 
     @field_validator("premises", "conclusions", mode="before")
     @classmethod
@@ -425,6 +517,26 @@ class Benchmark(BaseModel):
     Simonelli (2026); a contract-law benchmark would cite the relevant
     Restatement / UCC sections; a clinical benchmark would cite the
     governing guidelines."""
+    ordinal_families: dict[str, list[str]] = Field(default_factory=dict)
+    """Declared ordinal families: family name → ordered list of member bearer
+    ids, lowest tier first (e.g. ``{"bnp": ["bnp_lo", "bnp_grey", "bnp_mod",
+    "bnp_hi", "bnp_vhi"]}``). Distinct from :attr:`factors` (crossed-design
+    dimensions on items): an ordinal family is a *tier ordering on bearers*,
+    consumed by the constraint compiler (pairwise-exclusivity sequents) and the
+    monotonicity scorer. Empty by default (v0.17.0, additive)."""
+    copresence_rules: list[CopresenceRule] = Field(default_factory=list)
+    """``@copresent`` saturation rules over ordinal families. See
+    :class:`CopresenceRule`. Empty by default (v0.17.0, additive)."""
+    entailment_rules: list[EntailmentRule] = Field(default_factory=list)
+    """``@entails`` bearer-level entailment rules. See :class:`EntailmentRule`.
+    Empty by default (v0.17.0, additive)."""
+    regularities: list[Regularity] = Field(default_factory=list)
+    """``~regularity`` tested-but-not-enforced regularities. See
+    :class:`Regularity`. Empty by default (v0.17.0, additive)."""
+    targets: list[str] = Field(default_factory=list)
+    """Declared succedent / differential labels for the domain (e.g. ``["cpe",
+    "ards"]``). Items name their target via :attr:`BenchmarkItem.target`. Empty
+    by default (v0.17.0, additive)."""
 
     @field_validator("references", mode="before")
     @classmethod
@@ -461,6 +573,43 @@ class Benchmark(BaseModel):
         # Bearer ids consistent: every premise / conclusion / rsr_target id must
         # appear in self.bearers
         bearer_keys = set(self.bearers)
+
+        # Ordinal families (v0.17.0): every tier must be a declared bearer id.
+        family_names = set(self.ordinal_families)
+        for fam, tiers in self.ordinal_families.items():
+            unknown_tiers = set(tiers) - bearer_keys
+            if unknown_tiers:
+                raise ValueError(
+                    f"Ordinal family {fam!r} references unknown bearer ids: "
+                    f"{sorted(unknown_tiers)}"
+                )
+
+        # Bearer ordinal_family annotations must name a declared family.
+        for bid, bm in self.bearers.items():
+            if bm.ordinal_family is not None and bm.ordinal_family not in family_names:
+                raise ValueError(
+                    f"Bearer {bid!r} declares ordinal_family={bm.ordinal_family!r} but "
+                    f"no such family is declared (families: {sorted(family_names)})"
+                )
+
+        # Copresence rules must reference declared families.
+        for rule in self.copresence_rules:
+            unknown_fam = set(rule.families) - family_names
+            if unknown_fam:
+                raise ValueError(
+                    f"copresence_rule references unknown families {sorted(unknown_fam)} "
+                    f"(declared families: {sorted(family_names)})"
+                )
+
+        # Entailment rules must reference declared bearer ids.
+        for erule in self.entailment_rules:
+            unknown_bearers = {erule.antecedent, erule.consequent} - bearer_keys
+            if unknown_bearers:
+                raise ValueError(
+                    f"entailment_rule references unknown bearer ids: "
+                    f"{sorted(unknown_bearers)}"
+                )
+
         item_ids: set[str] = set()
         for item in self.items:
             if item.id in item_ids:
@@ -482,6 +631,45 @@ class Benchmark(BaseModel):
                     raise ValueError(
                         f"Item {item.id!r} rsr_target references unknown bearer ids: "
                         f"{sorted(unknown_rsr)}"
+                    )
+
+            # v0.5 target label must name a declared benchmark target when both
+            # are set (v0.17.0).
+            if (
+                item.target is not None
+                and self.targets
+                and item.target not in self.targets
+            ):
+                raise ValueError(
+                    f"Item {item.id!r} declares target={item.target!r} but that is not "
+                    f"a declared benchmark target (declared: {sorted(self.targets)})"
+                )
+
+            # monotonicity_step consistency against the declared ordinal family.
+            ms = item.monotonicity_step
+            if ms is not None:
+                if ms.family not in self.ordinal_families:
+                    raise ValueError(
+                        f"Item {item.id!r} monotonicity_step names family {ms.family!r} "
+                        f"which is not a declared ordinal family "
+                        f"(families: {sorted(family_names)})"
+                    )
+                tiers = self.ordinal_families[ms.family]
+                if ms.tier not in tiers:
+                    raise ValueError(
+                        f"Item {item.id!r} monotonicity_step tier {ms.tier!r} is not in "
+                        f"family {ms.family!r} (tiers: {tiers})"
+                    )
+                if ms.tier_index != tiers.index(ms.tier):
+                    raise ValueError(
+                        f"Item {item.id!r} monotonicity_step tier_index={ms.tier_index} "
+                        f"but {ms.tier!r} is at index {tiers.index(ms.tier)} in family "
+                        f"{ms.family!r}"
+                    )
+                if ms.fixed is not None and ms.fixed not in bearer_keys:
+                    raise ValueError(
+                        f"Item {item.id!r} monotonicity_step fixed={ms.fixed!r} is not a "
+                        f"declared bearer id"
                     )
 
             # Analyst-verdict tuple length must equal m
@@ -517,6 +705,15 @@ class Benchmark(BaseModel):
                         f"but {fval!r} is not a declared level for {fkey!r} "
                         f"(declared levels: {self.factors[fkey]})"
                     )
+
+        # Regularity test_item_ids must reference declared items (v0.17.0).
+        for reg in self.regularities:
+            unknown_items = set(reg.test_item_ids) - item_ids
+            if unknown_items:
+                raise ValueError(
+                    f"Regularity {reg.description!r} references unknown item ids: "
+                    f"{sorted(unknown_items)}"
+                )
 
         # factor_kinds keys must reference declared factors. (Values are
         # constrained to {"substantive", "experimentally_controlled"} by
