@@ -101,3 +101,20 @@ class DerivedFrame:
     def queried_implications(self) -> frozenset[Implication]:
         """The implications for which an :math:`E_M` verdict has been recorded."""
         return frozenset(self.endorsements)
+
+
+def derive_closure(frame: DerivedFrame) -> DerivedFrame:
+    """Multisuccedent cut / RSR-closure over a frame's verdicts — NOT IMPLEMENTED.
+
+    Deferred by design (generalization brief §9). EM-elicit-and-score does not
+    need cut: membership is decided per-implication by :meth:`DerivedFrame.contains`.
+    A closure becomes load-bearing only if infereval later *composes* verdicts
+    (e.g. chaining ``rs ⊢ {pf tiers}`` with pf-keyed targets), which is exactly
+    where classical vs. substructural readings of the disjunctive succedent
+    diverge. This function is the single seam where such a closure would attach;
+    implement it here rather than hand-rolling verdict composition elsewhere.
+    """
+    raise NotImplementedError(
+        "Multisuccedent cut / RSR-closure is deferred (generalization brief §9); "
+        "see derive_closure.__doc__ for the intended seam."
+    )
