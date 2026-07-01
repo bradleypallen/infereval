@@ -107,7 +107,7 @@ class TestErrors:
 
 class TestRealFile:
     def test_v05_bearers_file(self) -> None:
-        doc = load_bearers_file("examples/AUMC_pilot/bearers_v0.5.txt")
+        doc = load_bearers_file("examples/clinical_pilot/bearers_v0.5.txt")
         assert len(doc.bearers) == 47
         assert len(doc.families) == 11
         assert doc.copresence == (("pf", "rs"),)

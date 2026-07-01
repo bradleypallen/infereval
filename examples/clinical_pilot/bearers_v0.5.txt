@@ -1,20 +1,20 @@
-# bearers v0.5 — Bos round 2 (Q1/Q2 answers) folded in
+# bearers v0.5 — clinician round 2 (Q1/Q2 answers) folded in
 # diff workflow preserved: strip '#' lines to recover a clean <id> "<statement>" block.
 #
 # ============================================================================
-# CHANGELOG v0.4 -> v0.5 (from Bos's answers to Q1 and Q2)
+# CHANGELOG v0.4 -> v0.5 (from the clinician's answers to Q1 and Q2)
 #   Q1 RESOLVED: `rs` IS an ordered scale of escalating support
 #     (high-flow < NIV < invasive low/mid/high PEEP). The @ordinal rs
 #     declaration stands; the v0.4 "# Q1: ordered?" caveat is removed.
 #   Q2 RESOLVED, and it CORRECTS the v0.4 encoding:
-#     - There are NO implausible pf x rs cells. Bos: "any P/F with any level
+#     - There are NO implausible pf x rs cells. The clinician: "any P/F with any level
 #       of support." So @pair (which implied forbidden combinations) is WRONG
 #       and is removed. There is no plausibility grid to prune.
 #     - The real rule is REQUIRED CO-PRESENCE: a P/F is uninterpretable without
 #       its support context, so every oxygenation item must carry one pf AND
 #       one rs. Encoded as @copresent (a well-formedness/saturation rule on
 #       items, NOT an exclusion).
-#     - Bos also gave an empirical REGULARITY: more support generally raises
+#     - The clinician also gave an empirical REGULARITY: more support generally raises
 #       P/F. This is defeasible ("generally"), so it is NOT a constraint on IM
 #       and is NOT enforced on item construction. It is recorded below as a
 #       tested regularity and evaluated as a target inference (see the
@@ -22,14 +22,14 @@
 #   NET: the oxygenation half of the item set is now UNBLOCKED. Every (pf, rs)
 #        couple is a real patient; saturate the grid freely.
 #
-# CARRIED OPEN DECISIONS FROM v0.3 (still ours, untouched by Bos):
+# CARRIED OPEN DECISIONS FROM v0.3 (still ours, untouched by the clinician):
 #   - bi grading vs read-reliability; pna_multifocal vs bi_diffuse individuation;
 #     sep/septic_shock kept as entailment.
 #
-# SUGGESTED (for a later Bos round, NOT added unilaterally):
+# SUGGESTED (for a later clinician round, NOT added unilaterally):
 #   - graded ARDS-severity targets (ards_mild/mod/severe), since Berlin/Global
 #     define severity by P/F UNDER a given support level. This is exactly where
-#     the pf x rs coupling becomes sharply testable; flag to Bos before adding.
+#     the pf x rs coupling becomes sharply testable; flag to the clinician before adding.
 # ============================================================================
 
 # --- @ordinal declarations (ordered + mutually exclusive within family) ---
@@ -52,7 +52,7 @@
 # @copresent pf & rs
 #   every oxygenation item carries exactly one pf AND one rs. This is a
 #   well-formedness rule on item construction, not an exclusion: all
-#   pf x rs combinations are admissible (Bos: any P/F with any support).
+#   pf x rs combinations are admissible (the clinician: any P/F with any support).
 #
 # --- tested regularity (NOT a constraint; evaluated, not enforced) ---
 # ~regularity: rs up => pf up (monotone, defeasible). Realized as the

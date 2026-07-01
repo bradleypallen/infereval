@@ -10,6 +10,20 @@
       "placeholder": "instrument's provisional verdict; used ONLY for the model dry-run, never an analyst label"
     },
     "targets": ["cpe", "ards"],
+    "id": "clinical-pilot-cpe-ards-v0.5",
+    "title": "Clinical pilot — CPE vs. ARDS differential (v0.5)",
+    "domain": "Clinical pulmonary medicine — defeasible diagnostic reasoning",
+    "description": "Clinical pilot benchmark for the cardiogenic pulmonary edema (CPE) vs. acute respiratory distress syndrome (ARDS) differential, developed with a domain clinician. Methodology lineage: Hlobil-Brandom implication frame, single-succedent instantiation (|delta|=1), per Allen Definitions 4-5. Items are organized into ladders (A/B/C/D/F/G) with an explicit variation typology (base / strengthen / contested / defeat / abstain_anchor / monotonicity_step); see item_ladders_v0.5_oxygenation.md. Pre-clinician pilot: analyst_verdicts are empty and a framework-required 'pending recruitment' analyst stands in until the clinician panel's verdicts are collected. Each item's provisional dry-run read is in its 'placeholder' field, which is firewalled from the measurement layer and is not a clinical judgment.",
+    "context_builders": {
+      "premise": {"kind": "template", "template": "{expressions}", "joiner": " and "},
+      "conclusion": {"kind": "template", "template": "{expressions}", "joiner": " or "}
+    },
+    "verification_prompt": {
+      "id": "defeasible-clinical-v1",
+      "system": "You are evaluating defeasible material inference in clinical reasoning. An inference from premises to a conclusion is GOOD when, granting the premises and absent further information, a competent clinician would endorse the conclusion as defeasibly supported. It is BAD when the premises do not support the conclusion, either because they are unrelated or because they defeat it. It is ABSTAIN when the question is ill-formed or you cannot judge. Defeasible support does not require deductive entailment: an inference is GOOD if it would be endorsed by default in everyday clinical reasoning, even if it could be defeated by additional information not present in the premises. For example, 'bird flies' is GOOD by default even though 'penguin flies' is BAD; the bird-flies inference is defeasible. Answer with exactly one of: GOOD, BAD, ABSTAIN. No other text.",
+      "template": "Premises: {premise_context}\nConclusion: {conclusion_context}\nVerdict:",
+      "parse_regex": "\\b(GOOD|BAD|ABSTAIN)\\b"
+    },
     "invariants": [
       "single-succedent: every item has exactly one consequent",
       "mutex: at most one tier per ordinal family in any Gamma",

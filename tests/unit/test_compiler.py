@@ -98,7 +98,7 @@ class TestEntailment:
 
 class TestRealFixture:
     def test_v05_families_yield_pairwise_and_no_copresence_cells(self) -> None:
-        doc = load_bearers_file("examples/AUMC_pilot/bearers_v0.5.txt")
+        doc = load_bearers_file("examples/clinical_pilot/bearers_v0.5.txt")
         copresence = [CopresenceSpec(families=f) for f in doc.copresence]
         result = compile_constraints(
             doc.ordinal_families(), copresence=copresence

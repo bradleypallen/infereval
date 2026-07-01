@@ -1,6 +1,6 @@
 # Item ladders v0.5 — oxygenation set (now unblocked)
 
-Built against `bearers_v0.5.txt`. Bos's Q2 answer removed the blocker: there are no
+Built against `bearers_v0.5.txt`. The clinician's Q2 answer removed the blocker: there are no
 implausible (P/F, support) cells, so every couple is a real patient and the grid can be
 saturated freely. These join the buildable-now set (Ladders A/C/F/D, unchanged) to
 complete the ~30-item benchmark.
@@ -35,7 +35,7 @@ Definition-vs-bedside splits.
 
 ## Ladder G — cross-family monotonicity: support at fixed oxygenation  [new in v0.5]
 
-This is the ladder Bos's regularity hands us. He said more support generally raises P/F —
+This is the ladder the clinician's regularity hands us. The clinician said more support generally raises P/F —
 so a P/F held *fixed* while support *climbs* describes a lung that needs escalating support
 to achieve the same oxygenation, i.e. progressively sicker. The test: does the model treat
 "same P/F, more support" as at least as severe?
@@ -64,7 +64,7 @@ Ladders B and G fix one slice of the pf × rs grid each (B walks risk factors at
 couple then swaps the P/F tier; G walks support at fixed P/F). The full grid is 4 × 5 = 20
 couples; we are **not** enumerating it — that would blow the item budget on cells that test
 nothing new. The ladders sample the grid where the inference is interesting: B at the
-cardiac/fluid-exclusion boundary, G along the support axis where Bos's coupling lives.
+cardiac/fluid-exclusion boundary, G along the support axis where the clinician's coupling lives.
 
 ---
 

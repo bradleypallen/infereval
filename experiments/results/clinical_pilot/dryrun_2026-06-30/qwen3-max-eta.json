@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
-  "id": "8d45407c-b974-4a71-ac8b-e50452442279",
-  "benchmark_id": "aumc-pilot-cpe-ards-v0.5",
+  "id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7",
+  "benchmark_id": "clinical-pilot-cpe-ards-v0.5",
   "benchmark_hash": "sha256:1d15a0c9325220fdd8a54d7b000fd91930b86efb92d45d2eed2d0e54d8a68e47",
   "model": {
     "provider": "openrouter",
-    "model_id": "deepseek/deepseek-v4-pro",
+    "model_id": "qwen/qwen3-max",
     "params": {
       "temperature": 0.0,
       "max_tokens": 2048,
@@ -20,8 +20,8 @@
     "context_builder_conclusion_id": "disjunction-or-v1"
   },
   "framework_version": "0.16.0",
-  "started_at": "2026-06-30T20:29:53.198483Z",
-  "finished_at": "2026-06-30T20:48:56.560833Z",
+  "started_at": "2026-06-30T20:29:53.200583Z",
+  "finished_at": "2026-06-30T20:37:28.051544Z",
   "items": [
     {
       "id": "A0",
@@ -35,31 +35,31 @@
       "analyst_verdicts": [
         "abstain"
       ],
-      "model_verdict": "bad",
+      "model_verdict": "abstain",
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
+          "raw_response": "ABSTAIN",
+          "parsed_verdict": "abstain",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A0:sample-0",
-          "wall_time_ms": 4401.112333871424,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A0:sample-0",
+          "wall_time_ms": 1727.5165407918394,
           "usage": {
-            "input_tokens": 219,
-            "output_tokens": 271
+            "input_tokens": 226,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 269
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "ABSTAIN",
+          "parsed_verdict": "abstain",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A0:sample-1",
-          "wall_time_ms": 3495.2855000738055,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A0:sample-1",
+          "wall_time_ms": 1530.2491670008749,
           "usage": {
-            "input_tokens": 219,
+            "input_tokens": 226,
             "output_tokens": 3
           },
           "finish_reason": "stop",
@@ -67,41 +67,41 @@
         },
         {
           "sample_index": 2,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
+          "raw_response": "ABSTAIN",
+          "parsed_verdict": "abstain",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A0:sample-2",
-          "wall_time_ms": 13948.28650006093,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A0:sample-2",
+          "wall_time_ms": 1438.0409999284893,
           "usage": {
-            "input_tokens": 219,
-            "output_tokens": 1033
+            "input_tokens": 226,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 1030
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
+          "raw_response": "ABSTAIN",
+          "parsed_verdict": "abstain",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A0:sample-3",
-          "wall_time_ms": 4969.359999988228,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A0:sample-3",
+          "wall_time_ms": 1531.3443329650909,
           "usage": {
-            "input_tokens": 219,
-            "output_tokens": 278
+            "input_tokens": 226,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 275
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "ABSTAIN",
+          "parsed_verdict": "abstain",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A0:sample-4",
-          "wall_time_ms": 593.6733752023429,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A0:sample-4",
+          "wall_time_ms": 1427.6340419892222,
           "usage": {
-            "input_tokens": 219,
+            "input_tokens": 226,
             "output_tokens": 3
           },
           "finish_reason": "stop",
@@ -109,10 +109,10 @@
         }
       ],
       "majority_vote": {
-        "good": 2,
-        "bad": 3,
-        "abstain": 0,
-        "verdict": "bad",
+        "good": 0,
+        "bad": 0,
+        "abstain": 5,
+        "verdict": "abstain",
         "tie_broken": false
       },
       "tags": [
@@ -142,70 +142,70 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A1:sample-0",
-          "wall_time_ms": 4847.396958153695,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A1:sample-0",
+          "wall_time_ms": 1444.440291961655,
           "usage": {
-            "input_tokens": 234,
-            "output_tokens": 296
+            "input_tokens": 241,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 292
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A1:sample-1",
-          "wall_time_ms": 4981.770624872297,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A1:sample-1",
+          "wall_time_ms": 1606.4926660619676,
           "usage": {
-            "input_tokens": 234,
-            "output_tokens": 186
+            "input_tokens": 241,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 183
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A1:sample-2",
-          "wall_time_ms": 2806.807541055605,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A1:sample-2",
+          "wall_time_ms": 1344.228332862258,
           "usage": {
-            "input_tokens": 234,
-            "output_tokens": 118
+            "input_tokens": 241,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 114
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A1:sample-3",
-          "wall_time_ms": 4369.847874855623,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A1:sample-3",
+          "wall_time_ms": 1535.6755831744522,
           "usage": {
-            "input_tokens": 234,
-            "output_tokens": 258
+            "input_tokens": 241,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 254
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A1:sample-4",
-          "wall_time_ms": 6872.985791880637,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A1:sample-4",
+          "wall_time_ms": 1462.4675831291825,
           "usage": {
-            "input_tokens": 234,
-            "output_tokens": 437
+            "input_tokens": 241,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 433
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
@@ -242,25 +242,25 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A2:sample-0",
-          "wall_time_ms": 8360.419082920998,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A2:sample-0",
+          "wall_time_ms": 1503.5699168220162,
           "usage": {
-            "input_tokens": 237,
-            "output_tokens": 170
+            "input_tokens": 249,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 166
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A2:sample-1",
-          "wall_time_ms": 622.2227502148598,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A2:sample-1",
+          "wall_time_ms": 1939.3152091652155,
           "usage": {
-            "input_tokens": 237,
-            "output_tokens": 3
+            "input_tokens": 249,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -270,11 +270,11 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A2:sample-2",
-          "wall_time_ms": 1229.6031669247895,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A2:sample-2",
+          "wall_time_ms": 1487.1228330302984,
           "usage": {
-            "input_tokens": 237,
-            "output_tokens": 3
+            "input_tokens": 249,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -284,28 +284,28 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A2:sample-3",
-          "wall_time_ms": 5792.145333020017,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A2:sample-3",
+          "wall_time_ms": 2032.4824168346822,
           "usage": {
-            "input_tokens": 237,
-            "output_tokens": 340
+            "input_tokens": 249,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 336
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A2:sample-4",
-          "wall_time_ms": 4226.41162504442,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A2:sample-4",
+          "wall_time_ms": 1485.0378748960793,
           "usage": {
-            "input_tokens": 237,
-            "output_tokens": 284
+            "input_tokens": 249,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 281
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
@@ -342,70 +342,70 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A3:sample-0",
-          "wall_time_ms": 6281.724167056382,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A3:sample-0",
+          "wall_time_ms": 1413.5018750093877,
           "usage": {
-            "input_tokens": 232,
-            "output_tokens": 294
+            "input_tokens": 241,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 290
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A3:sample-1",
-          "wall_time_ms": 2444.1596250981092,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A3:sample-1",
+          "wall_time_ms": 1363.543292041868,
           "usage": {
-            "input_tokens": 232,
-            "output_tokens": 131
+            "input_tokens": 241,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 128
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A3:sample-2",
-          "wall_time_ms": 4195.370124885812,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A3:sample-2",
+          "wall_time_ms": 1491.826750105247,
           "usage": {
-            "input_tokens": 232,
-            "output_tokens": 338
+            "input_tokens": 241,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 335
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A3:sample-3",
-          "wall_time_ms": 2820.695208152756,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A3:sample-3",
+          "wall_time_ms": 1367.554459022358,
           "usage": {
-            "input_tokens": 232,
-            "output_tokens": 127
+            "input_tokens": 241,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 123
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A3:sample-4",
-          "wall_time_ms": 5182.453375076875,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A3:sample-4",
+          "wall_time_ms": 1435.82933396101,
           "usage": {
-            "input_tokens": 232,
-            "output_tokens": 300
+            "input_tokens": 241,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 297
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
@@ -442,67 +442,67 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A4:sample-0",
-          "wall_time_ms": 6118.140208069235,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A4:sample-0",
+          "wall_time_ms": 1390.0539169553667,
           "usage": {
-            "input_tokens": 240,
-            "output_tokens": 323
+            "input_tokens": 249,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 319
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A4:sample-1",
-          "wall_time_ms": 14320.53479203023,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A4:sample-1",
+          "wall_time_ms": 1425.2307920251042,
           "usage": {
-            "input_tokens": 240,
-            "output_tokens": 425
+            "input_tokens": 249,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 545
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A4:sample-2",
-          "wall_time_ms": 8535.463040927425,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A4:sample-2",
+          "wall_time_ms": 1583.496917039156,
           "usage": {
-            "input_tokens": 240,
-            "output_tokens": 481
+            "input_tokens": 249,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 477
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A4:sample-3",
-          "wall_time_ms": 10264.570707920939,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A4:sample-3",
+          "wall_time_ms": 1580.2698750048876,
           "usage": {
-            "input_tokens": 240,
-            "output_tokens": 624
+            "input_tokens": 249,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 620
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A4:sample-4",
-          "wall_time_ms": 1105.5015828460455,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A4:sample-4",
+          "wall_time_ms": 1404.2952919844538,
           "usage": {
-            "input_tokens": 240,
-            "output_tokens": 3
+            "input_tokens": 249,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -542,76 +542,70 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A5:sample-0",
-          "wall_time_ms": 12143.062750110403,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A5:sample-0",
+          "wall_time_ms": 4095.2527918852866,
           "usage": {
-            "input_tokens": 228,
-            "output_tokens": 282
+            "input_tokens": 236,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 367
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
-          "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A5:sample-1",
-          "wall_time_ms": 4746.914082905278,
-          "usage": {
-            "input_tokens": 228,
-            "output_tokens": 270
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 266
+          "raw_response": "",
+          "parsed_verdict": "abstain",
+          "parse_status": "sample_failed",
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A5:sample-1",
+          "provider_error": "openrouter sample failed after 4 attempts: Error code: 429 - {'error': {'message': 'Rate limit exceeded: limit_rpm/qwen/qwen3-max/5e31ba3c-d5bf-4ced-a52d-96e2e6635f95. High demand for qwen/qwen3-max on OpenRouter - limited to 20 requests per minute. Please retry shortly.', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1782851460000'}, 'provider_name': None}}, 'user_id': 'user_2sjid3ytTLwC2UmpBALjWnIxwlB'}"
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A5:sample-2",
-          "wall_time_ms": 11542.023999849334,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A5:sample-2",
+          "wall_time_ms": 4564.607457956299,
           "usage": {
-            "input_tokens": 307,
-            "output_tokens": 588
+            "input_tokens": 236,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 584
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "ABSTAIN",
+          "parsed_verdict": "abstain",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A5:sample-3",
-          "wall_time_ms": 4211.234375135973,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A5:sample-3",
+          "wall_time_ms": 1381.0785829555243,
           "usage": {
-            "input_tokens": 228,
-            "output_tokens": 310
+            "input_tokens": 236,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 307
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A5:sample-4",
-          "wall_time_ms": 3598.4975409228355,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A5:sample-4",
+          "wall_time_ms": 1236.3351669628173,
           "usage": {
-            "input_tokens": 228,
-            "output_tokens": 193
+            "input_tokens": 236,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 189
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
-        "good": 5,
+        "good": 3,
         "bad": 0,
-        "abstain": 0,
+        "abstain": 1,
         "verdict": "good",
         "tie_broken": false
       },
@@ -642,70 +636,70 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A6:sample-0",
-          "wall_time_ms": 10712.457916000858,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A6:sample-0",
+          "wall_time_ms": 1364.4870419520885,
           "usage": {
-            "input_tokens": 237,
-            "output_tokens": 570
+            "input_tokens": 248,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 567
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A6:sample-1",
-          "wall_time_ms": 10662.11829194799,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A6:sample-1",
+          "wall_time_ms": 1655.1694590598345,
           "usage": {
-            "input_tokens": 237,
-            "output_tokens": 316
+            "input_tokens": 248,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 382
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A6:sample-2",
-          "wall_time_ms": 9787.511207861826,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A6:sample-2",
+          "wall_time_ms": 1317.1757920645177,
           "usage": {
-            "input_tokens": 237,
-            "output_tokens": 397
+            "input_tokens": 248,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 395
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A6:sample-3",
-          "wall_time_ms": 9748.09995898977,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A6:sample-3",
+          "wall_time_ms": 1444.8365829885006,
           "usage": {
-            "input_tokens": 237,
-            "output_tokens": 615
+            "input_tokens": 248,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 613
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A6:sample-4",
-          "wall_time_ms": 8199.232708895579,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A6:sample-4",
+          "wall_time_ms": 1527.5590419769287,
           "usage": {
-            "input_tokens": 237,
-            "output_tokens": 506
+            "input_tokens": 248,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 504
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
@@ -742,70 +736,70 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A7:sample-0",
-          "wall_time_ms": 3992.215042002499,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A7:sample-0",
+          "wall_time_ms": 1628.3517079427838,
           "usage": {
-            "input_tokens": 231,
-            "output_tokens": 144
+            "input_tokens": 240,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 141
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A7:sample-1",
-          "wall_time_ms": 7765.571916941553,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A7:sample-1",
+          "wall_time_ms": 1380.7775408495218,
           "usage": {
-            "input_tokens": 231,
-            "output_tokens": 208
+            "input_tokens": 240,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 246
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A7:sample-2",
-          "wall_time_ms": 4866.528125014156,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A7:sample-2",
+          "wall_time_ms": 1659.0445830952376,
           "usage": {
-            "input_tokens": 231,
-            "output_tokens": 242
+            "input_tokens": 240,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 239
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A7:sample-3",
-          "wall_time_ms": 6838.5833750944585,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A7:sample-3",
+          "wall_time_ms": 1362.404250074178,
           "usage": {
-            "input_tokens": 231,
-            "output_tokens": 200
+            "input_tokens": 240,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 235
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A7:sample-4",
-          "wall_time_ms": 6282.953292131424,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A7:sample-4",
+          "wall_time_ms": 1377.111708978191,
           "usage": {
-            "input_tokens": 231,
-            "output_tokens": 214
+            "input_tokens": 240,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 211
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
@@ -836,84 +830,84 @@
       "analyst_verdicts": [
         "abstain"
       ],
-      "model_verdict": "good",
+      "model_verdict": "bad",
       "samples": [
         {
           "sample_index": 0,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A8:sample-0",
-          "wall_time_ms": 1028.1597080174834,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A8:sample-0",
+          "wall_time_ms": 1882.2097501251847,
           "usage": {
-            "input_tokens": 246,
-            "output_tokens": 2
+            "input_tokens": 255,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A8:sample-1",
-          "wall_time_ms": 5923.558333190158,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A8:sample-1",
+          "wall_time_ms": 1697.7065419778228,
           "usage": {
-            "input_tokens": 246,
-            "output_tokens": 476
+            "input_tokens": 255,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 473
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A8:sample-2",
-          "wall_time_ms": 6351.534957997501,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A8:sample-2",
+          "wall_time_ms": 2159.4826669897884,
           "usage": {
-            "input_tokens": 246,
-            "output_tokens": 380
+            "input_tokens": 255,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 376
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A8:sample-3",
-          "wall_time_ms": 6607.884207973257,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A8:sample-3",
+          "wall_time_ms": 1309.4160829205066,
           "usage": {
-            "input_tokens": 246,
-            "output_tokens": 507
+            "input_tokens": 255,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 504
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A8:sample-4",
-          "wall_time_ms": 6016.552875051275,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A8:sample-4",
+          "wall_time_ms": 1607.2897498961538,
           "usage": {
-            "input_tokens": 246,
-            "output_tokens": 468
+            "input_tokens": 255,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 465
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
-        "good": 4,
-        "bad": 1,
+        "good": 0,
+        "bad": 5,
         "abstain": 0,
-        "verdict": "good",
+        "verdict": "bad",
         "tie_broken": false
       },
       "tags": [
@@ -943,75 +937,69 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A9:sample-0",
-          "wall_time_ms": 3287.324625067413,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A9:sample-0",
+          "wall_time_ms": 2047.4996250122786,
           "usage": {
-            "input_tokens": 228,
-            "output_tokens": 179
+            "input_tokens": 235,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 176
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A9:sample-1",
-          "wall_time_ms": 6688.527333084494,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A9:sample-1",
+          "wall_time_ms": 1427.8285421896726,
           "usage": {
-            "input_tokens": 228,
-            "output_tokens": 530
+            "input_tokens": 235,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 528
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
-          "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A9:sample-2",
-          "wall_time_ms": 4956.022416939959,
-          "usage": {
-            "input_tokens": 228,
-            "output_tokens": 327
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 324
+          "raw_response": "",
+          "parsed_verdict": "abstain",
+          "parse_status": "sample_failed",
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A9:sample-2",
+          "provider_error": "openrouter sample failed after 4 attempts: Error code: 429 - {'error': {'message': 'Rate limit exceeded: limit_rpm/qwen/qwen3-max/5e31ba3c-d5bf-4ced-a52d-96e2e6635f95. High demand for qwen/qwen3-max on OpenRouter - limited to 20 requests per minute. Please retry shortly.', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1782851520000'}, 'provider_name': None}}, 'user_id': 'user_2sjid3ytTLwC2UmpBALjWnIxwlB'}"
         },
         {
           "sample_index": 3,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A9:sample-3",
-          "wall_time_ms": 6765.962375095114,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A9:sample-3",
+          "wall_time_ms": 3493.796708062291,
           "usage": {
-            "input_tokens": 228,
-            "output_tokens": 558
+            "input_tokens": 235,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 556
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:A9:sample-4",
-          "wall_time_ms": 7587.934457929805,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:A9:sample-4",
+          "wall_time_ms": 1391.813333146274,
           "usage": {
-            "input_tokens": 228,
-            "output_tokens": 616
+            "input_tokens": 235,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 614
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
         "good": 0,
-        "bad": 5,
+        "bad": 4,
         "abstain": 0,
         "verdict": "bad",
         "tie_broken": false
@@ -1044,70 +1032,70 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C1:sample-0",
-          "wall_time_ms": 2783.035125117749,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C1:sample-0",
+          "wall_time_ms": 1365.1311250869185,
           "usage": {
-            "input_tokens": 241,
-            "output_tokens": 130
+            "input_tokens": 250,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 127
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C1:sample-1",
-          "wall_time_ms": 4697.3604168742895,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C1:sample-1",
+          "wall_time_ms": 1322.9227920528501,
           "usage": {
-            "input_tokens": 241,
-            "output_tokens": 243
+            "input_tokens": 250,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 295
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C1:sample-2",
-          "wall_time_ms": 5187.110250117257,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C1:sample-2",
+          "wall_time_ms": 1611.063790973276,
           "usage": {
-            "input_tokens": 241,
-            "output_tokens": 267
+            "input_tokens": 250,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 265
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C1:sample-3",
-          "wall_time_ms": 5285.427458118647,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C1:sample-3",
+          "wall_time_ms": 1402.8480420820415,
           "usage": {
-            "input_tokens": 241,
-            "output_tokens": 254
+            "input_tokens": 250,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 252
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C1:sample-4",
-          "wall_time_ms": 6653.923582984135,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C1:sample-4",
+          "wall_time_ms": 1280.2470000460744,
           "usage": {
-            "input_tokens": 241,
-            "output_tokens": 383
+            "input_tokens": 250,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 381
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
@@ -1142,28 +1130,28 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C2:sample-0",
-          "wall_time_ms": 7705.688541056588,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C2:sample-0",
+          "wall_time_ms": 1310.5499998200685,
           "usage": {
-            "input_tokens": 243,
-            "output_tokens": 509
+            "input_tokens": 254,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 506
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C2:sample-1",
-          "wall_time_ms": 569.4308329839259,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C2:sample-1",
+          "wall_time_ms": 1422.3970409948379,
           "usage": {
-            "input_tokens": 243,
-            "output_tokens": 3
+            "input_tokens": 254,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -1173,47 +1161,47 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C2:sample-2",
-          "wall_time_ms": 4160.459542181343,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C2:sample-2",
+          "wall_time_ms": 1338.912250008434,
           "usage": {
-            "input_tokens": 243,
-            "output_tokens": 295
+            "input_tokens": 254,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 292
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C2:sample-3",
-          "wall_time_ms": 10207.30295800604,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C2:sample-3",
+          "wall_time_ms": 1319.212791044265,
           "usage": {
-            "input_tokens": 243,
-            "output_tokens": 843
+            "input_tokens": 254,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 841
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C2:sample-4",
-          "wall_time_ms": 4372.382832923904,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C2:sample-4",
+          "wall_time_ms": 1599.1240420844406,
           "usage": {
-            "input_tokens": 243,
-            "output_tokens": 284
+            "input_tokens": 254,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 281
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
-        "good": 3,
-        "bad": 2,
+        "good": 5,
+        "bad": 0,
         "abstain": 0,
         "verdict": "good",
         "tie_broken": false
@@ -1246,11 +1234,11 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C3:sample-0",
-          "wall_time_ms": 768.6197501607239,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C3:sample-0",
+          "wall_time_ms": 1312.2494579292834,
           "usage": {
-            "input_tokens": 243,
-            "output_tokens": 3
+            "input_tokens": 254,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -1260,56 +1248,56 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C3:sample-1",
-          "wall_time_ms": 5743.842791067436,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C3:sample-1",
+          "wall_time_ms": 1353.0539581552148,
           "usage": {
-            "input_tokens": 243,
-            "output_tokens": 519
+            "input_tokens": 254,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 516
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C3:sample-2",
-          "wall_time_ms": 5071.13004103303,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C3:sample-2",
+          "wall_time_ms": 1421.1868338752538,
           "usage": {
-            "input_tokens": 243,
-            "output_tokens": 397
+            "input_tokens": 254,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 394
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C3:sample-3",
-          "wall_time_ms": 2650.4524999763817,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C3:sample-3",
+          "wall_time_ms": 1571.0497498512268,
           "usage": {
-            "input_tokens": 243,
-            "output_tokens": 176
+            "input_tokens": 254,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 173
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C3:sample-4",
-          "wall_time_ms": 4339.8256248328835,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C3:sample-4",
+          "wall_time_ms": 1356.7214589565992,
           "usage": {
-            "input_tokens": 243,
-            "output_tokens": 333
+            "input_tokens": 254,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 330
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
@@ -1347,74 +1335,62 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C4:sample-0",
-          "wall_time_ms": 3947.9435419198126,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C4:sample-0",
+          "wall_time_ms": 1845.3758747782558,
           "usage": {
-            "input_tokens": 244,
-            "output_tokens": 209
+            "input_tokens": 255,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 205
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C4:sample-1",
-          "wall_time_ms": 8146.551667014137,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C4:sample-1",
+          "wall_time_ms": 1517.2740831039846,
           "usage": {
-            "input_tokens": 244,
-            "output_tokens": 396
+            "input_tokens": 255,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 392
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C4:sample-2",
-          "wall_time_ms": 6336.609916994348,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C4:sample-2",
+          "wall_time_ms": 1444.580917013809,
           "usage": {
-            "input_tokens": 244,
-            "output_tokens": 372
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 368
-        },
-        {
-          "sample_index": 3,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
-          "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C4:sample-3",
-          "wall_time_ms": 661.2625420093536,
-          "usage": {
-            "input_tokens": 244,
-            "output_tokens": 3
+            "input_tokens": 255,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
+          "sample_index": 3,
+          "raw_response": "",
+          "parsed_verdict": "abstain",
+          "parse_status": "sample_failed",
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C4:sample-3",
+          "provider_error": "openrouter sample failed after 4 attempts: Error code: 429 - {'error': {'message': 'Rate limit exceeded: limit_rpm/qwen/qwen3-max/5e31ba3c-d5bf-4ced-a52d-96e2e6635f95. High demand for qwen/qwen3-max on OpenRouter - limited to 20 requests per minute. Please retry shortly.', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1782851580000'}, 'provider_name': None}}, 'user_id': 'user_2sjid3ytTLwC2UmpBALjWnIxwlB'}"
+        },
+        {
           "sample_index": 4,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
-          "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C4:sample-4",
-          "wall_time_ms": 2875.713750021532,
-          "usage": {
-            "input_tokens": 244,
-            "output_tokens": 224
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 220
+          "raw_response": "",
+          "parsed_verdict": "abstain",
+          "parse_status": "sample_failed",
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C4:sample-4",
+          "provider_error": "openrouter sample failed after 4 attempts: Error code: 429 - {'error': {'message': 'Rate limit exceeded: limit_rpm/qwen/qwen3-max/5e31ba3c-d5bf-4ced-a52d-96e2e6635f95. High demand for qwen/qwen3-max on OpenRouter - limited to 20 requests per minute. Please retry shortly.', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1782851580000'}, 'provider_name': None}}, 'user_id': 'user_2sjid3ytTLwC2UmpBALjWnIxwlB'}"
         }
       ],
       "majority_vote": {
-        "good": 5,
+        "good": 3,
         "bad": 0,
         "abstain": 0,
         "verdict": "good",
@@ -1448,70 +1424,70 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C5:sample-0",
-          "wall_time_ms": 5949.424083111808,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C5:sample-0",
+          "wall_time_ms": 1425.971332937479,
           "usage": {
-            "input_tokens": 242,
-            "output_tokens": 350
+            "input_tokens": 251,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 346
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C5:sample-1",
-          "wall_time_ms": 5169.6109171025455,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C5:sample-1",
+          "wall_time_ms": 1202.877749921754,
           "usage": {
-            "input_tokens": 242,
-            "output_tokens": 219
+            "input_tokens": 251,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 216
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C5:sample-2",
-          "wall_time_ms": 5160.252874949947,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C5:sample-2",
+          "wall_time_ms": 1258.0579998902977,
           "usage": {
-            "input_tokens": 242,
-            "output_tokens": 269
+            "input_tokens": 251,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 266
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C5:sample-3",
-          "wall_time_ms": 6737.181750126183,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C5:sample-3",
+          "wall_time_ms": 1246.0732499603182,
           "usage": {
-            "input_tokens": 242,
-            "output_tokens": 381
+            "input_tokens": 251,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 378
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:C5:sample-4",
-          "wall_time_ms": 5023.0551671702415,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:C5:sample-4",
+          "wall_time_ms": 1244.3342909682542,
           "usage": {
-            "input_tokens": 242,
-            "output_tokens": 217
+            "input_tokens": 251,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 214
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
@@ -1549,70 +1525,70 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:F1:sample-0",
-          "wall_time_ms": 4965.619042050093,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:F1:sample-0",
+          "wall_time_ms": 1306.3416248187423,
           "usage": {
-            "input_tokens": 256,
-            "output_tokens": 281
+            "input_tokens": 269,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 277
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:F1:sample-1",
-          "wall_time_ms": 5486.348292091861,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:F1:sample-1",
+          "wall_time_ms": 1533.0612079706043,
           "usage": {
-            "input_tokens": 256,
-            "output_tokens": 461
+            "input_tokens": 269,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 458
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:F1:sample-2",
-          "wall_time_ms": 4810.933582950383,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:F1:sample-2",
+          "wall_time_ms": 1282.2412501554936,
           "usage": {
-            "input_tokens": 256,
-            "output_tokens": 284
+            "input_tokens": 269,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 280
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:F1:sample-3",
-          "wall_time_ms": 6002.351500093937,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:F1:sample-3",
+          "wall_time_ms": 1198.949874844402,
           "usage": {
-            "input_tokens": 256,
-            "output_tokens": 459
+            "input_tokens": 269,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 456
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:F1:sample-4",
-          "wall_time_ms": 5487.997834105045,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:F1:sample-4",
+          "wall_time_ms": 1308.45500016585,
           "usage": {
-            "input_tokens": 256,
-            "output_tokens": 448
+            "input_tokens": 269,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 445
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
@@ -1650,11 +1626,11 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:F2:sample-0",
-          "wall_time_ms": 646.0106668528169,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:F2:sample-0",
+          "wall_time_ms": 1310.0005418527871,
           "usage": {
-            "input_tokens": 258,
-            "output_tokens": 3
+            "input_tokens": 272,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -1664,25 +1640,25 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:F2:sample-1",
-          "wall_time_ms": 3774.3699171114713,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:F2:sample-1",
+          "wall_time_ms": 1293.4295418672264,
           "usage": {
-            "input_tokens": 258,
-            "output_tokens": 271
+            "input_tokens": 272,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 268
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:F2:sample-2",
-          "wall_time_ms": 401.09120891429484,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:F2:sample-2",
+          "wall_time_ms": 1336.2607089802623,
           "usage": {
-            "input_tokens": 258,
-            "output_tokens": 3
+            "input_tokens": 272,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -1692,28 +1668,28 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:F2:sample-3",
-          "wall_time_ms": 4535.081499954686,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:F2:sample-3",
+          "wall_time_ms": 1304.7596658580005,
           "usage": {
-            "input_tokens": 258,
-            "output_tokens": 225
+            "input_tokens": 272,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 221
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:F2:sample-4",
-          "wall_time_ms": 7319.3956250324845,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:F2:sample-4",
+          "wall_time_ms": 1284.2024581041187,
           "usage": {
-            "input_tokens": 258,
-            "output_tokens": 375
+            "input_tokens": 272,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 371
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
@@ -1751,70 +1727,70 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:F3:sample-0",
-          "wall_time_ms": 3417.760916054249,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:F3:sample-0",
+          "wall_time_ms": 1312.4215421266854,
           "usage": {
-            "input_tokens": 258,
-            "output_tokens": 203
+            "input_tokens": 272,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 199
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:F3:sample-1",
-          "wall_time_ms": 8971.416791900992,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:F3:sample-1",
+          "wall_time_ms": 1297.4019998218864,
           "usage": {
-            "input_tokens": 258,
-            "output_tokens": 252
+            "input_tokens": 272,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 312
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:F3:sample-2",
-          "wall_time_ms": 5512.977750040591,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:F3:sample-2",
+          "wall_time_ms": 1510.9919579699636,
           "usage": {
-            "input_tokens": 258,
-            "output_tokens": 404
+            "input_tokens": 272,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 401
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:F3:sample-3",
-          "wall_time_ms": 2780.204082839191,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:F3:sample-3",
+          "wall_time_ms": 3074.2294162046164,
           "usage": {
-            "input_tokens": 258,
-            "output_tokens": 247
+            "input_tokens": 272,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 243
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:F3:sample-4",
-          "wall_time_ms": 3962.3617499601096,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:F3:sample-4",
+          "wall_time_ms": 1363.6959169525653,
           "usage": {
-            "input_tokens": 258,
-            "output_tokens": 283
+            "input_tokens": 272,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 280
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
@@ -1843,84 +1819,72 @@
       "analyst_verdicts": [
         "abstain"
       ],
-      "model_verdict": "bad",
+      "model_verdict": "abstain",
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
-          "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:D1:sample-0",
-          "wall_time_ms": 5028.202999848872,
-          "usage": {
-            "input_tokens": 218,
-            "output_tokens": 354
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 352
+          "raw_response": "",
+          "parsed_verdict": "abstain",
+          "parse_status": "sample_failed",
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:D1:sample-0",
+          "provider_error": "openrouter sample failed after 4 attempts: Error code: 429 - {'error': {'message': 'Rate limit exceeded: limit_rpm/qwen/qwen3-max/5e31ba3c-d5bf-4ced-a52d-96e2e6635f95. High demand for qwen/qwen3-max on OpenRouter - limited to 20 requests per minute. Please retry shortly.', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1782851640000'}, 'provider_name': None}}, 'user_id': 'user_2sjid3ytTLwC2UmpBALjWnIxwlB'}"
         },
         {
           "sample_index": 1,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
-          "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:D1:sample-1",
-          "wall_time_ms": 4436.830916907638,
-          "usage": {
-            "input_tokens": 218,
-            "output_tokens": 297
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 295
+          "raw_response": "",
+          "parsed_verdict": "abstain",
+          "parse_status": "sample_failed",
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:D1:sample-1",
+          "provider_error": "openrouter sample failed after 4 attempts: Error code: 429 - {'error': {'message': 'Rate limit exceeded: limit_rpm/qwen/qwen3-max/5e31ba3c-d5bf-4ced-a52d-96e2e6635f95. High demand for qwen/qwen3-max on OpenRouter - limited to 20 requests per minute. Please retry shortly.', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1782851640000'}, 'provider_name': None}}, 'user_id': 'user_2sjid3ytTLwC2UmpBALjWnIxwlB'}"
         },
         {
           "sample_index": 2,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
+          "raw_response": "ABSTAIN",
+          "parsed_verdict": "abstain",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:D1:sample-2",
-          "wall_time_ms": 8063.767915824428,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:D1:sample-2",
+          "wall_time_ms": 6064.730499871075,
           "usage": {
-            "input_tokens": 218,
-            "output_tokens": 661
+            "input_tokens": 225,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 659
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
+          "raw_response": "ABSTAIN",
+          "parsed_verdict": "abstain",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:D1:sample-3",
-          "wall_time_ms": 6920.581207843497,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:D1:sample-3",
+          "wall_time_ms": 1478.2006668392569,
           "usage": {
-            "input_tokens": 218,
-            "output_tokens": 379
+            "input_tokens": 225,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 376
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
+          "raw_response": "ABSTAIN",
+          "parsed_verdict": "abstain",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:D1:sample-4",
-          "wall_time_ms": 6937.32766690664,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:D1:sample-4",
+          "wall_time_ms": 1459.862541873008,
           "usage": {
-            "input_tokens": 218,
-            "output_tokens": 602
+            "input_tokens": 225,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 600
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
         "good": 0,
-        "bad": 5,
-        "abstain": 0,
-        "verdict": "bad",
+        "bad": 0,
+        "abstain": 3,
+        "verdict": "abstain",
         "tie_broken": false
       },
       "tags": [
@@ -1950,70 +1914,70 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:D2:sample-0",
-          "wall_time_ms": 8678.722999989986,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:D2:sample-0",
+          "wall_time_ms": 1383.7000839412212,
           "usage": {
-            "input_tokens": 226,
-            "output_tokens": 429
+            "input_tokens": 235,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 426
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:D2:sample-1",
-          "wall_time_ms": 4605.9037919621915,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:D2:sample-1",
+          "wall_time_ms": 1236.8810831103474,
           "usage": {
-            "input_tokens": 226,
-            "output_tokens": 232
+            "input_tokens": 235,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 229
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:D2:sample-2",
-          "wall_time_ms": 9976.854291046038,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:D2:sample-2",
+          "wall_time_ms": 1530.6756251957268,
           "usage": {
-            "input_tokens": 226,
-            "output_tokens": 570
+            "input_tokens": 235,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 567
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:D2:sample-3",
-          "wall_time_ms": 17923.56187500991,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:D2:sample-3",
+          "wall_time_ms": 1297.7520828135312,
           "usage": {
-            "input_tokens": 226,
-            "output_tokens": 987
+            "input_tokens": 235,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 984
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:D2:sample-4",
-          "wall_time_ms": 7633.862624876201,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:D2:sample-4",
+          "wall_time_ms": 1406.3938749022782,
           "usage": {
-            "input_tokens": 226,
-            "output_tokens": 456
+            "input_tokens": 235,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 453
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
@@ -2049,39 +2013,39 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:D3:sample-0",
-          "wall_time_ms": 3540.1184170041233,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:D3:sample-0",
+          "wall_time_ms": 1267.4612919799984,
           "usage": {
-            "input_tokens": 217,
-            "output_tokens": 147
+            "input_tokens": 224,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 144
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:D3:sample-1",
-          "wall_time_ms": 4089.0764161013067,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:D3:sample-1",
+          "wall_time_ms": 1363.7801660224795,
           "usage": {
-            "input_tokens": 296,
-            "output_tokens": 301
+            "input_tokens": 224,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 298
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:D3:sample-2",
-          "wall_time_ms": 951.1251249350607,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:D3:sample-2",
+          "wall_time_ms": 1458.5115001536906,
           "usage": {
-            "input_tokens": 217,
-            "output_tokens": 2
+            "input_tokens": 224,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -2091,11 +2055,11 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:D3:sample-3",
-          "wall_time_ms": 724.0229591261595,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:D3:sample-3",
+          "wall_time_ms": 1410.490875132382,
           "usage": {
-            "input_tokens": 217,
-            "output_tokens": 2
+            "input_tokens": 224,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -2105,11 +2069,11 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:D3:sample-4",
-          "wall_time_ms": 733.5752921644598,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:D3:sample-4",
+          "wall_time_ms": 1360.0128749385476,
           "usage": {
-            "input_tokens": 217,
-            "output_tokens": 2
+            "input_tokens": 224,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -2150,11 +2114,11 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B0:sample-0",
-          "wall_time_ms": 512.9950831178576,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B0:sample-0",
+          "wall_time_ms": 1418.7944170553237,
           "usage": {
-            "input_tokens": 257,
-            "output_tokens": 3
+            "input_tokens": 268,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -2164,56 +2128,56 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B0:sample-1",
-          "wall_time_ms": 5725.119958864525,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B0:sample-1",
+          "wall_time_ms": 2116.529667051509,
           "usage": {
-            "input_tokens": 257,
-            "output_tokens": 293
+            "input_tokens": 268,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 290
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B0:sample-2",
-          "wall_time_ms": 10208.535375073552,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B0:sample-2",
+          "wall_time_ms": 1708.0759999807924,
           "usage": {
-            "input_tokens": 257,
-            "output_tokens": 830
+            "input_tokens": 268,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 827
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B0:sample-3",
-          "wall_time_ms": 8475.533833028749,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B0:sample-3",
+          "wall_time_ms": 1498.829583171755,
           "usage": {
-            "input_tokens": 257,
-            "output_tokens": 421
+            "input_tokens": 268,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 418
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B0:sample-4",
-          "wall_time_ms": 9996.69412500225,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B0:sample-4",
+          "wall_time_ms": 1678.0497499275953,
           "usage": {
-            "input_tokens": 257,
-            "output_tokens": 754
+            "input_tokens": 268,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 751
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
@@ -2252,74 +2216,62 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B1:sample-0",
-          "wall_time_ms": 19649.030999979004,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B1:sample-0",
+          "wall_time_ms": 1397.521167062223,
           "usage": {
-            "input_tokens": 344,
-            "output_tokens": 1202
+            "input_tokens": 276,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 1198
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B1:sample-1",
-          "wall_time_ms": 6574.960666941479,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B1:sample-1",
+          "wall_time_ms": 1501.823040889576,
           "usage": {
-            "input_tokens": 265,
-            "output_tokens": 327
+            "input_tokens": 276,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 323
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
-          "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B1:sample-2",
-          "wall_time_ms": 20806.27758288756,
-          "usage": {
-            "input_tokens": 265,
-            "output_tokens": 1015
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 1011
+          "raw_response": "",
+          "parsed_verdict": "abstain",
+          "parse_status": "sample_failed",
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B1:sample-2",
+          "provider_error": "openrouter sample failed after 4 attempts: Error code: 429 - {'error': {'message': 'Rate limit exceeded: limit_rpm/qwen/qwen3-max/5e31ba3c-d5bf-4ced-a52d-96e2e6635f95. High demand for qwen/qwen3-max on OpenRouter - limited to 20 requests per minute. Please retry shortly.', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1782851700000'}, 'provider_name': None}}, 'user_id': 'user_2sjid3ytTLwC2UmpBALjWnIxwlB'}"
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
-          "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B1:sample-3",
-          "wall_time_ms": 9195.229874923825,
-          "usage": {
-            "input_tokens": 265,
-            "output_tokens": 603
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 599
+          "raw_response": "",
+          "parsed_verdict": "abstain",
+          "parse_status": "sample_failed",
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B1:sample-3",
+          "provider_error": "openrouter sample failed after 4 attempts: Error code: 429 - {'error': {'message': 'Rate limit exceeded: limit_rpm/qwen/qwen3-max/5e31ba3c-d5bf-4ced-a52d-96e2e6635f95. High demand for qwen/qwen3-max on OpenRouter - limited to 20 requests per minute. Please retry shortly.', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1782851700000'}, 'provider_name': None}}, 'user_id': 'user_2sjid3ytTLwC2UmpBALjWnIxwlB'}"
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B1:sample-4",
-          "wall_time_ms": 912.68604202196,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B1:sample-4",
+          "wall_time_ms": 1431.3478749245405,
           "usage": {
-            "input_tokens": 265,
-            "output_tokens": 3
+            "input_tokens": 276,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
-        "good": 5,
+        "good": 3,
         "bad": 0,
         "abstain": 0,
         "verdict": "good",
@@ -2354,70 +2306,70 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B2:sample-0",
-          "wall_time_ms": 3042.5183339975774,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B2:sample-0",
+          "wall_time_ms": 2224.9529999680817,
           "usage": {
-            "input_tokens": 263,
-            "output_tokens": 265
+            "input_tokens": 276,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 261
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B2:sample-1",
-          "wall_time_ms": 5441.734040854499,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B2:sample-1",
+          "wall_time_ms": 1460.5849159415811,
           "usage": {
-            "input_tokens": 263,
-            "output_tokens": 421
+            "input_tokens": 276,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 418
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B2:sample-2",
-          "wall_time_ms": 8146.080582868308,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B2:sample-2",
+          "wall_time_ms": 1453.0427909921855,
           "usage": {
-            "input_tokens": 263,
-            "output_tokens": 537
+            "input_tokens": 276,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 534
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B2:sample-3",
-          "wall_time_ms": 8770.94295900315,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B2:sample-3",
+          "wall_time_ms": 1429.0407919324934,
           "usage": {
-            "input_tokens": 263,
-            "output_tokens": 469
+            "input_tokens": 276,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 465
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B2:sample-4",
-          "wall_time_ms": 5679.934832965955,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B2:sample-4",
+          "wall_time_ms": 1346.4502501301467,
           "usage": {
-            "input_tokens": 263,
-            "output_tokens": 345
+            "input_tokens": 276,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 341
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
@@ -2456,11 +2408,11 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B3:sample-0",
-          "wall_time_ms": 545.5147079192102,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B3:sample-0",
+          "wall_time_ms": 2000.6027920171618,
           "usage": {
-            "input_tokens": 282,
-            "output_tokens": 3
+            "input_tokens": 295,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -2470,25 +2422,25 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B3:sample-1",
-          "wall_time_ms": 20388.37454211898,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B3:sample-1",
+          "wall_time_ms": 1391.548957908526,
           "usage": {
-            "input_tokens": 282,
-            "output_tokens": 1087
+            "input_tokens": 295,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 1083
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B3:sample-2",
-          "wall_time_ms": 676.4700831845403,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B3:sample-2",
+          "wall_time_ms": 1385.1561669725925,
           "usage": {
-            "input_tokens": 282,
-            "output_tokens": 3
+            "input_tokens": 295,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -2498,11 +2450,11 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B3:sample-3",
-          "wall_time_ms": 593.4431250207126,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B3:sample-3",
+          "wall_time_ms": 1502.8033750131726,
           "usage": {
-            "input_tokens": 282,
-            "output_tokens": 3
+            "input_tokens": 295,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -2512,14 +2464,14 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B3:sample-4",
-          "wall_time_ms": 11824.342584004626,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B3:sample-4",
+          "wall_time_ms": 1424.1255419328809,
           "usage": {
-            "input_tokens": 282,
-            "output_tokens": 538
+            "input_tokens": 295,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 534
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
@@ -2557,75 +2509,75 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B4:sample-0",
-          "wall_time_ms": 8446.435374906287,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B4:sample-0",
+          "wall_time_ms": 1521.9106250442564,
           "usage": {
-            "input_tokens": 256,
-            "output_tokens": 553
+            "input_tokens": 265,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 549
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B4:sample-1",
-          "wall_time_ms": 13713.698167121038,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B4:sample-1",
+          "wall_time_ms": 1493.738249875605,
           "usage": {
-            "input_tokens": 256,
-            "output_tokens": 992
+            "input_tokens": 265,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 1100
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B4:sample-2",
-          "wall_time_ms": 13279.979415936396,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B4:sample-2",
+          "wall_time_ms": 1304.1898338124156,
           "usage": {
-            "input_tokens": 256,
-            "output_tokens": 789
+            "input_tokens": 265,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 787
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B4:sample-3",
-          "wall_time_ms": 4629.064416978508,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B4:sample-3",
+          "wall_time_ms": 1451.3750411570072,
           "usage": {
-            "input_tokens": 256,
-            "output_tokens": 309
+            "input_tokens": 265,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 306
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B4:sample-4",
-          "wall_time_ms": 11601.83308296837,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B4:sample-4",
+          "wall_time_ms": 1267.814249964431,
           "usage": {
-            "input_tokens": 256,
-            "output_tokens": 1042
+            "input_tokens": 265,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 1039
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
-        "good": 4,
-        "bad": 1,
+        "good": 5,
+        "bad": 0,
         "abstain": 0,
         "verdict": "good",
         "tie_broken": false
@@ -2660,70 +2612,70 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B5:sample-0",
-          "wall_time_ms": 9742.652917047963,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B5:sample-0",
+          "wall_time_ms": 1620.1460000593215,
           "usage": {
-            "input_tokens": 283,
-            "output_tokens": 995
+            "input_tokens": 299,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 992
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B5:sample-1",
-          "wall_time_ms": 8396.184834185988,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B5:sample-1",
+          "wall_time_ms": 2253.463667118922,
           "usage": {
-            "input_tokens": 283,
-            "output_tokens": 753
+            "input_tokens": 299,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 750
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B5:sample-2",
-          "wall_time_ms": 5830.531290965155,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B5:sample-2",
+          "wall_time_ms": 1560.66312501207,
           "usage": {
-            "input_tokens": 283,
-            "output_tokens": 528
+            "input_tokens": 299,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 525
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B5:sample-3",
-          "wall_time_ms": 8642.937750089914,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B5:sample-3",
+          "wall_time_ms": 1581.499667139724,
           "usage": {
-            "input_tokens": 283,
-            "output_tokens": 738
+            "input_tokens": 299,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 735
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B5:sample-4",
-          "wall_time_ms": 6784.155749948695,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B5:sample-4",
+          "wall_time_ms": 5781.792249996215,
           "usage": {
-            "input_tokens": 283,
-            "output_tokens": 608
+            "input_tokens": 299,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 605
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
@@ -2759,42 +2711,36 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
-          "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B6:sample-0",
-          "wall_time_ms": 14278.693415923044,
-          "usage": {
-            "input_tokens": 270,
-            "output_tokens": 722
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 719
+          "raw_response": "",
+          "parsed_verdict": "abstain",
+          "parse_status": "sample_failed",
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B6:sample-0",
+          "provider_error": "openrouter sample failed after 4 attempts: Error code: 429 - {'error': {'message': 'Rate limit exceeded: limit_rpm/qwen/qwen3-max/5e31ba3c-d5bf-4ced-a52d-96e2e6635f95. High demand for qwen/qwen3-max on OpenRouter - limited to 20 requests per minute. Please retry shortly.', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1782851760000'}, 'provider_name': None}}, 'user_id': 'user_2sjid3ytTLwC2UmpBALjWnIxwlB'}"
         },
         {
           "sample_index": 1,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B6:sample-1",
-          "wall_time_ms": 6259.519084123895,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B6:sample-1",
+          "wall_time_ms": 1209.818207891658,
           "usage": {
-            "input_tokens": 270,
-            "output_tokens": 317
+            "input_tokens": 283,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 313
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B6:sample-2",
-          "wall_time_ms": 1638.231708202511,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B6:sample-2",
+          "wall_time_ms": 8291.047333041206,
           "usage": {
-            "input_tokens": 270,
-            "output_tokens": 3
+            "input_tokens": 283,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -2804,33 +2750,33 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B6:sample-3",
-          "wall_time_ms": 8893.637917004526,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B6:sample-3",
+          "wall_time_ms": 5125.053375028074,
           "usage": {
-            "input_tokens": 270,
-            "output_tokens": 443
+            "input_tokens": 283,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 441
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B6:sample-4",
-          "wall_time_ms": 1351.1168339755386,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B6:sample-4",
+          "wall_time_ms": 1518.1620419025421,
           "usage": {
-            "input_tokens": 270,
-            "output_tokens": 3
+            "input_tokens": 283,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
-        "good": 2,
-        "bad": 3,
+        "good": 0,
+        "bad": 4,
         "abstain": 0,
         "verdict": "bad",
         "tie_broken": false
@@ -2857,84 +2803,84 @@
       "analyst_verdicts": [
         "abstain"
       ],
-      "model_verdict": "bad",
+      "model_verdict": "good",
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B7:sample-0",
-          "wall_time_ms": 15877.303750021383,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B7:sample-0",
+          "wall_time_ms": 1750.371207948774,
           "usage": {
-            "input_tokens": 279,
-            "output_tokens": 816
+            "input_tokens": 292,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 813
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B7:sample-1",
-          "wall_time_ms": 11257.757749874145,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B7:sample-1",
+          "wall_time_ms": 1584.7400419879705,
           "usage": {
-            "input_tokens": 279,
-            "output_tokens": 999
+            "input_tokens": 292,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 997
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B7:sample-2",
-          "wall_time_ms": 10494.129916885868,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B7:sample-2",
+          "wall_time_ms": 1746.2156252004206,
           "usage": {
-            "input_tokens": 279,
-            "output_tokens": 677
+            "input_tokens": 292,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 674
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B7:sample-3",
-          "wall_time_ms": 4926.73599999398,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B7:sample-3",
+          "wall_time_ms": 1505.7482081465423,
           "usage": {
-            "input_tokens": 279,
-            "output_tokens": 363
+            "input_tokens": 292,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 360
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B7:sample-4",
-          "wall_time_ms": 10294.659374980256,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B7:sample-4",
+          "wall_time_ms": 2664.9152080062777,
           "usage": {
-            "input_tokens": 279,
-            "output_tokens": 879
+            "input_tokens": 292,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 876
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
-        "good": 1,
-        "bad": 4,
+        "good": 5,
+        "bad": 0,
         "abstain": 0,
-        "verdict": "bad",
+        "verdict": "good",
         "tie_broken": false
       },
       "tags": [
@@ -2966,75 +2912,75 @@
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B8:sample-0",
-          "wall_time_ms": 4654.333957936615,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B8:sample-0",
+          "wall_time_ms": 1522.9674591682851,
           "usage": {
-            "input_tokens": 278,
-            "output_tokens": 348
+            "input_tokens": 291,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 346
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B8:sample-1",
-          "wall_time_ms": 8536.505417199805,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B8:sample-1",
+          "wall_time_ms": 1378.975458908826,
           "usage": {
-            "input_tokens": 278,
-            "output_tokens": 766
+            "input_tokens": 291,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 764
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "BAD",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B8:sample-2",
-          "wall_time_ms": 16361.743457848206,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B8:sample-2",
+          "wall_time_ms": 1369.4985839538276,
           "usage": {
-            "input_tokens": 278,
-            "output_tokens": 983
+            "input_tokens": 291,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 980
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B8:sample-3",
-          "wall_time_ms": 788.9630000572652,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B8:sample-3",
+          "wall_time_ms": 1577.1598748397082,
           "usage": {
-            "input_tokens": 278,
-            "output_tokens": 3
+            "input_tokens": 291,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:B8:sample-4",
-          "wall_time_ms": 8047.020666999742,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:B8:sample-4",
+          "wall_time_ms": 1376.8370838370174,
           "usage": {
-            "input_tokens": 278,
-            "output_tokens": 414
+            "input_tokens": 291,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 410
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
-        "good": 2,
-        "bad": 3,
+        "good": 0,
+        "bad": 5,
         "abstain": 0,
         "verdict": "bad",
         "tie_broken": false
@@ -3068,25 +3014,25 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G1:sample-0",
-          "wall_time_ms": 20265.068124979734,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G1:sample-0",
+          "wall_time_ms": 1344.8658341076225,
           "usage": {
-            "input_tokens": 271,
-            "output_tokens": 994
+            "input_tokens": 283,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 990
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G1:sample-1",
-          "wall_time_ms": 441.79112487472594,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G1:sample-1",
+          "wall_time_ms": 1499.0068329498172,
           "usage": {
-            "input_tokens": 271,
-            "output_tokens": 3
+            "input_tokens": 283,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -3096,39 +3042,39 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G1:sample-2",
-          "wall_time_ms": 8159.00025004521,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G1:sample-2",
+          "wall_time_ms": 1344.763166969642,
           "usage": {
-            "input_tokens": 271,
-            "output_tokens": 497
+            "input_tokens": 283,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 564
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G1:sample-3",
-          "wall_time_ms": 8909.538333071396,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G1:sample-3",
+          "wall_time_ms": 1308.614042121917,
           "usage": {
-            "input_tokens": 271,
-            "output_tokens": 561
+            "input_tokens": 283,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 557
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G1:sample-4",
-          "wall_time_ms": 660.0968330167234,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G1:sample-4",
+          "wall_time_ms": 1322.2967088222504,
           "usage": {
-            "input_tokens": 271,
-            "output_tokens": 3
+            "input_tokens": 283,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -3170,53 +3116,47 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G2:sample-0",
-          "wall_time_ms": 13925.071957986802,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G2:sample-0",
+          "wall_time_ms": 1452.9044998344034,
           "usage": {
-            "input_tokens": 265,
-            "output_tokens": 702
+            "input_tokens": 276,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 698
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
-          "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G2:sample-1",
-          "wall_time_ms": 8628.748832968995,
-          "usage": {
-            "input_tokens": 265,
-            "output_tokens": 470
-          },
-          "finish_reason": "stop",
-          "reasoning_tokens": 466
+          "raw_response": "",
+          "parsed_verdict": "abstain",
+          "parse_status": "sample_failed",
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G2:sample-1",
+          "provider_error": "openrouter sample failed after 4 attempts: Error code: 429 - {'error': {'message': 'Rate limit exceeded: limit_rpm/qwen/qwen3-max/5e31ba3c-d5bf-4ced-a52d-96e2e6635f95. High demand for qwen/qwen3-max on OpenRouter - limited to 20 requests per minute. Please retry shortly.', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1782851820000'}, 'provider_name': None}}, 'user_id': 'user_2sjid3ytTLwC2UmpBALjWnIxwlB'}"
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G2:sample-2",
-          "wall_time_ms": 10118.512999964878,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G2:sample-2",
+          "wall_time_ms": 1636.3837919197977,
           "usage": {
-            "input_tokens": 265,
-            "output_tokens": 656
+            "input_tokens": 276,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 652
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G2:sample-3",
-          "wall_time_ms": 4951.604958157986,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G2:sample-3",
+          "wall_time_ms": 1691.04625005275,
           "usage": {
-            "input_tokens": 265,
-            "output_tokens": 3
+            "input_tokens": 276,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -3226,18 +3166,18 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G2:sample-4",
-          "wall_time_ms": 6833.554625045508,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G2:sample-4",
+          "wall_time_ms": 1523.1631670612842,
           "usage": {
-            "input_tokens": 265,
-            "output_tokens": 450
+            "input_tokens": 276,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 446
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
-        "good": 5,
+        "good": 4,
         "bad": 0,
         "abstain": 0,
         "verdict": "good",
@@ -3272,70 +3212,70 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G3:sample-0",
-          "wall_time_ms": 5183.387333061546,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G3:sample-0",
+          "wall_time_ms": 1310.6757909990847,
           "usage": {
-            "input_tokens": 265,
-            "output_tokens": 294
+            "input_tokens": 276,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 291
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G3:sample-1",
-          "wall_time_ms": 8068.143207812682,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G3:sample-1",
+          "wall_time_ms": 1416.8889590073377,
           "usage": {
-            "input_tokens": 265,
-            "output_tokens": 531
+            "input_tokens": 276,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 527
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G3:sample-2",
-          "wall_time_ms": 10476.312458049506,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G3:sample-2",
+          "wall_time_ms": 1319.827290950343,
           "usage": {
-            "input_tokens": 265,
-            "output_tokens": 620
+            "input_tokens": 276,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 616
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G3:sample-3",
-          "wall_time_ms": 20001.367749879137,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G3:sample-3",
+          "wall_time_ms": 1229.9764170311391,
           "usage": {
-            "input_tokens": 265,
-            "output_tokens": 1285
+            "input_tokens": 276,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 1281
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G3:sample-4",
-          "wall_time_ms": 5355.346916941926,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G3:sample-4",
+          "wall_time_ms": 1264.3906250596046,
           "usage": {
-            "input_tokens": 265,
-            "output_tokens": 453
+            "input_tokens": 276,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 450
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
@@ -3374,39 +3314,39 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G4:sample-0",
-          "wall_time_ms": 6592.680291971192,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G4:sample-0",
+          "wall_time_ms": 1355.9384169057012,
           "usage": {
-            "input_tokens": 265,
-            "output_tokens": 588
+            "input_tokens": 277,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 585
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G4:sample-1",
-          "wall_time_ms": 12654.461957979947,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G4:sample-1",
+          "wall_time_ms": 1331.015625037253,
           "usage": {
-            "input_tokens": 265,
-            "output_tokens": 342
+            "input_tokens": 277,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 358
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G4:sample-2",
-          "wall_time_ms": 861.5067079663277,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G4:sample-2",
+          "wall_time_ms": 2908.8093750178814,
           "usage": {
-            "input_tokens": 265,
-            "output_tokens": 3
+            "input_tokens": 277,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -3416,25 +3356,25 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G4:sample-3",
-          "wall_time_ms": 8305.921124992892,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G4:sample-3",
+          "wall_time_ms": 1958.4549590945244,
           "usage": {
-            "input_tokens": 265,
-            "output_tokens": 475
+            "input_tokens": 277,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 471
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G4:sample-4",
-          "wall_time_ms": 4637.672625016421,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G4:sample-4",
+          "wall_time_ms": 1450.3375419881195,
           "usage": {
-            "input_tokens": 265,
-            "output_tokens": 3
+            "input_tokens": 277,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -3476,25 +3416,25 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G5:sample-0",
-          "wall_time_ms": 12927.667666925117,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G5:sample-0",
+          "wall_time_ms": 1299.7623749542981,
           "usage": {
-            "input_tokens": 264,
-            "output_tokens": 826
+            "input_tokens": 275,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 822
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G5:sample-1",
-          "wall_time_ms": 669.7891668882221,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G5:sample-1",
+          "wall_time_ms": 1301.2068748939782,
           "usage": {
-            "input_tokens": 264,
-            "output_tokens": 3
+            "input_tokens": 275,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -3504,25 +3444,25 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G5:sample-2",
-          "wall_time_ms": 4115.0146659929305,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G5:sample-2",
+          "wall_time_ms": 1294.6142500732094,
           "usage": {
-            "input_tokens": 264,
-            "output_tokens": 215
+            "input_tokens": 275,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 211
+          "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G5:sample-3",
-          "wall_time_ms": 1497.846500016749,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G5:sample-3",
+          "wall_time_ms": 1488.2084580603987,
           "usage": {
-            "input_tokens": 264,
-            "output_tokens": 3
+            "input_tokens": 275,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -3532,14 +3472,14 @@
           "raw_response": "GOOD",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "8d45407c-b974-4a71-ac8b-e50452442279:G5:sample-4",
-          "wall_time_ms": 5482.424250105396,
+          "request_id": "d3a3ac03-6a64-4927-b03a-afd58a54cbf7:G5:sample-4",
+          "wall_time_ms": 1434.3015409540385,
           "usage": {
-            "input_tokens": 264,
-            "output_tokens": 449
+            "input_tokens": 275,
+            "output_tokens": 1
           },
           "finish_reason": "stop",
-          "reasoning_tokens": 446
+          "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
