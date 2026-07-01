@@ -39,15 +39,17 @@ Zero silent failures. Aggregator-skip excludes the 10 known qwen3-max rate-limit
 
 29 of 35 items receive the same verdict from all six models. That's a striking convergence on a fresh, clinician-co-designed benchmark and indicates the construction is methodologically coherent — the items pick out the inferences they were designed to pick out, across vendors.
 
-### 2. All 3 monotonicity ladders pass for all 6 models
+### 2. All 3 monotonicity ladders are monotone for all 6 models
 
-| Ladder | Family | Target | gpt-4.1 | gpt-5.5 | opus-4.7 | gemini | dseek | qwen |
-|---|---|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| C (5 items) | BNP up | CPE up | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| F (3 items) | fluid up | CPE up | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| G (5 items) | RS up at fixed PF=pf_mild | ARDS up | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+Scored natively with `infereval monotonicity <eta> examples/clinical_pilot/benchmark.json` (v0.17.1): order `bad < good`, `abstain` a skipped gap, a violation is a strict inversion of the substantive (good/bad) subsequence. The verdict sequences are identical across all six vendors:
 
-**Zero monotonicity violations across 6 models × 3 ladders.** Every model correctly tracks the ordinal structure of evidence the clinician's clinical intuition encodes: support for CPE non-decreases as BNP grades up, non-decreases as fluid balance climbs, and support for ARDS non-decreases as respiratory support escalates at fixed PaO2/FiO2. This is positive evidence about model defeasible-inferential mastery on graded clinical evidence.
+| Ladder | Family (walk) | Target | Verdict sequence (all 6 models) | Status |
+|---|---|---|:---:|:---:|
+| C (5 items) | BNP up | CPE up | `B G G G G` | monotone |
+| F (3 items) | fluid up | CPE up | `G G G` | monotone |
+| G (5 items) | RS up at fixed PF=pf_mild | ARDS up | `G G G G G` | monotone |
+
+**Zero monotonicity violations across 6 models × 3 ladders**, now confirmed by the native scorer rather than by hand. Every model tracks the ordinal structure of the evidence: support for CPE non-decreases as BNP grades up, non-decreases as fluid balance climbs, and support for ARDS non-decreases as respiratory support escalates at fixed PaO2/FiO2. Ladder C is the informative one — the models score the bottom rung (`bnp_lo`, BNP < 100) `bad` (a strong negative predictor defeats CPE) and then `good` for every higher grade: a clean `bad → good` transition, not a flat pass. This is positive evidence about defeasible-inferential mastery on graded clinical evidence.
 
 The G ladder is methodologically the most interesting: it tests the clinician's regularity (more support → higher P/F), explicitly recorded in `bearers_v0.5.txt` as a defeasible empirical pattern. Holding PF fixed at `pf_mild` and walking RS from hfnc → niv → imvlow → imvmiddle → imvhigh, every model treats "same P/F, escalating support" as at-least-as-severe. None of the six models commits the diagnostic error the ladder was designed to catch ("the high-support patient is less ARDS because P/F sits at mild").
 
