@@ -12,6 +12,27 @@ stable from 1.0 onward, regardless of the framework version.
 
 No changes yet.
 
+## [0.17.2] — 2026-07-01
+
+**Multi-succedent core: the item generalizes to `⟨Γ, Δ⟩` with `|Δ| ∈ {0, 1, ≥2}`, and a `question_form` switch adds a bilateral coherence judgment alongside the legacy support question.** Conservative by construction — single-succedent is exactly the `|Δ|=1` case, the support path is byte-for-byte unchanged, and the measurement layer is untouched.
+
+### Added — bilateral template registry (`infereval.templates`)
+
+- `VerdictRequest` + a `Template` protocol that renders only *content scaffolding* (the commit/deny position) and never sees bearer ids, plus `DefaultTemplate` for arities 0/1/`"many"` and a per-domain registry keyed by benchmark id (`register_template` / `resolve_template`).
+- The `coherence` question form frames the scaffolding ("Is this position coherent?") and decodes with a **uniform** polarity — `INCOHERENT → good`, `COHERENT → bad`, `UNCLEAR → abstain`. At `|Δ|=0` this reads as "the committed bearers are incompatible → good"; at `|Δ|=1` as "commit Γ, deny ψ is untenable, so the inference holds → good". The inversion lives entirely server-side (the participant only answers a plain coherence question).
+
+### Added — `question_form` switch
+
+- `evaluate(...)` and `endorse(...)` accept `question_form` (`"support"` | `"coherence"`, default `"support"`). `support` routes through the unchanged verification-prompt path and raises on `|Δ|≠1`; `coherence` is defined for every arity. `evaluate` resolves the per-benchmark template from the registry; prompt composition and `question_form` are logged.
+
+### Added — deferred-cut seam
+
+- `frame.derive_closure` is the single `NotImplementedError` seam where a multisuccedent cut / RSR-closure would attach (brief §9) — EM-elicit-and-score needs no cut.
+
+### Notes
+
+- The data model already admitted every arity; frame Containment (Definition 3) is correct for `|Δ| ∈ {0, 1, ≥2}` with no logic change (empty-succedent items get no free Containment inclusion; `⟨∅, ∅⟩` stays excluded).
+
 ## [0.17.1] — 2026-07-01
 
 **Monotonicity scoring for ordinal-ladder items, resolving the brief's §12.2 blocker** ("non-decreasing endorsement over {good, bad, abstain}" is undefined because `abstain` is not between `bad` and `good`). Adds the scorer, a stratified reporting surface, and an `infereval monotonicity` command. The measurement layer (Definitions 6–10) is untouched — this is a separately-reported diagnostic.
