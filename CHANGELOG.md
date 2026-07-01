@@ -12,6 +12,26 @@ stable from 1.0 onward, regardless of the framework version.
 
 No changes yet.
 
+## [0.17.1] — 2026-07-01
+
+**Monotonicity scoring for ordinal-ladder items, resolving the brief's §12.2 blocker** ("non-decreasing endorsement over {good, bad, abstain}" is undefined because `abstain` is not between `bad` and `good`). Adds the scorer, a stratified reporting surface, and an `infereval monotonicity` command. The measurement layer (Definitions 6–10) is untouched — this is a separately-reported diagnostic.
+
+### Added — monotonicity scorer (`infereval.monotonicity`)
+
+- `score_all_ladders` / `score_ladder` join an evaluation's `model_verdict` with the benchmark's native `monotonicity_step`, grouping by `(ladder, family, fixed)`. Scoring rule: order `bad < good`; `abstain` is a skipped gap (never interpolated); a violation is a strict inversion of the substantive subsequence (`good → bad` for `non_decreasing`, symmetric for `non_increasing`); fewer than two substantive steps is `insufficient`, explicitly not a pass. `MonotonicityResult` exposes `steps` / `substantive` / `violations` / `n_gaps` / `status`, and `render_markdown` renders the per-ladder verdict sequences.
+
+### Added — reporting stratification (`infereval.stratify`)
+
+- `variation_breakdown` reports the model-verdict mix and coverage per variation type (base / strengthen / contested / defeat / abstain_anchor / monotonicity_step), joined on item id. `arity_partition` groups items by succedent arity (exclusivity `|Δ|=0` / single `|Δ|=1` / exhaustivity `|Δ|≥2`); it is forward-compat — every item is single-succedent today, and the §7 exclusivity/exhaustivity report split becomes load-bearing when multi-succedent items land.
+
+### Added — `infereval monotonicity` CLI
+
+- `infereval monotonicity <eta> <benchmark>` renders the ladder table + variation breakdown and exits non-zero on any strict-inversion violation, so scripts/CI can gate on monotonicity.
+
+### Changed — bundled clinical pilot analysis
+
+- The bundled dry-run analysis's monotonicity finding (ladders C/F/G monotone for all six models) is now scored by the native scorer rather than by hand; ladder C's informative `bad → good` BNP transition is surfaced explicitly.
+
 ## [0.17.0] — 2026-07-01
 
 **Native support for the v0.5 benchmark schema: ordinal families, monotonicity ladders, a variation typology, and bearer-file structure declarations become first-class fields.** Previously a stopgap converter smuggled these concepts through `construction_metadata.source`; v0.17.0 gives each one a native home, adds a bearers-file loader and a constraint compiler, and firewalls the author's dry-run `placeholder` marker out of the measurement layer. All changes are additive — pre-v0.17.0 benchmarks validate and evaluate unchanged, and the entire κ layer is untouched.
