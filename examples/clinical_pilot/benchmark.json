@@ -1,124 +1,147 @@
 {
   "schema_version": "1.0",
   "id": "clinical-pilot-cpe-ards-v0.5",
-  "title": "clinical pilot \u2014 CPE vs. ARDS differential (v0.5)",
-  "domain": "Clinical pulmonary medicine \u2014 defeasible diagnostic reasoning",
-  "description": "clinical pilot benchmark for the cardiogenic pulmonary edema (CPE) vs. acute respiratory distress syndrome (ARDS) differential. Designed in collaboration with the clinical collaborator.\n\nMethodology lineage: Hlobil-Brandom implication frame, single-succedent instantiation (|delta|=1), per Allen Definitions 4-5.\n\nItems organized into ladders (A/B/C/D/F/G) with explicit variation typology (base / strengthen / contested / defeat / abstain_anchor / monotonicity_step). See item_ladders_v0.5_oxygenation.md for the ladder design and the clinician's round-2 corrections to the v0.4 encoding.\n\nPLACEHOLDER ANALYST PANEL: this benchmark is a pre-clinician pilot. The single analyst entry below is a framework-required stopgap; all per-item analyst_verdicts are 'abstain' and DO NOT REPRESENT CLINICAL JUDGMENT. The v0.5 dry-run placeholder values are preserved in each item's construction_metadata.placeholder. Real clinician verdicts will be collected from the pilot panel and the benchmark regenerated. Until then, model-vs-analyst metrics against this placeholder panel are not meaningful.\n\nv0.5 bearer-file annotations (informational; not enforced by the current framework \u2014 pending v0.17.x):\n  - one rs. Encoded as @copresent (a well-formedness/saturation rule on\n  - --- @entails ---\n  - @entails septic_shock -> sep\n  - --- @copresent (replaces v0.4 @pair; NO forbidden cells) ---\n  - @copresent pf & rs",
+  "title": "Clinical pilot — CPE vs. ARDS differential (v0.5)",
+  "domain": "Clinical pulmonary medicine — defeasible diagnostic reasoning",
+  "description": "Clinical pilot benchmark for the cardiogenic pulmonary edema (CPE) vs. acute respiratory distress syndrome (ARDS) differential, developed with a domain clinician. Methodology lineage: Hlobil-Brandom implication frame, single-succedent instantiation (|delta|=1), per Allen Definitions 4-5. Items are organized into ladders (A/B/C/D/F/G) with an explicit variation typology (base / strengthen / contested / defeat / abstain_anchor / monotonicity_step); see item_ladders_v0.5_oxygenation.md. Pre-clinician pilot: analyst_verdicts are empty and a framework-required 'pending recruitment' analyst stands in until the clinician panel's verdicts are collected. Each item's provisional dry-run read is in its 'placeholder' field, which is firewalled from the measurement layer and is not a clinical judgment.",
   "bearers": {
     "bnp_lo": {
       "expression": "the patient has BNP less than 100 pg/mL",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "bnp"
     },
     "bnp_grey": {
       "expression": "the patient has BNP between 100 and 500 pg/mL",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "bnp"
     },
     "bnp_mod": {
       "expression": "the patient has BNP between 500 and 900 pg/mL",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "bnp"
     },
     "bnp_hi": {
       "expression": "the patient has BNP between 900 and 5000 pg/mL",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "bnp"
     },
     "bnp_vhi": {
       "expression": "the patient has BNP greater than 5000 pg/mL",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "bnp"
     },
     "pf_normal": {
       "expression": "the patient has a PaO2/FiO2 ratio greater than 300",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "pf"
     },
     "pf_mild": {
       "expression": "the patient has a PaO2/FiO2 ratio of 200-300",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "pf"
     },
     "pf_mod": {
       "expression": "the patient has a PaO2/FiO2 ratio of 100-200",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "pf"
     },
     "pf_severe": {
       "expression": "the patient has a PaO2/FiO2 ratio less than 100",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "pf"
     },
     "rs_hfnc": {
       "expression": "the patient receives high-flow nasal cannula at over 30 L/min and over 50% FiO2",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "rs"
     },
     "rs_niv": {
       "expression": "the patient receives non-invasive ventilation with PEEP over 5 cmH2O",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "rs"
     },
     "rs_imvlow": {
       "expression": "the patient receives invasive ventilation with PEEP 5-10 cmH2O",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "rs"
     },
     "rs_imvmiddle": {
       "expression": "the patient receives invasive ventilation with PEEP 10-15 cmH2O",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "rs"
     },
     "rs_imvhigh": {
       "expression": "the patient receives invasive ventilation with PEEP over 15 cmH2O",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "rs"
     },
     "ef_preserved": {
       "expression": "the patient has left ventricular ejection fraction of 50% or higher on echocardiogram",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "ef"
     },
     "ef_mid": {
       "expression": "the patient has left ventricular ejection fraction of 40-49% on echocardiogram",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "ef"
     },
     "ef_reduced": {
       "expression": "the patient has left ventricular ejection fraction of 30-39% on echocardiogram",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "ef"
     },
     "ef_severe": {
       "expression": "the patient has left ventricular ejection fraction below 30% on echocardiogram",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "ef"
     },
     "bi_min": {
       "expression": "the patient has subtle or limited bilateral pulmonary infiltrates on imaging",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "bi"
     },
     "bi_mod": {
       "expression": "the patient has moderate bilateral pulmonary infiltrates on imaging",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "bi"
     },
     "bi_diffuse": {
       "expression": "the patient has extensive, diffuse bilateral airspace opacities on imaging",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "bi"
     },
     "bp_partial": {
       "expression": "the patient has partial perihilar predominance of pulmonary infiltrates on imaging",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "bp"
     },
     "bp_classic": {
       "expression": "the patient has a classic bat-wing distribution of pulmonary infiltrates on imaging",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "bp"
     },
     "kb_present": {
       "expression": "the patient has Kerley B lines on chest imaging",
@@ -128,22 +151,26 @@
     "pv_none": {
       "expression": "the patient has no pleural effusions",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "pv"
     },
     "pv_small": {
       "expression": "the patient has small bilateral pleural effusions",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "pv"
     },
     "pv_mod": {
       "expression": "the patient has moderate bilateral pleural effusions",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "pv"
     },
     "pv_large": {
       "expression": "the patient has large bilateral pleural effusions",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "pv"
     },
     "cd_cardiotox": {
       "expression": "the patient recently received chemotherapy with a cardiotoxic agent such as an anthracycline or trastuzumab",
@@ -158,47 +185,56 @@
     "fluid_neg": {
       "expression": "the patient received diuretics in the past 24 hours and has a negative fluid balance",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "fluid"
     },
     "fluid_pos": {
       "expression": "the patient received moderate-volume intravenous fluids and had a moderately positive fluid balance in the past 24 hours",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "fluid"
     },
     "fluid_verypos": {
       "expression": "the patient received large-volume intravenous fluids and had a very positive fluid balance in the past 24 hours",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "fluid"
     },
     "tr_minor": {
       "expression": "the patient sustained recent minor or isolated trauma",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "tr"
     },
     "tr_major": {
       "expression": "the patient sustained recent major multisystem trauma",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "tr"
     },
     "cv_minor": {
       "expression": "the patient has cardiovascular risk factors or treated hypertension",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "cv"
     },
     "cv_struct": {
       "expression": "the patient has a known history of structural heart disease or prior heart failure",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "cv"
     },
     "pna_focal": {
       "expression": "the patient has lobar or unilateral pneumonia",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "pna"
     },
     "pna_multifocal": {
       "expression": "the patient has multilobar or bilateral pneumonia",
       "paraphrases": [],
-      "references": []
+      "references": [],
+      "ordinal_family": "pna"
     },
     "asp": {
       "expression": "the patient has a documented aspiration event",
@@ -243,9 +279,9 @@
   },
   "analysts": [
     {
-      "id": "clinician-panel-placeholder",
-      "display_name": "clinician panel (pending recruitment)",
-      "notes": "Framework-required placeholder while the clinician panel is being recruited. All per-item verdicts are 'abstain'. The v0.5 dry-run placeholder values (which encode the design team's provisional reading, NOT a clinical judgment) are preserved in each item's construction_metadata.placeholder field. Replace this analyst entry with the real clinician panel verdicts once collected; regenerate benchmark.json from benchmark_v0.5.json via examples/clinical_pilot/convert.py."
+      "id": "pending-analyst-panel",
+      "display_name": "Analyst panel (pending recruitment)",
+      "notes": "Framework-required stopgap while the analyst panel is being recruited. All per-item verdicts are 'abstain' and carry no judgment. Each item's provisional read lives in its 'placeholder' field (dry-run only; firewalled from the measurement layer, never a κ source). Replace this entry with the real panel's verdicts once collected and regenerate."
     }
   ],
   "context_builders": {
@@ -261,12 +297,877 @@
     }
   },
   "verification_prompt": {
-    "id": "defeasible-clinical-v1",
-    "system": "You are evaluating defeasible material inference in clinical reasoning. An inference from premises to a conclusion is GOOD when, granting the premises and absent further information, a competent clinician would endorse the conclusion as defeasibly supported. It is BAD when the premises do not support the conclusion, either because they are unrelated or because they defeat it. It is ABSTAIN when the question is ill-formed or you cannot judge. Defeasible support does not require deductive entailment: an inference is GOOD if it would be endorsed by default in everyday clinical reasoning, even if it could be defeated by additional information not present in the premises. For example, 'bird flies' is GOOD by default even though 'penguin flies' is BAD; the bird-flies inference is defeasible. Answer with exactly one of: GOOD, BAD, ABSTAIN. No other text.",
     "template": "Premises: {premise_context}\nConclusion: {conclusion_context}\nVerdict:",
-    "parse_regex": "\\b(GOOD|BAD|ABSTAIN)\\b"
+    "system": "You are evaluating defeasible material inference in clinical reasoning. An inference from premises to a conclusion is GOOD when, granting the premises and absent further information, a competent clinician would endorse the conclusion as defeasibly supported. It is BAD when the premises do not support the conclusion, either because they are unrelated or because they defeat it. It is ABSTAIN when the question is ill-formed or you cannot judge. Defeasible support does not require deductive entailment: an inference is GOOD if it would be endorsed by default in everyday clinical reasoning, even if it could be defeated by additional information not present in the premises. For example, 'bird flies' is GOOD by default even though 'penguin flies' is BAD; the bird-flies inference is defeasible. Answer with exactly one of: GOOD, BAD, ABSTAIN. No other text.",
+    "parse_regex": "\\b(GOOD|BAD|ABSTAIN)\\b",
+    "id": "defeasible-clinical-v1"
   },
-  "factors": {
+  "items": [
+    {
+      "id": "A0",
+      "premises": [
+        "ad",
+        "bi_mod"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "A",
+      "variation": "base",
+      "target": "cpe",
+      "placeholder": "abstain"
+    },
+    {
+      "id": "A1",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "cv_struct"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "A",
+      "variation": "strengthen",
+      "target": "cpe",
+      "placeholder": "good"
+    },
+    {
+      "id": "A2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "A",
+      "variation": "strengthen",
+      "target": "cpe",
+      "placeholder": "good"
+    },
+    {
+      "id": "A3",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_vhi"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "A",
+      "variation": "strengthen",
+      "target": "cpe",
+      "placeholder": "good"
+    },
+    {
+      "id": "A4",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "fluid_verypos"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "A",
+      "variation": "strengthen",
+      "target": "cpe",
+      "placeholder": "good"
+    },
+    {
+      "id": "A5",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "pv_large"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "A",
+      "variation": "strengthen",
+      "target": "cpe",
+      "placeholder": "good"
+    },
+    {
+      "id": "A6",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_preserved"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "A",
+      "variation": "contested",
+      "target": "cpe",
+      "placeholder": "good",
+      "construction_note": "preserved EF does not exclude CPE (HFpEF); tests EF over-weighting"
+    },
+    {
+      "id": "A7",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_lo"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "A",
+      "variation": "defeat",
+      "target": "cpe",
+      "placeholder": "bad",
+      "construction_note": "BNP <100 strong negative predictor"
+    },
+    {
+      "id": "A8",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "fluid_neg",
+        "pv_none"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "A",
+      "variation": "contested",
+      "target": "cpe",
+      "placeholder": "bad",
+      "construction_note": "diuresed-negative + no effusion: against active CPE, or the treated-CPE picture"
+    },
+    {
+      "id": "A9",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "pna_focal"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "A",
+      "variation": "contested",
+      "target": "cpe",
+      "placeholder": "abstain",
+      "construction_note": "focal pneumonia: competing alternative"
+    },
+    {
+      "id": "C1",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_lo",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "C",
+      "variation": "monotonicity_step",
+      "target": "cpe",
+      "placeholder": "bad",
+      "monotonicity_step": {
+        "family": "bnp",
+        "tier": "bnp_lo",
+        "tier_index": 0,
+        "expected": "non_decreasing"
+      }
+    },
+    {
+      "id": "C2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_grey",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "C",
+      "variation": "monotonicity_step",
+      "target": "cpe",
+      "placeholder": "abstain",
+      "monotonicity_step": {
+        "family": "bnp",
+        "tier": "bnp_grey",
+        "tier_index": 1,
+        "expected": "non_decreasing"
+      }
+    },
+    {
+      "id": "C3",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_mod",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "C",
+      "variation": "monotonicity_step",
+      "target": "cpe",
+      "placeholder": "good",
+      "monotonicity_step": {
+        "family": "bnp",
+        "tier": "bnp_mod",
+        "tier_index": 2,
+        "expected": "non_decreasing"
+      }
+    },
+    {
+      "id": "C4",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_hi",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "C",
+      "variation": "monotonicity_step",
+      "target": "cpe",
+      "placeholder": "good",
+      "monotonicity_step": {
+        "family": "bnp",
+        "tier": "bnp_hi",
+        "tier_index": 3,
+        "expected": "non_decreasing"
+      }
+    },
+    {
+      "id": "C5",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_vhi",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "C",
+      "variation": "monotonicity_step",
+      "target": "cpe",
+      "placeholder": "good",
+      "monotonicity_step": {
+        "family": "bnp",
+        "tier": "bnp_vhi",
+        "tier_index": 4,
+        "expected": "non_decreasing"
+      }
+    },
+    {
+      "id": "F1",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced",
+        "fluid_neg"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "F",
+      "variation": "monotonicity_step",
+      "target": "cpe",
+      "placeholder": "contested",
+      "monotonicity_step": {
+        "family": "fluid",
+        "tier": "fluid_neg",
+        "tier_index": 0,
+        "expected": "non_decreasing"
+      }
+    },
+    {
+      "id": "F2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced",
+        "fluid_pos"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "F",
+      "variation": "monotonicity_step",
+      "target": "cpe",
+      "placeholder": "good",
+      "monotonicity_step": {
+        "family": "fluid",
+        "tier": "fluid_pos",
+        "tier_index": 1,
+        "expected": "non_decreasing"
+      }
+    },
+    {
+      "id": "F3",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced",
+        "fluid_verypos"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "F",
+      "variation": "monotonicity_step",
+      "target": "cpe",
+      "placeholder": "good",
+      "monotonicity_step": {
+        "family": "fluid",
+        "tier": "fluid_verypos",
+        "tier_index": 2,
+        "expected": "non_decreasing"
+      }
+    },
+    {
+      "id": "D1",
+      "premises": [
+        "ad",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "D",
+      "variation": "abstain_anchor",
+      "target": "cpe",
+      "placeholder": "abstain"
+    },
+    {
+      "id": "D2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "pe"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "D",
+      "variation": "abstain_anchor",
+      "target": "cpe",
+      "placeholder": "abstain"
+    },
+    {
+      "id": "D3",
+      "premises": [
+        "ad",
+        "pna_focal"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "D",
+      "variation": "abstain_anchor",
+      "target": "cpe",
+      "placeholder": "abstain"
+    },
+    {
+      "id": "B0",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "B",
+      "variation": "base",
+      "target": "ards",
+      "placeholder": "abstain"
+    },
+    {
+      "id": "B1",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "B",
+      "variation": "strengthen",
+      "target": "ards",
+      "placeholder": "good"
+    },
+    {
+      "id": "B2",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "pf_mod",
+        "rs_imvlow",
+        "sep"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "B",
+      "variation": "strengthen",
+      "target": "ards",
+      "placeholder": "good"
+    },
+    {
+      "id": "B3",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "cd_pneumotox",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "B",
+      "variation": "strengthen",
+      "target": "ards",
+      "placeholder": "good"
+    },
+    {
+      "id": "B4",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "pf_severe",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "B",
+      "variation": "strengthen",
+      "target": "ards",
+      "placeholder": "good",
+      "construction_note": "mutex swap pf_mod->pf_severe: worse hypoxaemia at same support"
+    },
+    {
+      "id": "B5",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "ef_reduced",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "B",
+      "variation": "contested",
+      "target": "ards",
+      "placeholder": "abstain",
+      "construction_note": "deck item: aspiration + low LVEF -> ARDS; cardiac-exclusion vs coexistence"
+    },
+    {
+      "id": "B6",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "bnp_vhi",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "B",
+      "variation": "contested",
+      "target": "ards",
+      "placeholder": "bad",
+      "construction_note": "thousands-level BNP points cardiac"
+    },
+    {
+      "id": "B7",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "cd_cardiotox",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "B",
+      "variation": "defeat",
+      "target": "ards",
+      "placeholder": "bad",
+      "construction_note": "deck worked example: cardiotoxic -> cardiogenic, not ARDS"
+    },
+    {
+      "id": "B8",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "fluid_verypos",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "B",
+      "variation": "contested",
+      "target": "ards",
+      "placeholder": "abstain",
+      "construction_note": "very positive balance -> fluid-overload exclusion (Global Definition)"
+    },
+    {
+      "id": "G1",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_hfnc"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "G",
+      "variation": "monotonicity_step",
+      "target": "ards",
+      "placeholder": "abstain",
+      "monotonicity_step": {
+        "family": "rs",
+        "tier": "rs_hfnc",
+        "tier_index": 0,
+        "expected": "non_decreasing",
+        "fixed": "pf_mild"
+      }
+    },
+    {
+      "id": "G2",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_niv"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "G",
+      "variation": "monotonicity_step",
+      "target": "ards",
+      "placeholder": "good",
+      "monotonicity_step": {
+        "family": "rs",
+        "tier": "rs_niv",
+        "tier_index": 1,
+        "expected": "non_decreasing",
+        "fixed": "pf_mild"
+      }
+    },
+    {
+      "id": "G3",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "G",
+      "variation": "monotonicity_step",
+      "target": "ards",
+      "placeholder": "good",
+      "monotonicity_step": {
+        "family": "rs",
+        "tier": "rs_imvlow",
+        "tier_index": 2,
+        "expected": "non_decreasing",
+        "fixed": "pf_mild"
+      }
+    },
+    {
+      "id": "G4",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_imvmiddle"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "G",
+      "variation": "monotonicity_step",
+      "target": "ards",
+      "placeholder": "good",
+      "monotonicity_step": {
+        "family": "rs",
+        "tier": "rs_imvmiddle",
+        "tier_index": 3,
+        "expected": "non_decreasing",
+        "fixed": "pf_mild"
+      }
+    },
+    {
+      "id": "G5",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_imvhigh"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "tags": [],
+      "references": [],
+      "factor_levels": {},
+      "ladder": "G",
+      "variation": "monotonicity_step",
+      "target": "ards",
+      "placeholder": "good",
+      "monotonicity_step": {
+        "family": "rs",
+        "tier": "rs_imvhigh",
+        "tier_index": 4,
+        "expected": "non_decreasing",
+        "fixed": "pf_mild"
+      }
+    }
+  ],
+  "factors": {},
+  "factor_kinds": {},
+  "references": [],
+  "ordinal_families": {
     "bnp": [
       "bnp_lo",
       "bnp_grey",
@@ -326,984 +1227,29 @@
       "pna_multifocal"
     ]
   },
-  "factor_kinds": {
-    "bnp": "substantive",
-    "pf": "substantive",
-    "rs": "substantive",
-    "ef": "substantive",
-    "bi": "substantive",
-    "pv": "substantive",
-    "bp": "substantive",
-    "fluid": "substantive",
-    "tr": "substantive",
-    "cv": "substantive",
-    "pna": "substantive"
-  },
-  "items": [
+  "copresence_rules": [
     {
-      "id": "A0",
-      "premises": [
-        "ad",
-        "bi_mod"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:A",
-        "variation:base",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "bi": "bi_mod"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"A\", \"placeholder\": \"abstain\", \"placeholder_v05\": \"abstain\", \"source_target\": \"cpe\", \"variation\": \"base\"}"
-      }
-    },
-    {
-      "id": "A1",
-      "premises": [
-        "ad",
-        "bi_mod",
-        "cv_struct"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:A",
-        "variation:strengthen",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "bi": "bi_mod",
-        "cv": "cv_struct"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"A\", \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"cpe\", \"variation\": \"strengthen\"}"
-      }
-    },
-    {
-      "id": "A2",
-      "premises": [
-        "ad",
-        "bi_mod",
-        "ef_reduced"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:A",
-        "variation:strengthen",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "ef": "ef_reduced",
-        "bi": "bi_mod"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"A\", \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"cpe\", \"variation\": \"strengthen\"}"
-      }
-    },
-    {
-      "id": "A3",
-      "premises": [
-        "ad",
-        "bi_mod",
-        "bnp_vhi"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:A",
-        "variation:strengthen",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "bnp": "bnp_vhi",
-        "bi": "bi_mod"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"A\", \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"cpe\", \"variation\": \"strengthen\"}"
-      }
-    },
-    {
-      "id": "A4",
-      "premises": [
-        "ad",
-        "bi_mod",
-        "fluid_verypos"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:A",
-        "variation:strengthen",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "bi": "bi_mod",
-        "fluid": "fluid_verypos"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"A\", \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"cpe\", \"variation\": \"strengthen\"}"
-      }
-    },
-    {
-      "id": "A5",
-      "premises": [
-        "ad",
-        "bi_mod",
-        "pv_large"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:A",
-        "variation:strengthen",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "bi": "bi_mod",
-        "pv": "pv_large"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"A\", \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"cpe\", \"variation\": \"strengthen\"}"
-      }
-    },
-    {
-      "id": "A6",
-      "premises": [
-        "ad",
-        "bi_mod",
-        "ef_preserved"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:A",
-        "variation:contested",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "ef": "ef_preserved",
-        "bi": "bi_mod"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"A\", \"note\": \"preserved EF does not exclude CPE (HFpEF); tests EF over-weighting\", \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"cpe\", \"variation\": \"contested\"}"
-      }
-    },
-    {
-      "id": "A7",
-      "premises": [
-        "ad",
-        "bi_mod",
-        "bnp_lo"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:A",
-        "variation:defeat",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "bnp": "bnp_lo",
-        "bi": "bi_mod"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"A\", \"note\": \"BNP <100 strong negative predictor\", \"placeholder\": \"bad\", \"placeholder_v05\": \"bad\", \"source_target\": \"cpe\", \"variation\": \"defeat\"}"
-      }
-    },
-    {
-      "id": "A8",
-      "premises": [
-        "ad",
-        "bi_mod",
-        "fluid_neg",
-        "pv_none"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:A",
-        "variation:contested",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "bi": "bi_mod",
-        "pv": "pv_none",
-        "fluid": "fluid_neg"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"A\", \"note\": \"diuresed-negative + no effusion: against active CPE, or the treated-CPE picture\", \"placeholder\": \"bad\", \"placeholder_v05\": \"bad\", \"source_target\": \"cpe\", \"variation\": \"contested\"}"
-      }
-    },
-    {
-      "id": "A9",
-      "premises": [
-        "ad",
-        "bi_mod",
-        "pna_focal"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:A",
-        "variation:contested",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "bi": "bi_mod",
-        "pna": "pna_focal"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"A\", \"note\": \"focal pneumonia: competing alternative\", \"placeholder\": \"abstain\", \"placeholder_v05\": \"abstain\", \"source_target\": \"cpe\", \"variation\": \"contested\"}"
-      }
-    },
-    {
-      "id": "C1",
-      "premises": [
-        "ad",
-        "bi_mod",
-        "cv_minor",
-        "bnp_lo"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:C",
-        "variation:monotonicity_step",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "bnp": "bnp_lo",
-        "bi": "bi_mod",
-        "cv": "cv_minor"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"C\", \"monotonicity\": {\"expected\": \"non_decreasing\", \"family\": \"bnp\", \"tier\": \"bnp_lo\", \"tier_index\": 0}, \"placeholder\": \"bad\", \"placeholder_v05\": \"bad\", \"source_target\": \"cpe\", \"variation\": \"monotonicity_step\"}"
-      }
-    },
-    {
-      "id": "C2",
-      "premises": [
-        "ad",
-        "bi_mod",
-        "cv_minor",
-        "bnp_grey"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:C",
-        "variation:monotonicity_step",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "bnp": "bnp_grey",
-        "bi": "bi_mod",
-        "cv": "cv_minor"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"C\", \"monotonicity\": {\"expected\": \"non_decreasing\", \"family\": \"bnp\", \"tier\": \"bnp_grey\", \"tier_index\": 1}, \"placeholder\": \"abstain\", \"placeholder_v05\": \"abstain\", \"source_target\": \"cpe\", \"variation\": \"monotonicity_step\"}"
-      }
-    },
-    {
-      "id": "C3",
-      "premises": [
-        "ad",
-        "bi_mod",
-        "cv_minor",
-        "bnp_mod"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:C",
-        "variation:monotonicity_step",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "bnp": "bnp_mod",
-        "bi": "bi_mod",
-        "cv": "cv_minor"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"C\", \"monotonicity\": {\"expected\": \"non_decreasing\", \"family\": \"bnp\", \"tier\": \"bnp_mod\", \"tier_index\": 2}, \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"cpe\", \"variation\": \"monotonicity_step\"}"
-      }
-    },
-    {
-      "id": "C4",
-      "premises": [
-        "ad",
-        "bi_mod",
-        "cv_minor",
-        "bnp_hi"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:C",
-        "variation:monotonicity_step",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "bnp": "bnp_hi",
-        "bi": "bi_mod",
-        "cv": "cv_minor"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"C\", \"monotonicity\": {\"expected\": \"non_decreasing\", \"family\": \"bnp\", \"tier\": \"bnp_hi\", \"tier_index\": 3}, \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"cpe\", \"variation\": \"monotonicity_step\"}"
-      }
-    },
-    {
-      "id": "C5",
-      "premises": [
-        "ad",
-        "bi_mod",
-        "cv_minor",
-        "bnp_vhi"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:C",
-        "variation:monotonicity_step",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "bnp": "bnp_vhi",
-        "bi": "bi_mod",
-        "cv": "cv_minor"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"C\", \"monotonicity\": {\"expected\": \"non_decreasing\", \"family\": \"bnp\", \"tier\": \"bnp_vhi\", \"tier_index\": 4}, \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"cpe\", \"variation\": \"monotonicity_step\"}"
-      }
-    },
-    {
-      "id": "F1",
-      "premises": [
-        "ad",
-        "bi_mod",
-        "ef_reduced",
-        "fluid_neg"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:F",
-        "variation:monotonicity_step",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "ef": "ef_reduced",
-        "bi": "bi_mod",
-        "fluid": "fluid_neg"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"F\", \"monotonicity\": {\"expected\": \"non_decreasing\", \"family\": \"fluid\", \"tier\": \"fluid_neg\", \"tier_index\": 0}, \"placeholder\": \"abstain\", \"placeholder_normalized\": true, \"placeholder_v05\": \"contested\", \"source_target\": \"cpe\", \"variation\": \"monotonicity_step\"}"
-      }
-    },
-    {
-      "id": "F2",
-      "premises": [
-        "ad",
-        "bi_mod",
-        "ef_reduced",
-        "fluid_pos"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:F",
-        "variation:monotonicity_step",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "ef": "ef_reduced",
-        "bi": "bi_mod",
-        "fluid": "fluid_pos"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"F\", \"monotonicity\": {\"expected\": \"non_decreasing\", \"family\": \"fluid\", \"tier\": \"fluid_pos\", \"tier_index\": 1}, \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"cpe\", \"variation\": \"monotonicity_step\"}"
-      }
-    },
-    {
-      "id": "F3",
-      "premises": [
-        "ad",
-        "bi_mod",
-        "ef_reduced",
-        "fluid_verypos"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:F",
-        "variation:monotonicity_step",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "ef": "ef_reduced",
-        "bi": "bi_mod",
-        "fluid": "fluid_verypos"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"F\", \"monotonicity\": {\"expected\": \"non_decreasing\", \"family\": \"fluid\", \"tier\": \"fluid_verypos\", \"tier_index\": 2}, \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"cpe\", \"variation\": \"monotonicity_step\"}"
-      }
-    },
-    {
-      "id": "D1",
-      "premises": [
-        "ad",
-        "cv_minor"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:D",
-        "variation:abstain_anchor",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "cv": "cv_minor"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"D\", \"placeholder\": \"abstain\", \"placeholder_v05\": \"abstain\", \"source_target\": \"cpe\", \"variation\": \"abstain_anchor\"}"
-      }
-    },
-    {
-      "id": "D2",
-      "premises": [
-        "ad",
-        "bi_mod",
-        "pe"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:D",
-        "variation:abstain_anchor",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "bi": "bi_mod"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"D\", \"placeholder\": \"abstain\", \"placeholder_v05\": \"abstain\", \"source_target\": \"cpe\", \"variation\": \"abstain_anchor\"}"
-      }
-    },
-    {
-      "id": "D3",
-      "premises": [
-        "ad",
-        "pna_focal"
-      ],
-      "conclusions": [
-        "cpe"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:D",
-        "variation:abstain_anchor",
-        "target:cpe"
-      ],
-      "factor_levels": {
-        "pna": "pna_focal"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"D\", \"placeholder\": \"abstain\", \"placeholder_v05\": \"abstain\", \"source_target\": \"cpe\", \"variation\": \"abstain_anchor\"}"
-      }
-    },
-    {
-      "id": "B0",
-      "premises": [
-        "ad",
-        "bi_diffuse",
-        "pf_mod",
-        "rs_imvlow"
-      ],
-      "conclusions": [
-        "ards"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:B",
-        "variation:base",
-        "target:ards"
-      ],
-      "factor_levels": {
-        "pf": "pf_mod",
-        "rs": "rs_imvlow",
-        "bi": "bi_diffuse"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"B\", \"placeholder\": \"abstain\", \"placeholder_v05\": \"abstain\", \"source_target\": \"ards\", \"variation\": \"base\"}"
-      }
-    },
-    {
-      "id": "B1",
-      "premises": [
-        "ad",
-        "bi_diffuse",
-        "pf_mod",
-        "rs_imvlow",
-        "asp"
-      ],
-      "conclusions": [
-        "ards"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:B",
-        "variation:strengthen",
-        "target:ards"
-      ],
-      "factor_levels": {
-        "pf": "pf_mod",
-        "rs": "rs_imvlow",
-        "bi": "bi_diffuse"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"B\", \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"ards\", \"variation\": \"strengthen\"}"
-      }
-    },
-    {
-      "id": "B2",
-      "premises": [
-        "ad",
-        "bi_diffuse",
-        "pf_mod",
-        "rs_imvlow",
-        "sep"
-      ],
-      "conclusions": [
-        "ards"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:B",
-        "variation:strengthen",
-        "target:ards"
-      ],
-      "factor_levels": {
-        "pf": "pf_mod",
-        "rs": "rs_imvlow",
-        "bi": "bi_diffuse"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"B\", \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"ards\", \"variation\": \"strengthen\"}"
-      }
-    },
-    {
-      "id": "B3",
-      "premises": [
-        "ad",
-        "bi_diffuse",
-        "pf_mod",
-        "rs_imvlow",
-        "cd_pneumotox"
-      ],
-      "conclusions": [
-        "ards"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:B",
-        "variation:strengthen",
-        "target:ards"
-      ],
-      "factor_levels": {
-        "pf": "pf_mod",
-        "rs": "rs_imvlow",
-        "bi": "bi_diffuse"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"B\", \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"ards\", \"variation\": \"strengthen\"}"
-      }
-    },
-    {
-      "id": "B4",
-      "premises": [
-        "ad",
-        "bi_diffuse",
-        "pf_severe",
-        "rs_imvlow"
-      ],
-      "conclusions": [
-        "ards"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:B",
-        "variation:strengthen",
-        "target:ards"
-      ],
-      "factor_levels": {
-        "pf": "pf_severe",
-        "rs": "rs_imvlow",
-        "bi": "bi_diffuse"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"B\", \"note\": \"mutex swap pf_mod->pf_severe: worse hypoxaemia at same support\", \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"ards\", \"variation\": \"strengthen\"}"
-      }
-    },
-    {
-      "id": "B5",
-      "premises": [
-        "ad",
-        "bi_diffuse",
-        "pf_mod",
-        "rs_imvlow",
-        "asp",
-        "ef_reduced"
-      ],
-      "conclusions": [
-        "ards"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:B",
-        "variation:contested",
-        "target:ards"
-      ],
-      "factor_levels": {
-        "pf": "pf_mod",
-        "rs": "rs_imvlow",
-        "ef": "ef_reduced",
-        "bi": "bi_diffuse"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"B\", \"note\": \"deck item: aspiration + low LVEF -> ARDS; cardiac-exclusion vs coexistence\", \"placeholder\": \"abstain\", \"placeholder_v05\": \"abstain\", \"source_target\": \"ards\", \"variation\": \"contested\"}"
-      }
-    },
-    {
-      "id": "B6",
-      "premises": [
-        "ad",
-        "bi_diffuse",
-        "pf_mod",
-        "rs_imvlow",
-        "bnp_vhi"
-      ],
-      "conclusions": [
-        "ards"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:B",
-        "variation:contested",
-        "target:ards"
-      ],
-      "factor_levels": {
-        "bnp": "bnp_vhi",
-        "pf": "pf_mod",
-        "rs": "rs_imvlow",
-        "bi": "bi_diffuse"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"B\", \"note\": \"thousands-level BNP points cardiac\", \"placeholder\": \"bad\", \"placeholder_v05\": \"bad\", \"source_target\": \"ards\", \"variation\": \"contested\"}"
-      }
-    },
-    {
-      "id": "B7",
-      "premises": [
-        "ad",
-        "bi_diffuse",
-        "pf_mod",
-        "rs_imvlow",
-        "cd_cardiotox"
-      ],
-      "conclusions": [
-        "ards"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:B",
-        "variation:defeat",
-        "target:ards"
-      ],
-      "factor_levels": {
-        "pf": "pf_mod",
-        "rs": "rs_imvlow",
-        "bi": "bi_diffuse"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"B\", \"note\": \"deck worked example: cardiotoxic -> cardiogenic, not ARDS\", \"placeholder\": \"bad\", \"placeholder_v05\": \"bad\", \"source_target\": \"ards\", \"variation\": \"defeat\"}"
-      }
-    },
-    {
-      "id": "B8",
-      "premises": [
-        "ad",
-        "bi_diffuse",
-        "pf_mod",
-        "rs_imvlow",
-        "fluid_verypos"
-      ],
-      "conclusions": [
-        "ards"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:B",
-        "variation:contested",
-        "target:ards"
-      ],
-      "factor_levels": {
-        "pf": "pf_mod",
-        "rs": "rs_imvlow",
-        "bi": "bi_diffuse",
-        "fluid": "fluid_verypos"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"B\", \"note\": \"very positive balance -> fluid-overload exclusion (Global Definition)\", \"placeholder\": \"abstain\", \"placeholder_v05\": \"abstain\", \"source_target\": \"ards\", \"variation\": \"contested\"}"
-      }
-    },
-    {
-      "id": "G1",
-      "premises": [
-        "ad",
-        "bi_diffuse",
-        "asp",
-        "pf_mild",
-        "rs_hfnc"
-      ],
-      "conclusions": [
-        "ards"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:G",
-        "variation:monotonicity_step",
-        "target:ards"
-      ],
-      "factor_levels": {
-        "pf": "pf_mild",
-        "rs": "rs_hfnc",
-        "bi": "bi_diffuse"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"G\", \"monotonicity\": {\"expected\": \"non_decreasing\", \"family\": \"rs\", \"fixed\": \"pf_mild\", \"tier\": \"rs_hfnc\", \"tier_index\": 0}, \"placeholder\": \"abstain\", \"placeholder_v05\": \"abstain\", \"source_target\": \"ards\", \"variation\": \"monotonicity_step\"}"
-      }
-    },
-    {
-      "id": "G2",
-      "premises": [
-        "ad",
-        "bi_diffuse",
-        "asp",
-        "pf_mild",
-        "rs_niv"
-      ],
-      "conclusions": [
-        "ards"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:G",
-        "variation:monotonicity_step",
-        "target:ards"
-      ],
-      "factor_levels": {
-        "pf": "pf_mild",
-        "rs": "rs_niv",
-        "bi": "bi_diffuse"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"G\", \"monotonicity\": {\"expected\": \"non_decreasing\", \"family\": \"rs\", \"fixed\": \"pf_mild\", \"tier\": \"rs_niv\", \"tier_index\": 1}, \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"ards\", \"variation\": \"monotonicity_step\"}"
-      }
-    },
-    {
-      "id": "G3",
-      "premises": [
-        "ad",
-        "bi_diffuse",
-        "asp",
-        "pf_mild",
-        "rs_imvlow"
-      ],
-      "conclusions": [
-        "ards"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:G",
-        "variation:monotonicity_step",
-        "target:ards"
-      ],
-      "factor_levels": {
-        "pf": "pf_mild",
-        "rs": "rs_imvlow",
-        "bi": "bi_diffuse"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"G\", \"monotonicity\": {\"expected\": \"non_decreasing\", \"family\": \"rs\", \"fixed\": \"pf_mild\", \"tier\": \"rs_imvlow\", \"tier_index\": 2}, \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"ards\", \"variation\": \"monotonicity_step\"}"
-      }
-    },
-    {
-      "id": "G4",
-      "premises": [
-        "ad",
-        "bi_diffuse",
-        "asp",
-        "pf_mild",
-        "rs_imvmiddle"
-      ],
-      "conclusions": [
-        "ards"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:G",
-        "variation:monotonicity_step",
-        "target:ards"
-      ],
-      "factor_levels": {
-        "pf": "pf_mild",
-        "rs": "rs_imvmiddle",
-        "bi": "bi_diffuse"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"G\", \"monotonicity\": {\"expected\": \"non_decreasing\", \"family\": \"rs\", \"fixed\": \"pf_mild\", \"tier\": \"rs_imvmiddle\", \"tier_index\": 3}, \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"ards\", \"variation\": \"monotonicity_step\"}"
-      }
-    },
-    {
-      "id": "G5",
-      "premises": [
-        "ad",
-        "bi_diffuse",
-        "asp",
-        "pf_mild",
-        "rs_imvhigh"
-      ],
-      "conclusions": [
-        "ards"
-      ],
-      "analyst_verdicts": [
-        "abstain"
-      ],
-      "tags": [
-        "ladder:G",
-        "variation:monotonicity_step",
-        "target:ards"
-      ],
-      "factor_levels": {
-        "pf": "pf_mild",
-        "rs": "rs_imvhigh",
-        "bi": "bi_diffuse"
-      },
-      "construction_metadata": {
-        "source": "v0.5-extras:{\"ladder\": \"G\", \"monotonicity\": {\"expected\": \"non_decreasing\", \"family\": \"rs\", \"fixed\": \"pf_mild\", \"tier\": \"rs_imvhigh\", \"tier_index\": 4}, \"placeholder\": \"good\", \"placeholder_v05\": \"good\", \"source_target\": \"ards\", \"variation\": \"monotonicity_step\"}"
-      }
+      "families": [
+        "pf",
+        "rs"
+      ],
+      "exhaustivity": false
     }
+  ],
+  "entailment_rules": [
+    {
+      "antecedent": "septic_shock",
+      "consequent": "sep"
+    }
+  ],
+  "regularities": [
+    {
+      "description": "rs up => pf up (monotone, defeasible). Realized as the",
+      "test_item_ids": []
+    }
+  ],
+  "targets": [
+    "cpe",
+    "ards"
   ]
 }

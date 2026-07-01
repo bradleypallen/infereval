@@ -1,6 +1,6 @@
-# clinical pilot dry-run gate (2026-06-30)
+# Clinical pilot dry-run gate (2026-06-30)
 
-**Benchmark:** `examples/clinical_pilot/benchmark.json` (v0.5, 35 items, designed in collaboration with the clinical collaborator, partner medical center). 11 ordinal families across CPE-supporting (BNP, EF, fluid, PV) and ARDS-supporting (PF, RS) axes. Six "ladders" organize the items: A (CPE RSR, 10), B (ARDS RSR, 9), C (BNP monotonicity, 5), F (fluid monotonicity, 3), G (RS-at-fixed-PF monotonicity, 5), D (abstain anchors, 3).
+**Benchmark:** `examples/clinical_pilot/benchmark.json` (v0.5, 35 items, designed in collaboration with a domain clinician). 11 ordinal families across CPE-supporting (BNP, EF, fluid, PV) and ARDS-supporting (PF, RS) axes. Six "ladders" organize the items: A (CPE RSR, 10), B (ARDS RSR, 9), C (BNP monotonicity, 5), F (fluid monotonicity, 3), G (RS-at-fixed-PF monotonicity, 5), D (abstain anchors, 3).
 
 **Framework:** `infereval` v0.16.0 (v0.15.2 framework + clean re-capture distribution). The v0.5 benchmark schema isn't yet natively supported; the stopgap converter at `examples/clinical_pilot/convert.py` maps it onto the current `Benchmark` Pydantic model with v0.5 extras JSON-encoded into `construction_metadata.source`.
 
@@ -62,7 +62,7 @@ The G ladder is methodologically the most interesting: it tests the clinician's 
 | **B7** | B | defeat | bad | 2G/4B | **Cardiotoxic agent added — the deck's worked example.** GPT-4.1 and Qwen3-max ENDORSE ARDS despite the cardiotoxic defeater. This is the clearest defeasibility-mastery failure in the panel. |
 | **B8** | B | contested | abstain | 1G/5B | Fluid_verypos as Berlin Global Definition exclusion. GPT-4.1 endorses ARDS; rest reject. |
 
-The contested-items packet at `examples/clinical_pilot/contested_items_for_clinician_2026-06-30.md` renders each of these six in natural language with the model panel split and an empty verdict line for the clinician to fill in.
+The contested-items packet at `examples/clinical_pilot/contested_items_2026-06-30.md` renders each of these six in natural language with the model panel split and an empty verdict line for the clinician reviewer to fill in.
 
 ## What this tells us about the panel
 
@@ -73,7 +73,7 @@ The contested-items packet at `examples/clinical_pilot/contested_items_for_clini
 
 ## What's next
 
-1. the clinician reviews the 6-item packet (~15 min); his verdicts replace the placeholders for those items.
+1. The clinician reviews the 6-item packet (~15 min); the verdicts replace the placeholders for those items.
 2. Re-run `convert.py` to regenerate `benchmark.json` with the new analyst verdicts.
 3. Optionally extend the contested set if the clinician flags additional items as worth labeling.
 4. Schedule a cross-family R22 capture (Phase 1 + Phase 2 day-out) on the clinical pilot, mirroring the existing pulmonology cell shape.
@@ -88,7 +88,7 @@ curl -sS -H "Authorization: Bearer $OPENROUTER_API_KEY" https://openrouter.ai/ap
 python examples/clinical_pilot/convert.py
 
 # Run the 6-cell dry-run (~38 min wall, ~$4)
-bash /tmp/clinical-pilot-dryrun/run.sh   # script preserved at experiments/results/clinical_pilot/dryrun_2026-06-30/run.sh
+bash /tmp/clinical-dryrun/run.sh   # script preserved at experiments/results/clinical_pilot/dryrun_2026-06-30/run.sh
 
 # Audit each cell
 for eta in experiments/results/clinical_pilot/dryrun_2026-06-30/*-eta.json; do

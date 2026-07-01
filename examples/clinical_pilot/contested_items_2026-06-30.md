@@ -1,6 +1,6 @@
-# clinical pilot — contested items for clinical review
+# Clinical pilot — contested items for clinical review
 
-**For:** the clinical collaborator  
+**For:** the clinician reviewer  
 **Date:** 2026-06-30  
 **Benchmark:** clinical_pilot v0.5 (35 items, ladders A/B/C/D/F/G)  
 **Pre-clinician dry-run:** 6 frontier LLMs (Anthropic, OpenAI, Google, DeepSeek, Qwen) endorsed each item once; n_samples=3 each, temperature=0.
@@ -188,6 +188,6 @@ Verdict conventions:
 
 ## What happens after your verdicts come back
 
-Each verdict overwrites the `placeholder` field for that item in `benchmark_v0.5.json`. The rationale is added to a `rationales` array alongside the verdict. The benchmark is regenerated via `examples/clinical_pilot/convert.py` and downstream metrics (κ_C model-vs-the clinician, monotonicity across the C/F/G ladders) become meaningful.
+Each verdict overwrites the `placeholder` field for that item in `benchmark_v0.5.json`. The rationale is added to a `rationales` array alongside the verdict. The benchmark is regenerated via `examples/clinical_pilot/convert.py` and downstream metrics (κ_C model-vs-clinician, monotonicity across the C/F/G ladders) become meaningful.
 
 If any of these items strikes you as so poorly framed that no verdict is defensible — say so explicitly. That's important methodological evidence about how the benchmark needs to be repaired, and it's exactly the kind of correction the Q1/Q2 round captured for the oxygenation set.

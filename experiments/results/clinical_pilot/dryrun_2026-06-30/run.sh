@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# clinical pilot dry-run gate: 6-model cross-family panel, single capture per cell.
+# Clinical pilot dry-run gate: 6-model cross-family panel, single capture per cell.
 # Pre-clinician — outputs land in /tmp (NOT committed) and feed the
 # decision about which contested items deserve clinician time.
 #
@@ -10,7 +10,7 @@ set -uo pipefail
 
 REPO=/Users/bradleyallen/Documents/GitHub/infereval
 BENCH="${REPO}/examples/clinical_pilot/benchmark.json"
-OUT_DIR=/tmp/clinical-pilot-dryrun
+OUT_DIR=/tmp/clinical-dryrun
 mkdir -p "${OUT_DIR}"
 
 # (provider, model_id, label) triples
@@ -47,9 +47,9 @@ run_one() {
 }
 
 # Fan-out in parallel (max 6 concurrent — same as v0.10.0 pulm capture pattern)
-echo "=== clinical pilot dry-run gate started at $(date) ==="
+echo "=== Clinical pilot dry-run gate started at $(date) ==="
 for triple in "${CELLS[@]}"; do
   run_one "$triple" &
 done
 wait
-echo "=== clinical pilot dry-run gate finished at $(date) ==="
+echo "=== Clinical pilot dry-run gate finished at $(date) ==="
