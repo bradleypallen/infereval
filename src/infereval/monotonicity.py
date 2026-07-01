@@ -37,9 +37,12 @@ if TYPE_CHECKING:
 __all__ = [
     "LadderStep",
     "MonotonicityResult",
+    "render_markdown",
     "score_all_ladders",
     "score_ladder",
 ]
+
+_GLYPH = {Verdict.GOOD: "G", Verdict.BAD: "B", Verdict.ABSTAIN: "·"}
 
 #: The two substantive verdicts, ordered ``bad < good`` for monotonicity.
 _ORDER = {Verdict.BAD: 0, Verdict.GOOD: 1}
@@ -169,3 +172,45 @@ def score_ladder(
         if result.ladder == ladder:
             return result
     return None
+
+
+def render_markdown(results: list[MonotonicityResult]) -> str:
+    """Render ladder results as a Markdown section.
+
+    One row per ladder: the tier→verdict sequence (``G``/``B``/``·`` for
+    good/bad/abstain-gap, in tier order), the number of gaps, and the status
+    (``monotone`` / ``violated`` / ``insufficient``). Violations are listed
+    beneath the table.
+    """
+    if not results:
+        return "## Monotonicity\n\nNo monotonicity ladders in this benchmark.\n"
+
+    lines = [
+        "## Monotonicity",
+        "",
+        "Verdict sequence in ascending tier order "
+        "(`G`=good, `B`=bad, `·`=abstain gap). "
+        "Order is `bad < good`; a violation is a strict inversion of the "
+        "substantive (good/bad) subsequence.",
+        "",
+        "| ladder | family | fixed | sequence | gaps | status |",
+        "|---|---|---|---|---|---|",
+    ]
+    for r in results:
+        seq = "".join(_GLYPH[s.verdict] for s in r.steps)
+        lines.append(
+            f"| {r.ladder or '—'} | {r.family} | {r.fixed or '—'} | "
+            f"`{seq}` | {r.n_gaps} | {r.status} |"
+        )
+
+    violated = [r for r in results if r.violations]
+    if violated:
+        lines.extend(["", "**Violations** (strict inversions):"])
+        for r in violated:
+            for earlier, later in r.violations:
+                lines.append(
+                    f"- ladder {r.ladder or '—'} ({r.family}): "
+                    f"{earlier} → {later}"
+                )
+    lines.append("")
+    return "\n".join(lines)
