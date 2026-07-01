@@ -52,6 +52,28 @@ class Verdict(str, Enum):
         return self.value
 
 
+#: The role an item plays in its variation/monotonicity ladder (v0.5 schema).
+#: Purely descriptive metadata: the shape-blind measurement layer (Definitions
+#: 6–10) never branches on it; only the reporting/stratification layer and the
+#: monotonicity scorer read it.
+VariationType = Literal[
+    "base",
+    "strengthen",
+    "contested",
+    "defeat",
+    "abstain_anchor",
+    "monotonicity_step",
+]
+
+#: Author-provided provisional verdict for an item, used ONLY for
+#: pre-recruitment model dry-runs — never as an analyst verdict. The measurement
+#: layer is mechanically firewalled from reading it (see the placeholder
+#: firewall). A superset of :class:`Verdict`'s values with the extra
+#: ``"contested"`` marker, meaning "the author expects the analyst panel to
+#: split on this item."
+PlaceholderVerdict = Literal["good", "bad", "abstain", "contested"]
+
+
 @dataclass(frozen=True, slots=True)
 class Bearer:
     """A propositional content-bearer :math:`\\varphi \\in B`.

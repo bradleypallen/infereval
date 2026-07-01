@@ -88,6 +88,18 @@
           },
           "title": "References",
           "type": "array"
+        },
+        "ordinal_family": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ordinal Family"
         }
       },
       "required": [
@@ -177,6 +189,91 @@
           "anyOf": [
             {
               "$ref": "#/$defs/ConstructionMetadata"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "ladder": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ladder"
+        },
+        "variation": {
+          "anyOf": [
+            {
+              "enum": [
+                "base",
+                "strengthen",
+                "contested",
+                "defeat",
+                "abstain_anchor",
+                "monotonicity_step"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Variation"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target"
+        },
+        "placeholder": {
+          "anyOf": [
+            {
+              "enum": [
+                "good",
+                "bad",
+                "abstain",
+                "contested"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Placeholder"
+        },
+        "construction_note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Construction Note"
+        },
+        "monotonicity_step": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MonotonicityStep"
             },
             {
               "type": "null"
@@ -290,6 +387,50 @@
       "title": "ContextBuilders",
       "type": "object"
     },
+    "CopresenceRule": {
+      "additionalProperties": false,
+      "description": "``@copresent`` saturation / well-formedness rule over ordinal families.\n\nDeclares that a set of :attr:`families` must co-occur: an item carrying a\ntier from any listed family must carry a tier from every listed family. This\nis a *well-formedness* rule on item construction, NOT an exclusion of any\ntier combination. With :attr:`exhaustivity` off (the default) the constraint\ncompiler emits only an admissibility rule and **no** sequents; turning it on\nadditionally makes exhaustivity itself testable (brief \u00a72/\u00a77).",
+      "properties": {
+        "families": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2,
+          "title": "Families",
+          "type": "array"
+        },
+        "exhaustivity": {
+          "default": false,
+          "title": "Exhaustivity",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "families"
+      ],
+      "title": "CopresenceRule",
+      "type": "object"
+    },
+    "EntailmentRule": {
+      "additionalProperties": false,
+      "description": "``@entails`` bearer-level entailment: ``antecedent`` present entails ``consequent``.",
+      "properties": {
+        "antecedent": {
+          "title": "Antecedent",
+          "type": "string"
+        },
+        "consequent": {
+          "title": "Consequent",
+          "type": "string"
+        }
+      },
+      "required": [
+        "antecedent",
+        "consequent"
+      ],
+      "title": "EntailmentRule",
+      "type": "object"
+    },
     "FactorConstraints": {
       "additionalProperties": false,
       "description": "Constraints the benchmark validator should enforce on the factorial design.\n\nCurrently supports ``min_items_per_cell``: every cell of the *fully\ncrossed* design (cartesian product of all declared factor levels)\nmust contain at least this many items, where a cell is defined by\nthe per-factor level assignments in :attr:`BenchmarkItem.factor_levels`.\n\nPer *Closing the Construct-Validity Gap in infereval* (Phase 1.1)\naddressing requirement R7 (multiple items per condition) and\nsupporting R12 (per-condition decomposition).",
@@ -308,6 +449,52 @@
         }
       },
       "title": "FactorConstraints",
+      "type": "object"
+    },
+    "MonotonicityStep": {
+      "additionalProperties": false,
+      "description": "Ordinal-family annotation for a ``monotonicity_step`` item (v0.5 schema).\n\nDeclares where the item sits on an ordinal ladder: the :attr:`family` walked,\nthe :attr:`tier` it occupies, that tier's 0-based :attr:`tier_index` in the\nfamily's declared order, and the :attr:`expected` monotonicity direction of\nendorsement as the tier rises. On a cross-family ladder, :attr:`fixed` names\nthe bearer id held constant in the other family. Consumed by the\nmonotonicity scorer (v0.17.1); never by the shape-blind measurement layer.",
+      "properties": {
+        "family": {
+          "title": "Family",
+          "type": "string"
+        },
+        "tier": {
+          "title": "Tier",
+          "type": "string"
+        },
+        "tier_index": {
+          "title": "Tier Index",
+          "type": "integer"
+        },
+        "expected": {
+          "default": "non_decreasing",
+          "enum": [
+            "non_decreasing",
+            "non_increasing"
+          ],
+          "title": "Expected",
+          "type": "string"
+        },
+        "fixed": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fixed"
+        }
+      },
+      "required": [
+        "family",
+        "tier",
+        "tier_index"
+      ],
+      "title": "MonotonicityStep",
       "type": "object"
     },
     "PluginContextBuilder": {
@@ -418,6 +605,28 @@
         "citation"
       ],
       "title": "Reference",
+      "type": "object"
+    },
+    "Regularity": {
+      "additionalProperties": false,
+      "description": "``~regularity``: a tested-but-not-enforced defeasible regularity.\n\nDocuments a domain regularity that is *tested* (typically as a cross-family\nladder) rather than *enforced* \u2014 it earns no membership in the derived\nimplication frame. :attr:`test_item_ids` optionally names the items probing\nit.",
+      "properties": {
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "test_item_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Test Item Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "description"
+      ],
+      "title": "Regularity",
       "type": "object"
     },
     "TemplateContextBuilder": {
@@ -640,6 +849,44 @@
         "$ref": "#/$defs/Reference"
       },
       "title": "References",
+      "type": "array"
+    },
+    "ordinal_families": {
+      "additionalProperties": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "title": "Ordinal Families",
+      "type": "object"
+    },
+    "copresence_rules": {
+      "items": {
+        "$ref": "#/$defs/CopresenceRule"
+      },
+      "title": "Copresence Rules",
+      "type": "array"
+    },
+    "entailment_rules": {
+      "items": {
+        "$ref": "#/$defs/EntailmentRule"
+      },
+      "title": "Entailment Rules",
+      "type": "array"
+    },
+    "regularities": {
+      "items": {
+        "$ref": "#/$defs/Regularity"
+      },
+      "title": "Regularities",
+      "type": "array"
+    },
+    "targets": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Targets",
       "type": "array"
     }
   },
