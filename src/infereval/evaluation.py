@@ -318,6 +318,7 @@ def evaluate(
     run_id: str | None = None,
     log_path: Path | str | None = None,
     variant: int = 0,
+    question_form: Literal["support", "coherence"] = "support",
 ) -> Evaluation:
     """Run a model against a benchmark and assemble the resulting :math:`\\eta`.
 
@@ -365,6 +366,7 @@ def evaluate(
     from .endorsement import endorse
     from .logging_setup import configure_run_logging, log_event
     from .prompts import resolve_verification_prompt
+    from .templates import resolve_template
 
     cfg = config or EndorsementConfig()
     par = params or ProviderParams()
@@ -417,6 +419,8 @@ def evaluate(
                 strip_tex=strip_tex,
                 request_id_prefix=f"{rid}:{bench_item.id}",
                 variant=variant,
+                question_form=question_form,
+                template=resolve_template(benchmark.id),
             )
             items.append(
                 EvaluationItem(
