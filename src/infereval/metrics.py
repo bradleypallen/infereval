@@ -22,6 +22,15 @@ substantive subset is empty.
 The high-level :class:`MetricsReport` aggregator bundles all of the above
 into a single object suitable for JSON-printing, with ``by_tag`` and
 ``by_rsr_target`` filters for the decompositions Section 4 calls out.
+
+**Placeholder firewall (v0.17.0).** The measurement layer here reads verdicts
+only from an evaluation :math:`\\eta` (``model_verdict`` and ``analyst_verdicts``)
+— never from :attr:`infereval.benchmark.BenchmarkItem.placeholder`, which is an
+author's provisional dry-run marker, not an analyst verdict. This is a *code
+invariant*, not reviewer discipline: ``placeholder`` lives only on the benchmark
+model and never enters :class:`infereval.evaluation.EvaluationItem` / :math:`\\eta`,
+and ``tests/unit/test_placeholder_firewall.py`` fails CI if the token
+``placeholder`` ever appears in this module (or the other measurement modules).
 """
 
 from __future__ import annotations
