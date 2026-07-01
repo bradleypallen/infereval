@@ -20,8 +20,9 @@ Provider sample failures (after retries) are counted as abstain with
 from __future__ import annotations
 
 import logging
+import re
 from collections import Counter
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
 from typing import Literal
 
@@ -45,7 +46,18 @@ from .providers.base import (
     ProviderSampleError,
     SampleRequest,
 )
-from .types import Bearer, Implication, Verdict
+from .templates import (
+    Template,
+    VerdictRequest,
+    arity_of,
+    coherence_decode,
+    coherence_prompt,
+    resolve_template,
+)
+from .types import Bearer, Implication, ParseStatus, Verdict
+
+QuestionForm = Literal["support", "coherence"]
+_ExtractFn = Callable[[str], tuple[Verdict, ParseStatus]]
 
 log = logging.getLogger(__name__)
 
@@ -183,6 +195,54 @@ def _usage_from_mapping(usage: Mapping[str, int] | None) -> SampleUsage | None:
 # ---- The main entry point: endorse() --------------------------------------
 
 
+def _build_prompt(
+    *,
+    implication: Implication,
+    question_form: QuestionForm,
+    verification_prompt: VerificationPrompt,
+    template: Template | None,
+    premise_ctx: str,
+    conclusion_ctx: str,
+    conclusion_exprs: list[str],
+) -> tuple[str, str, _ExtractFn, str]:
+    """Compose the (system, user, verdict-extractor, prompt-id) for one item.
+
+    ``support`` routes through the unchanged verification-prompt path — byte-for-byte
+    the pre-generalization behaviour — and is defined only for ``|Δ| = 1``.
+    ``coherence`` renders the bilateral coherence question via the template
+    registry and is defined for every arity (brief §3.1).
+    """
+    if question_form == "support":
+        if len(implication.conclusions) != 1:
+            raise ValueError(
+                f"question_form='support' is defined only for single-succedent items "
+                f"(|Δ|=1); item {implication.id!r} has |Δ|={len(implication.conclusions)}. "
+                f"Use question_form='coherence' for empty or disjunctive succedents."
+            )
+        parser = verification_prompt.compile_parser()
+
+        def _support_extract(text: str) -> tuple[Verdict, ParseStatus]:
+            return parse_verdict(text, parser)
+
+        user = verification_prompt.build_user(premise_ctx, conclusion_ctx)
+        return verification_prompt.system, user, _support_extract, verification_prompt.id
+
+    tmpl = template if template is not None else resolve_template()
+    req = VerdictRequest(
+        arity=arity_of(sorted(implication.conclusions)),
+        gamma_ctx=premise_ctx,
+        delta_ctx=tuple(conclusion_exprs),
+        structure="commit_deny",
+    )
+    rendered = coherence_prompt(req, tmpl)
+    pattern = re.compile(rendered.parse_regex, re.IGNORECASE)
+
+    def _coherence_extract(text: str) -> tuple[Verdict, ParseStatus]:
+        return coherence_decode(text, pattern, req)
+
+    return rendered.system, rendered.user, _coherence_extract, f"{tmpl.id}:coherence"
+
+
 def endorse(
     implication: Implication,
     bearers: Mapping[str, Bearer],
@@ -196,6 +256,8 @@ def endorse(
     strip_tex: bool = True,
     request_id_prefix: str | None = None,
     variant: int = 0,
+    question_form: QuestionForm = "support",
+    template: Template | None = None,
 ) -> EndorsementRecord:
     """Compute :math:`E_M(\\langle \\Gamma, \\Delta \\rangle)` for one implication.
 
@@ -222,9 +284,17 @@ def endorse(
     )
     premise_ctx = premise_builder(premise_exprs)
     conclusion_ctx = conclusion_builder(conclusion_exprs)
-    user_text = verification_prompt.build_user(premise_ctx, conclusion_ctx)
 
-    parser = verification_prompt.compile_parser()
+    system_text, user_text, extract, prompt_id = _build_prompt(
+        implication=implication,
+        question_form=question_form,
+        verification_prompt=verification_prompt,
+        template=template,
+        premise_ctx=premise_ctx,
+        conclusion_ctx=conclusion_ctx,
+        conclusion_exprs=conclusion_exprs,
+    )
+
     sample_records: list[SampleRecord] = []
     verdicts: list[Verdict] = []
     user_prompt_hash = prompt_hash(user_text)
@@ -240,14 +310,15 @@ def endorse(
         premise_ids=premise_ids,
         conclusion_ids=conclusion_ids,
         prompt_hash=user_prompt_hash,
-        verification_prompt_id=verification_prompt.id,
+        verification_prompt_id=prompt_id,
+        question_form=question_form,
     )
 
     for i in range(config.n_samples):
         rid = f"{request_id_prefix}:sample-{i}" if request_id_prefix else None
         req = SampleRequest(
             prompt=user_text,
-            system=verification_prompt.system,
+            system=system_text,
             temperature=params.temperature,
             max_tokens=params.max_tokens,
             top_p=params.top_p,
@@ -257,7 +328,7 @@ def endorse(
         )
         try:
             result = provider.sample(req)
-            verdict, status = parse_verdict(result.text, parser)
+            verdict, status = extract(result.text)
             # Promote unparseable -> budget_clipped when the provider says the
             # response was truncated by max_tokens. The verdict stays abstain
             # (Definition 2 fallback) but the parse_status now tells the user
