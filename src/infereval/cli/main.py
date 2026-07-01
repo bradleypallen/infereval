@@ -16,6 +16,7 @@ from infereval.cli.describe_cmd import describe_cmd
 from infereval.cli.evaluate_cmd import evaluate_cmd
 from infereval.cli.metrics_cmd import metrics_cmd
 from infereval.cli.model_cmd import model_cmd
+from infereval.cli.monotonicity_cmd import monotonicity_cmd
 from infereval.cli.report_cmd import report_cmd
 from infereval.cli.retest_cmd import retest_cmd
 from infereval.cli.structure_cmd import structure_cmd
@@ -44,6 +45,7 @@ cli.add_command(bearers_import_cmd)
 cli.add_command(describe_cmd)
 cli.add_command(evaluate_cmd)
 cli.add_command(metrics_cmd)
+cli.add_command(monotonicity_cmd)
 cli.add_command(structure_cmd)
 cli.add_command(model_cmd)
 cli.add_command(sweep_cmd)
