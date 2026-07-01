@@ -12,6 +12,40 @@ stable from 1.0 onward, regardless of the framework version.
 
 No changes yet.
 
+## [0.17.0] — 2026-07-01
+
+**Native support for the v0.5 benchmark schema: ordinal families, monotonicity ladders, a variation typology, and bearer-file structure declarations become first-class fields.** Previously a stopgap converter smuggled these concepts through `construction_metadata.source`; v0.17.0 gives each one a native home, adds a bearers-file loader and a constraint compiler, and firewalls the author's dry-run `placeholder` marker out of the measurement layer. All changes are additive — pre-v0.17.0 benchmarks validate and evaluate unchanged, and the entire κ layer is untouched.
+
+### Added — native schema fields
+
+- `BenchmarkItem`: `ladder`, `variation` (`base` / `strengthen` / `contested` / `defeat` / `abstain_anchor` / `monotonicity_step`), `target`, `placeholder` (a `Verdict` superset with a `contested` marker), `construction_note`, and `monotonicity_step` (family / tier / tier_index / expected / fixed).
+- `Benchmark`: `ordinal_families`, `copresence_rules`, `entailment_rules`, `regularities`, `targets`. `BearerModel` gains `ordinal_family`.
+- `Benchmark._check_consistency` now validates that ordinal-family tiers, bearer `ordinal_family` annotations, copresence/entailment references, per-item `target` and `monotonicity_step`, and regularity item ids all resolve.
+
+### Added — bearers-file loader (`infereval.bearers`)
+
+- `parse_bearers_file` / `load_bearers_file` parse the v0.5 bearers grammar (`@ordinal` / `@mutex` / `@entails` / `@copresent` / `~regularity` annotations plus `id "expression"` definitions) into a `BearersDoc`. Annotations are recognised only as the leading token of a comment, so prose mentioning a marker mid-sentence is not misread. Enforces an additive-only bearer-versioning contract (redefining an id with a changed expression is an error).
+
+### Added — constraint compiler (`infereval.compiler`)
+
+- `compile_constraints` turns family declarations into pairwise within-family exclusivity sequents `⟨{x_i, x_j}, ∅⟩`, optional exhaustivity sequents (for `@copresent` rules flagged `exhaustivity=True` — off by default), optional entailment sequents, and the `@copresent` admissibility rules; `is_saturated` checks a Γ against a co-presence rule. Domain-agnostic: ordinal and mutex families are treated identically for exclusivity.
+
+### Added — `infereval bearers-import` CLI
+
+- Builds a validated benchmark from a bearers file + a v0.5 items document, mapping every concept onto its native field. A pre-recruitment items document (no analyst panel) gets a synthesized `pending-analyst-panel` stopgap so it loads; each item's provisional read stays in its firewalled `placeholder` field.
+
+### Changed — placeholder firewall
+
+- The measurement layer is now mechanically barred from reading `BenchmarkItem.placeholder` (`analyst_verdicts` is the sole κ source). `placeholder` never enters an evaluation / η, and a CI gate (`test_placeholder_firewall.py`) fails if any measurement module accesses a `.placeholder` attribute.
+
+### Changed — bundled clinical pilot fixture
+
+- The bundled clinical pilot fixture (CPE vs. ARDS oxygenation differential) is regenerated through the native loader — the `construction_metadata.source` hack is gone and the `contested` placeholder is preserved without normalization. Rendered prompts are identical to the previous converter output across all 35 items, so evaluation semantics are unchanged. Its example/results directories use a neutral label.
+
+### Schema
+
+- `benchmark.schema.json` regenerated to include the new fields (backward compatible; all new fields optional / default-empty).
+
 ## [0.16.0] — 2026-06-09
 
 **Clean re-capture of the bundled cross-family demonstration suite under the v0.15.2 framework.** v0.14.0 shipped three framework bugs that v0.15.0/v0.15.1/v0.15.2 fixed. v0.16.0 deletes all v0.14.0-era bundled artifacts and re-captures the entire 45-cell demonstration suite (39 stop-sign × 3 paraphrase variants + 6 pulmonology) from scratch with three-interval R22 evidence per cell. Pre-release software: this clears the bundled distribution of any tainted data so early adopters see only clean exemplars.
