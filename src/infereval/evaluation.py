@@ -39,6 +39,7 @@ if TYPE_CHECKING:
     from .benchmark import Benchmark
     from .prompts import VerificationPrompt
     from .providers.base import Provider
+    from .templates import Template
 
 log = logging.getLogger(__name__)
 
@@ -325,6 +326,7 @@ def evaluate(
     run_id: str | None = None,
     log_path: Path | str | None = None,
     variant: int = 0,
+    template: Template | None = None,
 ) -> Evaluation:
     """Run a model against a benchmark and assemble the resulting :math:`\\eta`.
 
@@ -426,7 +428,9 @@ def evaluate(
                 request_id_prefix=f"{rid}:{bench_item.id}",
                 variant=variant,
                 question_form=cfg.question_form,
-                template=resolve_template(benchmark.id),
+                template=(
+                    template if template is not None else resolve_template(benchmark.id)
+                ),
             )
             items.append(
                 EvaluationItem(
