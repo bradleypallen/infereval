@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "id": "gpt-4.1:R0-support-plain",
+  "id": "gpt-4.1:R1-coherence-plain",
   "benchmark_id": "clinical-pilot-cpe-ards-v0.5",
   "benchmark_hash": "sha256:eccc24de2c99a15ce8a09f109d7a2d6b3f80220ea34aa6e1e70582c8d9c7616c",
   "model": {
@@ -16,14 +16,14 @@
   "endorsement_config": {
     "n_samples": 6,
     "tie_break": "abstain",
-    "verification_prompt_id": "default-v1",
+    "verification_prompt_id": "defeasible-clinical-v1",
     "context_builder_premise_id": "conjunction-and-v1",
     "context_builder_conclusion_id": "disjunction-or-v1",
-    "question_form": "support"
+    "question_form": "coherence"
   },
   "framework_version": "0.18.0",
-  "started_at": "2026-07-02T21:43:55.629338Z",
-  "finished_at": "2026-07-02T21:46:02.943532Z",
+  "started_at": "2026-07-02T21:46:02.950415Z",
+  "finished_at": "2026-07-02T21:48:23.252587Z",
   "items": [
     {
       "id": "A0",
@@ -41,84 +41,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A0:sample-0",
-          "wall_time_ms": 2437.536083860323,
+          "request_id": "gpt-4.1:R1-coherence-plain:A0:sample-0",
+          "wall_time_ms": 616.1336668301374,
           "usage": {
-            "input_tokens": 127,
-            "output_tokens": 1
+            "input_tokens": 182,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A0:sample-1",
-          "wall_time_ms": 619.1208329983056,
+          "request_id": "gpt-4.1:R1-coherence-plain:A0:sample-1",
+          "wall_time_ms": 537.6593749970198,
           "usage": {
-            "input_tokens": 127,
-            "output_tokens": 1
+            "input_tokens": 182,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A0:sample-2",
-          "wall_time_ms": 875.3117918968201,
+          "request_id": "gpt-4.1:R1-coherence-plain:A0:sample-2",
+          "wall_time_ms": 588.0856250878423,
           "usage": {
-            "input_tokens": 127,
-            "output_tokens": 1
+            "input_tokens": 182,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A0:sample-3",
-          "wall_time_ms": 539.1012500040233,
+          "request_id": "gpt-4.1:R1-coherence-plain:A0:sample-3",
+          "wall_time_ms": 3359.9439170211554,
           "usage": {
-            "input_tokens": 127,
-            "output_tokens": 1
+            "input_tokens": 182,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A0:sample-4",
-          "wall_time_ms": 988.3385410066694,
+          "request_id": "gpt-4.1:R1-coherence-plain:A0:sample-4",
+          "wall_time_ms": 2197.955333860591,
           "usage": {
-            "input_tokens": 127,
-            "output_tokens": 1
+            "input_tokens": 182,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A0:sample-5",
-          "wall_time_ms": 528.1195000279695,
+          "request_id": "gpt-4.1:R1-coherence-plain:A0:sample-5",
+          "wall_time_ms": 516.7642920278013,
           "usage": {
-            "input_tokens": 127,
-            "output_tokens": 1
+            "input_tokens": 182,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -147,98 +147,98 @@
       "analyst_verdicts": [
         "abstain"
       ],
-      "model_verdict": "good",
+      "model_verdict": "bad",
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A1:sample-0",
-          "wall_time_ms": 782.2256658691913,
+          "request_id": "gpt-4.1:R1-coherence-plain:A1:sample-0",
+          "wall_time_ms": 521.6470828745514,
           "usage": {
-            "input_tokens": 142,
-            "output_tokens": 1
+            "input_tokens": 197,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A1:sample-1",
-          "wall_time_ms": 510.84254193119705,
+          "request_id": "gpt-4.1:R1-coherence-plain:A1:sample-1",
+          "wall_time_ms": 732.0686250459403,
           "usage": {
-            "input_tokens": 142,
-            "output_tokens": 1
+            "input_tokens": 197,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A1:sample-2",
-          "wall_time_ms": 493.87516686692834,
+          "request_id": "gpt-4.1:R1-coherence-plain:A1:sample-2",
+          "wall_time_ms": 515.9079579170793,
           "usage": {
-            "input_tokens": 142,
-            "output_tokens": 1
+            "input_tokens": 197,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A1:sample-3",
-          "wall_time_ms": 926.6582089476287,
+          "request_id": "gpt-4.1:R1-coherence-plain:A1:sample-3",
+          "wall_time_ms": 469.95095908641815,
           "usage": {
-            "input_tokens": 142,
-            "output_tokens": 1
+            "input_tokens": 197,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A1:sample-4",
-          "wall_time_ms": 667.5764578394592,
+          "request_id": "gpt-4.1:R1-coherence-plain:A1:sample-4",
+          "wall_time_ms": 659.6388330217451,
           "usage": {
-            "input_tokens": 142,
-            "output_tokens": 1
+            "input_tokens": 197,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A1:sample-5",
-          "wall_time_ms": 818.9033749513328,
+          "request_id": "gpt-4.1:R1-coherence-plain:A1:sample-5",
+          "wall_time_ms": 492.66570806503296,
           "usage": {
-            "input_tokens": 142,
-            "output_tokens": 1
+            "input_tokens": 197,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
-        "good": 6,
-        "bad": 0,
+        "good": 2,
+        "bad": 4,
         "abstain": 0,
-        "verdict": "good",
+        "verdict": "bad",
         "tie_broken": false
       },
       "tags": [],
@@ -257,99 +257,99 @@
       "analyst_verdicts": [
         "abstain"
       ],
-      "model_verdict": "good",
+      "model_verdict": "abstain",
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A2:sample-0",
-          "wall_time_ms": 385.8292910736054,
+          "request_id": "gpt-4.1:R1-coherence-plain:A2:sample-0",
+          "wall_time_ms": 589.6924580447376,
           "usage": {
-            "input_tokens": 147,
-            "output_tokens": 1
+            "input_tokens": 202,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A2:sample-1",
-          "wall_time_ms": 411.39575000852346,
+          "request_id": "gpt-4.1:R1-coherence-plain:A2:sample-1",
+          "wall_time_ms": 780.2550001069903,
           "usage": {
-            "input_tokens": 147,
-            "output_tokens": 1
+            "input_tokens": 202,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A2:sample-2",
-          "wall_time_ms": 397.029333980754,
+          "request_id": "gpt-4.1:R1-coherence-plain:A2:sample-2",
+          "wall_time_ms": 491.89545796252787,
           "usage": {
-            "input_tokens": 147,
-            "output_tokens": 1
+            "input_tokens": 202,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A2:sample-3",
-          "wall_time_ms": 509.0462500229478,
+          "request_id": "gpt-4.1:R1-coherence-plain:A2:sample-3",
+          "wall_time_ms": 584.9561251234263,
           "usage": {
-            "input_tokens": 147,
-            "output_tokens": 1
+            "input_tokens": 202,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A2:sample-4",
-          "wall_time_ms": 422.2047501243651,
+          "request_id": "gpt-4.1:R1-coherence-plain:A2:sample-4",
+          "wall_time_ms": 672.5357498507947,
           "usage": {
-            "input_tokens": 147,
-            "output_tokens": 1
+            "input_tokens": 202,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A2:sample-5",
-          "wall_time_ms": 443.9804588910192,
+          "request_id": "gpt-4.1:R1-coherence-plain:A2:sample-5",
+          "wall_time_ms": 511.06150005944073,
           "usage": {
-            "input_tokens": 147,
-            "output_tokens": 1
+            "input_tokens": 202,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
-        "good": 6,
-        "bad": 0,
+        "good": 3,
+        "bad": 3,
         "abstain": 0,
-        "verdict": "good",
-        "tie_broken": false
+        "verdict": "abstain",
+        "tie_broken": true
       },
       "tags": [],
       "references": []
@@ -371,84 +371,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A3:sample-0",
-          "wall_time_ms": 488.9206250663847,
+          "request_id": "gpt-4.1:R1-coherence-plain:A3:sample-0",
+          "wall_time_ms": 749.7681251261383,
           "usage": {
-            "input_tokens": 140,
-            "output_tokens": 1
+            "input_tokens": 195,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A3:sample-1",
-          "wall_time_ms": 566.8687499128282,
+          "request_id": "gpt-4.1:R1-coherence-plain:A3:sample-1",
+          "wall_time_ms": 527.8184579219669,
           "usage": {
-            "input_tokens": 140,
-            "output_tokens": 1
+            "input_tokens": 195,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A3:sample-2",
-          "wall_time_ms": 484.2590410262346,
+          "request_id": "gpt-4.1:R1-coherence-plain:A3:sample-2",
+          "wall_time_ms": 561.7593338247389,
           "usage": {
-            "input_tokens": 140,
-            "output_tokens": 1
+            "input_tokens": 195,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A3:sample-3",
-          "wall_time_ms": 466.9920408632606,
+          "request_id": "gpt-4.1:R1-coherence-plain:A3:sample-3",
+          "wall_time_ms": 668.0178330279887,
           "usage": {
-            "input_tokens": 140,
-            "output_tokens": 1
+            "input_tokens": 195,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A3:sample-4",
-          "wall_time_ms": 489.7064589895308,
+          "request_id": "gpt-4.1:R1-coherence-plain:A3:sample-4",
+          "wall_time_ms": 554.0657080709934,
           "usage": {
-            "input_tokens": 140,
-            "output_tokens": 1
+            "input_tokens": 195,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A3:sample-5",
-          "wall_time_ms": 565.0105001404881,
+          "request_id": "gpt-4.1:R1-coherence-plain:A3:sample-5",
+          "wall_time_ms": 495.4766659066081,
           "usage": {
-            "input_tokens": 140,
-            "output_tokens": 1
+            "input_tokens": 195,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -481,84 +481,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A4:sample-0",
-          "wall_time_ms": 583.3752499893308,
+          "request_id": "gpt-4.1:R1-coherence-plain:A4:sample-0",
+          "wall_time_ms": 530.9390409383923,
           "usage": {
-            "input_tokens": 148,
-            "output_tokens": 1
+            "input_tokens": 203,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A4:sample-1",
-          "wall_time_ms": 530.7205419521779,
+          "request_id": "gpt-4.1:R1-coherence-plain:A4:sample-1",
+          "wall_time_ms": 510.96958410926163,
           "usage": {
-            "input_tokens": 148,
-            "output_tokens": 1
+            "input_tokens": 203,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A4:sample-2",
-          "wall_time_ms": 511.761459056288,
+          "request_id": "gpt-4.1:R1-coherence-plain:A4:sample-2",
+          "wall_time_ms": 525.903542060405,
           "usage": {
-            "input_tokens": 148,
-            "output_tokens": 1
+            "input_tokens": 203,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A4:sample-3",
-          "wall_time_ms": 768.6929998453707,
+          "request_id": "gpt-4.1:R1-coherence-plain:A4:sample-3",
+          "wall_time_ms": 530.1010000985116,
           "usage": {
-            "input_tokens": 148,
-            "output_tokens": 1
+            "input_tokens": 203,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A4:sample-4",
-          "wall_time_ms": 457.8787910286337,
+          "request_id": "gpt-4.1:R1-coherence-plain:A4:sample-4",
+          "wall_time_ms": 563.494416885078,
           "usage": {
-            "input_tokens": 148,
-            "output_tokens": 1
+            "input_tokens": 203,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A4:sample-5",
-          "wall_time_ms": 535.919584101066,
+          "request_id": "gpt-4.1:R1-coherence-plain:A4:sample-5",
+          "wall_time_ms": 487.3541670385748,
           "usage": {
-            "input_tokens": 148,
-            "output_tokens": 1
+            "input_tokens": 203,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -591,84 +591,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A5:sample-0",
-          "wall_time_ms": 360.8250841498375,
+          "request_id": "gpt-4.1:R1-coherence-plain:A5:sample-0",
+          "wall_time_ms": 560.640208190307,
           "usage": {
-            "input_tokens": 137,
-            "output_tokens": 1
+            "input_tokens": 192,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A5:sample-1",
-          "wall_time_ms": 514.5986669231206,
+          "request_id": "gpt-4.1:R1-coherence-plain:A5:sample-1",
+          "wall_time_ms": 770.0017499737442,
           "usage": {
-            "input_tokens": 137,
-            "output_tokens": 1
+            "input_tokens": 192,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A5:sample-2",
-          "wall_time_ms": 413.07945805601776,
+          "request_id": "gpt-4.1:R1-coherence-plain:A5:sample-2",
+          "wall_time_ms": 613.3259169291705,
           "usage": {
-            "input_tokens": 137,
-            "output_tokens": 1
+            "input_tokens": 192,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A5:sample-3",
-          "wall_time_ms": 363.3097498677671,
+          "request_id": "gpt-4.1:R1-coherence-plain:A5:sample-3",
+          "wall_time_ms": 518.4430421795696,
           "usage": {
-            "input_tokens": 137,
-            "output_tokens": 1
+            "input_tokens": 192,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A5:sample-4",
-          "wall_time_ms": 433.7865829002112,
+          "request_id": "gpt-4.1:R1-coherence-plain:A5:sample-4",
+          "wall_time_ms": 514.0320830978453,
           "usage": {
-            "input_tokens": 137,
-            "output_tokens": 1
+            "input_tokens": 192,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A5:sample-5",
-          "wall_time_ms": 574.3173330556601,
+          "request_id": "gpt-4.1:R1-coherence-plain:A5:sample-5",
+          "wall_time_ms": 543.3122499380261,
           "usage": {
-            "input_tokens": 137,
-            "output_tokens": 1
+            "input_tokens": 192,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -701,84 +701,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A6:sample-0",
-          "wall_time_ms": 497.2025831229985,
+          "request_id": "gpt-4.1:R1-coherence-plain:A6:sample-0",
+          "wall_time_ms": 534.6270001027733,
           "usage": {
-            "input_tokens": 147,
-            "output_tokens": 1
+            "input_tokens": 202,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A6:sample-1",
-          "wall_time_ms": 787.3937080148607,
+          "request_id": "gpt-4.1:R1-coherence-plain:A6:sample-1",
+          "wall_time_ms": 5802.070290781558,
           "usage": {
-            "input_tokens": 147,
-            "output_tokens": 1
+            "input_tokens": 202,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A6:sample-2",
-          "wall_time_ms": 535.5956670828164,
+          "request_id": "gpt-4.1:R1-coherence-plain:A6:sample-2",
+          "wall_time_ms": 638.5677920188755,
           "usage": {
-            "input_tokens": 147,
-            "output_tokens": 1
+            "input_tokens": 202,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A6:sample-3",
-          "wall_time_ms": 372.2116251010448,
+          "request_id": "gpt-4.1:R1-coherence-plain:A6:sample-3",
+          "wall_time_ms": 591.1460828501731,
           "usage": {
-            "input_tokens": 147,
-            "output_tokens": 1
+            "input_tokens": 202,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A6:sample-4",
-          "wall_time_ms": 457.6487089507282,
+          "request_id": "gpt-4.1:R1-coherence-plain:A6:sample-4",
+          "wall_time_ms": 490.23375008255243,
           "usage": {
-            "input_tokens": 147,
-            "output_tokens": 1
+            "input_tokens": 202,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A6:sample-5",
-          "wall_time_ms": 428.31175005994737,
+          "request_id": "gpt-4.1:R1-coherence-plain:A6:sample-5",
+          "wall_time_ms": 534.5946671441197,
           "usage": {
-            "input_tokens": 147,
-            "output_tokens": 1
+            "input_tokens": 202,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -811,84 +811,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A7:sample-0",
-          "wall_time_ms": 489.51879190281034,
+          "request_id": "gpt-4.1:R1-coherence-plain:A7:sample-0",
+          "wall_time_ms": 715.8431671559811,
           "usage": {
-            "input_tokens": 139,
-            "output_tokens": 1
+            "input_tokens": 194,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A7:sample-1",
-          "wall_time_ms": 909.4364158809185,
+          "request_id": "gpt-4.1:R1-coherence-plain:A7:sample-1",
+          "wall_time_ms": 518.8062919769436,
           "usage": {
-            "input_tokens": 139,
-            "output_tokens": 1
+            "input_tokens": 194,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A7:sample-2",
-          "wall_time_ms": 506.68775010854006,
+          "request_id": "gpt-4.1:R1-coherence-plain:A7:sample-2",
+          "wall_time_ms": 504.1290409862995,
           "usage": {
-            "input_tokens": 139,
-            "output_tokens": 1
+            "input_tokens": 194,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A7:sample-3",
-          "wall_time_ms": 450.26141684502363,
+          "request_id": "gpt-4.1:R1-coherence-plain:A7:sample-3",
+          "wall_time_ms": 537.9502079449594,
           "usage": {
-            "input_tokens": 139,
-            "output_tokens": 1
+            "input_tokens": 194,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A7:sample-4",
-          "wall_time_ms": 495.6573750823736,
+          "request_id": "gpt-4.1:R1-coherence-plain:A7:sample-4",
+          "wall_time_ms": 531.8205000367016,
           "usage": {
-            "input_tokens": 139,
-            "output_tokens": 1
+            "input_tokens": 194,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A7:sample-5",
-          "wall_time_ms": 1565.9006249625236,
+          "request_id": "gpt-4.1:R1-coherence-plain:A7:sample-5",
+          "wall_time_ms": 482.51962498761714,
           "usage": {
-            "input_tokens": 139,
-            "output_tokens": 1
+            "input_tokens": 194,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -922,84 +922,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A8:sample-0",
-          "wall_time_ms": 433.1642910838127,
+          "request_id": "gpt-4.1:R1-coherence-plain:A8:sample-0",
+          "wall_time_ms": 585.677457973361,
           "usage": {
-            "input_tokens": 155,
-            "output_tokens": 1
+            "input_tokens": 210,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A8:sample-1",
-          "wall_time_ms": 424.0312499459833,
+          "request_id": "gpt-4.1:R1-coherence-plain:A8:sample-1",
+          "wall_time_ms": 536.1244161613286,
           "usage": {
-            "input_tokens": 155,
-            "output_tokens": 1
+            "input_tokens": 210,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A8:sample-2",
-          "wall_time_ms": 380.41283399797976,
+          "request_id": "gpt-4.1:R1-coherence-plain:A8:sample-2",
+          "wall_time_ms": 545.5979160033166,
           "usage": {
-            "input_tokens": 155,
-            "output_tokens": 1
+            "input_tokens": 210,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A8:sample-3",
-          "wall_time_ms": 390.88229089975357,
+          "request_id": "gpt-4.1:R1-coherence-plain:A8:sample-3",
+          "wall_time_ms": 744.1154590342194,
           "usage": {
-            "input_tokens": 155,
-            "output_tokens": 1
+            "input_tokens": 210,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A8:sample-4",
-          "wall_time_ms": 436.41266599297523,
+          "request_id": "gpt-4.1:R1-coherence-plain:A8:sample-4",
+          "wall_time_ms": 532.8917920123786,
           "usage": {
-            "input_tokens": 155,
-            "output_tokens": 1
+            "input_tokens": 210,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A8:sample-5",
-          "wall_time_ms": 466.52474999427795,
+          "request_id": "gpt-4.1:R1-coherence-plain:A8:sample-5",
+          "wall_time_ms": 504.177083959803,
           "usage": {
-            "input_tokens": 155,
-            "output_tokens": 1
+            "input_tokens": 210,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -1032,84 +1032,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A9:sample-0",
-          "wall_time_ms": 457.39604183472693,
+          "request_id": "gpt-4.1:R1-coherence-plain:A9:sample-0",
+          "wall_time_ms": 546.75383400172,
           "usage": {
-            "input_tokens": 136,
-            "output_tokens": 1
+            "input_tokens": 191,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A9:sample-1",
-          "wall_time_ms": 437.7071668859571,
+          "request_id": "gpt-4.1:R1-coherence-plain:A9:sample-1",
+          "wall_time_ms": 635.1042920723557,
           "usage": {
-            "input_tokens": 136,
-            "output_tokens": 1
+            "input_tokens": 191,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A9:sample-2",
-          "wall_time_ms": 859.8659171257168,
+          "request_id": "gpt-4.1:R1-coherence-plain:A9:sample-2",
+          "wall_time_ms": 498.3182498253882,
           "usage": {
-            "input_tokens": 136,
-            "output_tokens": 1
+            "input_tokens": 191,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A9:sample-3",
-          "wall_time_ms": 569.5254169404507,
+          "request_id": "gpt-4.1:R1-coherence-plain:A9:sample-3",
+          "wall_time_ms": 565.2137498836964,
           "usage": {
-            "input_tokens": 136,
-            "output_tokens": 1
+            "input_tokens": 191,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A9:sample-4",
-          "wall_time_ms": 898.1967919971794,
+          "request_id": "gpt-4.1:R1-coherence-plain:A9:sample-4",
+          "wall_time_ms": 527.2807499859482,
           "usage": {
-            "input_tokens": 136,
-            "output_tokens": 1
+            "input_tokens": 191,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:A9:sample-5",
-          "wall_time_ms": 567.6948339678347,
+          "request_id": "gpt-4.1:R1-coherence-plain:A9:sample-5",
+          "wall_time_ms": 848.8663341850042,
           "usage": {
-            "input_tokens": 136,
-            "output_tokens": 1
+            "input_tokens": 191,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -1143,84 +1143,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C1:sample-0",
-          "wall_time_ms": 697.7132090833038,
+          "request_id": "gpt-4.1:R1-coherence-plain:C1:sample-0",
+          "wall_time_ms": 594.1135000903159,
           "usage": {
-            "input_tokens": 149,
-            "output_tokens": 1
+            "input_tokens": 204,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C1:sample-1",
-          "wall_time_ms": 515.6737079378217,
+          "request_id": "gpt-4.1:R1-coherence-plain:C1:sample-1",
+          "wall_time_ms": 504.7741250600666,
           "usage": {
-            "input_tokens": 149,
-            "output_tokens": 1
+            "input_tokens": 204,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C1:sample-2",
-          "wall_time_ms": 607.475999975577,
+          "request_id": "gpt-4.1:R1-coherence-plain:C1:sample-2",
+          "wall_time_ms": 511.3524589687586,
           "usage": {
-            "input_tokens": 149,
-            "output_tokens": 1
+            "input_tokens": 204,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C1:sample-3",
-          "wall_time_ms": 507.71754211746156,
+          "request_id": "gpt-4.1:R1-coherence-plain:C1:sample-3",
+          "wall_time_ms": 492.8533749189228,
           "usage": {
-            "input_tokens": 149,
-            "output_tokens": 1
+            "input_tokens": 204,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C1:sample-4",
-          "wall_time_ms": 516.7804998345673,
+          "request_id": "gpt-4.1:R1-coherence-plain:C1:sample-4",
+          "wall_time_ms": 624.8347079381347,
           "usage": {
-            "input_tokens": 149,
-            "output_tokens": 1
+            "input_tokens": 204,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C1:sample-5",
-          "wall_time_ms": 683.5958329029381,
+          "request_id": "gpt-4.1:R1-coherence-plain:C1:sample-5",
+          "wall_time_ms": 613.9314169995487,
           "usage": {
-            "input_tokens": 149,
-            "output_tokens": 1
+            "input_tokens": 204,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -1254,84 +1254,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C2:sample-0",
-          "wall_time_ms": 597.391040995717,
+          "request_id": "gpt-4.1:R1-coherence-plain:C2:sample-0",
+          "wall_time_ms": 536.3116250373423,
           "usage": {
-            "input_tokens": 151,
-            "output_tokens": 1
+            "input_tokens": 206,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C2:sample-1",
-          "wall_time_ms": 613.801958039403,
+          "request_id": "gpt-4.1:R1-coherence-plain:C2:sample-1",
+          "wall_time_ms": 641.769832931459,
           "usage": {
-            "input_tokens": 151,
-            "output_tokens": 1
+            "input_tokens": 206,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C2:sample-2",
-          "wall_time_ms": 678.2482080161572,
+          "request_id": "gpt-4.1:R1-coherence-plain:C2:sample-2",
+          "wall_time_ms": 624.0988750942051,
           "usage": {
-            "input_tokens": 151,
-            "output_tokens": 1
+            "input_tokens": 206,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C2:sample-3",
-          "wall_time_ms": 575.4361250437796,
+          "request_id": "gpt-4.1:R1-coherence-plain:C2:sample-3",
+          "wall_time_ms": 503.7404589820653,
           "usage": {
-            "input_tokens": 151,
-            "output_tokens": 1
+            "input_tokens": 206,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C2:sample-4",
-          "wall_time_ms": 651.2682919856161,
+          "request_id": "gpt-4.1:R1-coherence-plain:C2:sample-4",
+          "wall_time_ms": 659.5932920463383,
           "usage": {
-            "input_tokens": 151,
-            "output_tokens": 1
+            "input_tokens": 206,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C2:sample-5",
-          "wall_time_ms": 545.7153748720884,
+          "request_id": "gpt-4.1:R1-coherence-plain:C2:sample-5",
+          "wall_time_ms": 520.5687079578638,
           "usage": {
-            "input_tokens": 151,
-            "output_tokens": 1
+            "input_tokens": 206,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -1361,98 +1361,98 @@
       "analyst_verdicts": [
         "abstain"
       ],
-      "model_verdict": "good",
+      "model_verdict": "bad",
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C3:sample-0",
-          "wall_time_ms": 594.868583837524,
+          "request_id": "gpt-4.1:R1-coherence-plain:C3:sample-0",
+          "wall_time_ms": 567.7565420046449,
           "usage": {
-            "input_tokens": 151,
-            "output_tokens": 1
+            "input_tokens": 206,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C3:sample-1",
-          "wall_time_ms": 409.22745899297297,
+          "request_id": "gpt-4.1:R1-coherence-plain:C3:sample-1",
+          "wall_time_ms": 521.794541971758,
           "usage": {
-            "input_tokens": 151,
-            "output_tokens": 1
+            "input_tokens": 206,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C3:sample-2",
-          "wall_time_ms": 476.7155419103801,
+          "request_id": "gpt-4.1:R1-coherence-plain:C3:sample-2",
+          "wall_time_ms": 538.9760830439627,
           "usage": {
-            "input_tokens": 151,
-            "output_tokens": 1
+            "input_tokens": 206,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C3:sample-3",
-          "wall_time_ms": 506.67300005443394,
+          "request_id": "gpt-4.1:R1-coherence-plain:C3:sample-3",
+          "wall_time_ms": 516.1332078278065,
           "usage": {
-            "input_tokens": 151,
-            "output_tokens": 1
+            "input_tokens": 206,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C3:sample-4",
-          "wall_time_ms": 471.2928750086576,
+          "request_id": "gpt-4.1:R1-coherence-plain:C3:sample-4",
+          "wall_time_ms": 614.8624999914318,
           "usage": {
-            "input_tokens": 151,
-            "output_tokens": 1
+            "input_tokens": 206,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C3:sample-5",
-          "wall_time_ms": 564.7089588455856,
+          "request_id": "gpt-4.1:R1-coherence-plain:C3:sample-5",
+          "wall_time_ms": 690.7498750369996,
           "usage": {
-            "input_tokens": 151,
-            "output_tokens": 1
+            "input_tokens": 206,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
-        "good": 6,
-        "bad": 0,
+        "good": 0,
+        "bad": 6,
         "abstain": 0,
-        "verdict": "good",
+        "verdict": "bad",
         "tie_broken": false
       },
       "tags": [],
@@ -1472,98 +1472,98 @@
       "analyst_verdicts": [
         "abstain"
       ],
-      "model_verdict": "good",
+      "model_verdict": "bad",
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C4:sample-0",
-          "wall_time_ms": 378.8060829974711,
+          "request_id": "gpt-4.1:R1-coherence-plain:C4:sample-0",
+          "wall_time_ms": 2714.113333960995,
           "usage": {
-            "input_tokens": 152,
-            "output_tokens": 1
+            "input_tokens": 207,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C4:sample-1",
-          "wall_time_ms": 689.6525421179831,
+          "request_id": "gpt-4.1:R1-coherence-plain:C4:sample-1",
+          "wall_time_ms": 515.2510418556631,
           "usage": {
-            "input_tokens": 152,
-            "output_tokens": 1
+            "input_tokens": 207,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C4:sample-2",
-          "wall_time_ms": 477.6220419444144,
+          "request_id": "gpt-4.1:R1-coherence-plain:C4:sample-2",
+          "wall_time_ms": 650.6303329952061,
           "usage": {
-            "input_tokens": 152,
-            "output_tokens": 1
+            "input_tokens": 207,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C4:sample-3",
-          "wall_time_ms": 436.59100006334484,
+          "request_id": "gpt-4.1:R1-coherence-plain:C4:sample-3",
+          "wall_time_ms": 636.75258285366,
           "usage": {
-            "input_tokens": 152,
-            "output_tokens": 1
+            "input_tokens": 207,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
-          "parsed_verdict": "good",
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C4:sample-4",
-          "wall_time_ms": 416.4742089342326,
+          "request_id": "gpt-4.1:R1-coherence-plain:C4:sample-4",
+          "wall_time_ms": 812.6701668370515,
           "usage": {
-            "input_tokens": 152,
-            "output_tokens": 1
+            "input_tokens": 207,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C4:sample-5",
-          "wall_time_ms": 402.4792080745101,
+          "request_id": "gpt-4.1:R1-coherence-plain:C4:sample-5",
+          "wall_time_ms": 550.0951251015067,
           "usage": {
-            "input_tokens": 152,
-            "output_tokens": 1
+            "input_tokens": 207,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
-        "good": 6,
-        "bad": 0,
+        "good": 2,
+        "bad": 4,
         "abstain": 0,
-        "verdict": "good",
+        "verdict": "bad",
         "tie_broken": false
       },
       "tags": [],
@@ -1587,84 +1587,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C5:sample-0",
-          "wall_time_ms": 894.4437920581549,
+          "request_id": "gpt-4.1:R1-coherence-plain:C5:sample-0",
+          "wall_time_ms": 684.7411671187729,
           "usage": {
-            "input_tokens": 150,
-            "output_tokens": 1
+            "input_tokens": 205,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C5:sample-1",
-          "wall_time_ms": 534.54575012438,
+          "request_id": "gpt-4.1:R1-coherence-plain:C5:sample-1",
+          "wall_time_ms": 780.7640840765089,
           "usage": {
-            "input_tokens": 150,
-            "output_tokens": 1
+            "input_tokens": 205,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C5:sample-2",
-          "wall_time_ms": 625.1122090034187,
+          "request_id": "gpt-4.1:R1-coherence-plain:C5:sample-2",
+          "wall_time_ms": 576.9864169415087,
           "usage": {
-            "input_tokens": 150,
-            "output_tokens": 1
+            "input_tokens": 205,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C5:sample-3",
-          "wall_time_ms": 648.8062080461532,
+          "request_id": "gpt-4.1:R1-coherence-plain:C5:sample-3",
+          "wall_time_ms": 481.47733393125236,
           "usage": {
-            "input_tokens": 150,
-            "output_tokens": 1
+            "input_tokens": 205,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C5:sample-4",
-          "wall_time_ms": 500.827917130664,
+          "request_id": "gpt-4.1:R1-coherence-plain:C5:sample-4",
+          "wall_time_ms": 544.7222501970828,
           "usage": {
-            "input_tokens": 150,
-            "output_tokens": 1
+            "input_tokens": 205,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:C5:sample-5",
-          "wall_time_ms": 526.8105000723153,
+          "request_id": "gpt-4.1:R1-coherence-plain:C5:sample-5",
+          "wall_time_ms": 1032.4790000449866,
           "usage": {
-            "input_tokens": 150,
-            "output_tokens": 1
+            "input_tokens": 205,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -1698,84 +1698,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:F1:sample-0",
-          "wall_time_ms": 449.5930830016732,
+          "request_id": "gpt-4.1:R1-coherence-plain:F1:sample-0",
+          "wall_time_ms": 519.7857499588281,
           "usage": {
-            "input_tokens": 166,
-            "output_tokens": 1
+            "input_tokens": 221,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:F1:sample-1",
-          "wall_time_ms": 456.3185409642756,
+          "request_id": "gpt-4.1:R1-coherence-plain:F1:sample-1",
+          "wall_time_ms": 565.8492918591946,
           "usage": {
-            "input_tokens": 166,
-            "output_tokens": 1
+            "input_tokens": 221,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:F1:sample-2",
-          "wall_time_ms": 496.44712498411536,
+          "request_id": "gpt-4.1:R1-coherence-plain:F1:sample-2",
+          "wall_time_ms": 518.7189169228077,
           "usage": {
-            "input_tokens": 166,
-            "output_tokens": 1
+            "input_tokens": 221,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:F1:sample-3",
-          "wall_time_ms": 395.9919170010835,
+          "request_id": "gpt-4.1:R1-coherence-plain:F1:sample-3",
+          "wall_time_ms": 594.0435000229627,
           "usage": {
-            "input_tokens": 166,
-            "output_tokens": 1
+            "input_tokens": 221,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:F1:sample-4",
-          "wall_time_ms": 367.67945787869394,
+          "request_id": "gpt-4.1:R1-coherence-plain:F1:sample-4",
+          "wall_time_ms": 649.4972500950098,
           "usage": {
-            "input_tokens": 166,
-            "output_tokens": 1
+            "input_tokens": 221,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:F1:sample-5",
-          "wall_time_ms": 530.8956659864634,
+          "request_id": "gpt-4.1:R1-coherence-plain:F1:sample-5",
+          "wall_time_ms": 1153.107583988458,
           "usage": {
-            "input_tokens": 166,
-            "output_tokens": 1
+            "input_tokens": 221,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -1809,84 +1809,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:F2:sample-0",
-          "wall_time_ms": 529.6481249388307,
+          "request_id": "gpt-4.1:R1-coherence-plain:F2:sample-0",
+          "wall_time_ms": 683.4459158126265,
           "usage": {
-            "input_tokens": 168,
-            "output_tokens": 1
+            "input_tokens": 223,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:F2:sample-1",
-          "wall_time_ms": 921.6279587708414,
+          "request_id": "gpt-4.1:R1-coherence-plain:F2:sample-1",
+          "wall_time_ms": 565.5050829518586,
           "usage": {
-            "input_tokens": 168,
-            "output_tokens": 1
+            "input_tokens": 223,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:F2:sample-2",
-          "wall_time_ms": 1884.4681249465793,
+          "request_id": "gpt-4.1:R1-coherence-plain:F2:sample-2",
+          "wall_time_ms": 546.750167151913,
           "usage": {
-            "input_tokens": 168,
-            "output_tokens": 1
+            "input_tokens": 223,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:F2:sample-3",
-          "wall_time_ms": 416.87100008130074,
+          "request_id": "gpt-4.1:R1-coherence-plain:F2:sample-3",
+          "wall_time_ms": 484.9070410709828,
           "usage": {
-            "input_tokens": 168,
-            "output_tokens": 1
+            "input_tokens": 223,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:F2:sample-4",
-          "wall_time_ms": 405.02654178999364,
+          "request_id": "gpt-4.1:R1-coherence-plain:F2:sample-4",
+          "wall_time_ms": 498.68925008922815,
           "usage": {
-            "input_tokens": 168,
-            "output_tokens": 1
+            "input_tokens": 223,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:F2:sample-5",
-          "wall_time_ms": 483.62220893613994,
+          "request_id": "gpt-4.1:R1-coherence-plain:F2:sample-5",
+          "wall_time_ms": 647.4807080812752,
           "usage": {
-            "input_tokens": 168,
-            "output_tokens": 1
+            "input_tokens": 223,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -1920,84 +1920,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:F3:sample-0",
-          "wall_time_ms": 430.1868339534849,
+          "request_id": "gpt-4.1:R1-coherence-plain:F3:sample-0",
+          "wall_time_ms": 518.6286249663681,
           "usage": {
-            "input_tokens": 168,
-            "output_tokens": 1
+            "input_tokens": 223,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:F3:sample-1",
-          "wall_time_ms": 1114.912083139643,
+          "request_id": "gpt-4.1:R1-coherence-plain:F3:sample-1",
+          "wall_time_ms": 813.4855839889497,
           "usage": {
-            "input_tokens": 168,
-            "output_tokens": 1
+            "input_tokens": 223,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:F3:sample-2",
-          "wall_time_ms": 487.6802081707865,
+          "request_id": "gpt-4.1:R1-coherence-plain:F3:sample-2",
+          "wall_time_ms": 637.6814590767026,
           "usage": {
-            "input_tokens": 168,
-            "output_tokens": 1
+            "input_tokens": 223,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:F3:sample-3",
-          "wall_time_ms": 469.5117501541972,
+          "request_id": "gpt-4.1:R1-coherence-plain:F3:sample-3",
+          "wall_time_ms": 625.8000407833606,
           "usage": {
-            "input_tokens": 168,
-            "output_tokens": 1
+            "input_tokens": 223,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:F3:sample-4",
-          "wall_time_ms": 350.41837487369776,
+          "request_id": "gpt-4.1:R1-coherence-plain:F3:sample-4",
+          "wall_time_ms": 572.1849577967077,
           "usage": {
-            "input_tokens": 168,
-            "output_tokens": 1
+            "input_tokens": 223,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:F3:sample-5",
-          "wall_time_ms": 610.5291659478098,
+          "request_id": "gpt-4.1:R1-coherence-plain:F3:sample-5",
+          "wall_time_ms": 688.7053749524057,
           "usage": {
-            "input_tokens": 168,
-            "output_tokens": 1
+            "input_tokens": 223,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -2029,84 +2029,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:D1:sample-0",
-          "wall_time_ms": 520.9945000242442,
+          "request_id": "gpt-4.1:R1-coherence-plain:D1:sample-0",
+          "wall_time_ms": 480.13020819053054,
           "usage": {
-            "input_tokens": 126,
-            "output_tokens": 1
+            "input_tokens": 181,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:D1:sample-1",
-          "wall_time_ms": 550.8496658876538,
+          "request_id": "gpt-4.1:R1-coherence-plain:D1:sample-1",
+          "wall_time_ms": 545.7409999798983,
           "usage": {
-            "input_tokens": 126,
-            "output_tokens": 1
+            "input_tokens": 181,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:D1:sample-2",
-          "wall_time_ms": 1009.1855828650296,
+          "request_id": "gpt-4.1:R1-coherence-plain:D1:sample-2",
+          "wall_time_ms": 488.0349168088287,
           "usage": {
-            "input_tokens": 126,
-            "output_tokens": 1
+            "input_tokens": 181,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:D1:sample-3",
-          "wall_time_ms": 540.460665943101,
+          "request_id": "gpt-4.1:R1-coherence-plain:D1:sample-3",
+          "wall_time_ms": 507.8152089845389,
           "usage": {
-            "input_tokens": 126,
-            "output_tokens": 1
+            "input_tokens": 181,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:D1:sample-4",
-          "wall_time_ms": 521.1248339619488,
+          "request_id": "gpt-4.1:R1-coherence-plain:D1:sample-4",
+          "wall_time_ms": 536.9494170881808,
           "usage": {
-            "input_tokens": 126,
-            "output_tokens": 1
+            "input_tokens": 181,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:D1:sample-5",
-          "wall_time_ms": 506.01962488144636,
+          "request_id": "gpt-4.1:R1-coherence-plain:D1:sample-5",
+          "wall_time_ms": 536.4972501993179,
           "usage": {
-            "input_tokens": 126,
-            "output_tokens": 1
+            "input_tokens": 181,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -2139,84 +2139,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:D2:sample-0",
-          "wall_time_ms": 523.5280410852283,
+          "request_id": "gpt-4.1:R1-coherence-plain:D2:sample-0",
+          "wall_time_ms": 511.0966667998582,
           "usage": {
-            "input_tokens": 135,
-            "output_tokens": 1
+            "input_tokens": 190,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:D2:sample-1",
-          "wall_time_ms": 525.7596669252962,
+          "request_id": "gpt-4.1:R1-coherence-plain:D2:sample-1",
+          "wall_time_ms": 1028.1169582158327,
           "usage": {
-            "input_tokens": 135,
-            "output_tokens": 1
+            "input_tokens": 190,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:D2:sample-2",
-          "wall_time_ms": 1058.1086247693747,
+          "request_id": "gpt-4.1:R1-coherence-plain:D2:sample-2",
+          "wall_time_ms": 812.5884172040969,
           "usage": {
-            "input_tokens": 135,
-            "output_tokens": 1
+            "input_tokens": 190,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:D2:sample-3",
-          "wall_time_ms": 428.3482918981463,
+          "request_id": "gpt-4.1:R1-coherence-plain:D2:sample-3",
+          "wall_time_ms": 553.944458020851,
           "usage": {
-            "input_tokens": 135,
-            "output_tokens": 1
+            "input_tokens": 190,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:D2:sample-4",
-          "wall_time_ms": 439.6784999407828,
+          "request_id": "gpt-4.1:R1-coherence-plain:D2:sample-4",
+          "wall_time_ms": 563.0976248066872,
           "usage": {
-            "input_tokens": 135,
-            "output_tokens": 1
+            "input_tokens": 190,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:D2:sample-5",
-          "wall_time_ms": 500.0855829566717,
+          "request_id": "gpt-4.1:R1-coherence-plain:D2:sample-5",
+          "wall_time_ms": 578.0263340566307,
           "usage": {
-            "input_tokens": 135,
-            "output_tokens": 1
+            "input_tokens": 190,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -2248,84 +2248,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:D3:sample-0",
-          "wall_time_ms": 598.454250022769,
+          "request_id": "gpt-4.1:R1-coherence-plain:D3:sample-0",
+          "wall_time_ms": 507.93233304284513,
           "usage": {
-            "input_tokens": 125,
-            "output_tokens": 1
+            "input_tokens": 180,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:D3:sample-1",
-          "wall_time_ms": 974.4789579417557,
+          "request_id": "gpt-4.1:R1-coherence-plain:D3:sample-1",
+          "wall_time_ms": 587.1372080873698,
           "usage": {
-            "input_tokens": 125,
-            "output_tokens": 1
+            "input_tokens": 180,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:D3:sample-2",
-          "wall_time_ms": 523.1967500876635,
+          "request_id": "gpt-4.1:R1-coherence-plain:D3:sample-2",
+          "wall_time_ms": 526.3078750576824,
           "usage": {
-            "input_tokens": 125,
-            "output_tokens": 1
+            "input_tokens": 180,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:D3:sample-3",
-          "wall_time_ms": 527.7235840912908,
+          "request_id": "gpt-4.1:R1-coherence-plain:D3:sample-3",
+          "wall_time_ms": 1084.0384170878679,
           "usage": {
-            "input_tokens": 125,
-            "output_tokens": 1
+            "input_tokens": 180,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:D3:sample-4",
-          "wall_time_ms": 932.4612079653889,
+          "request_id": "gpt-4.1:R1-coherence-plain:D3:sample-4",
+          "wall_time_ms": 560.4672080371529,
           "usage": {
-            "input_tokens": 125,
-            "output_tokens": 1
+            "input_tokens": 180,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "BAD",
+          "raw_response": "COHERENT",
           "parsed_verdict": "bad",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:D3:sample-5",
-          "wall_time_ms": 519.9558751191944,
+          "request_id": "gpt-4.1:R1-coherence-plain:D3:sample-5",
+          "wall_time_ms": 528.1011250335723,
           "usage": {
-            "input_tokens": 125,
-            "output_tokens": 1
+            "input_tokens": 180,
+            "output_tokens": 3
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -2359,84 +2359,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B0:sample-0",
-          "wall_time_ms": 497.56791698746383,
+          "request_id": "gpt-4.1:R1-coherence-plain:B0:sample-0",
+          "wall_time_ms": 648.8464169669896,
           "usage": {
-            "input_tokens": 166,
-            "output_tokens": 1
+            "input_tokens": 221,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B0:sample-1",
-          "wall_time_ms": 663.3012078236789,
+          "request_id": "gpt-4.1:R1-coherence-plain:B0:sample-1",
+          "wall_time_ms": 610.768917016685,
           "usage": {
-            "input_tokens": 166,
-            "output_tokens": 1
+            "input_tokens": 221,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B0:sample-2",
-          "wall_time_ms": 586.1704170238227,
+          "request_id": "gpt-4.1:R1-coherence-plain:B0:sample-2",
+          "wall_time_ms": 615.2776251547039,
           "usage": {
-            "input_tokens": 166,
-            "output_tokens": 1
+            "input_tokens": 221,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B0:sample-3",
-          "wall_time_ms": 531.3419168815017,
+          "request_id": "gpt-4.1:R1-coherence-plain:B0:sample-3",
+          "wall_time_ms": 575.0467090401798,
           "usage": {
-            "input_tokens": 166,
-            "output_tokens": 1
+            "input_tokens": 221,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B0:sample-4",
-          "wall_time_ms": 498.8708330783993,
+          "request_id": "gpt-4.1:R1-coherence-plain:B0:sample-4",
+          "wall_time_ms": 651.9790841266513,
           "usage": {
-            "input_tokens": 166,
-            "output_tokens": 1
+            "input_tokens": 221,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B0:sample-5",
-          "wall_time_ms": 577.7401248924434,
+          "request_id": "gpt-4.1:R1-coherence-plain:B0:sample-5",
+          "wall_time_ms": 1431.648249970749,
           "usage": {
-            "input_tokens": 166,
-            "output_tokens": 1
+            "input_tokens": 221,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -2471,84 +2471,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B1:sample-0",
-          "wall_time_ms": 573.2961248140782,
+          "request_id": "gpt-4.1:R1-coherence-plain:B1:sample-0",
+          "wall_time_ms": 717.4978330731392,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B1:sample-1",
-          "wall_time_ms": 681.7978750914335,
+          "request_id": "gpt-4.1:R1-coherence-plain:B1:sample-1",
+          "wall_time_ms": 537.8766250796616,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B1:sample-2",
-          "wall_time_ms": 534.1067910194397,
+          "request_id": "gpt-4.1:R1-coherence-plain:B1:sample-2",
+          "wall_time_ms": 484.4952079001814,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B1:sample-3",
-          "wall_time_ms": 516.3026249501854,
+          "request_id": "gpt-4.1:R1-coherence-plain:B1:sample-3",
+          "wall_time_ms": 720.4350829124451,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B1:sample-4",
-          "wall_time_ms": 469.7197498753667,
+          "request_id": "gpt-4.1:R1-coherence-plain:B1:sample-4",
+          "wall_time_ms": 570.6885419785976,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B1:sample-5",
-          "wall_time_ms": 981.8044579587877,
+          "request_id": "gpt-4.1:R1-coherence-plain:B1:sample-5",
+          "wall_time_ms": 550.2140000462532,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -2583,84 +2583,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B2:sample-0",
-          "wall_time_ms": 634.6412079874426,
+          "request_id": "gpt-4.1:R1-coherence-plain:B2:sample-0",
+          "wall_time_ms": 612.7124999184161,
           "usage": {
-            "input_tokens": 173,
-            "output_tokens": 1
+            "input_tokens": 228,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B2:sample-1",
-          "wall_time_ms": 951.783417025581,
+          "request_id": "gpt-4.1:R1-coherence-plain:B2:sample-1",
+          "wall_time_ms": 499.97308291494846,
           "usage": {
-            "input_tokens": 173,
-            "output_tokens": 1
+            "input_tokens": 228,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B2:sample-2",
-          "wall_time_ms": 479.14199996739626,
+          "request_id": "gpt-4.1:R1-coherence-plain:B2:sample-2",
+          "wall_time_ms": 546.0980839561671,
           "usage": {
-            "input_tokens": 173,
-            "output_tokens": 1
+            "input_tokens": 228,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B2:sample-3",
-          "wall_time_ms": 556.186500005424,
+          "request_id": "gpt-4.1:R1-coherence-plain:B2:sample-3",
+          "wall_time_ms": 484.24358293414116,
           "usage": {
-            "input_tokens": 173,
-            "output_tokens": 1
+            "input_tokens": 228,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B2:sample-4",
-          "wall_time_ms": 509.3829999677837,
+          "request_id": "gpt-4.1:R1-coherence-plain:B2:sample-4",
+          "wall_time_ms": 535.8849170152098,
           "usage": {
-            "input_tokens": 173,
-            "output_tokens": 1
+            "input_tokens": 228,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B2:sample-5",
-          "wall_time_ms": 549.2941250558943,
+          "request_id": "gpt-4.1:R1-coherence-plain:B2:sample-5",
+          "wall_time_ms": 556.9009999744594,
           "usage": {
-            "input_tokens": 173,
-            "output_tokens": 1
+            "input_tokens": 228,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -2695,84 +2695,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B3:sample-0",
-          "wall_time_ms": 558.6869160179049,
+          "request_id": "gpt-4.1:R1-coherence-plain:B3:sample-0",
+          "wall_time_ms": 549.7287919279188,
           "usage": {
-            "input_tokens": 193,
-            "output_tokens": 1
+            "input_tokens": 248,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B3:sample-1",
-          "wall_time_ms": 520.4562500584871,
+          "request_id": "gpt-4.1:R1-coherence-plain:B3:sample-1",
+          "wall_time_ms": 565.5214579310268,
           "usage": {
-            "input_tokens": 193,
-            "output_tokens": 1
+            "input_tokens": 248,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B3:sample-2",
-          "wall_time_ms": 6247.89979099296,
+          "request_id": "gpt-4.1:R1-coherence-plain:B3:sample-2",
+          "wall_time_ms": 510.341958142817,
           "usage": {
-            "input_tokens": 193,
-            "output_tokens": 1
+            "input_tokens": 248,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B3:sample-3",
-          "wall_time_ms": 461.28166606649756,
+          "request_id": "gpt-4.1:R1-coherence-plain:B3:sample-3",
+          "wall_time_ms": 663.3450828958303,
           "usage": {
-            "input_tokens": 193,
-            "output_tokens": 1
+            "input_tokens": 248,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B3:sample-4",
-          "wall_time_ms": 555.1371658220887,
+          "request_id": "gpt-4.1:R1-coherence-plain:B3:sample-4",
+          "wall_time_ms": 628.2778750173748,
           "usage": {
-            "input_tokens": 193,
-            "output_tokens": 1
+            "input_tokens": 248,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B3:sample-5",
-          "wall_time_ms": 555.6985831353813,
+          "request_id": "gpt-4.1:R1-coherence-plain:B3:sample-5",
+          "wall_time_ms": 1556.5202499274164,
           "usage": {
-            "input_tokens": 193,
-            "output_tokens": 1
+            "input_tokens": 248,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -2806,84 +2806,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B4:sample-0",
-          "wall_time_ms": 536.686500068754,
+          "request_id": "gpt-4.1:R1-coherence-plain:B4:sample-0",
+          "wall_time_ms": 592.9391251411289,
           "usage": {
-            "input_tokens": 165,
-            "output_tokens": 1
+            "input_tokens": 220,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B4:sample-1",
-          "wall_time_ms": 537.5290832016617,
+          "request_id": "gpt-4.1:R1-coherence-plain:B4:sample-1",
+          "wall_time_ms": 470.0612500309944,
           "usage": {
-            "input_tokens": 165,
-            "output_tokens": 1
+            "input_tokens": 220,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B4:sample-2",
-          "wall_time_ms": 550.744584063068,
+          "request_id": "gpt-4.1:R1-coherence-plain:B4:sample-2",
+          "wall_time_ms": 476.90766607411206,
           "usage": {
-            "input_tokens": 165,
-            "output_tokens": 1
+            "input_tokens": 220,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B4:sample-3",
-          "wall_time_ms": 524.1642079781741,
+          "request_id": "gpt-4.1:R1-coherence-plain:B4:sample-3",
+          "wall_time_ms": 493.54954110458493,
           "usage": {
-            "input_tokens": 165,
-            "output_tokens": 1
+            "input_tokens": 220,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B4:sample-4",
-          "wall_time_ms": 640.5901659745723,
+          "request_id": "gpt-4.1:R1-coherence-plain:B4:sample-4",
+          "wall_time_ms": 499.14787500165403,
           "usage": {
-            "input_tokens": 165,
-            "output_tokens": 1
+            "input_tokens": 220,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B4:sample-5",
-          "wall_time_ms": 570.7147920038551,
+          "request_id": "gpt-4.1:R1-coherence-plain:B4:sample-5",
+          "wall_time_ms": 1024.8724580742419,
           "usage": {
-            "input_tokens": 165,
-            "output_tokens": 1
+            "input_tokens": 220,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -2919,84 +2919,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B5:sample-0",
-          "wall_time_ms": 525.0839169602841,
+          "request_id": "gpt-4.1:R1-coherence-plain:B5:sample-0",
+          "wall_time_ms": 490.9270000644028,
           "usage": {
-            "input_tokens": 194,
-            "output_tokens": 1
+            "input_tokens": 249,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B5:sample-1",
-          "wall_time_ms": 576.3972918502986,
+          "request_id": "gpt-4.1:R1-coherence-plain:B5:sample-1",
+          "wall_time_ms": 740.1802078820765,
           "usage": {
-            "input_tokens": 194,
-            "output_tokens": 1
+            "input_tokens": 249,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B5:sample-2",
-          "wall_time_ms": 523.0886249337345,
+          "request_id": "gpt-4.1:R1-coherence-plain:B5:sample-2",
+          "wall_time_ms": 557.9375829547644,
           "usage": {
-            "input_tokens": 194,
-            "output_tokens": 1
+            "input_tokens": 249,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B5:sample-3",
-          "wall_time_ms": 562.5297089572996,
+          "request_id": "gpt-4.1:R1-coherence-plain:B5:sample-3",
+          "wall_time_ms": 591.3227088749409,
           "usage": {
-            "input_tokens": 194,
-            "output_tokens": 1
+            "input_tokens": 249,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B5:sample-4",
-          "wall_time_ms": 822.478000074625,
+          "request_id": "gpt-4.1:R1-coherence-plain:B5:sample-4",
+          "wall_time_ms": 835.2869579102844,
           "usage": {
-            "input_tokens": 194,
-            "output_tokens": 1
+            "input_tokens": 249,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B5:sample-5",
-          "wall_time_ms": 657.4349170550704,
+          "request_id": "gpt-4.1:R1-coherence-plain:B5:sample-5",
+          "wall_time_ms": 563.1807080935687,
           "usage": {
-            "input_tokens": 194,
-            "output_tokens": 1
+            "input_tokens": 249,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -3027,99 +3027,99 @@
       "analyst_verdicts": [
         "abstain"
       ],
-      "model_verdict": "abstain",
+      "model_verdict": "good",
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B6:sample-0",
-          "wall_time_ms": 430.253375088796,
+          "request_id": "gpt-4.1:R1-coherence-plain:B6:sample-0",
+          "wall_time_ms": 501.15216593258083,
           "usage": {
-            "input_tokens": 179,
-            "output_tokens": 1
+            "input_tokens": 234,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B6:sample-1",
-          "wall_time_ms": 555.4766249842942,
+          "request_id": "gpt-4.1:R1-coherence-plain:B6:sample-1",
+          "wall_time_ms": 641.1002080421895,
           "usage": {
-            "input_tokens": 179,
-            "output_tokens": 1
+            "input_tokens": 234,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B6:sample-2",
-          "wall_time_ms": 403.4767921548337,
+          "request_id": "gpt-4.1:R1-coherence-plain:B6:sample-2",
+          "wall_time_ms": 724.678416037932,
           "usage": {
-            "input_tokens": 179,
-            "output_tokens": 1
+            "input_tokens": 234,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B6:sample-3",
-          "wall_time_ms": 463.3784999605268,
+          "request_id": "gpt-4.1:R1-coherence-plain:B6:sample-3",
+          "wall_time_ms": 1231.9447910413146,
           "usage": {
-            "input_tokens": 179,
-            "output_tokens": 1
+            "input_tokens": 234,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B6:sample-4",
-          "wall_time_ms": 441.6166669689119,
+          "request_id": "gpt-4.1:R1-coherence-plain:B6:sample-4",
+          "wall_time_ms": 513.0024999380112,
           "usage": {
-            "input_tokens": 179,
-            "output_tokens": 1
+            "input_tokens": 234,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "BAD",
-          "parsed_verdict": "bad",
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B6:sample-5",
-          "wall_time_ms": 327.35633314587176,
+          "request_id": "gpt-4.1:R1-coherence-plain:B6:sample-5",
+          "wall_time_ms": 552.2437498439103,
           "usage": {
-            "input_tokens": 179,
-            "output_tokens": 1
+            "input_tokens": 234,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         }
       ],
       "majority_vote": {
-        "good": 3,
-        "bad": 3,
+        "good": 6,
+        "bad": 0,
         "abstain": 0,
-        "verdict": "abstain",
-        "tie_broken": true
+        "verdict": "good",
+        "tie_broken": false
       },
       "tags": [],
       "references": []
@@ -3143,84 +3143,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B7:sample-0",
-          "wall_time_ms": 549.4984169490635,
+          "request_id": "gpt-4.1:R1-coherence-plain:B7:sample-0",
+          "wall_time_ms": 513.2494589779526,
           "usage": {
-            "input_tokens": 188,
-            "output_tokens": 1
+            "input_tokens": 243,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B7:sample-1",
-          "wall_time_ms": 503.4959171898663,
+          "request_id": "gpt-4.1:R1-coherence-plain:B7:sample-1",
+          "wall_time_ms": 452.49058306217194,
           "usage": {
-            "input_tokens": 188,
-            "output_tokens": 1
+            "input_tokens": 243,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B7:sample-2",
-          "wall_time_ms": 493.1714590638876,
+          "request_id": "gpt-4.1:R1-coherence-plain:B7:sample-2",
+          "wall_time_ms": 615.4751661233604,
           "usage": {
-            "input_tokens": 188,
-            "output_tokens": 1
+            "input_tokens": 243,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B7:sample-3",
-          "wall_time_ms": 522.4438749719411,
+          "request_id": "gpt-4.1:R1-coherence-plain:B7:sample-3",
+          "wall_time_ms": 450.6477080285549,
           "usage": {
-            "input_tokens": 188,
-            "output_tokens": 1
+            "input_tokens": 243,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B7:sample-4",
-          "wall_time_ms": 545.495708938688,
+          "request_id": "gpt-4.1:R1-coherence-plain:B7:sample-4",
+          "wall_time_ms": 626.4910839963704,
           "usage": {
-            "input_tokens": 188,
-            "output_tokens": 1
+            "input_tokens": 243,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B7:sample-5",
-          "wall_time_ms": 513.5699580423534,
+          "request_id": "gpt-4.1:R1-coherence-plain:B7:sample-5",
+          "wall_time_ms": 585.7210829854012,
           "usage": {
-            "input_tokens": 188,
-            "output_tokens": 1
+            "input_tokens": 243,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -3255,84 +3255,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B8:sample-0",
-          "wall_time_ms": 509.89595893770456,
+          "request_id": "gpt-4.1:R1-coherence-plain:B8:sample-0",
+          "wall_time_ms": 567.0513340737671,
           "usage": {
-            "input_tokens": 187,
-            "output_tokens": 1
+            "input_tokens": 242,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B8:sample-1",
-          "wall_time_ms": 652.7867501135916,
+          "request_id": "gpt-4.1:R1-coherence-plain:B8:sample-1",
+          "wall_time_ms": 605.7457090355456,
           "usage": {
-            "input_tokens": 187,
-            "output_tokens": 1
+            "input_tokens": 242,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B8:sample-2",
-          "wall_time_ms": 640.6209589913487,
+          "request_id": "gpt-4.1:R1-coherence-plain:B8:sample-2",
+          "wall_time_ms": 618.0322919972241,
           "usage": {
-            "input_tokens": 187,
-            "output_tokens": 1
+            "input_tokens": 242,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B8:sample-3",
-          "wall_time_ms": 582.5429579708725,
+          "request_id": "gpt-4.1:R1-coherence-plain:B8:sample-3",
+          "wall_time_ms": 536.4517502021044,
           "usage": {
-            "input_tokens": 187,
-            "output_tokens": 1
+            "input_tokens": 242,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B8:sample-4",
-          "wall_time_ms": 726.6441250685602,
+          "request_id": "gpt-4.1:R1-coherence-plain:B8:sample-4",
+          "wall_time_ms": 583.3012079820037,
           "usage": {
-            "input_tokens": 187,
-            "output_tokens": 1
+            "input_tokens": 242,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:B8:sample-5",
-          "wall_time_ms": 570.0622079893947,
+          "request_id": "gpt-4.1:R1-coherence-plain:B8:sample-5",
+          "wall_time_ms": 474.899249849841,
           "usage": {
-            "input_tokens": 187,
-            "output_tokens": 1
+            "input_tokens": 242,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -3367,84 +3367,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G1:sample-0",
-          "wall_time_ms": 573.4507499728352,
+          "request_id": "gpt-4.1:R1-coherence-plain:G1:sample-0",
+          "wall_time_ms": 653.4070409834385,
           "usage": {
-            "input_tokens": 180,
-            "output_tokens": 1
+            "input_tokens": 235,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G1:sample-1",
-          "wall_time_ms": 554.3991250451654,
+          "request_id": "gpt-4.1:R1-coherence-plain:G1:sample-1",
+          "wall_time_ms": 921.2602500338107,
           "usage": {
-            "input_tokens": 180,
-            "output_tokens": 1
+            "input_tokens": 235,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G1:sample-2",
-          "wall_time_ms": 525.9665420744568,
+          "request_id": "gpt-4.1:R1-coherence-plain:G1:sample-2",
+          "wall_time_ms": 531.7654157988727,
           "usage": {
-            "input_tokens": 180,
-            "output_tokens": 1
+            "input_tokens": 235,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G1:sample-3",
-          "wall_time_ms": 447.93045800179243,
+          "request_id": "gpt-4.1:R1-coherence-plain:G1:sample-3",
+          "wall_time_ms": 540.4813329223543,
           "usage": {
-            "input_tokens": 180,
-            "output_tokens": 1
+            "input_tokens": 235,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G1:sample-4",
-          "wall_time_ms": 502.4821669794619,
+          "request_id": "gpt-4.1:R1-coherence-plain:G1:sample-4",
+          "wall_time_ms": 821.0400829557329,
           "usage": {
-            "input_tokens": 180,
-            "output_tokens": 1
+            "input_tokens": 235,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G1:sample-5",
-          "wall_time_ms": 573.567541083321,
+          "request_id": "gpt-4.1:R1-coherence-plain:G1:sample-5",
+          "wall_time_ms": 576.1547919828445,
           "usage": {
-            "input_tokens": 180,
-            "output_tokens": 1
+            "input_tokens": 235,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -3479,84 +3479,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G2:sample-0",
-          "wall_time_ms": 488.1419581361115,
+          "request_id": "gpt-4.1:R1-coherence-plain:G2:sample-0",
+          "wall_time_ms": 581.4227499067783,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G2:sample-1",
-          "wall_time_ms": 461.04129194281995,
+          "request_id": "gpt-4.1:R1-coherence-plain:G2:sample-1",
+          "wall_time_ms": 530.49270901829,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G2:sample-2",
-          "wall_time_ms": 572.780332993716,
+          "request_id": "gpt-4.1:R1-coherence-plain:G2:sample-2",
+          "wall_time_ms": 667.9765831213444,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G2:sample-3",
-          "wall_time_ms": 440.1894591283053,
+          "request_id": "gpt-4.1:R1-coherence-plain:G2:sample-3",
+          "wall_time_ms": 511.8700829334557,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G2:sample-4",
-          "wall_time_ms": 526.9983329344541,
+          "request_id": "gpt-4.1:R1-coherence-plain:G2:sample-4",
+          "wall_time_ms": 509.74224996753037,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G2:sample-5",
-          "wall_time_ms": 489.932875148952,
+          "request_id": "gpt-4.1:R1-coherence-plain:G2:sample-5",
+          "wall_time_ms": 611.6824999917299,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -3591,84 +3591,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G3:sample-0",
-          "wall_time_ms": 523.9284168928862,
+          "request_id": "gpt-4.1:R1-coherence-plain:G3:sample-0",
+          "wall_time_ms": 518.9512497745454,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G3:sample-1",
-          "wall_time_ms": 458.81974999792874,
+          "request_id": "gpt-4.1:R1-coherence-plain:G3:sample-1",
+          "wall_time_ms": 455.73816704563797,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G3:sample-2",
-          "wall_time_ms": 976.702791871503,
+          "request_id": "gpt-4.1:R1-coherence-plain:G3:sample-2",
+          "wall_time_ms": 579.3359579984099,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G3:sample-3",
-          "wall_time_ms": 572.8505000006407,
+          "request_id": "gpt-4.1:R1-coherence-plain:G3:sample-3",
+          "wall_time_ms": 942.1144579537213,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G3:sample-4",
-          "wall_time_ms": 564.7575419861823,
+          "request_id": "gpt-4.1:R1-coherence-plain:G3:sample-4",
+          "wall_time_ms": 518.1446669157594,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G3:sample-5",
-          "wall_time_ms": 608.6049580480903,
+          "request_id": "gpt-4.1:R1-coherence-plain:G3:sample-5",
+          "wall_time_ms": 493.85745800100267,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -3703,84 +3703,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G4:sample-0",
-          "wall_time_ms": 497.8640000335872,
+          "request_id": "gpt-4.1:R1-coherence-plain:G4:sample-0",
+          "wall_time_ms": 631.6279170569032,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G4:sample-1",
-          "wall_time_ms": 576.0655000340194,
+          "request_id": "gpt-4.1:R1-coherence-plain:G4:sample-1",
+          "wall_time_ms": 1843.7628748361021,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G4:sample-2",
-          "wall_time_ms": 513.4312910959125,
+          "request_id": "gpt-4.1:R1-coherence-plain:G4:sample-2",
+          "wall_time_ms": 700.3863339778036,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G4:sample-3",
-          "wall_time_ms": 487.6099999528378,
+          "request_id": "gpt-4.1:R1-coherence-plain:G4:sample-3",
+          "wall_time_ms": 512.2063329908997,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G4:sample-4",
-          "wall_time_ms": 568.8714161515236,
+          "request_id": "gpt-4.1:R1-coherence-plain:G4:sample-4",
+          "wall_time_ms": 907.2254169732332,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G4:sample-5",
-          "wall_time_ms": 532.2406671475619,
+          "request_id": "gpt-4.1:R1-coherence-plain:G4:sample-5",
+          "wall_time_ms": 686.921208165586,
           "usage": {
-            "input_tokens": 174,
-            "output_tokens": 1
+            "input_tokens": 229,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
@@ -3815,84 +3815,84 @@
       "samples": [
         {
           "sample_index": 0,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G5:sample-0",
-          "wall_time_ms": 585.8045839704573,
+          "request_id": "gpt-4.1:R1-coherence-plain:G5:sample-0",
+          "wall_time_ms": 618.2178750168532,
           "usage": {
-            "input_tokens": 173,
-            "output_tokens": 1
+            "input_tokens": 228,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 1,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G5:sample-1",
-          "wall_time_ms": 659.3304581474513,
+          "request_id": "gpt-4.1:R1-coherence-plain:G5:sample-1",
+          "wall_time_ms": 563.1253749597818,
           "usage": {
-            "input_tokens": 173,
-            "output_tokens": 1
+            "input_tokens": 228,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 2,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G5:sample-2",
-          "wall_time_ms": 639.9836661294103,
+          "request_id": "gpt-4.1:R1-coherence-plain:G5:sample-2",
+          "wall_time_ms": 529.5176669023931,
           "usage": {
-            "input_tokens": 173,
-            "output_tokens": 1
+            "input_tokens": 228,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 3,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G5:sample-3",
-          "wall_time_ms": 611.612583976239,
+          "request_id": "gpt-4.1:R1-coherence-plain:G5:sample-3",
+          "wall_time_ms": 599.0069580730051,
           "usage": {
-            "input_tokens": 173,
-            "output_tokens": 1
+            "input_tokens": 228,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 4,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G5:sample-4",
-          "wall_time_ms": 556.289582978934,
+          "request_id": "gpt-4.1:R1-coherence-plain:G5:sample-4",
+          "wall_time_ms": 593.4766670688987,
           "usage": {
-            "input_tokens": 173,
-            "output_tokens": 1
+            "input_tokens": 228,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
         },
         {
           "sample_index": 5,
-          "raw_response": "GOOD",
+          "raw_response": "INCOHERENT",
           "parsed_verdict": "good",
           "parse_status": "ok",
-          "request_id": "gpt-4.1:R0-support-plain:G5:sample-5",
-          "wall_time_ms": 457.7419999986887,
+          "request_id": "gpt-4.1:R1-coherence-plain:G5:sample-5",
+          "wall_time_ms": 539.0961251687258,
           "usage": {
-            "input_tokens": 173,
-            "output_tokens": 1
+            "input_tokens": 228,
+            "output_tokens": 4
           },
           "finish_reason": "stop",
           "reasoning_tokens": 0
