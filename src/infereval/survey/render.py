@@ -54,6 +54,24 @@ DEFAULT_EXPERTISE_PROMPT: str = (
     "any board certifications."
 )
 
+#: Coherence question form (v0.17.4). Asked when the benchmark is evaluated under
+#: ``question_form="coherence"``, so the human analyst and the model answer the
+#: SAME question. Plainly worded — the participant judges coherence directly; the
+#: ``incoherent → good`` inversion lives server-side (see
+#: :func:`verdict_from_choice_text`).
+COHERENCE_QUESTION_HEADER: str = (
+    "Consider the position described below. Could this whole position be held at "
+    "once without conflict, or is it untenable?"
+)
+
+#: Coherence MC choices. First word (Coherent / Incoherent / Unclear) is the parse
+#: key the importer maps back to a :class:`~infereval.types.Verdict`.
+COHERENCE_VERDICT_CHOICES: tuple[str, str, str] = (
+    "Coherent — the position can be held without conflict",
+    "Incoherent — the position is untenable",
+    "Unclear — cannot judge",
+)
+
 
 # ---- Item-id sanitization (export-tag derivation) ------------------------
 
@@ -116,6 +134,117 @@ def render_implication_text(benchmark: Benchmark, item: BenchmarkItem) -> str:
     parts.append("Conclusion:")
     parts.extend(_bullet_lines(list(item.conclusions)))
     return "\n".join(parts)
+
+
+# ---- Question-form-aware survey question (v0.17.4) -------------------------
+
+
+@dataclass(frozen=True, slots=True)
+class SurveyQuestion:
+    """A rendered survey question: header + body + MC choices, for one item.
+
+    ``question_form`` records which logical question the survey asks so the
+    importer applies the matching decode (see :func:`verdict_from_choice_text`).
+    Humans and the model must be asked the same ``question_form`` for
+    ``κ_C(model vs analyst)`` to compare like with like.
+    """
+
+    question_form: str
+    header: str
+    body: str
+    choices: tuple[str, str, str]
+
+    def full_text(self) -> str:
+        """Header + blank line + body — what each platform renders per item."""
+        return f"{self.header}\n\n{self.body}"
+
+
+def render_survey_question(
+    benchmark: Benchmark,
+    item: BenchmarkItem,
+    *,
+    question_form: str = "support",
+) -> SurveyQuestion:
+    """Render one item's survey question under ``question_form``.
+
+    ``support`` reproduces the pre-v0.17.4 support surface (single-succedent
+    only). ``coherence`` renders the bilateral coherence question through the
+    same template registry the model uses, so the human sees the same content
+    scaffolding at every arity.
+    """
+    if question_form == "support":
+        if len(item.conclusions) != 1:
+            raise ValueError(
+                f"question_form='support' survey questions are single-succedent "
+                f"(|Δ|=1); item {item.id!r} has |Δ|={len(item.conclusions)}. Use "
+                f"question_form='coherence'."
+            )
+        return SurveyQuestion(
+            question_form="support",
+            header=DEFAULT_QUESTION_HEADER,
+            body=render_implication_text(benchmark, item),
+            choices=DEFAULT_VERDICT_CHOICES,
+        )
+    if question_form == "coherence":
+        return SurveyQuestion(
+            question_form="coherence",
+            header=COHERENCE_QUESTION_HEADER,
+            body=_render_coherence_body(benchmark, item),
+            choices=COHERENCE_VERDICT_CHOICES,
+        )
+    raise ValueError(f"unknown question_form {question_form!r}")
+
+
+def _render_coherence_body(benchmark: Benchmark, item: BenchmarkItem) -> str:
+    """Render the commit/deny scaffolding via the benchmark's bound template.
+
+    Uses the same context builders + template the model's coherence path uses,
+    so the human and the model see identical scaffolding.
+    """
+    from ..context import resolve_context_builders
+    from ..templates import VerdictRequest, arity_of, resolve_template
+
+    premise_builder, _ = resolve_context_builders(benchmark.context_builders)
+    prem = [strip_tex_math(benchmark.bearer(b).expression).strip() for b in sorted(item.premises)]
+    concl = [strip_tex_math(benchmark.bearer(b).expression).strip() for b in sorted(item.conclusions)]
+    req = VerdictRequest(
+        arity=arity_of(sorted(item.conclusions)),
+        gamma_ctx=premise_builder(prem),
+        delta_ctx=tuple(concl),
+    )
+    return resolve_template(benchmark.id).render(req)
+
+
+def verdict_from_choice_text(cell: str, *, question_form: str = "support") -> Verdict:
+    """Map a chosen MC label back to a :class:`Verdict` under ``question_form``.
+
+    ``support``: ``Good → good``, ``Bad → bad``, ``Abstain → abstain``.
+    ``coherence``: the server-side inversion — ``Incoherent → good``,
+    ``Coherent → bad``, ``Unclear → abstain`` — so imported ``analyst_verdicts``
+    are on the identical good/bad/abstain scale as the model's :math:`E_M`.
+    """
+    first = cell.strip().split()[0].lower() if cell.strip() else ""
+    if question_form == "coherence":
+        mapping = {
+            "incoherent": Verdict.GOOD,
+            "coherent": Verdict.BAD,
+            "unclear": Verdict.ABSTAIN,
+        }
+    elif question_form == "support":
+        mapping = {
+            "good": Verdict.GOOD,
+            "bad": Verdict.BAD,
+            "abstain": Verdict.ABSTAIN,
+        }
+    else:
+        raise ValueError(f"unknown question_form {question_form!r}")
+    if first not in mapping:
+        raise ValueError(
+            f"unrecognised verdict choice text {cell!r} for "
+            f"question_form={question_form!r}; expected a cell beginning with one "
+            f"of {sorted(m.capitalize() for m in mapping)}."
+        )
+    return mapping[first]
 
 
 # ---- Respondent shape (shared by all three platforms' CSV importers) -----
