@@ -28,7 +28,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from ..types import Verdict
-from .render import SurveyRespondent
+from .render import SurveyRespondent, verdict_from_choice_text
 
 if TYPE_CHECKING:
     from ..benchmark import Benchmark
@@ -59,7 +59,11 @@ _QUALTRICS_STOCK_COLUMNS: frozenset[str] = frozenset({
 })
 
 
-def parse_qualtrics_csv(path: Path) -> list[SurveyRespondent]:
+def parse_qualtrics_csv(
+    path: Path,
+    *,
+    question_form: str = "support",
+) -> list[SurveyRespondent]:
     """Parse a Qualtrics CSV export into a list of
     :class:`SurveyRespondent`.
 
@@ -91,7 +95,7 @@ def parse_qualtrics_csv(path: Path) -> list[SurveyRespondent]:
             )
         rows = list(reader)
 
-    return _rows_to_respondents(header, rows, path=path)
+    return _rows_to_respondents(header, rows, path=path, question_form=question_form)
 
 
 def _rows_to_respondents(
@@ -99,6 +103,7 @@ def _rows_to_respondents(
     rows: list[list[str]],
     *,
     path: Path,
+    question_form: str = "support",
 ) -> list[SurveyRespondent]:
     """Convert parsed CSV rows to ``SurveyRespondent``s."""
     col_index = {name: i for i, name in enumerate(header)}
@@ -130,7 +135,7 @@ def _rows_to_respondents(
                     # merger's require_complete check picks this up.
                     continue
                 try:
-                    verdicts[tag] = _verdict_from_choice_text(cell)
+                    verdicts[tag] = _verdict_from_choice_text(cell, question_form=question_form)
                 except ValueError as exc:
                     raise ValueError(
                         f"{path}: row {row_n} column {col_name!r}: {exc}"
@@ -169,24 +174,15 @@ def _parse_started_at(raw: str) -> datetime | None:
     return None
 
 
-def _verdict_from_choice_text(cell: str) -> Verdict:
-    """Map ``"Good — …"`` / ``"Bad — …"`` / ``"Abstain — …"`` to
-    :class:`Verdict`. Matches the first whitespace-delimited word
-    case-insensitively. Numeric values (1/2/3 from ``Use numeric``
-    mode) are not supported — the user must export with
-    ``Use choice text``."""
-    head = cell.strip().split()[0].lower().rstrip(",.:;—-")
-    if head == "good":
-        return Verdict.GOOD
-    if head == "bad":
-        return Verdict.BAD
-    if head == "abstain":
-        return Verdict.ABSTAIN
-    raise ValueError(
-        f"unrecognised verdict choice text {cell!r}; expected a cell beginning "
-        "with one of 'Good', 'Bad', 'Abstain'. Re-export from Qualtrics with "
-        "'Use choice text' (not 'Use numeric')."
-    )
+def _verdict_from_choice_text(cell: str, *, question_form: str = "support") -> Verdict:
+    """Map an MC choice label back to a :class:`Verdict`.
+
+    Thin wrapper over the shared
+    :func:`~infereval.survey.render.verdict_from_choice_text` (the single
+    source of the choice→verdict mapping, including the coherence polarity
+    inversion). Kept as a module-local name because the Google Forms and
+    SurveyMonkey CSV parsers import it from here."""
+    return verdict_from_choice_text(cell, question_form=question_form)
 
 
 # ---- Shared merger (used by all three platforms' importers) --------------

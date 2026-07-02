@@ -122,6 +122,18 @@ def survey_group() -> None:
     show_default=False,
     help="Prompt rendered above the survey's first (expertise) text field.",
 )
+@click.option(
+    "--question-form",
+    type=click.Choice(["support", "coherence"]),
+    default="support",
+    show_default=True,
+    help=(
+        "Which logical question to ask. 'support' renders the classic "
+        "good/bad/abstain diagnostic-inference question (single-succedent "
+        "only). 'coherence' renders the bilateral coherence question at "
+        "any arity; import with the same --question-form to decode."
+    ),
+)
 # SurveyMonkey-only:
 @click.option(
     "--surveymonkey-token",
@@ -147,6 +159,7 @@ def export_cmd(
     randomize_items: bool,
     include_rationales: bool,
     expertise_prompt: str,
+    question_form: str,
     surveymonkey_token: str | None,
     surveymonkey_base_url: str,
 ) -> None:
@@ -169,6 +182,7 @@ def export_cmd(
             randomize_items=randomize_items,
             include_rationales=include_rationales,
             expertise_prompt=expertise_prompt,
+            question_form=question_form,
         )
         output.write_text(json.dumps(qsf, indent=2), encoding="utf-8")
         click.echo(f"OK: wrote Qualtrics .qsf to {output}")
@@ -181,6 +195,7 @@ def export_cmd(
             randomize_items=randomize_items,
             include_rationales=include_rationales,
             expertise_prompt=expertise_prompt,
+            question_form=question_form,
         )
         output.write_text(gas, encoding="utf-8")
         click.echo(f"OK: wrote Google Apps Script to {output}")
@@ -207,6 +222,7 @@ def export_cmd(
             randomize_items=randomize_items,
             include_rationales=include_rationales,
             expertise_prompt=expertise_prompt,
+            question_form=question_form,
         )
         try:
             response = publish_to_surveymonkey(
@@ -323,6 +339,17 @@ def _maybe_write_mapping(
         "missing verdicts."
     ),
 )
+@click.option(
+    "--question-form",
+    type=click.Choice(["support", "coherence"]),
+    default="support",
+    show_default=True,
+    help=(
+        "Which logical question the survey asked. Must match the "
+        "--question-form used at export time so the choice cells decode "
+        "correctly (coherence applies the Incoherent→good inversion)."
+    ),
+)
 def import_cmd(
     benchmark_path: Path,
     responses_path: Path,
@@ -332,6 +359,7 @@ def import_cmd(
     analyst_id_prefix: str,
     respondent_id: str | None,
     require_complete: bool,
+    question_form: str,
 ) -> None:
     log.info(
         "survey.import.start benchmark=%s responses=%s platform=%s",
@@ -349,11 +377,15 @@ def import_cmd(
     mapping = _load_mapping_sidecar(mapping_path, responses_path)
 
     if platform == "qualtrics":
-        respondents = parse_qualtrics_csv(responses_path)
+        respondents = parse_qualtrics_csv(responses_path, question_form=question_form)
     elif platform == "google_forms":
-        respondents = parse_google_forms_csv(responses_path, mapping=mapping)
+        respondents = parse_google_forms_csv(
+            responses_path, mapping=mapping, question_form=question_form
+        )
     elif platform == "surveymonkey":
-        respondents = parse_surveymonkey_csv(responses_path, mapping=mapping)
+        respondents = parse_surveymonkey_csv(
+            responses_path, mapping=mapping, question_form=question_form
+        )
     else:  # pragma: no cover -- defended by click.Choice
         raise click.UsageError(f"Unknown platform {platform!r}")
 

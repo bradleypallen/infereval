@@ -32,10 +32,8 @@ from typing import TYPE_CHECKING
 
 from .render import (
     DEFAULT_EXPERTISE_PROMPT,
-    DEFAULT_QUESTION_HEADER,
     DEFAULT_RATIONALE_PROMPT,
-    DEFAULT_VERDICT_CHOICES,
-    render_implication_text,
+    render_survey_question,
     sanitize_export_tag,
 )
 
@@ -52,6 +50,7 @@ def build_gas_script(
     randomize_items: bool = True,
     include_rationales: bool = True,
     expertise_prompt: str = DEFAULT_EXPERTISE_PROMPT,
+    question_form: str = "support",
 ) -> tuple[str, list[dict[str, object]]]:
     """Build a Google Apps Script source string for ``benchmark``.
 
@@ -135,11 +134,8 @@ def build_gas_script(
         # CSV column header — long titles make the CSV painful to
         # review. See PR for v0.9.2 and the screenshot that motivated
         # it.
-        page_description = (
-            DEFAULT_QUESTION_HEADER
-            + "\n\n"
-            + render_implication_text(benchmark, item)
-        )
+        sq = render_survey_question(benchmark, item, question_form=question_form)
+        page_description = sq.full_text()
         verdict_title = f"Item {i} verdict"
         rationale_tag: str | None = None
         if include_rationales:
@@ -151,7 +147,7 @@ def build_gas_script(
         lines.append(f"      .setHelpText({json.dumps(page_description)});")
         lines.append("  form.addMultipleChoiceItem()")
         lines.append(f"      .setTitle({json.dumps(verdict_title)})")
-        lines.append(f"      .setChoiceValues({json.dumps(list(DEFAULT_VERDICT_CHOICES))})")
+        lines.append(f"      .setChoiceValues({json.dumps(list(sq.choices))})")
         lines.append("      .setRequired(true);")
         if include_rationales:
             # Short rationale title for the CSV column header. The

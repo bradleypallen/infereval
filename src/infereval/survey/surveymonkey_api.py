@@ -26,10 +26,8 @@ from typing import TYPE_CHECKING
 
 from .render import (
     DEFAULT_EXPERTISE_PROMPT,
-    DEFAULT_QUESTION_HEADER,
     DEFAULT_RATIONALE_PROMPT,
-    DEFAULT_VERDICT_CHOICES,
-    render_implication_text,
+    render_survey_question,
     sanitize_export_tag,
 )
 
@@ -61,6 +59,7 @@ def build_surveymonkey_payload(
     randomize_items: bool = True,
     include_rationales: bool = True,
     expertise_prompt: str = DEFAULT_EXPERTISE_PROMPT,
+    question_form: str = "support",
 ) -> tuple[dict[str, object], list[dict[str, object]]]:
     """Build the JSON body for ``POST /v3/surveys`` and the mapping
     sidecar.
@@ -108,11 +107,8 @@ def build_surveymonkey_payload(
 
     for i, item in enumerate(benchmark.items, start=1):
         tag, was_hashed = sanitize_export_tag(item.id)
-        page_description = (
-            DEFAULT_QUESTION_HEADER
-            + "\n\n"
-            + render_implication_text(benchmark, item)
-        )
+        sq = render_survey_question(benchmark, item, question_form=question_form)
+        page_description = sq.full_text()
         verdict_title = f"Item {i} verdict"
         questions: list[dict[str, object]] = [
             {
@@ -123,7 +119,7 @@ def build_surveymonkey_payload(
                 "answers": {
                     "choices": [
                         {"text": c, "position": j + 1}
-                        for j, c in enumerate(DEFAULT_VERDICT_CHOICES)
+                        for j, c in enumerate(sq.choices)
                     ],
                 },
                 "required": {"text": "Please select one.", "type": "one"},
