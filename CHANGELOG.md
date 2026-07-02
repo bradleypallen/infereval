@@ -8,6 +8,30 @@ with the additional commitment that the benchmark and evaluation JSON
 schemas are versioned independently (`schema_version: "1.0"`) and promised
 stable from 1.0 onward, regardless of the framework version.
 
+## [Unreleased]
+
+**BEHAVIOR CHANGE: the default `question_form` is now `coherence`.** The core standardizes on the arity-uniform bilateral coherence question (generalization brief §10.1); `support` remains fully available as the legacy strategy. Both elicitation surfaces flip together — the model default (`EndorsementConfig` / `endorse()`) and the survey default (`render_survey_question`, the platform exporters/importers, and `infereval survey export/import`) — so humans and the model are still asked the same question by default. The v0.17.4 survey alignment was the precondition; this release pulls the switch.
+
+### Changed — defaults
+
+- `EndorsementConfig.question_form` defaults to `"coherence"`; `endorse()` likewise. Under `coherence`, elicitation is defined by the template registry + the coherence framing; **benchmark-level `verification_prompt` overrides apply only to the `support` path.**
+- All survey defaults (`render_survey_question`, `verdict_from_choice_text`, the three exporters, the three importers, `--question-form` on `survey export`/`import`) default to `"coherence"`.
+
+### Added — explicit `--question-form` on every eval-running command
+
+- `infereval evaluate`, `infereval retest` (both auto modes), and `infereval sweep` gain `--question-form {support,coherence}` (default `coherence`), threaded into the persisted `EndorsementConfig` so every η records which question was asked.
+
+### Fixed — legacy-η provenance stays truthful
+
+- An η JSON whose `endorsement_config` lacks `question_form` predates v0.17.3 and was necessarily captured under the support question; a load-time backfill on `Evaluation` now sets it to `"support"` rather than letting the new default misreport it as coherence. This also keeps the retest compatibility check honest when a legacy η is compared against a fresh capture.
+
+### Migration
+
+- To reproduce pre-v0.18.0 behavior exactly, pass `--question-form support` (CLI) or `question_form="support"` (`EndorsementConfig` / `endorse()` / survey calls).
+- Responses collected from a pre-v0.18.0 (support-form) survey must be imported with `--question-form support`; a mismatched import fails loudly on the choice labels rather than silently mis-decoding.
+- An R22 retest composed against a support-era baseline (`--baseline-from` / `--append-to`) must pass `--question-form support`; the setup-compatibility check rejects the mismatch otherwise.
+
+
 ## [0.17.8] — 2026-10-27
 
 **The verdict parser now records a model's committed answer, not its provisional first token; the stop-sign sweep is re-scored and its write-up corrected.** Only claude-haiku-4.5's stop-sign `original` cell changes. This release is the version cited by the AJP reply ("Answerable Use of LLMs Without Settling Sapience").

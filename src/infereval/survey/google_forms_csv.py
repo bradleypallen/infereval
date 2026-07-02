@@ -66,7 +66,7 @@ def parse_google_forms_csv(
     path: Path,
     *,
     mapping: list[dict[str, object]] | None = None,
-    question_form: str = "support",
+    question_form: str = "coherence",
 ) -> list[SurveyRespondent]:
     """Parse a Google Forms CSV export into a list of
     :class:`SurveyRespondent`.

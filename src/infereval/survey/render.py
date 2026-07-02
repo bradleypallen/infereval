@@ -221,7 +221,7 @@ def render_survey_question(
     benchmark: Benchmark,
     item: BenchmarkItem,
     *,
-    question_form: str = "support",
+    question_form: str = "coherence",
     coherence_frame: CoherenceFrame | None = None,
     verification_prompt: VerificationPrompt | None = None,
 ) -> SurveyQuestion:
@@ -341,7 +341,7 @@ def _render_coherence_body(benchmark: Benchmark, item: BenchmarkItem) -> str:
     return resolve_template(benchmark.id, template_id=benchmark.template_id).render(req)
 
 
-def verdict_from_choice_text(cell: str, *, question_form: str = "support") -> Verdict:
+def verdict_from_choice_text(cell: str, *, question_form: str = "coherence") -> Verdict:
     """Map a chosen MC label back to a :class:`Verdict` under ``question_form``.
 
     ``support``: ``Good → good``, ``Bad → bad``, ``Abstain → abstain``.

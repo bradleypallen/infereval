@@ -78,7 +78,7 @@ class TestViolationExit:
         eta = evaluate(
             bench,
             ScriptedProvider(responses=["GOOD", "BAD"]),
-            config=EndorsementConfig(n_samples=1),
+            config=EndorsementConfig(n_samples=1, question_form="support"),
         )
         eta_path = tmp_path / "eta.json"
         bench_path = tmp_path / "bench.json"

@@ -71,6 +71,7 @@ class TestFullRun:
                     "--temperature", "0.0",
                     "--max-tokens", "8",
                     "--run-id", "test-run-001",
+                    "--question-form", "support",
                 ],
             )
         assert result.exit_code == 0, result.output

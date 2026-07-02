@@ -262,7 +262,7 @@ def endorse(
     strip_tex: bool = True,
     request_id_prefix: str | None = None,
     variant: int = 0,
-    question_form: QuestionForm = "support",
+    question_form: QuestionForm = "coherence",
     template: Template | None = None,
     coherence_frame: CoherenceFrame | None = None,
 ) -> EndorsementRecord:

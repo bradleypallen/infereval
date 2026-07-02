@@ -69,7 +69,7 @@ class TestLogPathOnEvaluate:
         evaluate(
             bench,
             provider,
-            config=EndorsementConfig(n_samples=2),
+            config=EndorsementConfig(n_samples=2, question_form="support"),
             log_path=log_path,
         )
         sample_events = [

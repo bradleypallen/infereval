@@ -32,21 +32,21 @@ MAPPING_FIVE_ITEMS: list[dict[str, object]] = [
 
 class TestParseSurveymonkeyCsv:
     def test_parses_two_respondents(self) -> None:
-        respondents = parse_surveymonkey_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS)
+        respondents = parse_surveymonkey_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS, question_form="support")
         assert len(respondents) == 2
 
     def test_uses_respondent_id_column(self) -> None:
-        respondents = parse_surveymonkey_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS)
+        respondents = parse_surveymonkey_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS, question_form="support")
         ids = [r.response_id for r in respondents]
         assert ids == ["SM_resp_alpha", "SM_resp_beta"]
 
     def test_expertise_extracted(self) -> None:
-        respondents = parse_surveymonkey_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS)
+        respondents = parse_surveymonkey_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS, question_form="support")
         assert respondents[0].expertise == "Pulmonologist, 12 years"
         assert respondents[1].expertise == "Critical care, 8 years"
 
     def test_verdicts_via_item_tag_regex(self) -> None:
-        respondents = parse_surveymonkey_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS)
+        respondents = parse_surveymonkey_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS, question_form="support")
         assert respondents[0].verdicts == {
             "item_001": Verdict.GOOD,
             "item_002": Verdict.BAD,
@@ -56,7 +56,7 @@ class TestParseSurveymonkeyCsv:
         }
 
     def test_rationales_separated_by_suffix(self) -> None:
-        respondents = parse_surveymonkey_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS)
+        respondents = parse_surveymonkey_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS, question_form="support")
         assert respondents[0].rationales["item_001"] == "classic presentation"
         assert respondents[0].rationales["item_002"] == "missing finding"
         assert respondents[0].rationales["item_003"] is None
@@ -89,7 +89,7 @@ def _five_item_benchmark() -> Benchmark:
 class TestMergerIntegration:
     def test_merges_two_respondents(self) -> None:
         bench = _five_item_benchmark()
-        respondents = parse_surveymonkey_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS)
+        respondents = parse_surveymonkey_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS, question_form="support")
         merged = merge_respondents(bench, respondents)
         assert len(merged.analysts) == 3
         ids = [a.id for a in merged.analysts[1:]]
@@ -108,7 +108,7 @@ def test_skips_response_second_header_row(tmp_path: Path) -> None:
         'Response,Open-ended response,Response\n'
         'SM_1,test,Good — follows from premises\n'
     )
-    respondents = parse_surveymonkey_csv(csv_with_extra)
+    respondents = parse_surveymonkey_csv(csv_with_extra, question_form="support")
     assert len(respondents) == 1
     assert respondents[0].response_id == "SM_1"
 

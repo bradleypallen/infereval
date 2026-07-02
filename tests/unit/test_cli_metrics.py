@@ -32,6 +32,7 @@ def stop_sign_eta_file(tmp_path: Path) -> Path:
                 "--provider", "openai", "--model", "gpt-4o-mini",
                 "--output", str(out),
                 "--n-samples", "3",
+                "--question-form", "support",
             ],
         )
         assert result.exit_code == 0, result.output

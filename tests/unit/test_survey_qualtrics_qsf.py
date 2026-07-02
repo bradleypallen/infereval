@@ -46,7 +46,7 @@ class TestQsfStructure:
         assert qsf["SurveyEntry"]["SurveyName"] == "Custom title"
 
     def test_each_mc_question_has_three_choices_force_response(self) -> None:
-        qsf, _ = build_qsf(_pulm())
+        qsf, _ = build_qsf(_pulm(), question_form="support")
         mc_payloads = [
             el["Payload"]
             for el in qsf["SurveyElements"]

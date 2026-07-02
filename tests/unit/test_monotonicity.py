@@ -51,7 +51,7 @@ def _score(verdict_texts: list[str], *, expected: str = "non_decreasing"):
     eta = evaluate(
         bench,
         ScriptedProvider(responses=verdict_texts),
-        config=EndorsementConfig(n_samples=1),
+        config=EndorsementConfig(n_samples=1, question_form="support"),
     )
     result = score_ladder(eta, bench, "L")
     assert result is not None

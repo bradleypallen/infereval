@@ -47,7 +47,7 @@ class TestPayloadShape:
         ``description`` so it renders separately from the question
         title (which becomes the CSV column header)."""
         bench = _pulm()
-        payload, _ = build_surveymonkey_payload(bench)
+        payload, _ = build_surveymonkey_payload(bench, question_form="support")
         for i in range(1, bench.n + 1):
             desc = payload["pages"][i]["description"]
             assert "Premises:" in desc

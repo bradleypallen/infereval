@@ -167,7 +167,7 @@ _AUTO_RUN_ID_PREFIX = "retest-auto-"
 @click.option(
     "--question-form",
     type=click.Choice(["support", "coherence"]),
-    default="support",
+    default="coherence",
     show_default=True,
     help="Logical question posed per item in auto-mode captures. Must match "
     "the baseline eta's question_form when composing with --baseline-from / "

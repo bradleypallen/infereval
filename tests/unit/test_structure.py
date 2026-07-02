@@ -89,7 +89,11 @@ class TestRSRRoleConsistency:
         # ScriptedProvider cycles, so the responses are placed in benchmark
         # item order. The benchmark above orders i1 then i2.
         provider = ScriptedProvider(responses=[base_verdict.upper(), role_verdict.upper()])
-        return evaluate(bench, provider, config=EndorsementConfig(n_samples=1))
+        return evaluate(
+            bench,
+            provider,
+            config=EndorsementConfig(n_samples=1, question_form="support"),
+        )
 
     def test_supporter_on_good_base_consistent_when_good(self) -> None:
         bench = self._rsr_bench("supporter")
@@ -215,7 +219,7 @@ class TestBaseCaseStability:
              "rsr_target": {"X": ["p"], "A": ["q"]}},
         ])
         eta = evaluate(bench, ScriptedProvider(responses=["GOOD", "BAD"]),
-                       config=EndorsementConfig(n_samples=1))
+                       config=EndorsementConfig(n_samples=1, question_form="support"))
         check = base_case_stability_check(eta, bench)
         assert check.items_checked == 2
         assert check.items_satisfying == 0

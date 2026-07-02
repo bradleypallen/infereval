@@ -52,7 +52,7 @@ def parse_surveymonkey_csv(
     path: Path,
     *,
     mapping: list[dict[str, object]] | None = None,
-    question_form: str = "support",
+    question_form: str = "coherence",
 ) -> list[SurveyRespondent]:
     """Parse a SurveyMonkey CSV export into a list of
     :class:`SurveyRespondent`.
