@@ -17,7 +17,7 @@ The authoritative source is the paper. This page summarises the
 | `B` | Bearer set | `Benchmark.bearers` (keys); [`Bearer`](api.md#infereval.types.Bearer) at runtime | Non-empty set of bearers — the items that play implicational roles. |
 | `δ : B → L` | Expression function | `BearerModel.expression` (+ `paraphrases`) | Maps each bearer to its natural-language expression. Analyst-supplied. |
 | `ctx_Γ : ℘(B) → L` | Premise-set context builder | [`ContextBuilders.premise`](api.md#infereval.benchmark.ContextBuilders) | Packages a premise set as natural-language context. Default: conjunction by "and". |
-| `ctx_Δ : ℘(B) → L` | Conclusion-set context builder | [`ContextBuilders.conclusion`](api.md#infereval.benchmark.ContextBuilders) | Packages a (single-bearer) conclusion set as natural-language context. |
+| `ctx_Δ : ℘(B) → L` | Succedent-set context builder | [`ContextBuilders.conclusion`](api.md#infereval.benchmark.ContextBuilders) | Packages a succedent set as natural-language context. Any arity as of v0.17.2 (`\|Δ\|` = 0, 1, or ≥2); default join by "or". |
 | `⟨B, I⟩` | Implication frame | (Hlobil–Brandom) | A bearer set plus an implication relation `I ⊆ ℘(B) × ℘(B)`. |
 | `⟨B, I_M⟩` | Derived implication frame | [`DerivedFrame`](api.md#infereval.frame.DerivedFrame) | The frame derived from `M`'s endorsement verdicts (paper's Definition 3). Containment-closed by construction (clause i). |
 | `E_M` | Endorsement function | [`endorse()`](api.md#infereval.endorsement.endorse) | `E_M(⟨Γ, {ψ}⟩) ∈ {good, bad, abstain}`. Computed by majority vote over `n_samples` provider calls. |
@@ -102,3 +102,18 @@ R5 / R8 / R9 in [Construct validity](construct_validity.md)).
 | `authored_blind_to_models` | `list[str]` | Models the author had not observed on a draft of this item — the held-out declaration (R8). |
 | `source` | `str \| None` | Free-form citation for the primary material the author worked from. |
 | `analyst_rationales` | `list[str] \| None` | Optional per-analyst, per-item natural-language rationale, positionally aligned to `analyst_verdicts`. `None` (or absent) means "no rationale discipline"; an empty string means "verdict given, no reason recorded" — semantically distinct (paper-aligned with the AR1–AR12 spec). |
+
+## Multi-succedent generalization (v0.17.x)
+
+See the [instrument validation walkthrough](instrument_validation.md) for how
+these fit the validity argument.
+
+| Term | In code | Meaning |
+|---|---|---|
+| Arity of `Δ` | `len(item.conclusions)` | `\|Δ\| = 1` single-succedent (the classic case), `0` incompatibility, `≥2` disjunctive. |
+| `question_form` | `EndorsementConfig.question_form` | `support` ("does the conclusion follow?", `\|Δ\|=1` only) or `coherence` ("is committing Γ and denying Δ coherent?", any arity). Persisted in η. |
+| Coherence polarity | [`templates.coherence_decode`](api.md#infereval.templates) | Server-side inversion: incoherent → good, coherent → bad, unclear → abstain — uniform across arities (at `\|Δ\|=0` reads as "incompatible → good"). |
+| Template | [`templates.Template`](api.md#infereval.templates) | Renders the content scaffolding (never sees bearer ids); bound per benchmark id. `prompt = question_form.frame(template.render(req))`. |
+| Ordinal family / monotonicity | [`monotonicity`](api.md#infereval.monotonicity) | An ordered tier family; the scorer checks non-decreasing endorsement (`bad < good`, `abstain` a gap, strict inversion = violation). |
+| Constraint compiler | [`compiler.compile_constraints`](api.md#infereval.compiler) | Family declarations → pairwise exclusivity sequents + `@copresent` admissibility rules. |
+| Cross-run κ / guards | [`comparison`](api.md#infereval.comparison), [`guards`](api.md#infereval.guards) | Cross-run agreement (TV distance + κ over both-substantive) and the template-equivalence / shuffle gates. |

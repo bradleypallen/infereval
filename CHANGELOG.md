@@ -12,6 +12,16 @@ stable from 1.0 onward, regardless of the framework version.
 
 No changes yet.
 
+## [0.17.5] — 2026-07-02
+
+**Instrument validation walkthrough — the reviewer-facing validity dossier (docs-only).** Closes the v0.17.x series with the documentation an author needs to defend an infereval-based result in print, and a referee needs to assess one.
+
+### Added — docs
+
+- `docs/instrument_validation.md`: a standalone walkthrough — construct & operationalization → a formal-object → code-site correspondence table → the one-prompt/two-axis data flow → correct use → the validity argument (R22 reliability, paraphrase/template robustness, competing-explanation checks, the κ_F* baseline, monotonicity, instrumentation integrity + placeholder firewall) → a threats → mitigations → code-site table → reproducibility/audit trail → worked examples → limitations & scope of claims.
+- `docs/reviewer_checklist.md`: a one-page yes/no checklist a journal referee (or self-checking author) applies to a study.
+- Both added to the mkdocs nav. `docs/glossary.md` gains a multi-succedent-generalization section (arity, `question_form`, coherence polarity, template, monotonicity, compiler, guards) and the stale single-succedent `ctx_Δ` entry is corrected; `docs/architecture.md` gains a v0.17.x overview linking the dossier.
+
 ## [0.17.4] — 2026-07-02
 
 **Survey alignment: human elicitation now shares the `question_form` / template framework the model uses.** The survey subsystem was support-framed and single-succedent-assuming — a separate rendering path from the model's. Under `coherence` that would make `κ_C(model vs analyst)` compare two different questions. This release closes the gap; it is the precondition for ever flipping the model default to `coherence`.
