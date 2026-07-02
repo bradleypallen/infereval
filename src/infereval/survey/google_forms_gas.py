@@ -52,7 +52,7 @@ def build_gas_script(
     randomize_items: bool = True,
     include_rationales: bool = True,
     expertise_prompt: str = DEFAULT_EXPERTISE_PROMPT,
-    question_form: str = "support",
+    question_form: str = "coherence",
     coherence_frame: CoherenceFrame | None = None,
     verification_prompt: VerificationPrompt | None = None,
 ) -> tuple[str, list[dict[str, object]]]:

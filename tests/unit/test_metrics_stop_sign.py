@@ -51,7 +51,7 @@ class TestModelMatchesAnalyst:
         return run_evaluate(
             stop_sign,
             provider,
-            config=EndorsementConfig(n_samples=3),
+            config=EndorsementConfig(n_samples=3, question_form="support"),
         )
 
     def test_coverage_one(self, eta) -> None:

@@ -34,7 +34,7 @@ def _run(responses: list[str], *, model_id: str = "m", temperature: float = 0.0)
     return evaluate(
         _bench(),
         ScriptedProvider(responses=responses, model_id=model_id),
-        config=EndorsementConfig(n_samples=1),
+        config=EndorsementConfig(n_samples=1, question_form="support"),
         params=ProviderParams(temperature=temperature),
     )
 

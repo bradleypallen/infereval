@@ -125,11 +125,11 @@ def _print_dry_run(benchmark: Benchmark) -> None:
 @click.option(
     "--question-form",
     type=click.Choice(["support", "coherence"]),
-    default="support",
+    default="coherence",
     show_default=True,
-    help="Logical question posed per item: the single-succedent 'support' "
-    "question (default) or the arity-uniform bilateral 'coherence' "
-    "question.",
+    help="Logical question posed per item: the arity-uniform bilateral "
+    "'coherence' question (default since v0.18.0) or the legacy "
+    "single-succedent 'support' question.",
 )
 @click.option(
     "--coherence-frame",

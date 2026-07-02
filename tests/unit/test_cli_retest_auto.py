@@ -121,6 +121,7 @@ class TestHappyPath:
                     "--benchmark", str(STOP_SIGN_PATH),
                     "--provider", "openai", "--model", "gpt-4o",
                     "--n-samples", "3",
+                    "--question-form", "support",
                 ],
             )
         assert result.exit_code == 0, result.output
@@ -315,6 +316,7 @@ class TestMultiInterval:
                     "--provider", "openai", "--model", "gpt-4o",
                     "--n-samples", "3",
                     "--interval-s", "0", "--interval-s", "0",
+                    "--question-form", "support",
                     "-o", str(out),
                 ],
             )

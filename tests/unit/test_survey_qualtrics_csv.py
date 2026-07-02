@@ -30,23 +30,23 @@ FIXTURE = (
 
 class TestParseQualtricsCsv:
     def test_parses_three_respondents(self) -> None:
-        respondents = parse_qualtrics_csv(FIXTURE)
+        respondents = parse_qualtrics_csv(FIXTURE, question_form="support")
         assert len(respondents) == 3
         ids = [r.response_id for r in respondents]
         assert ids == ["R_alpha", "R_beta", "R_gamma"]
 
     def test_expertise_extracted(self) -> None:
-        respondents = parse_qualtrics_csv(FIXTURE)
+        respondents = parse_qualtrics_csv(FIXTURE, question_form="support")
         assert respondents[0].expertise == "Pulmonologist, 12 years, board certified"
         assert respondents[1].expertise == "Critical care, 8 years"
         assert respondents[2].expertise == "Pulmonology fellow"
 
     def test_finished_flag(self) -> None:
-        respondents = parse_qualtrics_csv(FIXTURE)
+        respondents = parse_qualtrics_csv(FIXTURE, question_form="support")
         assert all(r.finished for r in respondents)
 
     def test_verdicts_mapped_to_enum(self) -> None:
-        respondents = parse_qualtrics_csv(FIXTURE)
+        respondents = parse_qualtrics_csv(FIXTURE, question_form="support")
         r_alpha = respondents[0]
         # item_001 -> Good, item_002 -> Bad, item_003 -> Good,
         # item_004 -> Abstain, item_005 -> Good.
@@ -59,7 +59,7 @@ class TestParseQualtricsCsv:
         }
 
     def test_rationales_separated_by_suffix(self) -> None:
-        respondents = parse_qualtrics_csv(FIXTURE)
+        respondents = parse_qualtrics_csv(FIXTURE, question_form="support")
         # R_alpha gave rationales on items 1, 2, 4; blank elsewhere.
         assert respondents[0].rationales["item_001"] == "classic presentation"
         assert respondents[0].rationales["item_002"] == "missing key finding"
@@ -70,7 +70,7 @@ class TestParseQualtricsCsv:
         """R_gamma's item_005 cell is blank — the parser leaves that
         tag out of the verdicts dict (rather than inserting Abstain).
         The merger's require_complete check picks this up."""
-        respondents = parse_qualtrics_csv(FIXTURE)
+        respondents = parse_qualtrics_csv(FIXTURE, question_form="support")
         r_gamma = respondents[2]
         assert "item_005" not in r_gamma.verdicts
 
@@ -114,7 +114,7 @@ def _five_item_benchmark() -> Benchmark:
 class TestMergeRespondents:
     def test_adds_one_analyst_per_respondent(self) -> None:
         bench = _five_item_benchmark()
-        respondents = parse_qualtrics_csv(FIXTURE)
+        respondents = parse_qualtrics_csv(FIXTURE, question_form="support")
         # R_gamma is incomplete; restrict to the two complete ones to
         # exercise the happy path.
         complete = [r for r in respondents if r.response_id != "R_gamma"]
@@ -125,14 +125,14 @@ class TestMergeRespondents:
 
     def test_expertise_landed_on_new_analysts(self) -> None:
         bench = _five_item_benchmark()
-        respondents = parse_qualtrics_csv(FIXTURE)[:2]
+        respondents = parse_qualtrics_csv(FIXTURE, question_form="support")[:2]
         merged = merge_respondents(bench, respondents)
         assert merged.analysts[1].expertise_description == "Pulmonologist, 12 years, board certified"
         assert merged.analysts[2].expertise_description == "Critical care, 8 years"
 
     def test_verdicts_positionally_appended(self) -> None:
         bench = _five_item_benchmark()
-        respondents = parse_qualtrics_csv(FIXTURE)[:2]
+        respondents = parse_qualtrics_csv(FIXTURE, question_form="support")[:2]
         merged = merge_respondents(bench, respondents)
         # item_001: [seed_GOOD, R_alpha_GOOD, R_beta_GOOD].
         assert merged.items[0].analyst_verdicts == [Verdict.GOOD, Verdict.GOOD, Verdict.GOOD]
@@ -147,7 +147,7 @@ class TestMergeRespondents:
         prior analysts get empty-string sentinel per the model's
         documented semantics."""
         bench = _five_item_benchmark()
-        respondents = parse_qualtrics_csv(FIXTURE)[:2]
+        respondents = parse_qualtrics_csv(FIXTURE, question_form="support")[:2]
         merged = merge_respondents(bench, respondents)
         # item_001: R_alpha said "classic presentation"; seed analyst
         # gets empty string; R_beta gets empty string (no rationale).
@@ -155,13 +155,13 @@ class TestMergeRespondents:
 
     def test_require_complete_rejects_incomplete_respondent(self) -> None:
         bench = _five_item_benchmark()
-        respondents = parse_qualtrics_csv(FIXTURE)
+        respondents = parse_qualtrics_csv(FIXTURE, question_form="support")
         with pytest.raises(IncompleteRespondentError, match="R_gamma.*missing"):
             merge_respondents(bench, respondents, require_complete=True)
 
     def test_allow_partial_inserts_abstain_for_missing(self) -> None:
         bench = _five_item_benchmark()
-        respondents = parse_qualtrics_csv(FIXTURE)
+        respondents = parse_qualtrics_csv(FIXTURE, question_form="support")
         merged = merge_respondents(bench, respondents, require_complete=False)
         # R_gamma is the 3rd new analyst — index 3 in the merged list
         # (seed + alpha + beta + gamma).
@@ -171,7 +171,7 @@ class TestMergeRespondents:
 
     def test_custom_analyst_id_prefix(self) -> None:
         bench = _five_item_benchmark()
-        respondents = parse_qualtrics_csv(FIXTURE)[:1]
+        respondents = parse_qualtrics_csv(FIXTURE, question_form="support")[:1]
         merged = merge_respondents(bench, respondents, analyst_id_prefix="expert-")
         assert merged.analysts[-1].id == "expert-R_alpha"
 

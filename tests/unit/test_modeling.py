@@ -68,7 +68,7 @@ class TestFactorEffectsFit:
         eta = evaluate(
             bench,
             ScriptedProvider(responses=responses),
-            config=EndorsementConfig(n_samples=2),
+            config=EndorsementConfig(n_samples=2, question_form="support"),
             params=ProviderParams(max_tokens=8),
         )
         fit = fit_factor_model(eta, bench)
@@ -89,7 +89,7 @@ class TestFactorEffectsFit:
         eta = evaluate(
             bench,
             ScriptedProvider(responses=responses),
-            config=EndorsementConfig(n_samples=2),
+            config=EndorsementConfig(n_samples=2, question_form="support"),
         )
         fit = fit_factor_model(eta, bench)
         # Notes surface the GLMM caveat.
@@ -101,7 +101,7 @@ class TestFactorEffectsFit:
         eta = evaluate(
             bench,
             ScriptedProvider(responses=responses),
-            config=EndorsementConfig(n_samples=2),
+            config=EndorsementConfig(n_samples=2, question_form="support"),
         )
         fit = fit_factor_model(eta, bench)
         assert fit.pseudo_r2 is not None
@@ -112,7 +112,7 @@ class TestFactorEffectsFit:
         eta = evaluate(
             bench,
             ScriptedProvider(responses=responses),
-            config=EndorsementConfig(n_samples=2),
+            config=EndorsementConfig(n_samples=2, question_form="support"),
         )
         fit = fit_factor_model(eta, bench)
         assert set(fit.factor_wald.keys()) == set(bench.factors.keys())
@@ -145,7 +145,7 @@ class TestModelingErrors:
         responses = ["???"] * 48
         eta = evaluate(
             bench, ScriptedProvider(responses=responses),
-            config=EndorsementConfig(n_samples=2),
+            config=EndorsementConfig(n_samples=2, question_form="support"),
         )
         with pytest.raises(ModelingError, match="abstain"):
             fit_factor_model(eta, bench)
@@ -163,7 +163,7 @@ class TestModelingCLI:
         bench, responses = _factorial_bench_with_noise()
         eta = evaluate(
             bench, ScriptedProvider(responses=responses),
-            config=EndorsementConfig(n_samples=2),
+            config=EndorsementConfig(n_samples=2, question_form="support"),
         )
         bench_path = tmp_path / "bench.json"
         bench.dump(bench_path)

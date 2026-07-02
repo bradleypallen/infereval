@@ -73,7 +73,11 @@ def stop_sign() -> Benchmark:
 @pytest.fixture
 def stop_sign_eta(stop_sign: Benchmark):
     provider = ScriptedProvider(responses=["GOOD"] * 9 + ["BAD"] * 3)
-    return run_evaluate(stop_sign, provider, config=EndorsementConfig(n_samples=3))
+    return run_evaluate(
+        stop_sign,
+        provider,
+        config=EndorsementConfig(n_samples=3, question_form="support"),
+    )
 
 
 class TestWithBenchmark:

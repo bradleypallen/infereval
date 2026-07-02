@@ -61,7 +61,7 @@ def build_surveymonkey_payload(
     randomize_items: bool = True,
     include_rationales: bool = True,
     expertise_prompt: str = DEFAULT_EXPERTISE_PROMPT,
-    question_form: str = "support",
+    question_form: str = "coherence",
     coherence_frame: CoherenceFrame | None = None,
     verification_prompt: VerificationPrompt | None = None,
 ) -> tuple[dict[str, object], list[dict[str, object]]]:

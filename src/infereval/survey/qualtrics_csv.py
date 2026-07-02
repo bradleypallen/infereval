@@ -62,7 +62,7 @@ _QUALTRICS_STOCK_COLUMNS: frozenset[str] = frozenset({
 def parse_qualtrics_csv(
     path: Path,
     *,
-    question_form: str = "support",
+    question_form: str = "coherence",
 ) -> list[SurveyRespondent]:
     """Parse a Qualtrics CSV export into a list of
     :class:`SurveyRespondent`.
@@ -103,7 +103,7 @@ def _rows_to_respondents(
     rows: list[list[str]],
     *,
     path: Path,
-    question_form: str = "support",
+    question_form: str = "coherence",
 ) -> list[SurveyRespondent]:
     """Convert parsed CSV rows to ``SurveyRespondent``s."""
     col_index = {name: i for i, name in enumerate(header)}
@@ -174,7 +174,7 @@ def _parse_started_at(raw: str) -> datetime | None:
     return None
 
 
-def _verdict_from_choice_text(cell: str, *, question_form: str = "support") -> Verdict:
+def _verdict_from_choice_text(cell: str, *, question_form: str = "coherence") -> Verdict:
     """Map an MC choice label back to a :class:`Verdict`.
 
     Thin wrapper over the shared

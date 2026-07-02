@@ -76,7 +76,7 @@ def _format_kappa(value: float | None) -> str:
               help="Baseline tie_break (ignored when --vary tie_break).")
 @click.option("--question-form",
               type=click.Choice(["support", "coherence"]),
-              default="support", show_default=True,
+              default="coherence", show_default=True,
               help="Logical question posed per item, held fixed across the sweep.")
 @click.option("--coherence-frame", "coherence_frame_id", type=str, default=None,
               help="Coherence-frame id to elicit under, held fixed across the "

@@ -41,7 +41,7 @@ class TestEvaluateStopSign:
         eta = evaluate(
             bench,
             provider,
-            config=EndorsementConfig(n_samples=3),
+            config=EndorsementConfig(n_samples=3, question_form="support"),
             params=ProviderParams(temperature=0.0, max_tokens=8),
             run_id="test-run-1",
         )
@@ -96,7 +96,11 @@ class TestPerItemBreakdown:
     def test_samples_recorded_per_item(self) -> None:
         bench = _stop_sign()
         provider = ScriptedProvider(responses=["GOOD"] * 100)
-        eta = evaluate(bench, provider, config=EndorsementConfig(n_samples=5))
+        eta = evaluate(
+            bench,
+            provider,
+            config=EndorsementConfig(n_samples=5, question_form="support"),
+        )
         for item in eta.items:
             assert len(item.samples) == 5
             for s in item.samples:
@@ -106,7 +110,11 @@ class TestPerItemBreakdown:
     def test_majority_vote_attached(self) -> None:
         bench = _stop_sign()
         provider = ScriptedProvider(responses=["GOOD"] * 100)
-        eta = evaluate(bench, provider, config=EndorsementConfig(n_samples=5))
+        eta = evaluate(
+            bench,
+            provider,
+            config=EndorsementConfig(n_samples=5, question_form="support"),
+        )
         for item in eta.items:
             assert item.majority_vote is not None
             assert item.majority_vote.verdict == Verdict.GOOD
@@ -116,7 +124,11 @@ class TestPerItemBreakdown:
         bench = _stop_sign()
         # Schedule alternating GOOD/BAD to force ties.
         provider = ScriptedProvider(responses=["GOOD", "BAD"] * 100)
-        eta = evaluate(bench, provider, config=EndorsementConfig(n_samples=4))
+        eta = evaluate(
+            bench,
+            provider,
+            config=EndorsementConfig(n_samples=4, question_form="support"),
+        )
         # With n=4 and alternating GOOD/BAD, every item gets 2-2 -> abstain (default)
         for item in eta.items:
             assert item.model_verdict == Verdict.ABSTAIN
@@ -185,7 +197,11 @@ class TestFrameFromEvaluation:
         provider = ScriptedProvider(
             responses=(["GOOD"] * 3) * 3 + ["BAD"] * 3
         )
-        eta = evaluate(bench, provider, config=EndorsementConfig(n_samples=3))
+        eta = evaluate(
+            bench,
+            provider,
+            config=EndorsementConfig(n_samples=3, question_form="support"),
+        )
         bearers = bench.runtime_bearers()
         frame = DerivedFrame.from_endorsements(bearers, eta.endorsements())
 

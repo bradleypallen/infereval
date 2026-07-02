@@ -48,25 +48,25 @@ MAPPING_FIVE_ITEMS: list[dict[str, object]] = [
 
 class TestParseGoogleFormsCsv:
     def test_parses_two_respondents(self) -> None:
-        respondents = parse_google_forms_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS)
+        respondents = parse_google_forms_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS, question_form="support")
         assert len(respondents) == 2
 
     def test_response_ids_synthesized(self) -> None:
         """Google Forms doesn't surface a ResponseId; we synthesize
         ``row<n>``."""
-        respondents = parse_google_forms_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS)
+        respondents = parse_google_forms_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS, question_form="support")
         assert respondents[0].response_id == "row2"
         assert respondents[1].response_id == "row3"
 
     def test_expertise_extracted_from_first_non_stock_column(self) -> None:
-        respondents = parse_google_forms_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS)
+        respondents = parse_google_forms_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS, question_form="support")
         assert respondents[0].expertise == "Pulmonologist, 12 years"
         assert respondents[1].expertise == "Critical care, 8 years"
 
     def test_verdicts_mapped_via_item_tag_regex(self) -> None:
         """Each column header with ``[item:<tag>]`` (no ``_rationale``
         suffix) parses into the verdicts dict, keyed by the tag."""
-        respondents = parse_google_forms_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS)
+        respondents = parse_google_forms_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS, question_form="support")
         r0 = respondents[0]
         assert r0.verdicts == {
             "item_001": Verdict.GOOD,
@@ -77,7 +77,7 @@ class TestParseGoogleFormsCsv:
         }
 
     def test_rationales_separated_by_suffix(self) -> None:
-        respondents = parse_google_forms_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS)
+        respondents = parse_google_forms_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS, question_form="support")
         assert respondents[0].rationales["item_001"] == "classic presentation"
         assert respondents[0].rationales["item_002"] == "missing key finding"
         assert respondents[0].rationales["item_003"] is None
@@ -85,7 +85,7 @@ class TestParseGoogleFormsCsv:
 
     def test_finished_always_true(self) -> None:
         """Google Forms only stores completed submissions."""
-        respondents = parse_google_forms_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS)
+        respondents = parse_google_forms_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS, question_form="support")
         assert all(r.finished for r in respondents)
 
 
@@ -115,13 +115,13 @@ def _five_item_benchmark() -> Benchmark:
 class TestMergerIntegration:
     def test_merges_two_respondents_into_benchmark(self) -> None:
         bench = _five_item_benchmark()
-        respondents = parse_google_forms_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS)
+        respondents = parse_google_forms_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS, question_form="support")
         merged = merge_respondents(bench, respondents)
         assert len(merged.analysts) == 3  # seed + 2 from CSV
 
     def test_merged_analyst_ids_use_synthesized_response_id(self) -> None:
         bench = _five_item_benchmark()
-        respondents = parse_google_forms_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS)
+        respondents = parse_google_forms_csv(FIXTURE, mapping=MAPPING_FIVE_ITEMS, question_form="support")
         merged = merge_respondents(bench, respondents)
         assert merged.analysts[1].id == "clinician-row2"
         assert merged.analysts[2].id == "clinician-row3"
@@ -138,7 +138,7 @@ class TestLegacyV090FormatBackwardCompat:
     def test_legacy_csv_parses_without_mapping(self) -> None:
         """v0.9.0 CSVs work without a mapping sidecar — the
         ``[item:<tag>]`` regex resolves each column directly."""
-        respondents = parse_google_forms_csv(LEGACY_FIXTURE)
+        respondents = parse_google_forms_csv(LEGACY_FIXTURE, question_form="support")
         assert len(respondents) == 1
         r = respondents[0]
         assert r.verdicts == {
@@ -154,7 +154,7 @@ class TestLegacyV090FormatBackwardCompat:
         ``Item N`` anchor takes precedence when present, otherwise the
         legacy regex still fires."""
         respondents = parse_google_forms_csv(
-            LEGACY_FIXTURE, mapping=MAPPING_FIVE_ITEMS
+            LEGACY_FIXTURE, mapping=MAPPING_FIVE_ITEMS, question_form="support"
         )
         assert len(respondents) == 1
 
@@ -166,7 +166,7 @@ class TestLegacyV091FormatBackwardCompat:
 
     def test_v091_csv_parses_with_mapping(self) -> None:
         respondents = parse_google_forms_csv(
-            V091_LEGACY_FIXTURE, mapping=MAPPING_FIVE_ITEMS
+            V091_LEGACY_FIXTURE, mapping=MAPPING_FIVE_ITEMS, question_form="support"
         )
         assert len(respondents) == 1
         r = respondents[0]

@@ -50,7 +50,7 @@ class TestGasStructure:
         assert gs.count("addParagraphTextItem()") == 1 + bench.n
 
     def test_choices_are_default_verdict_strings(self) -> None:
-        gs, _ = build_gas_script(_pulm())
+        gs, _ = build_gas_script(_pulm(), question_form="support")
         for choice in DEFAULT_VERDICT_CHOICES:
             # JSON encoding escapes em-dash to —; assert on the
             # word-only prefix instead.
@@ -106,7 +106,7 @@ class TestMapping:
         the page break's helpText / section description, not the
         question title."""
         bench = _pulm()
-        gs, _ = build_gas_script(bench)
+        gs, _ = build_gas_script(bench, question_form="support")
         # Every page break carries a setHelpText with the question-header
         # boilerplate and a Premises section.
         assert ".setHelpText(" in gs

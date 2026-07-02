@@ -8,6 +8,30 @@ with the additional commitment that the benchmark and evaluation JSON
 schemas are versioned independently (`schema_version: "1.0"`) and promised
 stable from 1.0 onward, regardless of the framework version.
 
+## [Unreleased]
+
+**BEHAVIOR CHANGE: the default `question_form` is now `coherence`.** The core standardizes on the arity-uniform bilateral coherence question (generalization brief §10.1); `support` remains fully available as the legacy strategy. Both elicitation surfaces flip together — the model default (`EndorsementConfig` / `endorse()`) and the survey default (`render_survey_question`, the platform exporters/importers, and `infereval survey export/import`) — so humans and the model are still asked the same question by default. The v0.17.4 survey alignment was the precondition; this release pulls the switch.
+
+### Changed — defaults
+
+- `EndorsementConfig.question_form` defaults to `"coherence"`; `endorse()` likewise. Under `coherence`, elicitation is defined by the template registry + the coherence framing; **benchmark-level `verification_prompt` overrides apply only to the `support` path.**
+- All survey defaults (`render_survey_question`, `verdict_from_choice_text`, the three exporters, the three importers, `--question-form` on `survey export`/`import`) default to `"coherence"`.
+
+### Added — explicit `--question-form` on every eval-running command
+
+- `infereval evaluate`, `infereval retest` (both auto modes), and `infereval sweep` gain `--question-form {support,coherence}` (default `coherence`), threaded into the persisted `EndorsementConfig` so every η records which question was asked.
+
+### Fixed — legacy-η provenance stays truthful
+
+- An η JSON whose `endorsement_config` lacks `question_form` predates v0.17.3 and was necessarily captured under the support question; a load-time backfill on `Evaluation` now sets it to `"support"` rather than letting the new default misreport it as coherence. This also keeps the retest compatibility check honest when a legacy η is compared against a fresh capture.
+
+### Migration
+
+- To reproduce pre-v0.18.0 behavior exactly, pass `--question-form support` (CLI) or `question_form="support"` (`EndorsementConfig` / `endorse()` / survey calls).
+- Responses collected from a pre-v0.18.0 (support-form) survey must be imported with `--question-form support`; a mismatched import fails loudly on the choice labels rather than silently mis-decoding.
+- An R22 retest composed against a support-era baseline (`--baseline-from` / `--append-to`) must pass `--question-form support`; the setup-compatibility check rejects the mismatch otherwise.
+
+
 ## [0.17.7] — 2026-07-06
 
 **The first live Qualtrics import validated the survey export end-to-end — after first rejecting it.** Every prior release's `.qsf` output had only ever been tested against the project's own hand-built fixtures; the first import into a real Qualtrics account failed ("Something went wrong and the project wasn't created"). This release fixes the exporter's structure (both the fixed shape and the block-randomizer shape are now proven by live imports), adds the instructions header mode that live use immediately showed was needed for long frame headers, and ships the survey frame surface merged since v0.17.6.

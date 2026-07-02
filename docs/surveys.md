@@ -49,9 +49,9 @@ Every export — regardless of platform — produces a survey with:
 
 ## Question form (`--question-form`)
 
-A survey must ask the **same** logical question the model is evaluated under, or `κ_C(model vs analyst)` compares two different judgments. Both `infereval survey export` and `infereval survey import` take `--question-form {support,coherence}` (default `support`).
+A survey must ask the **same** logical question the model is evaluated under, or `κ_C(model vs analyst)` compares two different judgments. Both `infereval survey export` and `infereval survey import` take `--question-form {support,coherence}` (default `coherence` as of v0.18.0, matching the model-side default).
 
-- **`support`** (the default) — the classic single-succedent question: *"Given these premises, is the conclusion a good diagnostic inference, a bad one, or are you unable to judge?"* Choices are Good / Bad / Abstain. Defined only for `|Δ|=1` items.
+- **`support`** (legacy) — the classic single-succedent question: *"Given these premises, is the conclusion a good diagnostic inference, a bad one, or are you unable to judge?"* Choices are Good / Bad / Abstain. Defined only for `|Δ|=1` items. Pass `--question-form support` when re-importing responses collected from a pre-v0.18.0 (support-form) survey.
 - **`coherence`** — the bilateral question, rendered through the *same* template the model uses (so the human sees the same content scaffolding), defined for every arity: *"Could this whole position be held at once without conflict, or is it untenable?"* Choices are **Coherent / Incoherent / Unclear**. On import the answer is decoded with the server-side polarity inversion — **Incoherent → good, Coherent → bad, Unclear → abstain** — so imported `analyst_verdicts` sit on the identical good/bad/abstain scale as the model's `E_M`.
 
 **Export and import must use the same `--question-form`.** Whatever `question_form` you evaluate the model under (`EndorsementConfig.question_form`), export the human survey under the same one:

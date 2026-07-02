@@ -68,6 +68,7 @@ class TestQualtricsImport:
             cli,
             [
                 "survey", "import", str(five_item_benchmark_path),
+                "--question-form", "support",
                 "-r", str(QUALTRICS_FIXTURE),
                 "-o", str(out),
                 "--allow-partial",
@@ -84,6 +85,7 @@ class TestQualtricsImport:
             cli,
             [
                 "survey", "import", str(five_item_benchmark_path),
+                "--question-form", "support",
                 "-r", str(QUALTRICS_FIXTURE),
                 "-o", str(out),
             ],
@@ -99,6 +101,7 @@ class TestQualtricsImport:
             cli,
             [
                 "survey", "import", str(five_item_benchmark_path),
+                "--question-form", "support",
                 "-r", str(QUALTRICS_FIXTURE),
                 "-o", str(out),
                 "--respondent", "R_alpha",
@@ -116,6 +119,7 @@ class TestQualtricsImport:
             cli,
             [
                 "survey", "import", str(five_item_benchmark_path),
+                "--question-form", "support",
                 "-r", str(QUALTRICS_FIXTURE),
                 "-o", str(out),
                 "--respondent", "R_does_not_exist",
@@ -133,6 +137,7 @@ class TestGoogleFormsImport:
             cli,
             [
                 "survey", "import", str(five_item_benchmark_path),
+                "--question-form", "support",
                 "-r", str(GOOGLE_FORMS_FIXTURE),
                 "-o", str(out),
                 "--platform", "google_forms",
@@ -151,6 +156,7 @@ class TestSurveyMonkeyImport:
             cli,
             [
                 "survey", "import", str(five_item_benchmark_path),
+                "--question-form", "support",
                 "-r", str(SURVEYMONKEY_FIXTURE),
                 "-o", str(out),
                 "--platform", "surveymonkey",
@@ -185,6 +191,7 @@ class TestMappingSidecar:
             cli,
             [
                 "survey", "import", str(five_item_benchmark_path),
+                "--question-form", "support",
                 "-r", str(QUALTRICS_FIXTURE),
                 "-o", str(out),
                 "--mapping", str(mapping_path),
@@ -228,6 +235,7 @@ class TestFrameGuard:
                 "-o", str(out),
                 "--mapping", str(mapping_path),
                 "--respondent", "R_alpha",
+                "--question-form", "support",
                 "--coherence-frame", "defeasible-coherence-explicit-v1",
             ],
         )
@@ -252,6 +260,7 @@ class TestFrameGuard:
                 "-o", str(out),
                 "--mapping", str(mapping_path),
                 "--respondent", "R_alpha",
+                "--question-form", "support",
                 "--coherence-frame", "default-v1",
             ],
         )
@@ -275,6 +284,7 @@ class TestFrameGuard:
                 "-o", str(out),
                 "--mapping", str(mapping_path),
                 "--respondent", "R_alpha",
+                "--question-form", "support",
             ],
         )
         assert result.exit_code == 0, result.output

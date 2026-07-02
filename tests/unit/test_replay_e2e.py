@@ -72,7 +72,7 @@ class TestEvaluateWithReplay:
         eta = evaluate(
             benchmark,
             replay,
-            config=EndorsementConfig(n_samples=5),
+            config=EndorsementConfig(n_samples=5, question_form="support"),
             run_id="replay-run-1",
         )
         verdicts = {it.id: it.model_verdict for it in eta.items}
@@ -89,7 +89,7 @@ class TestEvaluateWithReplay:
         eta = evaluate(
             benchmark,
             replay,
-            config=EndorsementConfig(n_samples=5),
+            config=EndorsementConfig(n_samples=5, question_form="support"),
         )
         # All 5 responses for each row parse to the same verdict; verify counts.
         for item in eta.items:
@@ -114,7 +114,7 @@ class TestEvaluateWithReplay:
         eta = evaluate(
             benchmark,
             replay,
-            config=EndorsementConfig(n_samples=5),
+            config=EndorsementConfig(n_samples=5, question_form="support"),
         )
         # Index items by id for predictable lookup
         by_id = {it.id: it for it in eta.items}
@@ -129,7 +129,7 @@ class TestEvaluateWithReplay:
         eta = evaluate(
             benchmark,
             replay,
-            config=EndorsementConfig(n_samples=1),
+            config=EndorsementConfig(n_samples=1, question_form="support"),
         )
         # The Evaluation's ModelInfo records the provider's identity at
         # construction time -- ReplayProvider self-reports as "replay" /
@@ -192,6 +192,7 @@ class TestCliReplayFrom:
                 "--replay-from", str(FIXTURE_PATH),
                 "--output", str(out),
                 "--n-samples", "5",
+                "--question-form", "support",
             ],
         )
         assert result.exit_code == 0, result.output
@@ -218,6 +219,7 @@ class TestCliReplayFrom:
                 "--replay-from", str(FIXTURE_PATH),
                 "--output", str(out),
                 "--n-samples", "5",
+                "--question-form", "support",
                 "--log", str(log_path),
             ],
         )

@@ -47,6 +47,7 @@ def _run(
         premise_builder=PREMISE_BUILDER,
         conclusion_builder=CONCLUSION_BUILDER,
         request_id_prefix="run-1:row-x",
+        question_form="support",
     )
 
 
@@ -230,6 +231,7 @@ class TestSampleRequestShape:
             ProviderParams(temperature=0.7, max_tokens=16, top_p=0.9, seed=42),
             premise_builder=PREMISE_BUILDER,
             conclusion_builder=CONCLUSION_BUILDER,
+            question_form="support",
         )
         first = p.requests[0]
         assert first.temperature == 0.7

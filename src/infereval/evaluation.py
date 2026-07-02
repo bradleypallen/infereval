@@ -98,13 +98,20 @@ class EndorsementConfig(BaseModel):
     verification_prompt_id: str = "default-v1"
     context_builder_premise_id: str = "conjunction-and-v1"
     context_builder_conclusion_id: str = "disjunction-or-v1"
-    question_form: Literal["support", "coherence"] = "support"
+    question_form: Literal["support", "coherence"] = "coherence"
     """The logical question posed about each item (brief §3.1). ``support`` asks
     "does the conclusion follow?" and is defined only for single-succedent items;
     ``coherence`` asks "is committing Γ and denying Δ coherent?" and is defined
     for every arity. Persisted here so an evaluation records which question was
-    asked (part of the §12.3 provenance tuple). Additive (v0.17.3): pre-existing
-    evaluations load as ``support``."""
+    asked (part of the §12.3 provenance tuple).
+
+    **Default flipped to ``coherence`` in v0.18.0** (the core standardizes on
+    the bilateral question per brief §10.1; ``support`` remains fully supported
+    as the legacy strategy). Provenance of pre-v0.17.3 evaluations is preserved:
+    an η JSON whose ``endorsement_config`` lacks this field predates it and is
+    backfilled to ``support`` at load time (see
+    :meth:`Evaluation._backfill_legacy_question_form`), since ``support`` was
+    the only question that existed when it was captured."""
     coherence_frame_id: str = "thin-v1"
     """The :class:`infereval.templates.CoherenceFrame` the coherence question
     is elicited under (part of the §12.3 provenance tuple; meaningful only
@@ -295,9 +302,9 @@ class Evaluation(BaseModel):
         explicitly, so a JSON whose ``endorsement_config`` lacks the field
         predates it — and was necessarily captured under the support question
         (the only one that existed). Backfilling at load time keeps historical
-        provenance explicit independent of the field's default, and keeps the
-        retest compatibility check honest when a legacy η is compared against
-        a fresh one.
+        provenance truthful after the v0.18.0 default flip to ``coherence``,
+        and keeps the retest compatibility check honest when a legacy η is
+        compared against a fresh one.
         """
         if isinstance(data, dict):
             ec = data.get("endorsement_config")

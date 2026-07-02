@@ -35,7 +35,7 @@ def _run(responses: list[str], *, n_samples: int = 3):
     return evaluate(
         _bench(),
         ScriptedProvider(responses=responses),
-        config=EndorsementConfig(n_samples=n_samples),
+        config=EndorsementConfig(n_samples=n_samples, question_form="support"),
     )
 
 

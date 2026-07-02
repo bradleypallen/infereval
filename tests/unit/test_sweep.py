@@ -7,6 +7,7 @@ from pathlib import Path
 import pytest
 
 from infereval.benchmark import Benchmark
+from infereval.evaluation import EndorsementConfig
 from infereval.providers.mock import ScriptedProvider
 from infereval.sweep import SweepError, coerce_values, run_sweep
 
@@ -60,6 +61,7 @@ class TestRunSweep:
             parameter="n_samples",
             values=[1, 3, 5],
             out_dir=tmp_path,
+            config=EndorsementConfig(question_form="support"),
         )
         assert len(result.rows) == 3
         assert all(r.coverage == 1.0 for r in result.rows)
@@ -77,6 +79,7 @@ class TestRunSweep:
             parameter="n_samples",
             values=[1, 3, 5],
             out_dir=tmp_path,
+            config=EndorsementConfig(question_form="support"),
         )
         assert result.kappa_c_range == 0.0
         assert "stable" in result.stability_verdict
@@ -168,6 +171,7 @@ class TestSweepCLI:
                     "--vary", "n_samples",
                     "--values", "1,3,5",
                     "--out-dir", str(tmp_path),
+                    "--question-form", "support",
                 ],
             )
         assert result.exit_code == 0, result.output

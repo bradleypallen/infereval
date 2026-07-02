@@ -135,7 +135,7 @@ def survey_group() -> None:
 @click.option(
     "--question-form",
     type=click.Choice(["support", "coherence"]),
-    default="support",
+    default="coherence",
     show_default=True,
     help=(
         "Which logical question to ask. 'support' renders the classic "
@@ -431,7 +431,7 @@ def _maybe_write_mapping(
 @click.option(
     "--question-form",
     type=click.Choice(["support", "coherence"]),
-    default="support",
+    default="coherence",
     show_default=True,
     help=(
         "Which logical question the survey asked. Must match the "

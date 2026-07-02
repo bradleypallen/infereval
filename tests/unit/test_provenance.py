@@ -43,9 +43,27 @@ class TestPersistedProvenance:
         # Round-trips through JSON.
         assert '"question_form": "coherence"' in eta.dumps()
 
-    def test_default_is_support(self) -> None:
-        eta = evaluate(_bench(), ScriptedProvider(responses=["GOOD"] * 5))
-        assert eta.endorsement_config.question_form == "support"
+    def test_default_is_coherence(self) -> None:
+        # v0.18.0: the core standardizes on the bilateral coherence question.
+        eta = evaluate(_bench(), ScriptedProvider(responses=["INCOHERENT"] * 5))
+        assert eta.endorsement_config.question_form == "coherence"
+        assert eta.items[0].model_verdict.value == "good"  # incoherent → good
+
+    def test_legacy_eta_backfills_support(self) -> None:
+        # A pre-v0.17.3 η has no question_form field; it was necessarily
+        # captured under the support question, so load-time backfill must say
+        # so — NOT the new coherence default.
+        from infereval.evaluation import Evaluation
+
+        eta = evaluate(
+            _bench(),
+            ScriptedProvider(responses=["GOOD"] * 5),
+            config=EndorsementConfig(n_samples=1, question_form="support"),
+        )
+        data = json.loads(eta.dumps())
+        del data["endorsement_config"]["question_form"]  # simulate legacy η
+        legacy = Evaluation.model_validate(data)
+        assert legacy.endorsement_config.question_form == "support"
 
 
 class TestRunLogProvenance:
@@ -54,7 +72,7 @@ class TestRunLogProvenance:
         evaluate(
             _bench(),
             ScriptedProvider(responses=["GOOD"] * 5),
-            config=EndorsementConfig(n_samples=2),
+            config=EndorsementConfig(n_samples=2, question_form="support"),
             log_path=log,
             run_id="prov-run",
         )
@@ -79,7 +97,7 @@ class TestPromptDeterminism:
             evaluate(
                 _bench(),
                 ScriptedProvider(responses=["GOOD"] * 5),
-                config=EndorsementConfig(n_samples=1),
+                config=EndorsementConfig(n_samples=1, question_form="support"),
                 log_path=log,
                 run_id=run,
             )

@@ -136,11 +136,15 @@ confirm the study **pinned the model snapshot and sampler config** — model
 behavior drifts under a fixed API string, so the exact snapshot must be recorded,
 not just the family name.
 
-**Choosing the question form.** `support` is the classic single-succedent
-question; `coherence` is the arity-uniform bilateral question. Whatever form the
-model is evaluated under, the **human survey must use the same form** (v0.17.4) —
-otherwise `κ_C(model vs analyst)` compares two different questions. Both
-`infereval survey export` and `import` take `--question-form`.
+**Choosing the question form.** `coherence` is the arity-uniform bilateral
+question and the framework default (v0.18.0, standardizing per the design's
+§10.1); `support` is the classic single-succedent question, retained as the
+legacy strategy. Whatever form the model is evaluated under, the **human survey
+must use the same form** (v0.17.4) — otherwise `κ_C(model vs analyst)` compares
+two different questions. Both `infereval survey export` and `import` take
+`--question-form`. Legacy η files that predate the `question_form` field are
+backfilled to `support` at load time, since that was the only question that
+existed when they were captured — historical provenance stays truthful.
 
 **Reading outputs.** Report `κ_C` **against the inter-analyst baseline `κ_F*`**,
 not against 1.0 — a model can only be as reliable as the panel it is measured
