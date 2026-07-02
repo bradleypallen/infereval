@@ -96,6 +96,13 @@ class EndorsementConfig(BaseModel):
     verification_prompt_id: str = "default-v1"
     context_builder_premise_id: str = "conjunction-and-v1"
     context_builder_conclusion_id: str = "disjunction-or-v1"
+    question_form: Literal["support", "coherence"] = "support"
+    """The logical question posed about each item (brief §3.1). ``support`` asks
+    "does the conclusion follow?" and is defined only for single-succedent items;
+    ``coherence`` asks "is committing Γ and denying Δ coherent?" and is defined
+    for every arity. Persisted here so an evaluation records which question was
+    asked (part of the §12.3 provenance tuple). Additive (v0.17.3): pre-existing
+    evaluations load as ``support``."""
 
     @field_validator("n_samples")
     @classmethod
@@ -318,7 +325,6 @@ def evaluate(
     run_id: str | None = None,
     log_path: Path | str | None = None,
     variant: int = 0,
-    question_form: Literal["support", "coherence"] = "support",
 ) -> Evaluation:
     """Run a model against a benchmark and assemble the resulting :math:`\\eta`.
 
@@ -419,7 +425,7 @@ def evaluate(
                 strip_tex=strip_tex,
                 request_id_prefix=f"{rid}:{bench_item.id}",
                 variant=variant,
-                question_form=question_form,
+                question_form=cfg.question_form,
                 template=resolve_template(benchmark.id),
             )
             items.append(

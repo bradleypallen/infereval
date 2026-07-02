@@ -310,6 +310,8 @@ def endorse(
         premise_ids=premise_ids,
         conclusion_ids=conclusion_ids,
         prompt_hash=user_prompt_hash,
+        prompt=user_text,
+        system=system_text,
         verification_prompt_id=prompt_id,
         question_form=question_form,
     )
