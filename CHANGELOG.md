@@ -12,6 +12,30 @@ stable from 1.0 onward, regardless of the framework version.
 
 No changes yet.
 
+## [0.17.3] — 2026-07-02
+
+**Validity guards, cross-run comparison, and the provenance tuple for the question-form / rendering evaluation (brief §8, §10.1, §12.3).** The default `question_form` stays `support` — the flip to `coherence` is deferred until the human survey is aligned (v0.17.4), so the two elicitation surfaces never disagree.
+
+### Added — cross-run comparison (`infereval.comparison`)
+
+- `compare_runs` aligns two same-item evaluations and reports per-item total-variation distance between their sample verdict distributions, the mean, and a cross-run κ (Cohen's, two runs as two annotators) over items substantive in **both** runs. A coverage floor (§12.4) reports "insufficient overlap" rather than a low-N κ; a §12.1 setup guard rejects a comparison across a different model snapshot or sampler config unless overridden.
+
+### Added — validity guards (`infereval.guards`)
+
+- `distribution_agreement` is the shared gate (per-item TV distance below a tolerance — default 0.10 — at a sample floor — default 30). `template_equivalence` (§8, the CI gate on any new template) and `shuffle_invariance` (§12.7 premise-order robustness) are thin wrappers.
+
+### Added — R0/R1/R2 harness
+
+- `experiments/scripts/r0r1r2_clinical.py` runs the same `|Δ|=1` items three ways with sampler config + model snapshot pinned: R0 support/plain, R1 coherence/plain, R2 coherence/domain (a `ClinicalTemplate`). R0→R1 isolates the question-form effect; R1→R2 the rendering effect. The live capture is a user-gated step.
+
+### Changed — provenance (§12.3)
+
+- `question_form` moves onto `EndorsementConfig`, so an evaluation records which question was asked (persisted in η; additive — pre-existing η load as `support`). The per-item run-log event now carries the full composed prompt + system text alongside the per-sample raw completion + parsed verdict, making `run.jsonl` a complete §12.3 audit trail. `evaluate()` gains an explicit `template` override.
+
+### Added — deferred-cut seam
+
+- `frame.derive_closure` is the single `NotImplementedError` seam where a multisuccedent cut / RSR-closure would attach (brief §9).
+
 ## [0.17.2] — 2026-07-01
 
 **Multi-succedent core: the item generalizes to `⟨Γ, Δ⟩` with `|Δ| ∈ {0, 1, ≥2}`, and a `question_form` switch adds a bilateral coherence judgment alongside the legacy support question.** Conservative by construction — single-succedent is exactly the `|Δ|=1` case, the support path is byte-for-byte unchanged, and the measurement layer is untouched.
