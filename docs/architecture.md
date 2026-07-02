@@ -122,3 +122,18 @@ the verdict at `partially_defensible` per the v0.5.3 audit-cap rules.
   per variant. Drops into the diagram at layer 3, producing per-variant
   `η` files that feed independent metrics / structure / model / sweep
   runs.
+
+## Multi-succedent generalization (v0.17.x)
+
+The v0.17.x series generalized the item to `⟨Γ, Δ⟩` at any arity and factored
+elicitation into a `question_form` (support / coherence) composed with a
+per-domain **template registry** (`templates.py`): one prompt,
+`prompt = question_form.frame(template.render(req))`, with the measurement layer
+(Definitions 6–10) untouched. It also added native v0.5-schema support
+(`bearers.py`, `compiler.py`), monotonicity scoring (`monotonicity.py`),
+cross-run comparison + validity guards (`comparison.py`, `guards.py`), and
+question-form-aware surveys. The
+[instrument validation walkthrough](instrument_validation.md) is the
+reviewer-facing dossier tying all of this to the construct-validity argument;
+the [reviewer checklist](reviewer_checklist.md) turns it into a referee's
+yes/no list.
