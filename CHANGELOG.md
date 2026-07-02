@@ -12,6 +12,21 @@ stable from 1.0 onward, regardless of the framework version.
 
 No changes yet.
 
+## [0.17.4] — 2026-07-02
+
+**Survey alignment: human elicitation now shares the `question_form` / template framework the model uses.** The survey subsystem was support-framed and single-succedent-assuming — a separate rendering path from the model's. Under `coherence` that would make `κ_C(model vs analyst)` compare two different questions. This release closes the gap; it is the precondition for ever flipping the model default to `coherence`.
+
+### Added — question_form-aware surveys
+
+- `survey.render.render_survey_question(benchmark, item, question_form)` returns a `SurveyQuestion` (header + body + choices). `support` reproduces the existing single-succedent surface; `coherence` renders the bilateral position through the same template registry the model uses (arity-aware — `|Δ| = 0/1/≥2`), with Coherent / Incoherent / Unclear choices.
+- `survey.render.verdict_from_choice_text(cell, question_form)` decodes MC answers back to `Verdict`, applying the coherence polarity inversion (**Incoherent → good, Coherent → bad, Unclear → abstain**) so imported `analyst_verdicts` sit on the same scale as `E_M`.
+- Both `infereval survey export` and `infereval survey import` take `--question-form {support,coherence}` (default `support`), threaded through all three platform exporters and importers. Export and import must use the same form (documented in `docs/surveys.md`).
+
+### Compatibility
+
+- **`support` is byte-identical to prior output** for all three platforms; the default is unchanged.
+- **The model default `question_form` stays `support`.** The flip to `coherence` is now *unblocked* (both elicitation surfaces align) but remains a deliberate, user-gated behavior change — pending a validated R0/R1/R2 comparison (the harness ships; the live capture is user-run).
+
 ## [0.17.3] — 2026-07-02
 
 **Validity guards, cross-run comparison, and the provenance tuple for the question-form / rendering evaluation (brief §8, §10.1, §12.3).** The default `question_form` stays `support` — the flip to `coherence` is deferred until the human survey is aligned (v0.17.4), so the two elicitation surfaces never disagree.
