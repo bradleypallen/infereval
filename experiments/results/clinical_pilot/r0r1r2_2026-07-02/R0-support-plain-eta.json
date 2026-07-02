@@ -1,0 +1,3914 @@
+{
+  "schema_version": "1.0",
+  "id": "gpt-4.1:R0-support-plain",
+  "benchmark_id": "clinical-pilot-cpe-ards-v0.5",
+  "benchmark_hash": "sha256:eccc24de2c99a15ce8a09f109d7a2d6b3f80220ea34aa6e1e70582c8d9c7616c",
+  "model": {
+    "provider": "openai",
+    "model_id": "gpt-4.1",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 16,
+      "seed": 7,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 6,
+    "tie_break": "abstain",
+    "verification_prompt_id": "default-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1",
+    "question_form": "support"
+  },
+  "framework_version": "0.17.2",
+  "started_at": "2026-07-02T16:05:34.918141Z",
+  "finished_at": "2026-07-02T16:08:16.270999Z",
+  "items": [
+    {
+      "id": "A0",
+      "premises": [
+        "ad",
+        "bi_mod"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A0:sample-0",
+          "wall_time_ms": 1373.5953329596668,
+          "usage": {
+            "input_tokens": 127,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A0:sample-1",
+          "wall_time_ms": 2377.096917014569,
+          "usage": {
+            "input_tokens": 127,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A0:sample-2",
+          "wall_time_ms": 719.4648331496865,
+          "usage": {
+            "input_tokens": 127,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A0:sample-3",
+          "wall_time_ms": 1121.1297081317753,
+          "usage": {
+            "input_tokens": 127,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A0:sample-4",
+          "wall_time_ms": 1464.2701670527458,
+          "usage": {
+            "input_tokens": 127,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A0:sample-5",
+          "wall_time_ms": 665.0776250753552,
+          "usage": {
+            "input_tokens": 127,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A1",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "cv_struct"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A1:sample-0",
+          "wall_time_ms": 531.8291247822344,
+          "usage": {
+            "input_tokens": 142,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A1:sample-1",
+          "wall_time_ms": 581.4266251400113,
+          "usage": {
+            "input_tokens": 142,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A1:sample-2",
+          "wall_time_ms": 648.9081669133157,
+          "usage": {
+            "input_tokens": 142,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A1:sample-3",
+          "wall_time_ms": 908.692124998197,
+          "usage": {
+            "input_tokens": 142,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A1:sample-4",
+          "wall_time_ms": 1135.901957983151,
+          "usage": {
+            "input_tokens": 142,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A1:sample-5",
+          "wall_time_ms": 891.0991249140352,
+          "usage": {
+            "input_tokens": 142,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A2:sample-0",
+          "wall_time_ms": 2148.3607499394566,
+          "usage": {
+            "input_tokens": 147,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A2:sample-1",
+          "wall_time_ms": 2878.859333926812,
+          "usage": {
+            "input_tokens": 147,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A2:sample-2",
+          "wall_time_ms": 3193.9548330847174,
+          "usage": {
+            "input_tokens": 147,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A2:sample-3",
+          "wall_time_ms": 1638.8541671913117,
+          "usage": {
+            "input_tokens": 147,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A2:sample-4",
+          "wall_time_ms": 1833.9710829313844,
+          "usage": {
+            "input_tokens": 147,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A2:sample-5",
+          "wall_time_ms": 1043.581792153418,
+          "usage": {
+            "input_tokens": 147,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A3",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_vhi"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A3:sample-0",
+          "wall_time_ms": 389.4628749694675,
+          "usage": {
+            "input_tokens": 140,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A3:sample-1",
+          "wall_time_ms": 627.7098329737782,
+          "usage": {
+            "input_tokens": 140,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A3:sample-2",
+          "wall_time_ms": 438.3620829321444,
+          "usage": {
+            "input_tokens": 140,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A3:sample-3",
+          "wall_time_ms": 576.0919589083642,
+          "usage": {
+            "input_tokens": 140,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A3:sample-4",
+          "wall_time_ms": 422.5295421201736,
+          "usage": {
+            "input_tokens": 140,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A3:sample-5",
+          "wall_time_ms": 495.9294169675559,
+          "usage": {
+            "input_tokens": 140,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A4",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "fluid_verypos"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A4:sample-0",
+          "wall_time_ms": 654.8545830883086,
+          "usage": {
+            "input_tokens": 148,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A4:sample-1",
+          "wall_time_ms": 664.2409588675946,
+          "usage": {
+            "input_tokens": 148,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A4:sample-2",
+          "wall_time_ms": 665.9122500568628,
+          "usage": {
+            "input_tokens": 148,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A4:sample-3",
+          "wall_time_ms": 777.3534159641713,
+          "usage": {
+            "input_tokens": 148,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A4:sample-4",
+          "wall_time_ms": 792.3924589995295,
+          "usage": {
+            "input_tokens": 148,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A4:sample-5",
+          "wall_time_ms": 622.1153750084341,
+          "usage": {
+            "input_tokens": 148,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A5",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "pv_large"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A5:sample-0",
+          "wall_time_ms": 555.9444578830153,
+          "usage": {
+            "input_tokens": 137,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A5:sample-1",
+          "wall_time_ms": 509.38991690054536,
+          "usage": {
+            "input_tokens": 137,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A5:sample-2",
+          "wall_time_ms": 606.5072920173407,
+          "usage": {
+            "input_tokens": 137,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A5:sample-3",
+          "wall_time_ms": 698.869583196938,
+          "usage": {
+            "input_tokens": 137,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A5:sample-4",
+          "wall_time_ms": 512.7287078648806,
+          "usage": {
+            "input_tokens": 137,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A5:sample-5",
+          "wall_time_ms": 436.78566603921354,
+          "usage": {
+            "input_tokens": 137,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A6",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_preserved"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A6:sample-0",
+          "wall_time_ms": 692.2896250616759,
+          "usage": {
+            "input_tokens": 147,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A6:sample-1",
+          "wall_time_ms": 1044.379834085703,
+          "usage": {
+            "input_tokens": 147,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A6:sample-2",
+          "wall_time_ms": 787.5055000185966,
+          "usage": {
+            "input_tokens": 147,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A6:sample-3",
+          "wall_time_ms": 727.8707919176668,
+          "usage": {
+            "input_tokens": 147,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A6:sample-4",
+          "wall_time_ms": 660.1134999655187,
+          "usage": {
+            "input_tokens": 147,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A6:sample-5",
+          "wall_time_ms": 863.4100409690291,
+          "usage": {
+            "input_tokens": 147,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A7",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_lo"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A7:sample-0",
+          "wall_time_ms": 3338.666000170633,
+          "usage": {
+            "input_tokens": 139,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A7:sample-1",
+          "wall_time_ms": 639.5277499686927,
+          "usage": {
+            "input_tokens": 139,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A7:sample-2",
+          "wall_time_ms": 606.860667001456,
+          "usage": {
+            "input_tokens": 139,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A7:sample-3",
+          "wall_time_ms": 536.4540829323232,
+          "usage": {
+            "input_tokens": 139,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A7:sample-4",
+          "wall_time_ms": 649.2907910142094,
+          "usage": {
+            "input_tokens": 139,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A7:sample-5",
+          "wall_time_ms": 533.2079587969929,
+          "usage": {
+            "input_tokens": 139,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A8",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "fluid_neg",
+        "pv_none"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A8:sample-0",
+          "wall_time_ms": 537.6796249765903,
+          "usage": {
+            "input_tokens": 155,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A8:sample-1",
+          "wall_time_ms": 632.7866248320788,
+          "usage": {
+            "input_tokens": 155,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A8:sample-2",
+          "wall_time_ms": 479.0545420255512,
+          "usage": {
+            "input_tokens": 155,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A8:sample-3",
+          "wall_time_ms": 518.0233749561012,
+          "usage": {
+            "input_tokens": 155,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A8:sample-4",
+          "wall_time_ms": 444.97504201717675,
+          "usage": {
+            "input_tokens": 155,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A8:sample-5",
+          "wall_time_ms": 408.3147500641644,
+          "usage": {
+            "input_tokens": 155,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A9",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "pna_focal"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A9:sample-0",
+          "wall_time_ms": 644.0769168548286,
+          "usage": {
+            "input_tokens": 136,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A9:sample-1",
+          "wall_time_ms": 687.8479591105133,
+          "usage": {
+            "input_tokens": 136,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A9:sample-2",
+          "wall_time_ms": 483.8379581924528,
+          "usage": {
+            "input_tokens": 136,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A9:sample-3",
+          "wall_time_ms": 460.72183386422694,
+          "usage": {
+            "input_tokens": 136,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A9:sample-4",
+          "wall_time_ms": 642.6085839048028,
+          "usage": {
+            "input_tokens": 136,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:A9:sample-5",
+          "wall_time_ms": 637.8540000878274,
+          "usage": {
+            "input_tokens": 136,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C1",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_lo",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C1:sample-0",
+          "wall_time_ms": 518.5359588358551,
+          "usage": {
+            "input_tokens": 149,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C1:sample-1",
+          "wall_time_ms": 586.2283750902861,
+          "usage": {
+            "input_tokens": 149,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C1:sample-2",
+          "wall_time_ms": 609.8182499408722,
+          "usage": {
+            "input_tokens": 149,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C1:sample-3",
+          "wall_time_ms": 650.5349581129849,
+          "usage": {
+            "input_tokens": 149,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C1:sample-4",
+          "wall_time_ms": 647.3700830247253,
+          "usage": {
+            "input_tokens": 149,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C1:sample-5",
+          "wall_time_ms": 729.132667183876,
+          "usage": {
+            "input_tokens": 149,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_grey",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C2:sample-0",
+          "wall_time_ms": 553.3130830153823,
+          "usage": {
+            "input_tokens": 151,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C2:sample-1",
+          "wall_time_ms": 549.9902081210166,
+          "usage": {
+            "input_tokens": 151,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C2:sample-2",
+          "wall_time_ms": 526.4733750373125,
+          "usage": {
+            "input_tokens": 151,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C2:sample-3",
+          "wall_time_ms": 642.8013751283288,
+          "usage": {
+            "input_tokens": 151,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C2:sample-4",
+          "wall_time_ms": 595.7116249483079,
+          "usage": {
+            "input_tokens": 151,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C2:sample-5",
+          "wall_time_ms": 699.768542079255,
+          "usage": {
+            "input_tokens": 151,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C3",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_mod",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C3:sample-0",
+          "wall_time_ms": 798.6994998063892,
+          "usage": {
+            "input_tokens": 151,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C3:sample-1",
+          "wall_time_ms": 783.863625023514,
+          "usage": {
+            "input_tokens": 151,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C3:sample-2",
+          "wall_time_ms": 490.4040419496596,
+          "usage": {
+            "input_tokens": 151,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C3:sample-3",
+          "wall_time_ms": 486.0801659524441,
+          "usage": {
+            "input_tokens": 151,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C3:sample-4",
+          "wall_time_ms": 575.8739169687033,
+          "usage": {
+            "input_tokens": 151,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C3:sample-5",
+          "wall_time_ms": 592.9411251563579,
+          "usage": {
+            "input_tokens": 151,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C4",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_hi",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C4:sample-0",
+          "wall_time_ms": 539.0180828981102,
+          "usage": {
+            "input_tokens": 152,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C4:sample-1",
+          "wall_time_ms": 481.7645000293851,
+          "usage": {
+            "input_tokens": 152,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C4:sample-2",
+          "wall_time_ms": 445.4111671075225,
+          "usage": {
+            "input_tokens": 152,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C4:sample-3",
+          "wall_time_ms": 504.46383305825293,
+          "usage": {
+            "input_tokens": 152,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C4:sample-4",
+          "wall_time_ms": 499.73795795813203,
+          "usage": {
+            "input_tokens": 152,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C4:sample-5",
+          "wall_time_ms": 514.318750007078,
+          "usage": {
+            "input_tokens": 152,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C5",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_vhi",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C5:sample-0",
+          "wall_time_ms": 411.00183385424316,
+          "usage": {
+            "input_tokens": 150,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C5:sample-1",
+          "wall_time_ms": 2487.372084055096,
+          "usage": {
+            "input_tokens": 150,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C5:sample-2",
+          "wall_time_ms": 958.4001670591533,
+          "usage": {
+            "input_tokens": 150,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C5:sample-3",
+          "wall_time_ms": 446.32933381944895,
+          "usage": {
+            "input_tokens": 150,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C5:sample-4",
+          "wall_time_ms": 506.3175840768963,
+          "usage": {
+            "input_tokens": 150,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:C5:sample-5",
+          "wall_time_ms": 440.2923749294132,
+          "usage": {
+            "input_tokens": 150,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "F1",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced",
+        "fluid_neg"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:F1:sample-0",
+          "wall_time_ms": 486.5994160063565,
+          "usage": {
+            "input_tokens": 166,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:F1:sample-1",
+          "wall_time_ms": 472.0169580541551,
+          "usage": {
+            "input_tokens": 166,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:F1:sample-2",
+          "wall_time_ms": 473.3573328703642,
+          "usage": {
+            "input_tokens": 166,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:F1:sample-3",
+          "wall_time_ms": 522.7355831302702,
+          "usage": {
+            "input_tokens": 166,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:F1:sample-4",
+          "wall_time_ms": 456.0694999527186,
+          "usage": {
+            "input_tokens": 166,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:F1:sample-5",
+          "wall_time_ms": 626.2752080801874,
+          "usage": {
+            "input_tokens": 166,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "F2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced",
+        "fluid_pos"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:F2:sample-0",
+          "wall_time_ms": 658.0214160494506,
+          "usage": {
+            "input_tokens": 168,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:F2:sample-1",
+          "wall_time_ms": 566.5042919572443,
+          "usage": {
+            "input_tokens": 168,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:F2:sample-2",
+          "wall_time_ms": 546.118542086333,
+          "usage": {
+            "input_tokens": 168,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:F2:sample-3",
+          "wall_time_ms": 501.11583387479186,
+          "usage": {
+            "input_tokens": 168,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:F2:sample-4",
+          "wall_time_ms": 442.66662490554154,
+          "usage": {
+            "input_tokens": 168,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:F2:sample-5",
+          "wall_time_ms": 605.0634158309549,
+          "usage": {
+            "input_tokens": 168,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "F3",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced",
+        "fluid_verypos"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:F3:sample-0",
+          "wall_time_ms": 771.2585830595344,
+          "usage": {
+            "input_tokens": 168,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:F3:sample-1",
+          "wall_time_ms": 473.5665828920901,
+          "usage": {
+            "input_tokens": 168,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:F3:sample-2",
+          "wall_time_ms": 736.9889998808503,
+          "usage": {
+            "input_tokens": 168,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:F3:sample-3",
+          "wall_time_ms": 632.3758747894317,
+          "usage": {
+            "input_tokens": 168,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:F3:sample-4",
+          "wall_time_ms": 453.9880841039121,
+          "usage": {
+            "input_tokens": 168,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:F3:sample-5",
+          "wall_time_ms": 409.444082994014,
+          "usage": {
+            "input_tokens": 168,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "D1",
+      "premises": [
+        "ad",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:D1:sample-0",
+          "wall_time_ms": 463.0862921476364,
+          "usage": {
+            "input_tokens": 126,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:D1:sample-1",
+          "wall_time_ms": 633.149083936587,
+          "usage": {
+            "input_tokens": 126,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:D1:sample-2",
+          "wall_time_ms": 682.0199170615524,
+          "usage": {
+            "input_tokens": 126,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:D1:sample-3",
+          "wall_time_ms": 753.2377908937633,
+          "usage": {
+            "input_tokens": 126,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:D1:sample-4",
+          "wall_time_ms": 493.98537492379546,
+          "usage": {
+            "input_tokens": 126,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:D1:sample-5",
+          "wall_time_ms": 2144.0709580201656,
+          "usage": {
+            "input_tokens": 126,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "D2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "pe"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:D2:sample-0",
+          "wall_time_ms": 513.9386248774827,
+          "usage": {
+            "input_tokens": 135,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:D2:sample-1",
+          "wall_time_ms": 529.1214159224182,
+          "usage": {
+            "input_tokens": 135,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:D2:sample-2",
+          "wall_time_ms": 445.2971660066396,
+          "usage": {
+            "input_tokens": 135,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:D2:sample-3",
+          "wall_time_ms": 680.2537080366164,
+          "usage": {
+            "input_tokens": 135,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:D2:sample-4",
+          "wall_time_ms": 497.9383749887347,
+          "usage": {
+            "input_tokens": 135,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:D2:sample-5",
+          "wall_time_ms": 714.2547080293298,
+          "usage": {
+            "input_tokens": 135,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "D3",
+      "premises": [
+        "ad",
+        "pna_focal"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:D3:sample-0",
+          "wall_time_ms": 604.7165829222649,
+          "usage": {
+            "input_tokens": 125,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:D3:sample-1",
+          "wall_time_ms": 552.5900421198457,
+          "usage": {
+            "input_tokens": 125,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:D3:sample-2",
+          "wall_time_ms": 471.97395912371576,
+          "usage": {
+            "input_tokens": 125,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:D3:sample-3",
+          "wall_time_ms": 595.4069171566516,
+          "usage": {
+            "input_tokens": 125,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:D3:sample-4",
+          "wall_time_ms": 534.021541941911,
+          "usage": {
+            "input_tokens": 125,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:D3:sample-5",
+          "wall_time_ms": 561.3006660714746,
+          "usage": {
+            "input_tokens": 125,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B0",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B0:sample-0",
+          "wall_time_ms": 609.4111669808626,
+          "usage": {
+            "input_tokens": 166,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B0:sample-1",
+          "wall_time_ms": 657.5199998915195,
+          "usage": {
+            "input_tokens": 166,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B0:sample-2",
+          "wall_time_ms": 574.5242079719901,
+          "usage": {
+            "input_tokens": 166,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B0:sample-3",
+          "wall_time_ms": 673.4995420556515,
+          "usage": {
+            "input_tokens": 166,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B0:sample-4",
+          "wall_time_ms": 712.0415000244975,
+          "usage": {
+            "input_tokens": 166,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B0:sample-5",
+          "wall_time_ms": 629.278332926333,
+          "usage": {
+            "input_tokens": 166,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B1",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B1:sample-0",
+          "wall_time_ms": 1737.9353751894087,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B1:sample-1",
+          "wall_time_ms": 603.885332820937,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B1:sample-2",
+          "wall_time_ms": 608.8064590003341,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B1:sample-3",
+          "wall_time_ms": 919.8112080339342,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B1:sample-4",
+          "wall_time_ms": 730.6024162098765,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B1:sample-5",
+          "wall_time_ms": 572.6527499500662,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B2",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "pf_mod",
+        "rs_imvlow",
+        "sep"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B2:sample-0",
+          "wall_time_ms": 744.6857499890029,
+          "usage": {
+            "input_tokens": 173,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B2:sample-1",
+          "wall_time_ms": 632.0097090210766,
+          "usage": {
+            "input_tokens": 173,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B2:sample-2",
+          "wall_time_ms": 595.7287501078099,
+          "usage": {
+            "input_tokens": 173,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B2:sample-3",
+          "wall_time_ms": 692.4853748641908,
+          "usage": {
+            "input_tokens": 173,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B2:sample-4",
+          "wall_time_ms": 574.7056249529123,
+          "usage": {
+            "input_tokens": 173,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B2:sample-5",
+          "wall_time_ms": 573.3218339737505,
+          "usage": {
+            "input_tokens": 173,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B3",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "cd_pneumotox",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B3:sample-0",
+          "wall_time_ms": 549.8870420269668,
+          "usage": {
+            "input_tokens": 193,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B3:sample-1",
+          "wall_time_ms": 672.2665841225535,
+          "usage": {
+            "input_tokens": 193,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B3:sample-2",
+          "wall_time_ms": 739.8015828803182,
+          "usage": {
+            "input_tokens": 193,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B3:sample-3",
+          "wall_time_ms": 773.9137499593198,
+          "usage": {
+            "input_tokens": 193,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B3:sample-4",
+          "wall_time_ms": 643.9153749961406,
+          "usage": {
+            "input_tokens": 193,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B3:sample-5",
+          "wall_time_ms": 531.1769170220941,
+          "usage": {
+            "input_tokens": 193,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B4",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "pf_severe",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B4:sample-0",
+          "wall_time_ms": 563.7519999872893,
+          "usage": {
+            "input_tokens": 165,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B4:sample-1",
+          "wall_time_ms": 744.1134171094745,
+          "usage": {
+            "input_tokens": 165,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B4:sample-2",
+          "wall_time_ms": 560.1600420195609,
+          "usage": {
+            "input_tokens": 165,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B4:sample-3",
+          "wall_time_ms": 653.5266670398414,
+          "usage": {
+            "input_tokens": 165,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B4:sample-4",
+          "wall_time_ms": 738.5842921212316,
+          "usage": {
+            "input_tokens": 165,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B4:sample-5",
+          "wall_time_ms": 587.3837091494352,
+          "usage": {
+            "input_tokens": 165,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B5",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "ef_reduced",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B5:sample-0",
+          "wall_time_ms": 729.7154581174254,
+          "usage": {
+            "input_tokens": 194,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B5:sample-1",
+          "wall_time_ms": 674.6947921346873,
+          "usage": {
+            "input_tokens": 194,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B5:sample-2",
+          "wall_time_ms": 557.0053749252111,
+          "usage": {
+            "input_tokens": 194,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B5:sample-3",
+          "wall_time_ms": 619.7527500335127,
+          "usage": {
+            "input_tokens": 194,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B5:sample-4",
+          "wall_time_ms": 557.5778749771416,
+          "usage": {
+            "input_tokens": 194,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B5:sample-5",
+          "wall_time_ms": 678.2674170099199,
+          "usage": {
+            "input_tokens": 194,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B6",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "bnp_vhi",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B6:sample-0",
+          "wall_time_ms": 497.62120796367526,
+          "usage": {
+            "input_tokens": 179,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B6:sample-1",
+          "wall_time_ms": 749.5393748395145,
+          "usage": {
+            "input_tokens": 179,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B6:sample-2",
+          "wall_time_ms": 664.7370420396328,
+          "usage": {
+            "input_tokens": 179,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B6:sample-3",
+          "wall_time_ms": 662.6404160633683,
+          "usage": {
+            "input_tokens": 179,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B6:sample-4",
+          "wall_time_ms": 501.8092920072377,
+          "usage": {
+            "input_tokens": 179,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B6:sample-5",
+          "wall_time_ms": 512.1451248414814,
+          "usage": {
+            "input_tokens": 179,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 2,
+        "bad": 4,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B7",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "cd_cardiotox",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B7:sample-0",
+          "wall_time_ms": 694.2982501350343,
+          "usage": {
+            "input_tokens": 188,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B7:sample-1",
+          "wall_time_ms": 3277.1520419046283,
+          "usage": {
+            "input_tokens": 188,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B7:sample-2",
+          "wall_time_ms": 817.5783329643309,
+          "usage": {
+            "input_tokens": 188,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B7:sample-3",
+          "wall_time_ms": 609.5197501126677,
+          "usage": {
+            "input_tokens": 188,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B7:sample-4",
+          "wall_time_ms": 720.3839169815183,
+          "usage": {
+            "input_tokens": 188,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B7:sample-5",
+          "wall_time_ms": 586.4910420496017,
+          "usage": {
+            "input_tokens": 188,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B8",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "fluid_verypos",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B8:sample-0",
+          "wall_time_ms": 506.9082910194993,
+          "usage": {
+            "input_tokens": 187,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B8:sample-1",
+          "wall_time_ms": 734.7862080205232,
+          "usage": {
+            "input_tokens": 187,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B8:sample-2",
+          "wall_time_ms": 730.8651250787079,
+          "usage": {
+            "input_tokens": 187,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B8:sample-3",
+          "wall_time_ms": 581.0657080728561,
+          "usage": {
+            "input_tokens": 187,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B8:sample-4",
+          "wall_time_ms": 601.7652908340096,
+          "usage": {
+            "input_tokens": 187,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:B8:sample-5",
+          "wall_time_ms": 492.41929105482996,
+          "usage": {
+            "input_tokens": 187,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G1",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_hfnc"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G1:sample-0",
+          "wall_time_ms": 778.2466250937432,
+          "usage": {
+            "input_tokens": 180,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G1:sample-1",
+          "wall_time_ms": 931.8657910916954,
+          "usage": {
+            "input_tokens": 180,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G1:sample-2",
+          "wall_time_ms": 901.6295420005918,
+          "usage": {
+            "input_tokens": 180,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G1:sample-3",
+          "wall_time_ms": 4593.299207976088,
+          "usage": {
+            "input_tokens": 180,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G1:sample-4",
+          "wall_time_ms": 492.28883418254554,
+          "usage": {
+            "input_tokens": 180,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G1:sample-5",
+          "wall_time_ms": 562.8945420030504,
+          "usage": {
+            "input_tokens": 180,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G2",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_niv"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G2:sample-0",
+          "wall_time_ms": 1188.8632499612868,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G2:sample-1",
+          "wall_time_ms": 817.4590419512242,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G2:sample-2",
+          "wall_time_ms": 1000.554374884814,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G2:sample-3",
+          "wall_time_ms": 564.6235831081867,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G2:sample-4",
+          "wall_time_ms": 789.8622921202332,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G2:sample-5",
+          "wall_time_ms": 578.5982080269605,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G3",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G3:sample-0",
+          "wall_time_ms": 572.044291999191,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G3:sample-1",
+          "wall_time_ms": 652.6945419609547,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G3:sample-2",
+          "wall_time_ms": 575.6192919798195,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G3:sample-3",
+          "wall_time_ms": 4198.559500044212,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G3:sample-4",
+          "wall_time_ms": 714.7398330271244,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G3:sample-5",
+          "wall_time_ms": 542.6415419206023,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G4",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_imvmiddle"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G4:sample-0",
+          "wall_time_ms": 580.6893340777606,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G4:sample-1",
+          "wall_time_ms": 818.7076670583338,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G4:sample-2",
+          "wall_time_ms": 568.0095828138292,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G4:sample-3",
+          "wall_time_ms": 571.9831669703126,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G4:sample-4",
+          "wall_time_ms": 628.781417151913,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G4:sample-5",
+          "wall_time_ms": 582.8104999382049,
+          "usage": {
+            "input_tokens": 174,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G5",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_imvhigh"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G5:sample-0",
+          "wall_time_ms": 854.0379169862717,
+          "usage": {
+            "input_tokens": 173,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G5:sample-1",
+          "wall_time_ms": 585.9895420726389,
+          "usage": {
+            "input_tokens": 173,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G5:sample-2",
+          "wall_time_ms": 608.419582946226,
+          "usage": {
+            "input_tokens": 173,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G5:sample-3",
+          "wall_time_ms": 714.6753328852355,
+          "usage": {
+            "input_tokens": 173,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G5:sample-4",
+          "wall_time_ms": 818.4400838799775,
+          "usage": {
+            "input_tokens": 173,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:R0-support-plain:G5:sample-5",
+          "wall_time_ms": 819.3191669415683,
+          "usage": {
+            "input_tokens": 173,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}
