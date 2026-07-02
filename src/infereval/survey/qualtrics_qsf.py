@@ -30,10 +30,8 @@ from typing import TYPE_CHECKING, Any
 
 from .render import (
     DEFAULT_EXPERTISE_PROMPT,
-    DEFAULT_QUESTION_HEADER,
     DEFAULT_RATIONALE_PROMPT,
-    DEFAULT_VERDICT_CHOICES,
-    render_implication_text,
+    render_survey_question,
     sanitize_export_tag,
 )
 
@@ -56,6 +54,7 @@ def build_qsf(
     randomize_items: bool = True,
     include_rationales: bool = True,
     expertise_prompt: str = DEFAULT_EXPERTISE_PROMPT,
+    question_form: str = "support",
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """Build a Qualtrics ``.qsf`` document for ``benchmark``.
 
@@ -108,17 +107,13 @@ def build_qsf(
         verdict_qid = f"QID{next_qid}"
         next_qid += 1
 
-        verdict_prompt = (
-            DEFAULT_QUESTION_HEADER
-            + "\n\n"
-            + render_implication_text(benchmark, item)
-        )
+        sq = render_survey_question(benchmark, item, question_form=question_form)
         elements.append(
             _mc_question(
                 qid=verdict_qid,
                 label=f"Verdict on {item.id}",
-                prompt=verdict_prompt,
-                choices=list(DEFAULT_VERDICT_CHOICES),
+                prompt=sq.full_text(),
+                choices=list(sq.choices),
                 data_export_tag=tag,
                 force_response=True,
             )
