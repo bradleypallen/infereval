@@ -1,0 +1,268 @@
+{
+  "schema_version": "1.0",
+  "id": "gpt-4.1:normative-epistemic",
+  "benchmark_id": "stop-sign-example-1",
+  "model": {
+    "provider": "openai",
+    "model_id": "gpt-4.1",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 16,
+      "seed": 7,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 6,
+    "tie_break": "abstain",
+    "verification_prompt_id": "default-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1",
+    "question_form": "coherence"
+  },
+  "framework_version": "0.18.0",
+  "items": [
+    {
+      "id": "row-0",
+      "premises": [
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        }
+      ],
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "row-1",
+      "premises": [
+        "n",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "OUT-OF-BOUNDS",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "OUT-OF-BOUNDS",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "OUT-OF-BOUNDS",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "OUT-OF-BOUNDS",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        }
+      ],
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "row-2",
+      "premises": [
+        "n",
+        "nr",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        }
+      ],
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "row-3",
+      "premises": [
+        "ba",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "PERMISSIBLE",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "finish_reason": "stop"
+        }
+      ],
+      "tags": [],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}
