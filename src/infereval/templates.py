@@ -28,6 +28,7 @@ the domain into the verdict layer.
 
 from __future__ import annotations
 
+import importlib
 import re
 from collections.abc import Sequence
 from dataclasses import dataclass
@@ -45,7 +46,9 @@ __all__ = [
     "coherence_decode",
     "coherence_prompt",
     "register_template",
+    "register_template_id",
     "resolve_template",
+    "template_for_id",
 ]
 
 #: Succedent arity: ``0`` (incompatibility), ``1`` (single), ``"many"`` (disjunctive).
@@ -161,10 +164,19 @@ def coherence_decode(
     return Verdict.ABSTAIN, "ok"  # UNCLEAR — a real "cannot judge", not a parse miss
 
 
-# ---- per-domain registry --------------------------------------------------
+# ---- per-domain registry + template-id catalog -----------------------------
 
 _DEFAULT_TEMPLATE: Template = DefaultTemplate()
 _REGISTRY: dict[str, Template] = {}
+
+# Template catalog: template.id -> instance. A separate namespace from
+# _REGISTRY (which is keyed by *benchmark* ids): the catalog is what a
+# benchmark-level ``template_id`` field names. Library-shipped templates
+# live in _BUILTIN_TEMPLATE_MODULES and are imported lazily on first
+# lookup, so a benchmark's declared binding resolves without any caller
+# having to import the defining module for its registration side effect.
+_CATALOG: dict[str, Template] = {_DEFAULT_TEMPLATE.id: _DEFAULT_TEMPLATE}
+_BUILTIN_TEMPLATE_MODULES = ("infereval.templates_clinical",)
 
 
 def register_template(domain_id: str, template: Template) -> None:
@@ -172,8 +184,54 @@ def register_template(domain_id: str, template: Template) -> None:
     _REGISTRY[domain_id] = template
 
 
-def resolve_template(domain_id: str | None = None) -> Template:
-    """Return the template bound to ``domain_id``, or the framework default."""
+def register_template_id(template: Template) -> None:
+    """Catalog ``template`` under its own ``id`` for ``template_id`` binding.
+
+    This is the registration surface behind the benchmark-level
+    :attr:`infereval.benchmark.Benchmark.template_id` field: a benchmark
+    names a catalogued template id and :func:`resolve_template` looks it up
+    here. Overwrites any prior template with the same id.
+    """
+    _CATALOG[template.id] = template
+
+
+def template_for_id(template_id: str) -> Template:
+    """Return the catalogued template whose ``id`` is ``template_id``.
+
+    Unknown ids raise ``ValueError`` instead of silently falling back to the
+    default — a benchmark that declares a binding it can't get would
+    otherwise be measured under a different instrument than it records.
+    """
+    if template_id not in _CATALOG:
+        # Built-in templates catalog themselves on import; load them before
+        # giving up (idempotent — importlib caches).
+        for module in _BUILTIN_TEMPLATE_MODULES:
+            importlib.import_module(module)
+    if template_id not in _CATALOG:
+        raise ValueError(
+            f"unknown template_id {template_id!r} (catalogued: "
+            f"{', '.join(sorted(_CATALOG))}). Third-party templates must be "
+            f"catalogued via register_template_id() before evaluation."
+        )
+    return _CATALOG[template_id]
+
+
+def resolve_template(
+    domain_id: str | None = None, *, template_id: str | None = None
+) -> Template:
+    """Return the template to render ``domain_id``'s items through.
+
+    Precedence, most binding first:
+
+    1. a programmatic :func:`register_template` entry for ``domain_id`` —
+       the session-level override;
+    2. ``template_id`` — a benchmark-declared binding
+       (:attr:`infereval.benchmark.Benchmark.template_id`), looked up in the
+       :func:`register_template_id` catalog; unknown ids raise;
+    3. the framework :class:`DefaultTemplate`.
+    """
     if domain_id is not None and domain_id in _REGISTRY:
         return _REGISTRY[domain_id]
+    if template_id is not None:
+        return template_for_id(template_id)
     return _DEFAULT_TEMPLATE

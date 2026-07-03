@@ -10,8 +10,8 @@ domain elicitation config:
 
 - ``id`` / ``title`` / ``domain`` / ``description`` — benchmark identity;
 - ``targets`` — declared succedent labels;
-- ``verification_prompt`` / ``context_builders`` — optional elicitation config
-  (framework defaults are used when absent);
+- ``verification_prompt`` / ``template_id`` / ``context_builders`` — optional
+  elicitation config (framework defaults are used when absent);
 - ``analysts`` — optional analyst panel. When absent (a pre-recruitment pilot),
   a single ``pending-analyst-panel`` stopgap is synthesized with all-``abstain``
   verdicts so the benchmark loads; each item's provisional read stays in its
@@ -109,7 +109,14 @@ def build_benchmark(doc: BearersDoc, items_doc: dict[str, Any]) -> Benchmark:
         "regularities": [{"description": r} for r in doc.regularities],
         "targets": list(meta.get("targets", [])),
     }
-    for key in ("title", "domain", "description", "verification_prompt", "context_builders"):
+    for key in (
+        "title",
+        "domain",
+        "description",
+        "verification_prompt",
+        "template_id",
+        "context_builders",
+    ):
         if key in meta:
             benchmark[key] = meta[key]
 

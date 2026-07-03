@@ -212,7 +212,7 @@ def _render_coherence_body(benchmark: Benchmark, item: BenchmarkItem) -> str:
         gamma_ctx=premise_builder(prem),
         delta_ctx=tuple(concl),
     )
-    return resolve_template(benchmark.id).render(req)
+    return resolve_template(benchmark.id, template_id=benchmark.template_id).render(req)
 
 
 def verdict_from_choice_text(cell: str, *, question_form: str = "support") -> Verdict:

@@ -34,6 +34,12 @@ A `verification_prompt` override field exists for benchmarks that need a custom 
 }
 ```
 
+The `verification_prompt` override applies only to the legacy `support` question form. Under the default `coherence` form, the rendering axis is a **template**: an optional benchmark-level `template_id` field names a catalogued template (see `infereval.templates.register_template_id`) that both the model prompt path and the survey path render the position through, so the human and the model see the same content scaffolding. The library ships `"clinical-coherence-v1"` (`infereval.templates_clinical.ClinicalTemplate`, the clinical pilot's patient-framed rendering); omit the field to use the plain framework template. An unknown `template_id` fails loudly at evaluation time rather than silently falling back — and any new template should be gated through `infereval.guards.template_equivalence` before use:
+
+```json
+"template_id": "clinical-coherence-v1"
+```
+
 ## Step 1: Decide what you're measuring
 
 Before writing JSON, write down (on paper or in a comment):

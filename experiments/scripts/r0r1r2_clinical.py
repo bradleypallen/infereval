@@ -34,7 +34,11 @@ from infereval.comparison import compare_runs
 from infereval.evaluation import EndorsementConfig, ProviderParams, evaluate
 from infereval.prompts import DEFAULT_VERIFICATION_PROMPT
 from infereval.providers import get_provider
-from infereval.templates import DefaultTemplate, VerdictRequest
+from infereval.templates import DefaultTemplate
+
+# The R2 domain template lives in the library since the 2026-07-02 capture
+# promoted it (same id, byte-identical wording — provenance carries over).
+from infereval.templates_clinical import ClinicalTemplate
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 BENCHMARK = REPO_ROOT / "examples" / "clinical_pilot" / "benchmark.json"
@@ -43,36 +47,6 @@ _OPENROUTER_EXTRAS = {
     "http_referer": "https://allen.is/infereval",
     "x_title": "infereval",
 }
-
-
-class ClinicalTemplate:
-    """A clinical-idiom rendering of the bilateral position (the R2 domain template).
-
-    Renders only content scaffolding — it never sees bearer ids — so it cannot
-    re-smuggle the domain into the verdict layer. The coherence question form
-    frames it with "Is this position coherent?".
-    """
-
-    id = "clinical-coherence-v1"
-
-    def render(self, req: VerdictRequest) -> str:
-        gamma = req.gamma_ctx
-        if req.arity == 0:
-            return (
-                "Consider whether a single patient could present with all of the "
-                f"following at the same moment: {gamma}."
-            )
-        if req.arity == 1:
-            return (
-                "Consider a patient for whom this clinical picture holds: "
-                f"{gamma}. The position under evaluation further denies that "
-                f"{req.delta_ctx[0]}."
-            )
-        joined = "; ".join(req.delta_ctx)
-        return (
-            "Consider a patient for whom this clinical picture holds: "
-            f"{gamma}. The position denies every one of: {joined}."
-        )
 
 
 def _single_succedent(benchmark: Benchmark) -> Benchmark:

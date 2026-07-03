@@ -363,6 +363,14 @@ def evaluate(
         for ``jq`` or ``pandas.read_json(lines=True)``. If ``None`` (the
         default), no log file is written; library callers can still attach
         their own handlers to the ``infereval`` logger.
+    template
+        Explicit template override for the ``coherence`` question form.
+        When ``None`` (the default), resolution follows
+        :func:`infereval.templates.resolve_template`: a programmatic
+        ``register_template`` binding for ``benchmark.id`` wins, then the
+        benchmark's declared ``template_id``, then the framework default.
+        The resolved template's id is recorded in the ``run.started`` log
+        event (§12.3 provenance).
 
     Returns
     -------
@@ -387,6 +395,13 @@ def evaluate(
     premise_builder, conclusion_builder = resolve_context_builders(
         benchmark.context_builders
     )
+    # Resolve once, up front: an unknown benchmark-declared template_id
+    # fails loudly before any provider call is made.
+    resolved_template = (
+        template
+        if template is not None
+        else resolve_template(benchmark.id, template_id=benchmark.template_id)
+    )
 
     bench_hash = canonical_benchmark_hash(benchmark)
 
@@ -407,6 +422,7 @@ def evaluate(
             params=par.model_dump(mode="json"),
             endorsement_config=cfg.model_dump(mode="json"),
             verification_prompt_id=prompt.id,
+            template_id=resolved_template.id,
             strip_tex=strip_tex,
             paraphrase_variant=variant,
             framework_version=__version__,
@@ -428,9 +444,7 @@ def evaluate(
                 request_id_prefix=f"{rid}:{bench_item.id}",
                 variant=variant,
                 question_form=cfg.question_form,
-                template=(
-                    template if template is not None else resolve_template(benchmark.id)
-                ),
+                template=resolved_template,
             )
             items.append(
                 EvaluationItem(

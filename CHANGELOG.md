@@ -10,7 +10,19 @@ stable from 1.0 onward, regardless of the framework version.
 
 ## [Unreleased]
 
-No changes yet.
+**The clinical pilot's domain template is promoted into the library, bound declaratively via a new benchmark-level `template_id` field.** The 2026-07-02 R0/R1/R2 clinical pilot capture (`experiments/results/clinical_pilot/r0r1r2_2026-07-02/analysis.md`, Finding 2) showed the patient-framed rendering recovers 4 of 5 question-form verdict flips and lifts coverage to 1.00 relative to the plain framework template; default coherence evaluations of the clinical pilot now use it with no Python-side setup.
+
+### Added — benchmark-level template binding (`template_id`)
+
+- `Benchmark.template_id` (optional, additive — pre-existing benchmarks validate unchanged): names the catalogued template the `coherence` question form renders items through. Both elicitation surfaces honor the binding — the model prompt path (`evaluate`) and the survey path (`render_survey_question`) — so humans and the model see the same content scaffolding. Resolution precedence: explicit `template=` argument > programmatic `register_template(benchmark_id, …)` binding > benchmark-declared `template_id` > framework default. An unknown `template_id` fails loudly at resolution time (before any provider call) rather than silently falling back — the binding is part of the instrument's identity. Ignored by the legacy `support` form, which keeps rendering via `verification_prompt`.
+- `infereval.templates.register_template_id` / `template_for_id`: the template-id catalog behind the field (a separate namespace from the per-benchmark-id registry). Library-shipped templates load lazily on first lookup, so a benchmark-declared binding resolves without any import-side-effect module the caller has to remember — the import-order fragility that ruled out registering the benchmark binding at import time.
+- `infereval.templates_clinical.ClinicalTemplate` (`"clinical-coherence-v1"`): the clinical pilot's patient-framed template, promoted from the R0/R1/R2 harness. Wording is byte-identical to the capture's template and the id is unchanged, so provenance carries over; any wording change is a new instrument (new id, gated through `guards.template_equivalence`). `templates_clinical.register()` is the programmatic hook for binding it to a different benchmark id.
+- The resolved template id is recorded in the `run.started` JSONL event (§12.3 provenance).
+
+### Changed
+
+- `examples/clinical_pilot/benchmark.json` (and its v0.5 source `_meta`, which `bearers-import` now passes through) declares `template_id: "clinical-coherence-v1"`. **Note:** this edit changes the benchmark's canonical hash, so R22 retests cannot be composed against pre-edit clinical pilot etas — the setup-compatibility check rejects the mismatch, as designed.
+- `experiments/scripts/r0r1r2_clinical.py` imports `ClinicalTemplate` from the library instead of defining its own copy; run semantics are unchanged (all three runs pin their template explicitly).
 
 ## [0.17.5] — 2026-07-02
 
