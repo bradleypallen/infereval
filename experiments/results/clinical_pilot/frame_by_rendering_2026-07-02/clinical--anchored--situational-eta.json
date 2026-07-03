@@ -1,0 +1,3914 @@
+{
+  "schema_version": "1.0",
+  "id": "gpt-4.1:clinical--anchored--situational",
+  "benchmark_id": "clinical-pilot-cpe-ards-v0.5",
+  "benchmark_hash": "sha256:885bc46488bae2b466763cdfd342f30a32a92bb99924603ca26d58a7b37cf687",
+  "model": {
+    "provider": "openai",
+    "model_id": "gpt-4.1",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "seed": 7,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 6,
+    "tie_break": "abstain",
+    "verification_prompt_id": "anchored-clinical--situational",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1",
+    "question_form": "support"
+  },
+  "framework_version": "0.18.0",
+  "started_at": "2026-07-03T01:58:47.487899Z",
+  "finished_at": "2026-07-03T02:00:48.620018Z",
+  "items": [
+    {
+      "id": "A0",
+      "premises": [
+        "ad",
+        "bi_mod"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A0:sample-0",
+          "wall_time_ms": 504.15929197333753,
+          "usage": {
+            "input_tokens": 236,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A0:sample-1",
+          "wall_time_ms": 1741.533082909882,
+          "usage": {
+            "input_tokens": 236,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A0:sample-2",
+          "wall_time_ms": 578.2251248601824,
+          "usage": {
+            "input_tokens": 236,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A0:sample-3",
+          "wall_time_ms": 441.68145791627467,
+          "usage": {
+            "input_tokens": 236,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A0:sample-4",
+          "wall_time_ms": 510.1028748322278,
+          "usage": {
+            "input_tokens": 236,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A0:sample-5",
+          "wall_time_ms": 391.0880000330508,
+          "usage": {
+            "input_tokens": 236,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A1",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "cv_struct"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A1:sample-0",
+          "wall_time_ms": 425.04366603679955,
+          "usage": {
+            "input_tokens": 251,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A1:sample-1",
+          "wall_time_ms": 438.4979580063373,
+          "usage": {
+            "input_tokens": 251,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A1:sample-2",
+          "wall_time_ms": 686.3463330082595,
+          "usage": {
+            "input_tokens": 251,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A1:sample-3",
+          "wall_time_ms": 634.8216668702662,
+          "usage": {
+            "input_tokens": 251,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A1:sample-4",
+          "wall_time_ms": 634.9232078064233,
+          "usage": {
+            "input_tokens": 251,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A1:sample-5",
+          "wall_time_ms": 673.4919999726117,
+          "usage": {
+            "input_tokens": 251,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A2:sample-0",
+          "wall_time_ms": 509.2334169894457,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A2:sample-1",
+          "wall_time_ms": 621.2408340070397,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A2:sample-2",
+          "wall_time_ms": 607.7207499183714,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A2:sample-3",
+          "wall_time_ms": 511.68091711588204,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A2:sample-4",
+          "wall_time_ms": 612.373166019097,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A2:sample-5",
+          "wall_time_ms": 1692.7329159807414,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A3",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_vhi"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A3:sample-0",
+          "wall_time_ms": 652.8067907784134,
+          "usage": {
+            "input_tokens": 249,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A3:sample-1",
+          "wall_time_ms": 518.0053750518709,
+          "usage": {
+            "input_tokens": 249,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A3:sample-2",
+          "wall_time_ms": 511.2660408485681,
+          "usage": {
+            "input_tokens": 249,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A3:sample-3",
+          "wall_time_ms": 512.0665840804577,
+          "usage": {
+            "input_tokens": 249,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A3:sample-4",
+          "wall_time_ms": 510.485416976735,
+          "usage": {
+            "input_tokens": 249,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A3:sample-5",
+          "wall_time_ms": 588.141042040661,
+          "usage": {
+            "input_tokens": 249,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A4",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "fluid_verypos"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A4:sample-0",
+          "wall_time_ms": 537.5184169970453,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A4:sample-1",
+          "wall_time_ms": 510.7997499871999,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A4:sample-2",
+          "wall_time_ms": 509.9557500798255,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A4:sample-3",
+          "wall_time_ms": 512.1110000181943,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A4:sample-4",
+          "wall_time_ms": 511.0886669717729,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A4:sample-5",
+          "wall_time_ms": 423.63908304832876,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A5",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "pv_large"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A5:sample-0",
+          "wall_time_ms": 495.4672500025481,
+          "usage": {
+            "input_tokens": 246,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A5:sample-1",
+          "wall_time_ms": 716.2254170980304,
+          "usage": {
+            "input_tokens": 246,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A5:sample-2",
+          "wall_time_ms": 446.56979222781956,
+          "usage": {
+            "input_tokens": 246,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A5:sample-3",
+          "wall_time_ms": 580.7708750944585,
+          "usage": {
+            "input_tokens": 246,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A5:sample-4",
+          "wall_time_ms": 504.47775004431605,
+          "usage": {
+            "input_tokens": 246,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A5:sample-5",
+          "wall_time_ms": 388.33245798014104,
+          "usage": {
+            "input_tokens": 246,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A6",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_preserved"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A6:sample-0",
+          "wall_time_ms": 720.0659578666091,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A6:sample-1",
+          "wall_time_ms": 575.8834590669721,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A6:sample-2",
+          "wall_time_ms": 563.7025001924485,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A6:sample-3",
+          "wall_time_ms": 3993.456792086363,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A6:sample-4",
+          "wall_time_ms": 500.14712498523295,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A6:sample-5",
+          "wall_time_ms": 522.3099170252681,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A7",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_lo"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A7:sample-0",
+          "wall_time_ms": 511.71504193916917,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A7:sample-1",
+          "wall_time_ms": 634.8289169836789,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A7:sample-2",
+          "wall_time_ms": 488.8831248972565,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A7:sample-3",
+          "wall_time_ms": 509.90566704422235,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A7:sample-4",
+          "wall_time_ms": 513.6844580993056,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A7:sample-5",
+          "wall_time_ms": 388.83733307011425,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A8",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "fluid_neg",
+        "pv_none"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A8:sample-0",
+          "wall_time_ms": 491.17141705937684,
+          "usage": {
+            "input_tokens": 264,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A8:sample-1",
+          "wall_time_ms": 550.0022079795599,
+          "usage": {
+            "input_tokens": 264,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A8:sample-2",
+          "wall_time_ms": 385.23512496612966,
+          "usage": {
+            "input_tokens": 264,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A8:sample-3",
+          "wall_time_ms": 533.7932498659939,
+          "usage": {
+            "input_tokens": 264,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A8:sample-4",
+          "wall_time_ms": 679.828624939546,
+          "usage": {
+            "input_tokens": 264,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A8:sample-5",
+          "wall_time_ms": 444.1987918689847,
+          "usage": {
+            "input_tokens": 264,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A9",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "pna_focal"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A9:sample-0",
+          "wall_time_ms": 370.07333408109844,
+          "usage": {
+            "input_tokens": 245,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A9:sample-1",
+          "wall_time_ms": 550.3277499228716,
+          "usage": {
+            "input_tokens": 245,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A9:sample-2",
+          "wall_time_ms": 511.52770896442235,
+          "usage": {
+            "input_tokens": 245,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A9:sample-3",
+          "wall_time_ms": 510.67445799708366,
+          "usage": {
+            "input_tokens": 245,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A9:sample-4",
+          "wall_time_ms": 539.0796668361872,
+          "usage": {
+            "input_tokens": 245,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:A9:sample-5",
+          "wall_time_ms": 483.05495805107057,
+          "usage": {
+            "input_tokens": 245,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C1",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_lo",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C1:sample-0",
+          "wall_time_ms": 440.5321669764817,
+          "usage": {
+            "input_tokens": 258,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C1:sample-1",
+          "wall_time_ms": 479.4814591296017,
+          "usage": {
+            "input_tokens": 258,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C1:sample-2",
+          "wall_time_ms": 513.4503750596195,
+          "usage": {
+            "input_tokens": 258,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C1:sample-3",
+          "wall_time_ms": 430.0615410320461,
+          "usage": {
+            "input_tokens": 258,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C1:sample-4",
+          "wall_time_ms": 485.43408303521574,
+          "usage": {
+            "input_tokens": 258,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C1:sample-5",
+          "wall_time_ms": 453.9225830230862,
+          "usage": {
+            "input_tokens": 258,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_grey",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C2:sample-0",
+          "wall_time_ms": 457.26775005459785,
+          "usage": {
+            "input_tokens": 260,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C2:sample-1",
+          "wall_time_ms": 400.26154182851315,
+          "usage": {
+            "input_tokens": 260,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C2:sample-2",
+          "wall_time_ms": 385.85591688752174,
+          "usage": {
+            "input_tokens": 260,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C2:sample-3",
+          "wall_time_ms": 504.9461671151221,
+          "usage": {
+            "input_tokens": 260,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C2:sample-4",
+          "wall_time_ms": 589.8825419135392,
+          "usage": {
+            "input_tokens": 260,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C2:sample-5",
+          "wall_time_ms": 442.6745001692325,
+          "usage": {
+            "input_tokens": 260,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C3",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_mod",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C3:sample-0",
+          "wall_time_ms": 444.6194169577211,
+          "usage": {
+            "input_tokens": 260,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C3:sample-1",
+          "wall_time_ms": 512.0765420142561,
+          "usage": {
+            "input_tokens": 260,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C3:sample-2",
+          "wall_time_ms": 510.07154188118875,
+          "usage": {
+            "input_tokens": 260,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C3:sample-3",
+          "wall_time_ms": 513.11329100281,
+          "usage": {
+            "input_tokens": 260,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C3:sample-4",
+          "wall_time_ms": 424.15120801888406,
+          "usage": {
+            "input_tokens": 260,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C3:sample-5",
+          "wall_time_ms": 453.85274989530444,
+          "usage": {
+            "input_tokens": 260,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C4",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_hi",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C4:sample-0",
+          "wall_time_ms": 450.8943329565227,
+          "usage": {
+            "input_tokens": 261,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C4:sample-1",
+          "wall_time_ms": 506.2506250105798,
+          "usage": {
+            "input_tokens": 261,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C4:sample-2",
+          "wall_time_ms": 512.2811659239233,
+          "usage": {
+            "input_tokens": 261,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C4:sample-3",
+          "wall_time_ms": 614.0683749690652,
+          "usage": {
+            "input_tokens": 261,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C4:sample-4",
+          "wall_time_ms": 716.5003328118473,
+          "usage": {
+            "input_tokens": 261,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C4:sample-5",
+          "wall_time_ms": 616.8777500279248,
+          "usage": {
+            "input_tokens": 261,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C5",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_vhi",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C5:sample-0",
+          "wall_time_ms": 507.7589580323547,
+          "usage": {
+            "input_tokens": 259,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C5:sample-1",
+          "wall_time_ms": 511.4589158911258,
+          "usage": {
+            "input_tokens": 259,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C5:sample-2",
+          "wall_time_ms": 613.0587079096586,
+          "usage": {
+            "input_tokens": 259,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C5:sample-3",
+          "wall_time_ms": 577.9469169210643,
+          "usage": {
+            "input_tokens": 259,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C5:sample-4",
+          "wall_time_ms": 574.4759170338511,
+          "usage": {
+            "input_tokens": 259,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:C5:sample-5",
+          "wall_time_ms": 483.3709169179201,
+          "usage": {
+            "input_tokens": 259,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "F1",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced",
+        "fluid_neg"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:F1:sample-0",
+          "wall_time_ms": 509.9827500525862,
+          "usage": {
+            "input_tokens": 275,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:F1:sample-1",
+          "wall_time_ms": 1003.758667036891,
+          "usage": {
+            "input_tokens": 275,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:F1:sample-2",
+          "wall_time_ms": 359.34754088521004,
+          "usage": {
+            "input_tokens": 275,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:F1:sample-3",
+          "wall_time_ms": 581.7925829906017,
+          "usage": {
+            "input_tokens": 275,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:F1:sample-4",
+          "wall_time_ms": 408.86575006879866,
+          "usage": {
+            "input_tokens": 275,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:F1:sample-5",
+          "wall_time_ms": 510.8752080705017,
+          "usage": {
+            "input_tokens": 275,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "F2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced",
+        "fluid_pos"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:F2:sample-0",
+          "wall_time_ms": 511.2306661903858,
+          "usage": {
+            "input_tokens": 277,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:F2:sample-1",
+          "wall_time_ms": 420.2894167974591,
+          "usage": {
+            "input_tokens": 277,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:F2:sample-2",
+          "wall_time_ms": 601.1515001300722,
+          "usage": {
+            "input_tokens": 277,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:F2:sample-3",
+          "wall_time_ms": 613.1814159452915,
+          "usage": {
+            "input_tokens": 277,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:F2:sample-4",
+          "wall_time_ms": 513.4700408671051,
+          "usage": {
+            "input_tokens": 277,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:F2:sample-5",
+          "wall_time_ms": 408.2023750524968,
+          "usage": {
+            "input_tokens": 277,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "F3",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced",
+        "fluid_verypos"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:F3:sample-0",
+          "wall_time_ms": 510.64558303914964,
+          "usage": {
+            "input_tokens": 277,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:F3:sample-1",
+          "wall_time_ms": 686.1723749898374,
+          "usage": {
+            "input_tokens": 277,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:F3:sample-2",
+          "wall_time_ms": 643.6371670570225,
+          "usage": {
+            "input_tokens": 277,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:F3:sample-3",
+          "wall_time_ms": 485.9360419213772,
+          "usage": {
+            "input_tokens": 277,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:F3:sample-4",
+          "wall_time_ms": 376.8262090161443,
+          "usage": {
+            "input_tokens": 277,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:F3:sample-5",
+          "wall_time_ms": 460.5510840192437,
+          "usage": {
+            "input_tokens": 277,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "D1",
+      "premises": [
+        "ad",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:D1:sample-0",
+          "wall_time_ms": 515.5370000284165,
+          "usage": {
+            "input_tokens": 235,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:D1:sample-1",
+          "wall_time_ms": 509.9988328292966,
+          "usage": {
+            "input_tokens": 235,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:D1:sample-2",
+          "wall_time_ms": 511.0499169677496,
+          "usage": {
+            "input_tokens": 235,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:D1:sample-3",
+          "wall_time_ms": 407.11541613563895,
+          "usage": {
+            "input_tokens": 235,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:D1:sample-4",
+          "wall_time_ms": 513.5047079529613,
+          "usage": {
+            "input_tokens": 235,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:D1:sample-5",
+          "wall_time_ms": 407.35058300197124,
+          "usage": {
+            "input_tokens": 235,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "D2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "pe"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:D2:sample-0",
+          "wall_time_ms": 715.3125419281423,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:D2:sample-1",
+          "wall_time_ms": 409.59199983626604,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:D2:sample-2",
+          "wall_time_ms": 511.5482909604907,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:D2:sample-3",
+          "wall_time_ms": 447.898417012766,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:D2:sample-4",
+          "wall_time_ms": 471.2959169410169,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:D2:sample-5",
+          "wall_time_ms": 2660.1256250869483,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "D3",
+      "premises": [
+        "ad",
+        "pna_focal"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:D3:sample-0",
+          "wall_time_ms": 582.9815829638392,
+          "usage": {
+            "input_tokens": 234,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:D3:sample-1",
+          "wall_time_ms": 460.96987510100007,
+          "usage": {
+            "input_tokens": 234,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:D3:sample-2",
+          "wall_time_ms": 439.206707989797,
+          "usage": {
+            "input_tokens": 234,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:D3:sample-3",
+          "wall_time_ms": 365.63854198902845,
+          "usage": {
+            "input_tokens": 234,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:D3:sample-4",
+          "wall_time_ms": 376.8960000015795,
+          "usage": {
+            "input_tokens": 234,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:D3:sample-5",
+          "wall_time_ms": 367.85466712899506,
+          "usage": {
+            "input_tokens": 234,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B0",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B0:sample-0",
+          "wall_time_ms": 573.5992919653654,
+          "usage": {
+            "input_tokens": 275,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B0:sample-1",
+          "wall_time_ms": 2662.0479580014944,
+          "usage": {
+            "input_tokens": 275,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B0:sample-2",
+          "wall_time_ms": 615.0774171110243,
+          "usage": {
+            "input_tokens": 275,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B0:sample-3",
+          "wall_time_ms": 608.2203751429915,
+          "usage": {
+            "input_tokens": 275,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B0:sample-4",
+          "wall_time_ms": 367.49483295716345,
+          "usage": {
+            "input_tokens": 275,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B0:sample-5",
+          "wall_time_ms": 556.9495421368629,
+          "usage": {
+            "input_tokens": 275,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B1",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B1:sample-0",
+          "wall_time_ms": 510.2449997793883,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B1:sample-1",
+          "wall_time_ms": 510.38712495937943,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B1:sample-2",
+          "wall_time_ms": 441.9687499757856,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B1:sample-3",
+          "wall_time_ms": 431.02462496608496,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B1:sample-4",
+          "wall_time_ms": 374.4269998278469,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B1:sample-5",
+          "wall_time_ms": 492.09666601382196,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B2",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "pf_mod",
+        "rs_imvlow",
+        "sep"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B2:sample-0",
+          "wall_time_ms": 456.35508303530514,
+          "usage": {
+            "input_tokens": 282,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B2:sample-1",
+          "wall_time_ms": 552.1365420427173,
+          "usage": {
+            "input_tokens": 282,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B2:sample-2",
+          "wall_time_ms": 524.2325409781188,
+          "usage": {
+            "input_tokens": 282,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B2:sample-3",
+          "wall_time_ms": 612.4654999002814,
+          "usage": {
+            "input_tokens": 282,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B2:sample-4",
+          "wall_time_ms": 533.6484159342945,
+          "usage": {
+            "input_tokens": 282,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B2:sample-5",
+          "wall_time_ms": 589.8332081269473,
+          "usage": {
+            "input_tokens": 282,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B3",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "cd_pneumotox",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B3:sample-0",
+          "wall_time_ms": 613.5894579347223,
+          "usage": {
+            "input_tokens": 302,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B3:sample-1",
+          "wall_time_ms": 511.98399998247623,
+          "usage": {
+            "input_tokens": 302,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B3:sample-2",
+          "wall_time_ms": 408.2859579939395,
+          "usage": {
+            "input_tokens": 302,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B3:sample-3",
+          "wall_time_ms": 611.4795829635113,
+          "usage": {
+            "input_tokens": 302,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B3:sample-4",
+          "wall_time_ms": 398.1709161307663,
+          "usage": {
+            "input_tokens": 302,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B3:sample-5",
+          "wall_time_ms": 524.4214578997344,
+          "usage": {
+            "input_tokens": 302,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B4",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "pf_severe",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B4:sample-0",
+          "wall_time_ms": 439.68762503936887,
+          "usage": {
+            "input_tokens": 274,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B4:sample-1",
+          "wall_time_ms": 583.9347920846194,
+          "usage": {
+            "input_tokens": 274,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B4:sample-2",
+          "wall_time_ms": 611.1878340598196,
+          "usage": {
+            "input_tokens": 274,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B4:sample-3",
+          "wall_time_ms": 613.4302909485996,
+          "usage": {
+            "input_tokens": 274,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B4:sample-4",
+          "wall_time_ms": 472.890208940953,
+          "usage": {
+            "input_tokens": 274,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B4:sample-5",
+          "wall_time_ms": 553.1693340744823,
+          "usage": {
+            "input_tokens": 274,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B5",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "ef_reduced",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B5:sample-0",
+          "wall_time_ms": 506.98908302001655,
+          "usage": {
+            "input_tokens": 303,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B5:sample-1",
+          "wall_time_ms": 423.19508315995336,
+          "usage": {
+            "input_tokens": 303,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B5:sample-2",
+          "wall_time_ms": 393.64799996837974,
+          "usage": {
+            "input_tokens": 303,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B5:sample-3",
+          "wall_time_ms": 509.627667022869,
+          "usage": {
+            "input_tokens": 303,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B5:sample-4",
+          "wall_time_ms": 717.4315000884235,
+          "usage": {
+            "input_tokens": 303,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B5:sample-5",
+          "wall_time_ms": 508.72879195958376,
+          "usage": {
+            "input_tokens": 303,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B6",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "bnp_vhi",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B6:sample-0",
+          "wall_time_ms": 526.9424170255661,
+          "usage": {
+            "input_tokens": 288,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B6:sample-1",
+          "wall_time_ms": 528.7685410585254,
+          "usage": {
+            "input_tokens": 288,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B6:sample-2",
+          "wall_time_ms": 581.7923748400062,
+          "usage": {
+            "input_tokens": 288,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B6:sample-3",
+          "wall_time_ms": 509.1771672014147,
+          "usage": {
+            "input_tokens": 288,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B6:sample-4",
+          "wall_time_ms": 715.3499170672148,
+          "usage": {
+            "input_tokens": 288,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B6:sample-5",
+          "wall_time_ms": 1536.3470001611859,
+          "usage": {
+            "input_tokens": 288,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B7",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "cd_cardiotox",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B7:sample-0",
+          "wall_time_ms": 457.437708042562,
+          "usage": {
+            "input_tokens": 297,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B7:sample-1",
+          "wall_time_ms": 463.15104118548334,
+          "usage": {
+            "input_tokens": 297,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B7:sample-2",
+          "wall_time_ms": 577.8092499822378,
+          "usage": {
+            "input_tokens": 297,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B7:sample-3",
+          "wall_time_ms": 546.365583082661,
+          "usage": {
+            "input_tokens": 297,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B7:sample-4",
+          "wall_time_ms": 509.72258299589157,
+          "usage": {
+            "input_tokens": 297,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B7:sample-5",
+          "wall_time_ms": 516.1377501208335,
+          "usage": {
+            "input_tokens": 297,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B8",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "fluid_verypos",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B8:sample-0",
+          "wall_time_ms": 471.1888339370489,
+          "usage": {
+            "input_tokens": 296,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B8:sample-1",
+          "wall_time_ms": 647.5816250313073,
+          "usage": {
+            "input_tokens": 296,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B8:sample-2",
+          "wall_time_ms": 614.4678331911564,
+          "usage": {
+            "input_tokens": 296,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B8:sample-3",
+          "wall_time_ms": 510.5025840457529,
+          "usage": {
+            "input_tokens": 296,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B8:sample-4",
+          "wall_time_ms": 527.3408750072122,
+          "usage": {
+            "input_tokens": 296,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:B8:sample-5",
+          "wall_time_ms": 396.77166705951095,
+          "usage": {
+            "input_tokens": 296,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 1,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G1",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_hfnc"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G1:sample-0",
+          "wall_time_ms": 506.51645893231034,
+          "usage": {
+            "input_tokens": 289,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G1:sample-1",
+          "wall_time_ms": 615.4833750333637,
+          "usage": {
+            "input_tokens": 289,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G1:sample-2",
+          "wall_time_ms": 510.23304113186896,
+          "usage": {
+            "input_tokens": 289,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G1:sample-3",
+          "wall_time_ms": 615.4306251555681,
+          "usage": {
+            "input_tokens": 289,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G1:sample-4",
+          "wall_time_ms": 608.7767500430346,
+          "usage": {
+            "input_tokens": 289,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G1:sample-5",
+          "wall_time_ms": 512.5511661171913,
+          "usage": {
+            "input_tokens": 289,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G2",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_niv"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G2:sample-0",
+          "wall_time_ms": 410.2270829025656,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G2:sample-1",
+          "wall_time_ms": 613.3321251254529,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G2:sample-2",
+          "wall_time_ms": 509.9236669484526,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G2:sample-3",
+          "wall_time_ms": 511.8787079118192,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G2:sample-4",
+          "wall_time_ms": 614.038374973461,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G2:sample-5",
+          "wall_time_ms": 435.443667229265,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G3",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G3:sample-0",
+          "wall_time_ms": 483.0668340437114,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G3:sample-1",
+          "wall_time_ms": 411.36662499047816,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G3:sample-2",
+          "wall_time_ms": 611.2167921382934,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G3:sample-3",
+          "wall_time_ms": 400.50725010223687,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G3:sample-4",
+          "wall_time_ms": 726.480457931757,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G3:sample-5",
+          "wall_time_ms": 466.82754112407565,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G4",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_imvmiddle"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G4:sample-0",
+          "wall_time_ms": 551.6219581477344,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G4:sample-1",
+          "wall_time_ms": 439.6225418895483,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G4:sample-2",
+          "wall_time_ms": 483.0750417895615,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G4:sample-3",
+          "wall_time_ms": 610.980625031516,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G4:sample-4",
+          "wall_time_ms": 662.047749850899,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G4:sample-5",
+          "wall_time_ms": 443.1387090589851,
+          "usage": {
+            "input_tokens": 283,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G5",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_imvhigh"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G5:sample-0",
+          "wall_time_ms": 592.4779581837356,
+          "usage": {
+            "input_tokens": 282,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G5:sample-1",
+          "wall_time_ms": 427.27933381684124,
+          "usage": {
+            "input_tokens": 282,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G5:sample-2",
+          "wall_time_ms": 440.8566248603165,
+          "usage": {
+            "input_tokens": 282,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G5:sample-3",
+          "wall_time_ms": 501.59595790319145,
+          "usage": {
+            "input_tokens": 282,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G5:sample-4",
+          "wall_time_ms": 1024.187667062506,
+          "usage": {
+            "input_tokens": 282,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "gpt-4.1:clinical--anchored--situational:G5:sample-5",
+          "wall_time_ms": 716.4764578919858,
+          "usage": {
+            "input_tokens": 282,
+            "output_tokens": 1
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}
