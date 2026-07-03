@@ -35,8 +35,9 @@ refinement, not validity equipment — on the support form; the anchored
 
 **Instrument recommendation:** adopt a generic defeasibility-anchored system
 prompt as the framework's default support frame (a deliberate default change —
-its own release + back-compat notes), and extend the same explicitation move to
-the coherence frame, gated by its own R-cell.
+its own release + back-compat notes), and extend the same explicit
+norm-statement (practice-selection) move to the coherence frame, gated by its
+own R-cell.
 
 ## Artifacts
 

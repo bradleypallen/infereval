@@ -69,12 +69,25 @@ almost all their force, on both an ambient domain and a specialist one.
 
 For the pragmatist reading this is a sharpening, not a reversal: the "practice"
 a material judgment needs can be supplied by **making the norms of the game
-explicit** — explicitation in Brandom's own sense — rather than by simulating
-the domain's surface. The reasoner doesn't need to be dressed as a clinician;
-it needs to be told, explicitly, that the assessment practice is defeasible
-material inference. And this reframes the instrument guidance: the frame's
-materiality instruction is the first-order validity requirement; templates are
-second-order (on the support form; coherence-form anchoring untested).
+explicit** rather than by simulating the domain's surface. A terminological
+precision: this is *not* explicitation in Brandom's own (*Making It Explicit*)
+sense — no participant is codifying object-level material inferences that were
+hitherto implicit *for them*. The frame is experimenter-supplied and states the
+norms of the assessment game itself; in *Between Saying and Doing* terms it is
+a **pragmatic metavocabulary**, deploying the normative vocabulary (defeasible,
+absent-further-information, positive defeat) that is LX for material-inferential
+practice. Read through Brandom's own regress argument, the finding lands on the
+anti-regulist side: an explicit rule cannot conjure a practice ex nihilo, since
+applying it is itself a practice — so the fact that one paragraph of
+norm-vocabulary suffices, domain-generally, is evidence the implicit material
+grip was already there. The frame **selects** between assessment practices the
+reasoner already commands (formal vs. material); it does not constitute one.
+Thin-frame collapse is norm-underdetermination, not a capability deficit. The
+reasoner doesn't need to be dressed as a clinician; it needs to be told,
+explicitly, which game is being played. And this reframes the instrument
+guidance: the frame's materiality instruction is the first-order validity
+requirement; templates are second-order (on the support form; coherence-form
+anchoring untested).
 
 ## Artifacts
 
