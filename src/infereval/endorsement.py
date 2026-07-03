@@ -47,6 +47,8 @@ from .providers.base import (
     SampleRequest,
 )
 from .templates import (
+    THIN_COHERENCE_FRAME,
+    CoherenceFrame,
     Template,
     VerdictRequest,
     arity_of,
@@ -201,6 +203,7 @@ def _build_prompt(
     question_form: QuestionForm,
     verification_prompt: VerificationPrompt,
     template: Template | None,
+    coherence_frame: CoherenceFrame | None = None,
     premise_ctx: str,
     conclusion_ctx: str,
     conclusion_exprs: list[str],
@@ -210,7 +213,9 @@ def _build_prompt(
     ``support`` routes through the unchanged verification-prompt path — byte-for-byte
     the pre-generalization behaviour — and is defined only for ``|Δ| = 1``.
     ``coherence`` renders the bilateral coherence question via the template
-    registry and is defined for every arity (brief §3.1).
+    registry, under ``coherence_frame``'s system text (``None`` = the thin
+    default, byte-identical to the pre-frame library), and is defined for
+    every arity (brief §3.1).
     """
     if question_form == "support":
         if len(implication.conclusions) != 1:
@@ -228,19 +233,20 @@ def _build_prompt(
         return verification_prompt.system, user, _support_extract, verification_prompt.id
 
     tmpl = template if template is not None else resolve_template()
+    frame = coherence_frame if coherence_frame is not None else THIN_COHERENCE_FRAME
     req = VerdictRequest(
         arity=arity_of(sorted(implication.conclusions)),
         gamma_ctx=premise_ctx,
         delta_ctx=tuple(conclusion_exprs),
         structure="commit_deny",
     )
-    rendered = coherence_prompt(req, tmpl)
+    rendered = coherence_prompt(req, tmpl, frame)
     pattern = re.compile(rendered.parse_regex, re.IGNORECASE)
 
     def _coherence_extract(text: str) -> tuple[Verdict, ParseStatus]:
         return coherence_decode(text, pattern, req)
 
-    return rendered.system, rendered.user, _coherence_extract, f"{tmpl.id}:coherence"
+    return rendered.system, rendered.user, _coherence_extract, f"{tmpl.id}:coherence:{frame.id}"
 
 
 def endorse(
@@ -258,6 +264,7 @@ def endorse(
     variant: int = 0,
     question_form: QuestionForm = "support",
     template: Template | None = None,
+    coherence_frame: CoherenceFrame | None = None,
 ) -> EndorsementRecord:
     """Compute :math:`E_M(\\langle \\Gamma, \\Delta \\rangle)` for one implication.
 
@@ -290,6 +297,7 @@ def endorse(
         question_form=question_form,
         verification_prompt=verification_prompt,
         template=template,
+        coherence_frame=coherence_frame,
         premise_ctx=premise_ctx,
         conclusion_ctx=conclusion_ctx,
         conclusion_exprs=conclusion_exprs,

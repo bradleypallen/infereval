@@ -149,7 +149,7 @@ class TestClinicalPilotBinding:
         eta = evaluate(
             bench,
             ScriptedProvider(responses=["INCOHERENT"]),
-            config=EndorsementConfig(n_samples=1),
+            config=EndorsementConfig(n_samples=1, question_form="coherence"),
             run_id="clinical-binding-test",
             log_path=log_path,
         )

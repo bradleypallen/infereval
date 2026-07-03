@@ -129,7 +129,17 @@ The v0.17.x series generalized the item to `⟨Γ, Δ⟩` at any arity and facto
 elicitation into a `question_form` (support / coherence) composed with a
 per-domain **template registry** (`templates.py`): one prompt,
 `prompt = question_form.frame(template.render(req))`, with the measurement layer
-(Definitions 6–10) untouched. It also added native v0.5-schema support
+(Definitions 6–10) untouched. Under `coherence`, the `question_form.frame(...)`
+step itself has a named, versioned axis: the **coherence frame**
+(`CoherenceFrame`), the system prompt stating the assessment's norms — the
+norm-statement analogue of the support path's `VerificationPrompt`, while the
+template controls content rendering and the library keeps the question line,
+labels, and polarity decode fixed. Resolution precedence at `evaluate()`:
+explicit `coherence_frame` argument > non-default input-config
+`coherence_frame_id` > programmatic `register_coherence_frame` binding >
+benchmark-declared `coherence_frame_id` > the thin default (`thin-v1`); the
+resolved id is stamped into the recorded `EndorsementConfig`.
+It also added native v0.5-schema support
 (`bearers.py`, `compiler.py`), monotonicity scoring (`monotonicity.py`),
 cross-run comparison + validity guards (`comparison.py`, `guards.py`), and
 question-form-aware surveys. The

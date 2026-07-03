@@ -488,6 +488,19 @@ class Benchmark(BaseModel):
     template. Ignored by the legacy ``support`` question form (which renders
     via :attr:`verification_prompt`). Additive: pre-existing benchmarks
     validate unchanged."""
+    coherence_frame_id: str | None = None
+    """Optional benchmark-level coherence-frame binding (the norm-statement
+    axis of the ``coherence`` question form): the id of a
+    :class:`infereval.templates.CoherenceFrame` catalogued via
+    :func:`infereval.templates.register_coherence_frame_id`, e.g.
+    ``"defeasible-coherence-explicit-v1"``. Resolution precedence at
+    :func:`infereval.evaluation.evaluate`: an explicit ``coherence_frame``
+    argument, then an input config's ``coherence_frame_id``, then a
+    programmatic :func:`infereval.templates.register_coherence_frame`
+    binding for this benchmark's id, then this field, then the thin default
+    frame. An unknown id fails loudly at resolution time. Ignored by the
+    ``support`` question form. Additive: pre-existing benchmarks validate
+    unchanged."""
     items: list[BenchmarkItem]
     factors: dict[str, list[str]] = Field(default_factory=dict)
     """Declared design factors and their levels for a crossed-design

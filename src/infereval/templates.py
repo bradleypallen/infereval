@@ -38,15 +38,23 @@ from .types import ParseStatus, Verdict
 
 __all__ = [
     "Arity",
+    "CoherenceFrame",
+    "DEFEASIBLE_COHERENCE_FRAME",
     "DefaultTemplate",
     "RenderedPrompt",
+    "THIN_COHERENCE_FRAME",
     "Template",
+    "UNDERDET_COHERENCE_FRAME",
     "VerdictRequest",
     "arity_of",
     "coherence_decode",
+    "coherence_frame_for_id",
     "coherence_prompt",
+    "register_coherence_frame",
+    "register_coherence_frame_id",
     "register_template",
     "register_template_id",
+    "resolve_coherence_frame",
     "resolve_template",
     "template_for_id",
 ]
@@ -129,15 +137,130 @@ _COHERENCE_LABELS = ("INCOHERENT", "COHERENT", "UNCLEAR")
 _COHERENCE_PARSE = r"\b(INCOHERENT|COHERENT|UNCLEAR)\b"
 
 
-def coherence_prompt(req: VerdictRequest, template: Template) -> RenderedPrompt:
-    """Frame a template's scaffolding as the bilateral coherence question."""
+@dataclass(frozen=True)
+class CoherenceFrame:
+    """A versioned system prompt for the coherence question form.
+
+    The frame is the coherence-side analogue of the support path's
+    :class:`infereval.prompts.VerificationPrompt`: it states the norms of the
+    assessment (what COHERENT/INCOHERENT/UNCLEAR are to mean) while the
+    template controls the rendering of the position and the library controls
+    the question line, labels, parse regex, and decode. A frame carries ONLY
+    the system text --- the answer contract and the polarity firewall
+    (:func:`coherence_decode`) are deliberately not frame-configurable, so no
+    frame can silently invert verdicts.
+
+    Frames are versioned by id; redefining a frame's text under an existing
+    id breaks provenance --- mint a new id instead, mirroring the
+    additive-only bearer-versioning contract.
+    """
+
+    id: str
+    system: str
+
+
+#: The library's original coherence system prompt, unchanged: the label
+#: contract with no material norms. This is the default frame; every
+#: coherence evaluation produced by :func:`infereval.evaluation.evaluate`
+#: before frames existed was elicited under exactly this text.
+THIN_COHERENCE_FRAME = CoherenceFrame(id="thin-v1", system=_COHERENCE_SYSTEM)
+
+#: Materiality-anchored coherence frame: states the defeasibility norms
+#: explicitly (material coherence, NOT strict consistency, defeater
+#: semantics), with the commit/deny transposition of the bird/penguin
+#: exemplar. Byte-identical to the ``defeasible-coherence-explicit-v1``
+#: system of the 2026-07-02 anchored-coherence capture.
+DEFEASIBLE_COHERENCE_FRAME = CoherenceFrame(
+    id="defeasible-coherence-explicit-v1",
+    system=(
+        "You are judging whether a position is coherent in everyday defeasible "
+        "reasoning. A position commits to some claims and may deny others.\n\n"
+        "This is NOT a question of strict logical consistency. It is a question of "
+        "material coherence: granting the commitments as stated, with typical "
+        "background conditions and standard kinds, can the whole position be held "
+        "together in the ordinary course of things?\n\n"
+        "Answer with exactly one of: COHERENT, INCOHERENT, UNCLEAR. No other text.\n\n"
+        "COHERENT means the whole position can be held together under default "
+        "conditions — including when a commitment defeats what would otherwise "
+        "ordinarily follow.\n"
+        "INCOHERENT means the position is untenable: it denies something its "
+        "commitments would ordinarily settle, or its commitments cannot all hold "
+        "together in the ordinary course of things. A strict logical contradiction "
+        "is not required.\n"
+        "UNCLEAR means the question is ill-formed or you cannot judge.\n\n"
+        "For example:\n"
+        "  Consider a position that commits to the following: a is a bird; and "
+        "denies: a can fly.\n"
+        "  Verdict: INCOHERENT  (typical birds fly; absent further information, the "
+        "denial clashes with what the commitment ordinarily settles)\n\n"
+        "  Consider a position that commits to the following: a is a bird and a is "
+        "a penguin; and denies: a can fly.\n"
+        "  Verdict: COHERENT  (the second commitment is a defeater; the position "
+        "holds together)"
+    ),
+)
+
+#: The anchored frame extended with an underdetermination clause in the
+#: UNCLEAR gloss plus a parallel third exemplar. Byte-identical to the
+#: ``defeasible-coherence-underdet-v1`` system of the 2026-07-03
+#: underdetermination-clause capture. Its abstain channel opens without
+#: flooding but is not yet instrument-grade (see that capture's analysis);
+#: shipped for provenance continuity and further study, not as a default.
+UNDERDET_COHERENCE_FRAME = CoherenceFrame(
+    id="defeasible-coherence-underdet-v1",
+    system=(
+        "You are judging whether a position is coherent in everyday defeasible "
+        "reasoning. A position commits to some claims and may deny others.\n\n"
+        "This is NOT a question of strict logical consistency. It is a question of "
+        "material coherence: granting the commitments as stated, with typical "
+        "background conditions and standard kinds, can the whole position be held "
+        "together in the ordinary course of things?\n\n"
+        "Answer with exactly one of: COHERENT, INCOHERENT, UNCLEAR. No other text.\n\n"
+        "COHERENT means the whole position can be held together under default "
+        "conditions — including when a commitment defeats what would otherwise "
+        "ordinarily follow.\n"
+        "INCOHERENT means the position is untenable: it denies something its "
+        "commitments would ordinarily settle, or its commitments cannot all hold "
+        "together in the ordinary course of things. A strict logical contradiction "
+        "is not required.\n"
+        "UNCLEAR means the question is ill-formed or you cannot judge — or the "
+        "matter is genuinely underdetermined: the commitments bear on what the "
+        "position denies but neither ordinarily settle it nor defeat it, so "
+        "competent reasoners could disagree about whether the position holds "
+        "together.\n\n"
+        "For example:\n"
+        "  Consider a position that commits to the following: a is a bird; and "
+        "denies: a can fly.\n"
+        "  Verdict: INCOHERENT  (typical birds fly; absent further information, the "
+        "denial clashes with what the commitment ordinarily settles)\n\n"
+        "  Consider a position that commits to the following: a is a bird and a is "
+        "a penguin; and denies: a can fly.\n"
+        "  Verdict: COHERENT  (the second commitment is a defeater; the position "
+        "holds together)\n\n"
+        "  Consider a position that commits to the following: a is a bird and a is "
+        "unusually heavy for its kind; and denies: a can fly.\n"
+        "  Verdict: UNCLEAR  (the commitments pull in different directions without "
+        "settling the matter; competent reasoners could disagree)"
+    ),
+)
+
+
+def coherence_prompt(
+    req: VerdictRequest, template: Template, frame: CoherenceFrame | None = None
+) -> RenderedPrompt:
+    """Frame a template's scaffolding as the bilateral coherence question.
+
+    ``frame`` supplies the system text only; the question line, labels, and
+    parse regex are the library's at every frame. ``None`` means the thin
+    default frame --- byte-identical composition to the pre-frame library.
+    """
     scaffold = template.render(req)
     user = (
         f"{scaffold}\n"
         "Is this position coherent? Answer COHERENT, INCOHERENT, or UNCLEAR."
     )
     return RenderedPrompt(
-        system=_COHERENCE_SYSTEM,
+        system=(frame or THIN_COHERENCE_FRAME).system,
         user=user,
         labels=_COHERENCE_LABELS,
         parse_regex=_COHERENCE_PARSE,
@@ -162,6 +285,73 @@ def coherence_decode(
     if token == "COHERENT":
         return Verdict.BAD, "ok"
     return Verdict.ABSTAIN, "ok"  # UNCLEAR — a real "cannot judge", not a parse miss
+
+
+# ---- coherence-frame registry + catalog ------------------------------------
+
+_FRAME_REGISTRY: dict[str, CoherenceFrame] = {}
+
+# Frame catalog: frame.id -> instance, the namespace a benchmark-level
+# ``coherence_frame_id`` field (or an EndorsementConfig.coherence_frame_id)
+# names. All library frames are module-level constants here, so no lazy
+# loading is needed.
+_FRAME_CATALOG: dict[str, CoherenceFrame] = {
+    f.id: f
+    for f in (THIN_COHERENCE_FRAME, DEFEASIBLE_COHERENCE_FRAME, UNDERDET_COHERENCE_FRAME)
+}
+
+
+def register_coherence_frame(domain_id: str, frame: CoherenceFrame) -> None:
+    """Bind a coherence frame to a domain (a benchmark id). Overwrites any prior binding."""
+    _FRAME_REGISTRY[domain_id] = frame
+
+
+def register_coherence_frame_id(frame: CoherenceFrame) -> None:
+    """Catalog ``frame`` under its own ``id`` for by-id binding.
+
+    The registration surface behind benchmark-level and config-level
+    ``coherence_frame_id`` fields. Overwrites any prior frame with the same
+    id --- which breaks provenance for that id; mint new ids instead.
+    """
+    _FRAME_CATALOG[frame.id] = frame
+
+
+def coherence_frame_for_id(frame_id: str) -> CoherenceFrame:
+    """Return the catalogued frame whose ``id`` is ``frame_id``.
+
+    Unknown ids raise ``ValueError`` instead of silently falling back to the
+    thin default --- an evaluation that declares a frame it can't get would
+    otherwise be elicited under a different instrument than it records.
+    """
+    if frame_id not in _FRAME_CATALOG:
+        raise ValueError(
+            f"unknown coherence_frame_id {frame_id!r} (catalogued: "
+            f"{', '.join(sorted(_FRAME_CATALOG))}). Third-party frames must be "
+            f"catalogued via register_coherence_frame_id() before evaluation."
+        )
+    return _FRAME_CATALOG[frame_id]
+
+
+def resolve_coherence_frame(
+    domain_id: str | None = None, *, frame_id: str | None = None
+) -> CoherenceFrame:
+    """Return the coherence frame to elicit ``domain_id``'s items under.
+
+    Precedence, most binding first:
+
+    1. a programmatic :func:`register_coherence_frame` entry for
+       ``domain_id`` --- the session-level override;
+    2. ``frame_id`` --- a declared binding
+       (:attr:`infereval.benchmark.Benchmark.coherence_frame_id` or an input
+       config's ``coherence_frame_id``), looked up in the catalog; unknown
+       ids raise;
+    3. :data:`THIN_COHERENCE_FRAME`.
+    """
+    if domain_id is not None and domain_id in _FRAME_REGISTRY:
+        return _FRAME_REGISTRY[domain_id]
+    if frame_id is not None:
+        return coherence_frame_for_id(frame_id)
+    return THIN_COHERENCE_FRAME
 
 
 # ---- per-domain registry + template-id catalog -----------------------------

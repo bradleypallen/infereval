@@ -29,6 +29,7 @@ from pydantic import (
     Field,
     field_serializer,
     field_validator,
+    model_validator,
 )
 
 from . import __version__
@@ -39,7 +40,7 @@ if TYPE_CHECKING:
     from .benchmark import Benchmark
     from .prompts import VerificationPrompt
     from .providers.base import Provider
-    from .templates import Template
+    from .templates import CoherenceFrame, Template
 
 log = logging.getLogger(__name__)
 
@@ -104,6 +105,26 @@ class EndorsementConfig(BaseModel):
     for every arity. Persisted here so an evaluation records which question was
     asked (part of the §12.3 provenance tuple). Additive (v0.17.3): pre-existing
     evaluations load as ``support``."""
+    coherence_frame_id: str = "thin-v1"
+    """The :class:`infereval.templates.CoherenceFrame` the coherence question
+    is elicited under (part of the §12.3 provenance tuple; meaningful only
+    when ``question_form="coherence"``). Always concrete — never null — so
+    the retest compatibility check refuses cross-frame comparisons, the same
+    refusal the support path gets from ``verification_prompt_id``.
+
+    On an *input* config, the default ``"thin-v1"`` means "resolve normally":
+    an explicit ``coherence_frame`` argument to :func:`evaluate`, then a
+    programmatic :func:`infereval.templates.register_coherence_frame`
+    binding, then the benchmark's ``coherence_frame_id``, then the thin
+    default. A **non-default** value is an explicit binding, looked up in the
+    catalog and failing loudly on unknown ids. (To force the thin frame over
+    a benchmark binding, pass ``coherence_frame=THIN_COHERENCE_FRAME``
+    explicitly.) :func:`evaluate` stamps the resolved id back into the config
+    the η records. Legacy ηs lacking the field backfill to ``"thin-v1"`` at
+    load time: correct for every η produced by :func:`evaluate`, which
+    elicited coherence only under the thin system before frames existed;
+    hand-elicited experiment artifacts predating this field are identified by
+    their run ids instead."""
 
     @field_validator("n_samples")
     @classmethod
@@ -265,6 +286,40 @@ class Evaluation(BaseModel):
     paraphrase). Phase 1.2 of the construct-validity infrastructure
     (R10: paraphrase variation under fixed inferential content)."""
 
+    @model_validator(mode="before")
+    @classmethod
+    def _backfill_legacy_question_form(cls, data: object) -> object:
+        """Backfill ``question_form="support"`` on pre-v0.17.3 evaluations.
+
+        Every η dumped from v0.17.3 onward serializes ``question_form``
+        explicitly, so a JSON whose ``endorsement_config`` lacks the field
+        predates it — and was necessarily captured under the support question
+        (the only one that existed). Backfilling at load time keeps historical
+        provenance explicit independent of the field's default, and keeps the
+        retest compatibility check honest when a legacy η is compared against
+        a fresh one.
+        """
+        if isinstance(data, dict):
+            ec = data.get("endorsement_config")
+            if isinstance(ec, dict) and "question_form" not in ec:
+                data = {**data, "endorsement_config": {**ec, "question_form": "support"}}
+            # Same reasoning for the coherence frame: every evaluate()-produced
+            # η before frames existed elicited coherence under the thin system,
+            # so an ABSENT key backfills to "thin-v1" (a present-but-null value
+            # is preserved — it marks a hand-constructed evaluation that never
+            # resolved a frame, and round-trips unchanged). This keeps the
+            # retest compatibility check honest: legacy runs compare as
+            # thin-frame runs, and a fresh anchored-frame run refuses to
+            # compose with them rather than conflating frame change with
+            # reliability variability.
+            ec = data.get("endorsement_config")
+            if isinstance(ec, dict) and "coherence_frame_id" not in ec:
+                data = {
+                    **data,
+                    "endorsement_config": {**ec, "coherence_frame_id": "thin-v1"},
+                }
+        return data
+
     @field_validator("references", mode="before")
     @classmethod
     def _promote_refs(cls, v: object) -> object:
@@ -327,6 +382,7 @@ def evaluate(
     log_path: Path | str | None = None,
     variant: int = 0,
     template: Template | None = None,
+    coherence_frame: CoherenceFrame | None = None,
 ) -> Evaluation:
     """Run a model against a benchmark and assemble the resulting :math:`\\eta`.
 
@@ -382,7 +438,12 @@ def evaluate(
     from .endorsement import endorse
     from .logging_setup import configure_run_logging, log_event
     from .prompts import resolve_verification_prompt
-    from .templates import resolve_template
+    from .templates import (
+        THIN_COHERENCE_FRAME,
+        coherence_frame_for_id,
+        resolve_coherence_frame,
+        resolve_template,
+    )
 
     cfg = config or EndorsementConfig()
     par = params or ProviderParams()
@@ -402,6 +463,19 @@ def evaluate(
         if template is not None
         else resolve_template(benchmark.id, template_id=benchmark.template_id)
     )
+    # Coherence frame: explicit argument > input-config binding > programmatic
+    # registration > benchmark binding > thin default — resolved up front so an
+    # unknown id fails before any provider call, then stamped into the config
+    # the η records (the frame leg of the §12.3 provenance tuple).
+    if coherence_frame is not None:
+        resolved_frame = coherence_frame
+    elif cfg.coherence_frame_id != THIN_COHERENCE_FRAME.id:
+        resolved_frame = coherence_frame_for_id(cfg.coherence_frame_id)
+    else:
+        resolved_frame = resolve_coherence_frame(
+            benchmark.id, frame_id=benchmark.coherence_frame_id
+        )
+    cfg = cfg.model_copy(update={"coherence_frame_id": resolved_frame.id})
 
     bench_hash = canonical_benchmark_hash(benchmark)
 
@@ -423,6 +497,7 @@ def evaluate(
             endorsement_config=cfg.model_dump(mode="json"),
             verification_prompt_id=prompt.id,
             template_id=resolved_template.id,
+            coherence_frame_id=resolved_frame.id,
             strip_tex=strip_tex,
             paraphrase_variant=variant,
             framework_version=__version__,
@@ -445,6 +520,7 @@ def evaluate(
                 variant=variant,
                 question_form=cfg.question_form,
                 template=resolved_template,
+                coherence_frame=resolved_frame,
             )
             items.append(
                 EvaluationItem(
