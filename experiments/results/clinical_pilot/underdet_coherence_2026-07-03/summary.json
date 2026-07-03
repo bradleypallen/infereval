@@ -1,0 +1,460 @@
+{
+  "model": "gpt-4.1",
+  "n_samples": 6,
+  "underdet_system_id": "defeasible-coherence-underdet-v1",
+  "underdet_system": "You are judging whether a position is coherent in everyday defeasible reasoning. A position commits to some claims and may deny others.\n\nThis is NOT a question of strict logical consistency. It is a question of material coherence: granting the commitments as stated, with typical background conditions and standard kinds, can the whole position be held together in the ordinary course of things?\n\nAnswer with exactly one of: COHERENT, INCOHERENT, UNCLEAR. No other text.\n\nCOHERENT means the whole position can be held together under default conditions \u2014 including when a commitment defeats what would otherwise ordinarily follow.\nINCOHERENT means the position is untenable: it denies something its commitments would ordinarily settle, or its commitments cannot all hold together in the ordinary course of things. A strict logical contradiction is not required.\nUNCLEAR means the question is ill-formed or you cannot judge \u2014 or the matter is genuinely underdetermined: the commitments bear on what the position denies but neither ordinarily settle it nor defeat it, so competent reasoners could disagree about whether the position holds together.\n\nFor example:\n  Consider a position that commits to the following: a is a bird; and denies: a can fly.\n  Verdict: INCOHERENT  (typical birds fly; absent further information, the denial clashes with what the commitment ordinarily settles)\n\n  Consider a position that commits to the following: a is a bird and a is a penguin; and denies: a can fly.\n  Verdict: COHERENT  (the second commitment is a defeater; the position holds together)\n\n  Consider a position that commits to the following: a is a bird and a is unusually heavy for its kind; and denies: a can fly.\n  Verdict: UNCLEAR  (the commitments pull in different directions without settling the matter; competent reasoners could disagree)",
+  "anchor_system_id": "defeasible-coherence-explicit-v1",
+  "cells": {
+    "AC1b-anchoredcoherence-plain-anchorrun": {
+      "good": 24,
+      "bad": 11,
+      "abstain": 0,
+      "by_variation": {
+        "abstain_anchor": {
+          "bad": 3
+        },
+        "base": {
+          "bad": 1,
+          "good": 1
+        },
+        "contested": {
+          "bad": 3,
+          "good": 3
+        },
+        "defeat": {
+          "bad": 1,
+          "good": 1
+        },
+        "monotonicity_step": {
+          "bad": 1,
+          "good": 12
+        },
+        "strengthen": {
+          "good": 7,
+          "bad": 2
+        }
+      },
+      "abstain_items": [],
+      "verdicts": {
+        "A0": "bad",
+        "A1": "good",
+        "A2": "good",
+        "A3": "good",
+        "A4": "bad",
+        "A5": "bad",
+        "A6": "bad",
+        "A7": "bad",
+        "A8": "bad",
+        "A9": "bad",
+        "C1": "bad",
+        "C2": "good",
+        "C3": "good",
+        "C4": "good",
+        "C5": "good",
+        "F1": "good",
+        "F2": "good",
+        "F3": "good",
+        "D1": "bad",
+        "D2": "bad",
+        "D3": "bad",
+        "B0": "good",
+        "B1": "good",
+        "B2": "good",
+        "B3": "good",
+        "B4": "good",
+        "B5": "good",
+        "B6": "good",
+        "B7": "good",
+        "B8": "good",
+        "G1": "good",
+        "G2": "good",
+        "G3": "good",
+        "G4": "good",
+        "G5": "good"
+      }
+    },
+    "UD1-underdetcoherence-plain": {
+      "good": 23,
+      "bad": 9,
+      "abstain": 3,
+      "by_variation": {
+        "abstain_anchor": {
+          "abstain": 1,
+          "bad": 2
+        },
+        "base": {
+          "bad": 1,
+          "good": 1
+        },
+        "contested": {
+          "bad": 3,
+          "good": 3
+        },
+        "defeat": {
+          "bad": 1,
+          "good": 1
+        },
+        "monotonicity_step": {
+          "bad": 1,
+          "abstain": 1,
+          "good": 11
+        },
+        "strengthen": {
+          "good": 7,
+          "abstain": 1,
+          "bad": 1
+        }
+      },
+      "abstain_items": [
+        "A4",
+        "C2",
+        "D1"
+      ],
+      "verdicts": {
+        "A0": "bad",
+        "A1": "good",
+        "A2": "good",
+        "A3": "good",
+        "A4": "abstain",
+        "A5": "bad",
+        "A6": "bad",
+        "A7": "bad",
+        "A8": "bad",
+        "A9": "bad",
+        "C1": "bad",
+        "C2": "abstain",
+        "C3": "good",
+        "C4": "good",
+        "C5": "good",
+        "F1": "good",
+        "F2": "good",
+        "F3": "good",
+        "D1": "abstain",
+        "D2": "bad",
+        "D3": "bad",
+        "B0": "good",
+        "B1": "good",
+        "B2": "good",
+        "B3": "good",
+        "B4": "good",
+        "B5": "good",
+        "B6": "good",
+        "B7": "good",
+        "B8": "good",
+        "G1": "good",
+        "G2": "good",
+        "G3": "good",
+        "G4": "good",
+        "G5": "good"
+      }
+    },
+    "UD3-underdetcoherence-situational": {
+      "good": 22,
+      "bad": 10,
+      "abstain": 3,
+      "by_variation": {
+        "abstain_anchor": {
+          "bad": 3
+        },
+        "base": {
+          "bad": 1,
+          "good": 1
+        },
+        "contested": {
+          "bad": 3,
+          "good": 3
+        },
+        "defeat": {
+          "bad": 1,
+          "good": 1
+        },
+        "monotonicity_step": {
+          "bad": 1,
+          "abstain": 2,
+          "good": 10
+        },
+        "strengthen": {
+          "good": 7,
+          "abstain": 1,
+          "bad": 1
+        }
+      },
+      "abstain_items": [
+        "A4",
+        "C2",
+        "C3"
+      ],
+      "verdicts": {
+        "A0": "bad",
+        "A1": "good",
+        "A2": "good",
+        "A3": "good",
+        "A4": "abstain",
+        "A5": "bad",
+        "A6": "bad",
+        "A7": "bad",
+        "A8": "bad",
+        "A9": "bad",
+        "C1": "bad",
+        "C2": "abstain",
+        "C3": "abstain",
+        "C4": "good",
+        "C5": "good",
+        "F1": "good",
+        "F2": "good",
+        "F3": "good",
+        "D1": "bad",
+        "D2": "bad",
+        "D3": "bad",
+        "B0": "good",
+        "B1": "good",
+        "B2": "good",
+        "B3": "good",
+        "B4": "good",
+        "B5": "good",
+        "B6": "good",
+        "B7": "good",
+        "B8": "good",
+        "G1": "good",
+        "G2": "good",
+        "G3": "good",
+        "G4": "good",
+        "G5": "good"
+      }
+    },
+    "UD4-underdetcoherence-epistemic": {
+      "good": 21,
+      "bad": 11,
+      "abstain": 3,
+      "by_variation": {
+        "abstain_anchor": {
+          "bad": 3
+        },
+        "base": {
+          "abstain": 1,
+          "good": 1
+        },
+        "contested": {
+          "bad": 4,
+          "good": 2
+        },
+        "defeat": {
+          "bad": 1,
+          "good": 1
+        },
+        "monotonicity_step": {
+          "bad": 2,
+          "abstain": 1,
+          "good": 10
+        },
+        "strengthen": {
+          "good": 7,
+          "bad": 1,
+          "abstain": 1
+        }
+      },
+      "abstain_items": [
+        "A0",
+        "A5",
+        "C2"
+      ],
+      "verdicts": {
+        "A0": "abstain",
+        "A1": "good",
+        "A2": "good",
+        "A3": "good",
+        "A4": "bad",
+        "A5": "abstain",
+        "A6": "bad",
+        "A7": "bad",
+        "A8": "bad",
+        "A9": "bad",
+        "C1": "bad",
+        "C2": "abstain",
+        "C3": "good",
+        "C4": "good",
+        "C5": "good",
+        "F1": "good",
+        "F2": "good",
+        "F3": "good",
+        "D1": "bad",
+        "D2": "bad",
+        "D3": "bad",
+        "B0": "good",
+        "B1": "good",
+        "B2": "good",
+        "B3": "good",
+        "B4": "good",
+        "B5": "bad",
+        "B6": "good",
+        "B7": "good",
+        "B8": "good",
+        "G1": "bad",
+        "G2": "good",
+        "G3": "good",
+        "G4": "good",
+        "G5": "good"
+      }
+    },
+    "UD2-underdetcoherence-domain": {
+      "good": 25,
+      "bad": 8,
+      "abstain": 2,
+      "by_variation": {
+        "abstain_anchor": {
+          "bad": 3
+        },
+        "base": {
+          "bad": 1,
+          "good": 1
+        },
+        "contested": {
+          "bad": 2,
+          "good": 4
+        },
+        "defeat": {
+          "bad": 1,
+          "good": 1
+        },
+        "monotonicity_step": {
+          "bad": 1,
+          "abstain": 1,
+          "good": 11
+        },
+        "strengthen": {
+          "good": 8,
+          "abstain": 1
+        }
+      },
+      "abstain_items": [
+        "A4",
+        "C2"
+      ],
+      "verdicts": {
+        "A0": "bad",
+        "A1": "good",
+        "A2": "good",
+        "A3": "good",
+        "A4": "abstain",
+        "A5": "good",
+        "A6": "bad",
+        "A7": "bad",
+        "A8": "bad",
+        "A9": "good",
+        "C1": "bad",
+        "C2": "abstain",
+        "C3": "good",
+        "C4": "good",
+        "C5": "good",
+        "F1": "good",
+        "F2": "good",
+        "F3": "good",
+        "D1": "bad",
+        "D2": "bad",
+        "D3": "bad",
+        "B0": "good",
+        "B1": "good",
+        "B2": "good",
+        "B3": "good",
+        "B4": "good",
+        "B5": "good",
+        "B6": "good",
+        "B7": "good",
+        "B8": "good",
+        "G1": "good",
+        "G2": "good",
+        "G3": "good",
+        "G4": "good",
+        "G5": "good"
+      }
+    }
+  },
+  "anchored_reference_mixes": {
+    "AC1": {
+      "good": 24,
+      "bad": 11,
+      "abstain": 0
+    },
+    "AC3": {
+      "good": 23,
+      "bad": 12,
+      "abstain": 0
+    },
+    "AC4": {
+      "good": 23,
+      "bad": 12,
+      "abstain": 0
+    },
+    "AC2": {
+      "good": 25,
+      "bad": 10,
+      "abstain": 0
+    }
+  },
+  "comparisons": {
+    "AC1b_to_AC1_drift_anchor": {
+      "cross_run_kappa": 1.0,
+      "mean_tv_distance": 0.004761904761904762,
+      "n_both_substantive": 35,
+      "coverage_a": 1.0,
+      "coverage_b": 1.0,
+      "insufficient_overlap": false
+    },
+    "UD1_to_AC1b_gloss_effect_at_plain": {
+      "cross_run_kappa": 1.0,
+      "mean_tv_distance": 0.06666666666666665,
+      "n_both_substantive": 32,
+      "coverage_a": 0.9142857142857143,
+      "coverage_b": 1.0,
+      "insufficient_overlap": false
+    },
+    "UD3_to_AC3_gloss_effect_at_situational": {
+      "cross_run_kappa": 1.0,
+      "mean_tv_distance": 0.0761904761904762,
+      "n_both_substantive": 32,
+      "coverage_a": 0.9142857142857143,
+      "coverage_b": 1.0,
+      "insufficient_overlap": false
+    },
+    "UD4_to_AC4_gloss_effect_at_epistemic": {
+      "cross_run_kappa": 0.9292035398230089,
+      "mean_tv_distance": 0.12857142857142856,
+      "n_both_substantive": 32,
+      "coverage_a": 0.9142857142857143,
+      "coverage_b": 1.0,
+      "insufficient_overlap": false
+    },
+    "UD2_to_AC2_gloss_effect_at_domain": {
+      "cross_run_kappa": 1.0,
+      "mean_tv_distance": 0.06666666666666667,
+      "n_both_substantive": 33,
+      "coverage_a": 0.9428571428571428,
+      "coverage_b": 1.0,
+      "insufficient_overlap": false
+    },
+    "UD1_to_UD3_slope": {
+      "cross_run_kappa": 1.0,
+      "mean_tv_distance": 0.0619047619047619,
+      "n_both_substantive": 31,
+      "coverage_a": 0.9142857142857143,
+      "coverage_b": 0.9142857142857143,
+      "insufficient_overlap": false
+    },
+    "UD1_to_UD4_slope": {
+      "cross_run_kappa": 0.8305084745762713,
+      "mean_tv_distance": 0.12857142857142856,
+      "n_both_substantive": 30,
+      "coverage_a": 0.9142857142857143,
+      "coverage_b": 0.9142857142857143,
+      "insufficient_overlap": false
+    },
+    "UD1_to_UD2_slope": {
+      "cross_run_kappa": 0.8341968911917098,
+      "mean_tv_distance": 0.09047619047619049,
+      "n_both_substantive": 32,
+      "coverage_a": 0.9142857142857143,
+      "coverage_b": 0.9428571428571428,
+      "insufficient_overlap": false
+    }
+  }
+}
