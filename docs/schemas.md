@@ -53,7 +53,8 @@ bearers, an analyst panel, and items. See the
 | `bearers` | `dict[str, BearerModel]` | ✓ | The bearer set `B` keyed by id. |
 | `analysts` | `list[AnalystModel]` (min 1) | ✓ | The analyst panel `{a_1, …, a_m}`. |
 | `context_builders` | `ContextBuilders` | optional | `ctx_Γ` / `ctx_Δ`; defaults to "and"-conjunction / "or"-disjunction templates. |
-| `verification_prompt` | `VerificationPromptOverride \| null` | optional | Benchmark-level override of the framework's default verification prompt. |
+| `verification_prompt` | `VerificationPromptOverride \| null` | optional | Benchmark-level override of the framework's default verification prompt (`support` question form only). |
+| `template_id` | `str \| null` | optional | Id of a catalogued template the `coherence` question form renders items through (model prompt + survey paths), e.g. `"clinical-coherence-v1"`. Unknown ids fail loudly at resolution time. |
 | `items` | `list[BenchmarkItem]` | ✓ | The implications + analyst-verdict tuples. |
 | `factors` | `dict[str, list[str]]` | optional, default `{}` | Declared design factors and their levels (v0.3.0+). |
 | `factor_constraints` | `FactorConstraints \| null` | optional | Validator constraints on the factorial design — currently `min_items_per_cell`. |
