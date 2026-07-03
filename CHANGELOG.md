@@ -10,7 +10,7 @@ stable from 1.0 onward, regardless of the framework version.
 
 ## [Unreleased]
 
-**The clinical pilot's domain template is promoted into the library, bound declaratively via a new benchmark-level `template_id` field.** The 2026-07-02 R0/R1/R2 clinical pilot capture (`experiments/results/clinical_pilot/r0r1r2_2026-07-02/analysis.md`, Finding 2) showed the patient-framed rendering recovers 4 of 5 question-form verdict flips and lifts coverage to 1.00 relative to the plain framework template; default coherence evaluations of the clinical pilot now use it with no Python-side setup.
+**The clinical pilot's domain template is promoted into the library, bound declaratively via a new benchmark-level `template_id` field.** The 2026-07-02 R0/R1/R2 clinical pilot capture (`experiments/results/clinical_pilot/r0r1r2_2026-07-02/analysis.md`, Finding 2) showed the patient-framed rendering recovers 4 of 5 question-form verdict flips and lifts coverage to 1.00 relative to the plain framework template; coherence evaluations of the clinical pilot now use it by default, with no Python-side setup.
 
 ### Added — benchmark-level template binding (`template_id`)
 
@@ -23,6 +23,26 @@ stable from 1.0 onward, regardless of the framework version.
 
 - `examples/clinical_pilot/benchmark.json` (and its v0.5 source `_meta`, which `bearers-import` now passes through) declares `template_id: "clinical-coherence-v1"`. **Note:** this edit changes the benchmark's canonical hash, so R22 retests cannot be composed against pre-edit clinical pilot etas — the setup-compatibility check rejects the mismatch, as designed.
 - `experiments/scripts/r0r1r2_clinical.py` imports `ClinicalTemplate` from the library instead of defining its own copy; run semantics are unchanged (all three runs pin their template explicitly).
+
+**The coherence-frame API: the norm-statement axis of the `coherence` question form becomes a first-class, versioned, benchmark-bindable instrument component.** The anchored-coherence and underdetermination-clause captures showed the coherence system prompt is the variable that decides whether the bilateral question survives practice-stripping renderings; those system texts are now library citizens with the same registry/catalog/provenance discipline templates got. The default is unchanged: with no frame bound anywhere, coherence elicitation is byte-identical to pre-frame releases.
+
+### Added — coherence frames (`CoherenceFrame` + `coherence_frame_id`)
+
+- `infereval.templates.CoherenceFrame` (frozen dataclass, `id` + `system`): a versioned system prompt for the `coherence` question form — the coherence-side analogue of the support path's `VerificationPrompt`. A frame carries ONLY the system text; the question line, labels, parse regex, and polarity decode stay library-controlled, so no frame can silently invert verdicts. Frames are versioned by id — redefining a frame's text under an existing id breaks provenance; mint a new id instead.
+- Three built-in frames: `THIN_COHERENCE_FRAME` (`"thin-v1"`, the library's original coherence system, unchanged — still the default), `DEFEASIBLE_COHERENCE_FRAME` (`"defeasible-coherence-explicit-v1"`, materiality-anchored: explicit defeasibility norms with the commit/deny transposition of the bird/penguin exemplar), and `UNDERDET_COHERENCE_FRAME` (`"defeasible-coherence-underdet-v1"`, the anchored frame plus an underdetermination clause in the UNCLEAR gloss and a parallel third exemplar; shipped for provenance continuity and further study, not as a default). The two anchored frames are byte-identical to the systems of the captures that validated them, so provenance carries over.
+- Registry + catalog surfaces mirroring the template ones: `register_coherence_frame(benchmark_id, frame)` (programmatic per-benchmark binding), `register_coherence_frame_id(frame)` / `coherence_frame_for_id(id)` (the frame-id catalog; unknown ids raise rather than silently falling back to thin — an evaluation that declares a frame it can't get would otherwise be elicited under a different instrument than it records), and `resolve_coherence_frame(benchmark_id, frame_id=...)`. `coherence_prompt(req, template, frame=None)` composes the prompt under a frame's system text (`None` = thin, byte-identical to the pre-frame composition).
+- `Benchmark.coherence_frame_id` (optional, additive — pre-existing benchmarks validate unchanged): benchmark-declared frame binding, the norm-statement peer of `template_id`. Ignored by the legacy `support` form.
+- `evaluate(..., coherence_frame=...)` and `endorse(..., coherence_frame=...)` accept an explicit frame. Resolution precedence at `evaluate()`: explicit `coherence_frame` argument > non-default input-config `coherence_frame_id` > programmatic `register_coherence_frame` binding > benchmark-declared `coherence_frame_id` > thin default — resolved once up front, so an unknown id fails loudly before any provider call. A benchmark-declared frame therefore binds with no flags at all; additionally, `infereval evaluate` / `retest` / `sweep` gain an explicit `--coherence-frame <id>` option (validated against the catalog before any provider is built; exit 2 on unknown ids). On the staged retest paths (`--baseline-from` / `--append-to`), an unset flag derives the frame id from the baseline eta's recorded `endorsement_config`, so a re-elicitation reproduces the baseline frame by construction; an explicit flag overrides the derivation (and a resulting cross-frame comparison is then refused by the compatibility check, as designed).
+
+### Added — frame provenance (`EndorsementConfig.coherence_frame_id`)
+
+- `EndorsementConfig.coherence_frame_id` (default `"thin-v1"`, always concrete — never null): `evaluate()` stamps the resolved frame id into the config the η records (the frame leg of the §12.3 provenance tuple). On an *input* config the default means "resolve normally"; a non-default value is an explicit catalog binding. Logged in the `run.started` JSONL event (`coherence_frame_id=...`) and in each item's `item.started` prompt id (`"{template_id}:coherence:{frame_id}"`).
+- Legacy-η backfill: an η JSON whose `endorsement_config` lacks the field predates frames and is backfilled to `"thin-v1"` at load time — correct for every `evaluate()`-produced η, which elicited coherence only under the thin system before frames existed.
+- Retest cross-frame refusal: because the stamped frame id is part of the recorded `endorsement_config`, the retest setup-compatibility check refuses to compose runs elicited under different frames — the coherence-side analogue of the `verification_prompt_id` refusal — rather than conflating a frame change with test-retest variability. Backfilled legacy runs compare as thin-frame runs.
+
+### Changed
+
+- `experiments/scripts/anchored_coherence.py` and `experiments/scripts/underdet_coherence.py` import their system texts from the library frames instead of defining local literals (promote-by-import, same as `r0r1r2_clinical.py`); texts and ids are byte-identical, so run semantics are unchanged.
 
 ## [0.17.5] — 2026-07-02
 

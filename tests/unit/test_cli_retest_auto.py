@@ -15,6 +15,7 @@ from unittest.mock import patch
 from click.testing import CliRunner
 
 from infereval.cli.main import cli
+from infereval.evaluation import Evaluation
 from infereval.providers.mock import ScriptedProvider
 
 STOP_SIGN_PATH = (
@@ -595,12 +596,15 @@ class TestBaselineFrom:
 # back to the same path (or `-o` override).
 
 
-def _phase1_multi(tmp_path: Path) -> tuple[Path, Path]:
+def _phase1_multi(
+    tmp_path: Path, extra_args: list[str] | None = None
+) -> tuple[Path, Path]:
     """Capture a 2-pair Phase 1 multi.json (back-to-back + 0s sleep so
     the test is fast). Returns (multi_path, retest_dir). The retest_dir
     contains the saved etas (`eta-0.json`, `eta-1.json`, `eta-2.json`)
     AND the multi.json; sibling-resolution will then find `eta-0.json`
-    naturally.
+    naturally. ``extra_args`` appends further CLI flags to the Phase 1
+    capture invocation (e.g. `--coherence-frame <id>`).
     """
     retest_dir = tmp_path / "phase1"
     retest_dir.mkdir(parents=True, exist_ok=True)
@@ -620,6 +624,7 @@ def _phase1_multi(tmp_path: Path) -> tuple[Path, Path]:
                 "--interval-s", "0",
                 "--save-etas", str(retest_dir),
                 "-o", str(multi_path),
+                *(extra_args or []),
             ],
         )
     assert result.exit_code == 0, result.output
@@ -813,6 +818,165 @@ class TestAppendTo:
         # In-place: same path, larger content (new pair appended).
         assert multi_path.is_file()
         assert multi_path.stat().st_size > original_size
+
+
+# ---- --coherence-frame threading (coherence-frame API) --------------------
+
+
+class TestCoherenceFrame:
+    def test_auto_captures_record_explicit_frame(self, tmp_path: Path) -> None:
+        """--coherence-frame threads into both auto-mode captures; the
+        saved etas record the resolved id in endorsement_config."""
+        save_dir = tmp_path / "etas"
+        provider = _scripted_provider(["INCOHERENT"] * 24)
+        runner = CliRunner()
+        with patch("infereval.providers.get_provider", return_value=provider):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--coherence-frame", "defeasible-coherence-explicit-v1",
+                    "--save-etas", str(save_dir),
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        for name in ("eta-a.json", "eta-b.json"):
+            eta = Evaluation.load(save_dir / name)
+            assert eta.endorsement_config.coherence_frame_id == (
+                "defeasible-coherence-explicit-v1"
+            )
+
+    def test_unknown_frame_id_exits_nonzero(self) -> None:
+        """An unknown frame id fails fast — before any provider client is
+        constructed — with the catalog listing in the error message."""
+        runner = CliRunner()
+        # No get_provider patch: the frame lookup precedes provider
+        # construction, so no provider (or API key) is ever needed.
+        result = runner.invoke(
+            cli,
+            [
+                "retest", "--auto",
+                "--benchmark", str(STOP_SIGN_PATH),
+                "--provider", "openai", "--model", "gpt-4o",
+                "--coherence-frame", "no-such-frame-v1",
+            ],
+        )
+        assert result.exit_code == 2
+        assert "unknown coherence_frame_id" in result.output
+
+    def test_baseline_from_derives_frame_from_baseline_eta(
+        self, tmp_path: Path
+    ) -> None:
+        """Absent an explicit flag, the fresh capture re-elicits under the
+        frame the baseline eta records (not the thin default), so the
+        endorsement_config parity check passes and the retest completes."""
+        # Phase 1: capture a baseline under the anchored frame.
+        save_dir = tmp_path / "phase1"
+        provider = _scripted_provider(["INCOHERENT"] * 24)
+        runner = CliRunner()
+        with patch("infereval.providers.get_provider", return_value=provider):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--coherence-frame", "defeasible-coherence-explicit-v1",
+                    "--save-etas", str(save_dir),
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        baseline_path = save_dir / "eta-a.json"
+
+        # Phase 2: --baseline-from WITHOUT --coherence-frame. Without the
+        # derivation the fresh capture would resolve to thin-v1 and
+        # compute_retest would refuse the cross-frame comparison.
+        fresh_dir = tmp_path / "phase2"
+        fresh_provider = _scripted_provider(["INCOHERENT"] * 12)
+        with patch(
+            "infereval.providers.get_provider", return_value=fresh_provider
+        ):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--baseline-from", str(baseline_path),
+                    "--save-etas", str(fresh_dir),
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        fresh = Evaluation.load(fresh_dir / "eta-1.json")
+        assert fresh.endorsement_config.coherence_frame_id == (
+            "defeasible-coherence-explicit-v1"
+        )
+
+    def test_baseline_from_explicit_flag_overrides_derivation(
+        self, tmp_path: Path
+    ) -> None:
+        """An explicit --coherence-frame wins over baseline derivation; the
+        resulting cross-frame comparison (thin-v1 baseline vs anchored
+        fresh capture) is refused by the endorsement_config parity check."""
+        baseline_path = _capture_baseline_eta(tmp_path)  # thin-v1 baseline
+        fresh_provider = _scripted_provider(["INCOHERENT"] * 12)
+        runner = CliRunner()
+        with patch(
+            "infereval.providers.get_provider", return_value=fresh_provider
+        ):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--baseline-from", str(baseline_path),
+                    "--coherence-frame", "defeasible-coherence-explicit-v1",
+                ],
+            )
+        assert result.exit_code != 0, result.output
+        assert "incompatible runs" in result.output.lower()
+
+    def test_append_to_derives_frame_from_baseline_eta(
+        self, tmp_path: Path
+    ) -> None:
+        """--append-to derives the frame from the baseline eta the same way
+        --baseline-from does: the appended capture re-elicits under the
+        baseline's frame and the pair count grows."""
+        multi_path, retest_dir = _phase1_multi(
+            tmp_path,
+            extra_args=["--coherence-frame", "defeasible-coherence-explicit-v1"],
+        )
+        fresh_provider = _scripted_provider(["INCOHERENT"] * 12)
+        runner = CliRunner()
+        with patch(
+            "infereval.providers.get_provider", return_value=fresh_provider
+        ):
+            result = runner.invoke(
+                cli,
+                [
+                    "retest", "--auto",
+                    "--benchmark", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o",
+                    "--n-samples", "3",
+                    "--append-to", str(multi_path),
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        after = json.loads(multi_path.read_text())
+        assert len(after["pairs"]) == 3
+        # The appended fresh capture (slot eta-3) re-elicited under the
+        # baseline's frame.
+        fresh = Evaluation.load(retest_dir / "eta-3.json")
+        assert fresh.endorsement_config.coherence_frame_id == (
+            "defeasible-coherence-explicit-v1"
+        )
 
 
 class TestProviderErrors:

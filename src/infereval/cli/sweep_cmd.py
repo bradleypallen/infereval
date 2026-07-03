@@ -16,6 +16,7 @@ from typing import cast
 import click
 
 from infereval.benchmark import Benchmark
+from infereval.endorsement import QuestionForm
 from infereval.evaluation import EndorsementConfig, ProviderParams, TieBreak
 from infereval.providers import (
     ProviderConfigError,
@@ -23,6 +24,7 @@ from infereval.providers import (
     get_provider,
 )
 from infereval.sweep import SweepError, coerce_values, run_sweep
+from infereval.templates import coherence_frame_for_id
 
 log = logging.getLogger(__name__)
 
@@ -72,6 +74,15 @@ def _format_kappa(value: float | None) -> str:
               type=click.Choice(["abstain", "good", "bad", "first"]),
               default="abstain", show_default=True,
               help="Baseline tie_break (ignored when --vary tie_break).")
+@click.option("--question-form",
+              type=click.Choice(["support", "coherence"]),
+              default="support", show_default=True,
+              help="Logical question posed per item, held fixed across the sweep.")
+@click.option("--coherence-frame", "coherence_frame_id", type=str, default=None,
+              help="Coherence-frame id to elicit under, held fixed across the "
+              "sweep (built-ins: thin-v1, defeasible-coherence-explicit-v1, "
+              "defeasible-coherence-underdet-v1). Unknown ids fail before any "
+              "provider call. Default: evaluate()'s normal frame resolution.")
 @click.option("--strip-tex/--no-strip-tex", default=True, show_default=True)
 @click.option("--run-id-prefix", type=str, default=None,
               help="Per-run id prefix; the swept parameter value is appended.")
@@ -90,6 +101,8 @@ def sweep_cmd(
     temperature: float,
     max_tokens: int,
     tie_break: str,
+    question_form: str,
+    coherence_frame_id: str | None,
     strip_tex: bool,
     run_id_prefix: str | None,
     http_referer: str | None,
@@ -97,10 +110,11 @@ def sweep_cmd(
 ) -> None:
     """Run the sweep and write per-value artifacts + an aggregate summary."""
     log.info(
-        "sweep.cli.start benchmark=%s vary=%s out_dir=%s",
+        "sweep.cli.start benchmark=%s vary=%s out_dir=%s coherence_frame=%s",
         benchmark_path,
         parameter,
         out_dir,
+        coherence_frame_id,
     )
 
     try:
@@ -114,6 +128,15 @@ def sweep_cmd(
     except SweepError as exc:
         click.echo(f"ERROR: {exc}", err=True)
         sys.exit(2)
+
+    # Fail fast on an unknown frame id — before any provider client is
+    # constructed or any sweep value is run.
+    if coherence_frame_id is not None:
+        try:
+            coherence_frame_for_id(coherence_frame_id)
+        except ValueError as exc:
+            click.echo(f"ERROR: {exc}", err=True)
+            sys.exit(2)
 
     provider_kwargs: dict[str, object] = {}
     if provider_name.lower() == "openrouter":
@@ -130,7 +153,15 @@ def sweep_cmd(
     base_config = EndorsementConfig(
         n_samples=n_samples,
         tie_break=cast(TieBreak, tie_break),
+        question_form=cast(QuestionForm, question_form),
     )
+    if coherence_frame_id is not None:
+        # A non-default coherence_frame_id on an input config is an explicit
+        # binding: evaluate() looks it up in the catalog and stamps the
+        # resolved id into each per-value η it records.
+        base_config = base_config.model_copy(
+            update={"coherence_frame_id": coherence_frame_id}
+        )
     base_params = ProviderParams(
         temperature=temperature,
         max_tokens=max_tokens,

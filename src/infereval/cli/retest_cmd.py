@@ -44,6 +44,7 @@ from infereval.retest import (
 
 if TYPE_CHECKING:
     from infereval.providers.base import Provider
+    from infereval.templates import CoherenceFrame
 
 log = logging.getLogger(__name__)
 
@@ -163,6 +164,29 @@ _AUTO_RUN_ID_PREFIX = "retest-auto-"
     default="abstain",
     show_default=True,
 )
+@click.option(
+    "--question-form",
+    type=click.Choice(["support", "coherence"]),
+    default="support",
+    show_default=True,
+    help="Logical question posed per item in auto-mode captures. Must match "
+    "the baseline eta's question_form when composing with --baseline-from / "
+    "--append-to (the compatibility check enforces this).",
+)
+@click.option(
+    "--coherence-frame",
+    "coherence_frame_id",
+    type=str,
+    default=None,
+    help="Coherence-frame id for auto-mode captures (built-ins: thin-v1, "
+    "defeasible-coherence-explicit-v1, defeasible-coherence-underdet-v1). "
+    "Unknown ids fail before any provider call. When composing with "
+    "--baseline-from / --append-to, the default (unset) derives the frame "
+    "from the baseline eta's endorsement_config so the re-elicitation "
+    "reproduces the baseline frame; an explicit id overrides the "
+    "derivation. Otherwise the default defers to evaluate()'s normal "
+    "frame resolution.",
+)
 @click.option("--strip-tex/--no-strip-tex", default=True, show_default=True)
 @click.option(
     "--http-referer",
@@ -267,6 +291,8 @@ def retest_cmd(  # noqa: PLR0913 -- cumulative CLI option set
     top_p: float | None,
     seed: int | None,
     tie_break: str,
+    question_form: str,
+    coherence_frame_id: str | None,
     strip_tex: bool,
     http_referer: str | None,
     x_title: str | None,
@@ -354,9 +380,9 @@ def retest_cmd(  # noqa: PLR0913 -- cumulative CLI option set
         assert provider_name is not None and model_id is not None  # noqa: S101
         log.info(
             "retest.cli.auto.start benchmark=%s provider=%s model=%s "
-            "intervals_s=%s baseline_from=%s append_to=%s",
+            "intervals_s=%s baseline_from=%s append_to=%s coherence_frame=%s",
             benchmark_path, provider_name, model_id, list(intervals_s),
-            baseline_from_path, append_to_path,
+            baseline_from_path, append_to_path, coherence_frame_id,
         )
         try:
             bench = Benchmark.load(benchmark_path)
@@ -381,6 +407,8 @@ def retest_cmd(  # noqa: PLR0913 -- cumulative CLI option set
                 top_p=top_p,
                 seed=seed,
                 tie_break=tie_break,
+                question_form=question_form,
+                coherence_frame_id=coherence_frame_id,
                 strip_tex=strip_tex,
                 http_referer=http_referer,
                 x_title=x_title,
@@ -404,6 +432,8 @@ def retest_cmd(  # noqa: PLR0913 -- cumulative CLI option set
                 top_p=top_p,
                 seed=seed,
                 tie_break=tie_break,
+                question_form=question_form,
+                coherence_frame_id=coherence_frame_id,
                 strip_tex=strip_tex,
                 http_referer=http_referer,
                 x_title=x_title,
@@ -423,6 +453,8 @@ def retest_cmd(  # noqa: PLR0913 -- cumulative CLI option set
             top_p=top_p,
             seed=seed,
             tie_break=tie_break,
+            question_form=question_form,
+            coherence_frame_id=coherence_frame_id,
             strip_tex=strip_tex,
             http_referer=http_referer,
             x_title=x_title,
@@ -509,6 +541,27 @@ def _maybe_load_identity_criterion(claims_path: Path | None) -> Any:
     return claims.reliability.identity_criterion
 
 
+def _lookup_coherence_frame(frame_id: str | None) -> CoherenceFrame | None:
+    """Resolve ``frame_id`` through the frame catalog; ``None`` defers.
+
+    Unknown ids exit 2 with the catalog listing — fail fast, before any
+    provider client is constructed, so no capture is half-taken under a
+    frame that can't be resolved. ``None`` means "no explicit binding":
+    the caller passes ``coherence_frame=None`` to :func:`evaluate` and
+    its default frame resolution applies.
+    """
+    if frame_id is None:
+        return None
+    # Local import — keep CLI import cost low for the manual-mode path.
+    from infereval.templates import coherence_frame_for_id
+
+    try:
+        return coherence_frame_for_id(frame_id)
+    except ValueError as exc:
+        click.echo(f"ERROR: {exc}", err=True)
+        sys.exit(2)
+
+
 def _run_auto_captures(
     *,
     benchmark: Benchmark,
@@ -520,6 +573,8 @@ def _run_auto_captures(
     top_p: float | None,
     seed: int | None,
     tie_break: str,
+    question_form: str,
+    coherence_frame_id: str | None,
     strip_tex: bool,
     http_referer: str | None,
     x_title: str | None,
@@ -557,6 +612,11 @@ def _run_auto_captures(
         else [str(i) for i in range(n_captures)]
     )
 
+    # Resolve the coherence frame up front (fail fast on unknown ids,
+    # before the provider client is constructed). Every capture is
+    # elicited under the same frame.
+    coherence_frame = _lookup_coherence_frame(coherence_frame_id)
+
     # Build a single provider client and reuse it for all captures —
     # this models the realistic "same client, N requests" shape.
     provider_kwargs: dict[str, object] = {}
@@ -574,6 +634,7 @@ def _run_auto_captures(
     config = EndorsementConfig(
         n_samples=n_samples,
         tie_break=cast(Any, tie_break),  # Click choice string → TieBreak literal
+        question_form=cast(Any, question_form),
     )
     params = ProviderParams(
         temperature=temperature,
@@ -628,6 +689,7 @@ def _run_auto_captures(
                     config=config, params=params,
                     strip_tex=strip_tex, run_id=run_id_i,
                     log_path=log_path, variant=paraphrase_variant,
+                    coherence_frame=coherence_frame,
                 )
             except ProviderError as exc:
                 # On failure mid-sequence, surface the failure with a
@@ -770,6 +832,8 @@ def _run_one_fresh_capture(
     top_p: float | None,
     seed: int | None,
     tie_break: str,
+    question_form: str,
+    coherence_frame_id: str | None,
     strip_tex: bool,
     http_referer: str | None,
     x_title: str | None,
@@ -797,6 +861,12 @@ def _run_one_fresh_capture(
     from infereval.providers import get_provider
     from infereval.providers.base import ProviderConfigError, ProviderError
 
+    # Resolve the coherence frame up front (fail fast on unknown ids,
+    # before the provider client is constructed). The staged-composition
+    # callers derive this id from the baseline eta unless the user
+    # supplied an explicit --coherence-frame.
+    coherence_frame = _lookup_coherence_frame(coherence_frame_id)
+
     provider_kwargs: dict[str, object] = {}
     if provider_name.lower() == "openrouter":
         if http_referer is not None:
@@ -812,6 +882,7 @@ def _run_one_fresh_capture(
     config = EndorsementConfig(
         n_samples=n_samples,
         tie_break=cast(Any, tie_break),
+        question_form=cast(Any, question_form),
     )
     params = ProviderParams(
         temperature=temperature,
@@ -847,6 +918,7 @@ def _run_one_fresh_capture(
                 config=config, params=params,
                 strip_tex=strip_tex, run_id=fresh_run_id,
                 log_path=log_path, variant=paraphrase_variant,
+                coherence_frame=coherence_frame,
             )
         except ProviderError as exc:
             click.echo(
@@ -878,6 +950,8 @@ def _run_auto_with_baseline_from(
     top_p: float | None,
     seed: int | None,
     tie_break: str,
+    question_form: str,
+    coherence_frame_id: str | None,
     strip_tex: bool,
     http_referer: str | None,
     x_title: str | None,
@@ -924,6 +998,22 @@ def _run_auto_with_baseline_from(
 
     identity_criterion = _maybe_load_identity_criterion(claims_path)
 
+    # Coherence-frame derivation (the frame analogue of the question_form
+    # baseline-match rule): absent an explicit --coherence-frame, re-elicit
+    # under the frame the baseline eta records so the fresh capture
+    # reproduces the baseline instrument. An explicit flag overrides. The
+    # baseline's id is always concrete — evaluate() stamps the resolved id
+    # and legacy etas backfill to "thin-v1" at load time.
+    effective_frame_id = (
+        coherence_frame_id
+        if coherence_frame_id is not None
+        else baseline.endorsement_config.coherence_frame_id
+    )
+    log.info(
+        "retest.cli.auto.baseline_from.coherence_frame id=%s explicit=%s",
+        effective_frame_id, coherence_frame_id is not None,
+    )
+
     # Filename convention: when staging composition, the fresh capture
     # sits at the "pair 1" slot relative to the baseline (which is
     # conceptually `eta-0.json`). Even if the user pointed at a
@@ -940,6 +1030,8 @@ def _run_auto_with_baseline_from(
         top_p=top_p,
         seed=seed,
         tie_break=tie_break,
+        question_form=question_form,
+        coherence_frame_id=effective_frame_id,
         strip_tex=strip_tex,
         http_referer=http_referer,
         x_title=x_title,
@@ -1006,6 +1098,8 @@ def _run_auto_append_to(
     top_p: float | None,
     seed: int | None,
     tie_break: str,
+    question_form: str,
+    coherence_frame_id: str | None,
     strip_tex: bool,
     http_referer: str | None,
     x_title: str | None,
@@ -1118,6 +1212,19 @@ def _run_auto_append_to(
         save_etas_dir if save_etas_dir is not None else multi_path.parent
     )
 
+    # Coherence-frame derivation, mirroring _run_auto_with_baseline_from:
+    # absent an explicit --coherence-frame, the appended capture re-elicits
+    # under the frame the baseline eta records; an explicit flag overrides.
+    effective_frame_id = (
+        coherence_frame_id
+        if coherence_frame_id is not None
+        else baseline.endorsement_config.coherence_frame_id
+    )
+    log.info(
+        "retest.cli.auto.append_to.coherence_frame id=%s explicit=%s",
+        effective_frame_id, coherence_frame_id is not None,
+    )
+
     fresh = _run_one_fresh_capture(
         benchmark=benchmark,
         provider_name=provider_name,
@@ -1128,6 +1235,8 @@ def _run_auto_append_to(
         top_p=top_p,
         seed=seed,
         tie_break=tie_break,
+        question_form=question_form,
+        coherence_frame_id=effective_frame_id,
         strip_tex=strip_tex,
         http_referer=http_referer,
         x_title=x_title,

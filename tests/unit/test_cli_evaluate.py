@@ -132,6 +132,81 @@ class TestFullRun:
         assert out_path.exists()
 
 
+# ---- --coherence-frame threading (coherence-frame API) ---------------------
+
+
+class TestCoherenceFrame:
+    def test_explicit_frame_recorded_in_endorsement_config(self, tmp_path: Path) -> None:
+        """--coherence-frame threads through evaluate(); the resolved id is
+        stamped into the output eta's endorsement_config."""
+        out_path = tmp_path / "eta.json"
+        provider = ScriptedProvider(responses=["INCOHERENT"] * 4)
+        with patch(
+            "infereval.cli.evaluate_cmd.get_provider", return_value=provider
+        ):
+            runner = CliRunner()
+            result = runner.invoke(
+                cli,
+                [
+                    "evaluate", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o-mini",
+                    "--output", str(out_path),
+                    "--n-samples", "1",
+                    "--coherence-frame", "defeasible-coherence-explicit-v1",
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        eta = Evaluation.load(out_path)
+        assert eta.endorsement_config.coherence_frame_id == (
+            "defeasible-coherence-explicit-v1"
+        )
+
+    def test_absent_flag_records_thin_default(self, tmp_path: Path) -> None:
+        """No --coherence-frame -> evaluate()'s default resolution; the
+        stop-sign benchmark declares no frame binding, so the recorded id
+        is the thin default."""
+        out_path = tmp_path / "eta.json"
+        provider = ScriptedProvider(responses=["INCOHERENT"] * 4)
+        with patch(
+            "infereval.cli.evaluate_cmd.get_provider", return_value=provider
+        ):
+            runner = CliRunner()
+            result = runner.invoke(
+                cli,
+                [
+                    "evaluate", str(STOP_SIGN_PATH),
+                    "--provider", "openai", "--model", "gpt-4o-mini",
+                    "--output", str(out_path),
+                    "--n-samples", "1",
+                ],
+            )
+        assert result.exit_code == 0, result.output
+        eta = Evaluation.load(out_path)
+        assert eta.endorsement_config.coherence_frame_id == "thin-v1"
+
+    def test_unknown_frame_id_exits_nonzero(self, tmp_path: Path) -> None:
+        """An unknown frame id fails fast — before any provider client is
+        constructed — with the catalog listing in the error message."""
+        out_path = tmp_path / "eta.json"
+        runner = CliRunner()
+        # No get_provider patch: the frame lookup precedes provider
+        # construction, so no provider (or API key) is ever needed.
+        result = runner.invoke(
+            cli,
+            [
+                "evaluate", str(STOP_SIGN_PATH),
+                "--provider", "openai", "--model", "gpt-4o-mini",
+                "--output", str(out_path),
+                "--n-samples", "1",
+                "--coherence-frame", "no-such-frame-v1",
+            ],
+        )
+        assert result.exit_code == 2
+        assert "unknown coherence_frame_id" in result.output
+        assert "no-such-frame-v1" in result.output
+        assert not out_path.exists()
+
+
 # ---- Argument validation ---------------------------------------------------
 
 

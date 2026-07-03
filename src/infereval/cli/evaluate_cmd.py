@@ -19,6 +19,7 @@ import click
 
 from infereval.benchmark import Benchmark
 from infereval.context import resolve_context_builders
+from infereval.endorsement import QuestionForm
 from infereval.evaluation import (
     EndorsementConfig,
     ProviderParams,
@@ -32,6 +33,7 @@ from infereval.providers import (
     ProviderError,
     get_provider,
 )
+from infereval.templates import CoherenceFrame, coherence_frame_for_id
 
 log = logging.getLogger(__name__)
 
@@ -121,6 +123,27 @@ def _print_dry_run(benchmark: Benchmark) -> None:
     show_default=True,
 )
 @click.option(
+    "--question-form",
+    type=click.Choice(["support", "coherence"]),
+    default="support",
+    show_default=True,
+    help="Logical question posed per item: the single-succedent 'support' "
+    "question (default) or the arity-uniform bilateral 'coherence' "
+    "question.",
+)
+@click.option(
+    "--coherence-frame",
+    "coherence_frame_id",
+    type=str,
+    default=None,
+    help="Coherence-frame id to elicit the coherence question under "
+    "(built-ins: thin-v1, defeasible-coherence-explicit-v1, "
+    "defeasible-coherence-underdet-v1). Unknown ids fail before any provider "
+    "call. Default: evaluate()'s frame resolution (a programmatic "
+    "registration, then the benchmark's coherence_frame_id, then thin-v1). "
+    "Meaningful only with --question-form coherence.",
+)
+@click.option(
     "--strip-tex/--no-strip-tex",
     default=True,
     show_default=True,
@@ -196,6 +219,8 @@ def evaluate_cmd(
     top_p: float | None,
     seed: int | None,
     tie_break: str,
+    question_form: str,
+    coherence_frame_id: str | None,
     strip_tex: bool,
     run_id: str | None,
     log_path: Path | None,
@@ -207,7 +232,10 @@ def evaluate_cmd(
     paraphrase_cycle: bool = False,
 ) -> None:
     """Run a model against a benchmark and write the evaluation JSON."""
-    log.info("evaluate.cli.start benchmark=%s dry_run=%s", benchmark_path, dry_run)
+    log.info(
+        "evaluate.cli.start benchmark=%s dry_run=%s coherence_frame=%s",
+        benchmark_path, dry_run, coherence_frame_id,
+    )
 
     try:
         benchmark = Benchmark.load(benchmark_path)
@@ -218,6 +246,17 @@ def evaluate_cmd(
     if dry_run:
         _print_dry_run(benchmark)
         return
+
+    # Resolve an explicit --coherence-frame up front: an unknown id fails
+    # fast, before any provider client is constructed. None defers to
+    # evaluate()'s default frame resolution.
+    coherence_frame: CoherenceFrame | None = None
+    if coherence_frame_id is not None:
+        try:
+            coherence_frame = coherence_frame_for_id(coherence_frame_id)
+        except ValueError as exc:
+            click.echo(f"ERROR: {exc}", err=True)
+            sys.exit(2)
 
     provider: Provider
     if replay_from is not None:
@@ -257,6 +296,7 @@ def evaluate_cmd(
     config = EndorsementConfig(
         n_samples=n_samples,
         tie_break=cast(TieBreak, tie_break),
+        question_form=cast(QuestionForm, question_form),
     )
     params = ProviderParams(
         temperature=temperature,
@@ -316,6 +356,7 @@ def evaluate_cmd(
                 run_id=run_id_v,
                 log_path=log_path_v,
                 variant=v,
+                coherence_frame=coherence_frame,
             )
         except ProviderError as exc:
             click.echo(

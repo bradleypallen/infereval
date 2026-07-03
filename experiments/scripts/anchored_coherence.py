@@ -60,7 +60,13 @@ from infereval.evaluation import (
 )
 from infereval.providers import get_provider
 from infereval.providers.base import ProviderSampleError, SampleRequest
-from infereval.templates import DefaultTemplate, VerdictRequest, arity_of, coherence_decode
+from infereval.templates import (
+    DEFEASIBLE_COHERENCE_FRAME,
+    DefaultTemplate,
+    VerdictRequest,
+    arity_of,
+    coherence_decode,
+)
 from infereval.templates_clinical import ClinicalTemplate
 from infereval.types import Verdict
 
@@ -68,37 +74,16 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 BENCHMARK = REPO_ROOT / "examples" / "clinical_pilot" / "benchmark.json"
 RESULTS_ROOT = REPO_ROOT / "experiments" / "results" / "clinical_pilot"
 
-ANCHORED_COHERENCE_SYSTEM_ID = "defeasible-coherence-explicit-v1"
 # Mirrors defeasible-explicit-v1 (support form) clause-for-clause, transposed to
 # the bilateral commit/deny question. Question line, labels, and decode are the
 # library's, byte-identical — the system prompt is the ONLY manipulated variable
-# against the thin-coherence cells.
-ANCHORED_COHERENCE_SYSTEM = (
-    "You are judging whether a position is coherent in everyday defeasible "
-    "reasoning. A position commits to some claims and may deny others.\n\n"
-    "This is NOT a question of strict logical consistency. It is a question of "
-    "material coherence: granting the commitments as stated, with typical "
-    "background conditions and standard kinds, can the whole position be held "
-    "together in the ordinary course of things?\n\n"
-    "Answer with exactly one of: COHERENT, INCOHERENT, UNCLEAR. No other text.\n\n"
-    "COHERENT means the whole position can be held together under default "
-    "conditions — including when a commitment defeats what would otherwise "
-    "ordinarily follow.\n"
-    "INCOHERENT means the position is untenable: it denies something its "
-    "commitments would ordinarily settle, or its commitments cannot all hold "
-    "together in the ordinary course of things. A strict logical contradiction "
-    "is not required.\n"
-    "UNCLEAR means the question is ill-formed or you cannot judge.\n\n"
-    "For example:\n"
-    "  Consider a position that commits to the following: a is a bird; and "
-    "denies: a can fly.\n"
-    "  Verdict: INCOHERENT  (typical birds fly; absent further information, the "
-    "denial clashes with what the commitment ordinarily settles)\n\n"
-    "  Consider a position that commits to the following: a is a bird and a is "
-    "a penguin; and denies: a can fly.\n"
-    "  Verdict: COHERENT  (the second commitment is a defeater; the position "
-    "holds together)"
-)
+# against the thin-coherence cells. The frame was promoted into the library
+# (coherence-frame API) with text byte-identical to this script's original
+# literal, so these bindings reproduce the capture's system and id exactly.
+# Module-level names kept: underdet_coherence.py imports them, and the run
+# logs/summaries reference them.
+ANCHORED_COHERENCE_SYSTEM = DEFEASIBLE_COHERENCE_FRAME.system
+ANCHORED_COHERENCE_SYSTEM_ID = DEFEASIBLE_COHERENCE_FRAME.id
 COHERENCE_QUESTION = "Is this position coherent? Answer COHERENT, INCOHERENT, or UNCLEAR."
 # Byte-identical to templates._COHERENCE_PARSE (INCOHERENT first so the
 # alternation never matches the COHERENT substring of it).
