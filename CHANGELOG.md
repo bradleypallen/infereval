@@ -8,7 +8,7 @@ with the additional commitment that the benchmark and evaluation JSON
 schemas are versioned independently (`schema_version: "1.0"`) and promised
 stable from 1.0 onward, regardless of the framework version.
 
-## [Unreleased]
+## [0.17.6] — 2026-07-03
 
 **The clinical pilot's domain template is promoted into the library, bound declaratively via a new benchmark-level `template_id` field.** The 2026-07-02 R0/R1/R2 clinical pilot capture (`experiments/results/clinical_pilot/r0r1r2_2026-07-02/analysis.md`, Finding 2) showed the patient-framed rendering recovers 4 of 5 question-form verdict flips and lifts coverage to 1.00 relative to the plain framework template; coherence evaluations of the clinical pilot now use it by default, with no Python-side setup.
 
