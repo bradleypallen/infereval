@@ -15,11 +15,17 @@ domain elicitation config:
 - ``analysts`` — optional analyst panel. When absent (a pre-recruitment pilot),
   a single ``pending-analyst-panel`` stopgap is synthesized with all-``abstain``
   verdicts so the benchmark loads; each item's provisional read stays in its
-  firewalled ``placeholder`` field.
+  firewalled ``placeholder`` field. When a real panel *is* declared (e.g. after
+  ``experiments/scripts/ingest_panel_verdicts.py`` records collected clinician
+  verdicts), items that still carry an empty ``analyst_verdicts`` are padded to
+  all-``abstain`` the same way — a neutral "no judgment recorded yet" fill for
+  the still-unreviewed items, distinct from an analyst's positive abstain.
 
 Per-item mapping: ``target`` → the single conclusion; ``ladder`` / ``variation``
 / ``target`` / ``placeholder`` → native item fields; ``note`` →
-``construction_note``; ``monotonicity`` → ``monotonicity_step``. Bearer
+``construction_note``; ``monotonicity`` → ``monotonicity_step``;
+``analyst_verdicts`` / ``analyst_rationales`` → the same-named native fields
+(rationales pass through verbatim when present). Bearer
 ``@ordinal`` membership becomes each :class:`BearerModel`'s ``ordinal_family``,
 and the file's ``@copresent`` / ``@entails`` / ``~regularity`` become the
 benchmark's ``copresence_rules`` / ``entailment_rules`` / ``regularities``.
@@ -67,7 +73,6 @@ def build_benchmark(doc: BearersDoc, items_doc: dict[str, Any]) -> Benchmark:
         bearers[bid] = bm
 
     declared_analysts = meta.get("analysts")
-    synthesized_pending = declared_analysts is None
     if declared_analysts is None:
         analysts: list[dict[str, Any]] = [dict(_PENDING_ANALYST)]
     else:
@@ -79,7 +84,17 @@ def build_benchmark(doc: BearersDoc, items_doc: dict[str, Any]) -> Benchmark:
         target = src.get("target")
         conclusions = [target] if target is not None else list(src.get("conclusions", []))
         verdicts = list(src.get("analyst_verdicts") or [])
-        if not verdicts and synthesized_pending:
+        # Empty per-item verdicts are padded to all-``abstain`` (one per
+        # declared analyst) so the benchmark loads. This is the framework's
+        # neutral no-judgment fill: under the *synthesized* pending panel it
+        # marks the whole benchmark as unadjudicated; under a *declared*
+        # panel it marks the still-unreviewed items (e.g. a partial-ingest
+        # where only the contested subset carries real verdicts). Abstain
+        # here means "no judgment recorded", NOT the analyst's positive
+        # "premises license neither target" claim — the honest per-item
+        # record (empty ``analyst_verdicts``) stays in the v0.5 source; the
+        # analyst declaration's ``notes`` document the partial-review firewall.
+        if not verdicts:
             verdicts = ["abstain"] * m
         item: dict[str, Any] = {
             "id": src["id"],
@@ -87,6 +102,13 @@ def build_benchmark(doc: BearersDoc, items_doc: dict[str, Any]) -> Benchmark:
             "conclusions": conclusions,
             "analyst_verdicts": verdicts,
         }
+        # Optional per-analyst rationales (AR-series): pass through verbatim
+        # when the v0.5 source supplies them, so an ingested clinician verdict
+        # carries its one-sentence reason into BenchmarkItem.analyst_rationales.
+        # Length is validated against len(analysts) by Benchmark._check_consistency.
+        rationales = src.get("analyst_rationales")
+        if rationales is not None:
+            item["analyst_rationales"] = list(rationales)
         for key in ("ladder", "variation", "target", "placeholder"):
             if src.get(key) is not None:
                 item[key] = src[key]
