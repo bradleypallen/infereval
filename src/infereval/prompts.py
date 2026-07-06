@@ -59,12 +59,24 @@ class VerificationPrompt:
         Regex applied (case-insensitively) to the model's response. The
         first match's group 1 is uppercased and interpreted as a
         :class:`Verdict` value (``GOOD`` / ``BAD`` / ``ABSTAIN``).
+    survey_header
+        Optional human-facing surface of this prompt's frame: the survey
+        instruction text stating the same assessment norms in respondent
+        voice (the support-form analogue of
+        :attr:`infereval.templates.CoherenceFrame.survey_header`). It
+        changes only the header — choice labels and importer decode stay
+        library-controlled. ``None`` means no survey surface is declared;
+        the survey renderer falls back to the locked v0.9.0 header for
+        ``default-v1`` only and fails loudly for any other prompt, so a
+        non-default frame can never silently elicit humans under the
+        default's wording.
     """
 
     id: str
     system: str
     user_template: str
     parse_regex: str = DEFAULT_PARSE_REGEX
+    survey_header: str | None = None
 
     def build_user(self, premise_context: str, conclusion_context: str) -> str:
         """Return the per-sample user prompt with both contexts substituted in."""
