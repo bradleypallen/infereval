@@ -1,0 +1,3915 @@
+{
+  "schema_version": "1.0",
+  "id": "google/gemini-2.5-pro:coh--thin--plain",
+  "benchmark_id": "clinical-pilot-cpe-ards-v0.5",
+  "benchmark_hash": "sha256:885bc46488bae2b466763cdfd342f30a32a92bb99924603ca26d58a7b37cf687",
+  "model": {
+    "provider": "openrouter",
+    "model_id": "google/gemini-2.5-pro",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "seed": 7,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 6,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-clinical-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1",
+    "question_form": "coherence",
+    "coherence_frame_id": "thin-v1"
+  },
+  "framework_version": "0.17.6",
+  "started_at": "2026-07-06T02:21:47.706135Z",
+  "finished_at": "2026-07-06T03:06:38.701973Z",
+  "items": [
+    {
+      "id": "A0",
+      "premises": [
+        "ad",
+        "bi_mod"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A0:sample-0",
+          "wall_time_ms": 6443.891957867891,
+          "usage": {
+            "input_tokens": 173,
+            "output_tokens": 569
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 566
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A0:sample-1",
+          "wall_time_ms": 6674.751250073314,
+          "usage": {
+            "input_tokens": 173,
+            "output_tokens": 688
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 685
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A0:sample-2",
+          "wall_time_ms": 7823.7115000374615,
+          "usage": {
+            "input_tokens": 173,
+            "output_tokens": 688
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 685
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A0:sample-3",
+          "wall_time_ms": 7887.910082936287,
+          "usage": {
+            "input_tokens": 173,
+            "output_tokens": 696
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 693
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A0:sample-4",
+          "wall_time_ms": 7846.864375052974,
+          "usage": {
+            "input_tokens": 173,
+            "output_tokens": 678
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 675
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A0:sample-5",
+          "wall_time_ms": 7156.60704113543,
+          "usage": {
+            "input_tokens": 173,
+            "output_tokens": 609
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 606
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A1",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "cv_struct"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A1:sample-0",
+          "wall_time_ms": 9787.382915848866,
+          "usage": {
+            "input_tokens": 188,
+            "output_tokens": 881
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 877
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A1:sample-1",
+          "wall_time_ms": 12289.315125206485,
+          "usage": {
+            "input_tokens": 188,
+            "output_tokens": 1014
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1011
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A1:sample-2",
+          "wall_time_ms": 10035.959833068773,
+          "usage": {
+            "input_tokens": 188,
+            "output_tokens": 948
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 944
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A1:sample-3",
+          "wall_time_ms": 10433.010833105072,
+          "usage": {
+            "input_tokens": 188,
+            "output_tokens": 981
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 977
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A1:sample-4",
+          "wall_time_ms": 10860.68758298643,
+          "usage": {
+            "input_tokens": 188,
+            "output_tokens": 981
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 977
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A1:sample-5",
+          "wall_time_ms": 10786.88675002195,
+          "usage": {
+            "input_tokens": 188,
+            "output_tokens": 881
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 877
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 1,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A2:sample-0",
+          "wall_time_ms": 15557.7766248025,
+          "usage": {
+            "input_tokens": 192,
+            "output_tokens": 1487
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1483
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A2:sample-1",
+          "wall_time_ms": 12155.228999909014,
+          "usage": {
+            "input_tokens": 192,
+            "output_tokens": 990
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 986
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A2:sample-2",
+          "wall_time_ms": 10209.075500024483,
+          "usage": {
+            "input_tokens": 192,
+            "output_tokens": 990
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 986
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A2:sample-3",
+          "wall_time_ms": 23033.937917090952,
+          "usage": {
+            "input_tokens": 192,
+            "output_tokens": 1315
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1311
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A2:sample-4",
+          "wall_time_ms": 9970.526625169441,
+          "usage": {
+            "input_tokens": 192,
+            "output_tokens": 990
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 986
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A2:sample-5",
+          "wall_time_ms": 9520.366749959067,
+          "usage": {
+            "input_tokens": 192,
+            "output_tokens": 990
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 986
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A3",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_vhi"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A3:sample-0",
+          "wall_time_ms": 9756.09141588211,
+          "usage": {
+            "input_tokens": 188,
+            "output_tokens": 965
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 961
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A3:sample-1",
+          "wall_time_ms": 18949.850040953606,
+          "usage": {
+            "input_tokens": 188,
+            "output_tokens": 804
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 800
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A3:sample-2",
+          "wall_time_ms": 12222.116833087057,
+          "usage": {
+            "input_tokens": 188,
+            "output_tokens": 1173
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1169
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A3:sample-3",
+          "wall_time_ms": 11902.303833980113,
+          "usage": {
+            "input_tokens": 188,
+            "output_tokens": 1034
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1030
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A3:sample-4",
+          "wall_time_ms": 10447.059999918565,
+          "usage": {
+            "input_tokens": 188,
+            "output_tokens": 942
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 938
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A3:sample-5",
+          "wall_time_ms": 13426.06233409606,
+          "usage": {
+            "input_tokens": 188,
+            "output_tokens": 1034
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1030
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A4",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "fluid_verypos"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A4:sample-0",
+          "wall_time_ms": 10800.72679114528,
+          "usage": {
+            "input_tokens": 196,
+            "output_tokens": 1039
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1036
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A4:sample-1",
+          "wall_time_ms": 8133.5978750139475,
+          "usage": {
+            "input_tokens": 196,
+            "output_tokens": 820
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 817
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A4:sample-2",
+          "wall_time_ms": 11480.74487503618,
+          "usage": {
+            "input_tokens": 196,
+            "output_tokens": 1081
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1078
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A4:sample-3",
+          "wall_time_ms": 13087.217666907236,
+          "usage": {
+            "input_tokens": 196,
+            "output_tokens": 1039
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1036
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A4:sample-4",
+          "wall_time_ms": 13714.17220798321,
+          "usage": {
+            "input_tokens": 196,
+            "output_tokens": 1039
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1036
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A4:sample-5",
+          "wall_time_ms": 9241.80429102853,
+          "usage": {
+            "input_tokens": 196,
+            "output_tokens": 820
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 817
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A5",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "pv_large"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A5:sample-0",
+          "wall_time_ms": 24250.965957995504,
+          "usage": {
+            "input_tokens": 182,
+            "output_tokens": 1461
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1458
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A5:sample-1",
+          "wall_time_ms": 24366.45979201421,
+          "usage": {
+            "input_tokens": 182,
+            "output_tokens": 1461
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1458
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A5:sample-2",
+          "wall_time_ms": 23859.388708136976,
+          "usage": {
+            "input_tokens": 182,
+            "output_tokens": 1461
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1458
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A5:sample-3",
+          "wall_time_ms": 13676.741499919444,
+          "usage": {
+            "input_tokens": 182,
+            "output_tokens": 1298
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1295
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A5:sample-4",
+          "wall_time_ms": 15678.517249878496,
+          "usage": {
+            "input_tokens": 182,
+            "output_tokens": 1461
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1458
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A5:sample-5",
+          "wall_time_ms": 11515.86891617626,
+          "usage": {
+            "input_tokens": 182,
+            "output_tokens": 1111
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1108
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A6",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_preserved"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A6:sample-0",
+          "wall_time_ms": 13132.649790961295,
+          "usage": {
+            "input_tokens": 191,
+            "output_tokens": 1280
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1277
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A6:sample-1",
+          "wall_time_ms": 18370.070457924157,
+          "usage": {
+            "input_tokens": 191,
+            "output_tokens": 1534
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1531
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A6:sample-2",
+          "wall_time_ms": 12396.868209121749,
+          "usage": {
+            "input_tokens": 191,
+            "output_tokens": 1280
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1277
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A6:sample-3",
+          "wall_time_ms": 14791.699999943376,
+          "usage": {
+            "input_tokens": 191,
+            "output_tokens": 1598
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1595
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A6:sample-4",
+          "wall_time_ms": 11946.41812494956,
+          "usage": {
+            "input_tokens": 191,
+            "output_tokens": 1280
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1277
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A6:sample-5",
+          "wall_time_ms": 11434.45320893079,
+          "usage": {
+            "input_tokens": 191,
+            "output_tokens": 1203
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1200
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A7",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_lo"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A7:sample-0",
+          "wall_time_ms": 8720.990666886792,
+          "usage": {
+            "input_tokens": 187,
+            "output_tokens": 717
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 714
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A7:sample-1",
+          "wall_time_ms": 7344.543083105236,
+          "usage": {
+            "input_tokens": 187,
+            "output_tokens": 737
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 734
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A7:sample-2",
+          "wall_time_ms": 7612.366458168253,
+          "usage": {
+            "input_tokens": 187,
+            "output_tokens": 737
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 734
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A7:sample-3",
+          "wall_time_ms": 7225.681124953553,
+          "usage": {
+            "input_tokens": 187,
+            "output_tokens": 741
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 738
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A7:sample-4",
+          "wall_time_ms": 7517.315999837592,
+          "usage": {
+            "input_tokens": 187,
+            "output_tokens": 767
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 764
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A7:sample-5",
+          "wall_time_ms": 7438.365292036906,
+          "usage": {
+            "input_tokens": 187,
+            "output_tokens": 767
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 764
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A8",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "fluid_neg",
+        "pv_none"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A8:sample-0",
+          "wall_time_ms": 12630.216958001256,
+          "usage": {
+            "input_tokens": 199,
+            "output_tokens": 1309
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1306
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A8:sample-1",
+          "wall_time_ms": 12039.289416046813,
+          "usage": {
+            "input_tokens": 199,
+            "output_tokens": 1211
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1208
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A8:sample-2",
+          "wall_time_ms": 11812.030375003815,
+          "usage": {
+            "input_tokens": 199,
+            "output_tokens": 1211
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1208
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A8:sample-3",
+          "wall_time_ms": 9862.35404200852,
+          "usage": {
+            "input_tokens": 199,
+            "output_tokens": 1020
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1017
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A8:sample-4",
+          "wall_time_ms": 21922.50124993734,
+          "usage": {
+            "input_tokens": 199,
+            "output_tokens": 1211
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1208
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A8:sample-5",
+          "wall_time_ms": 13483.083834173158,
+          "usage": {
+            "input_tokens": 199,
+            "output_tokens": 1338
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1335
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A9",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "pna_focal"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A9:sample-0",
+          "wall_time_ms": 14444.823458092287,
+          "usage": {
+            "input_tokens": 182,
+            "output_tokens": 1527
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1523
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A9:sample-1",
+          "wall_time_ms": 18114.072625059634,
+          "usage": {
+            "input_tokens": 182,
+            "output_tokens": 1967
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1963
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A9:sample-2",
+          "wall_time_ms": 17817.52962502651,
+          "usage": {
+            "input_tokens": 182,
+            "output_tokens": 1832
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1828
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A9:sample-3",
+          "wall_time_ms": 17329.21770797111,
+          "usage": {
+            "input_tokens": 182,
+            "output_tokens": 1967
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1963
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A9:sample-4",
+          "wall_time_ms": 16836.903834016994,
+          "usage": {
+            "input_tokens": 182,
+            "output_tokens": 1968
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1964
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:A9:sample-5",
+          "wall_time_ms": 24661.52024990879,
+          "usage": {
+            "input_tokens": 182,
+            "output_tokens": 1527
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1523
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C1",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_lo",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C1:sample-0",
+          "wall_time_ms": 11003.721708897501,
+          "usage": {
+            "input_tokens": 197,
+            "output_tokens": 1039
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1036
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C1:sample-1",
+          "wall_time_ms": 7385.3980409912765,
+          "usage": {
+            "input_tokens": 197,
+            "output_tokens": 768
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 765
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C1:sample-2",
+          "wall_time_ms": 7359.945083968341,
+          "usage": {
+            "input_tokens": 197,
+            "output_tokens": 768
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 765
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C1:sample-3",
+          "wall_time_ms": 7622.187708970159,
+          "usage": {
+            "input_tokens": 197,
+            "output_tokens": 768
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 765
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C1:sample-4",
+          "wall_time_ms": 7631.22170814313,
+          "usage": {
+            "input_tokens": 197,
+            "output_tokens": 768
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 765
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C1:sample-5",
+          "wall_time_ms": 7800.586999859661,
+          "usage": {
+            "input_tokens": 197,
+            "output_tokens": 768
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 765
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_grey",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C2:sample-0",
+          "wall_time_ms": 9813.76166595146,
+          "usage": {
+            "input_tokens": 201,
+            "output_tokens": 1052
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1049
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C2:sample-1",
+          "wall_time_ms": 10133.825999917462,
+          "usage": {
+            "input_tokens": 201,
+            "output_tokens": 1052
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1049
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C2:sample-2",
+          "wall_time_ms": 9287.377000087872,
+          "usage": {
+            "input_tokens": 201,
+            "output_tokens": 958
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 955
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C2:sample-3",
+          "wall_time_ms": 13172.423750162125,
+          "usage": {
+            "input_tokens": 201,
+            "output_tokens": 1129
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1126
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C2:sample-4",
+          "wall_time_ms": 10615.009624976665,
+          "usage": {
+            "input_tokens": 201,
+            "output_tokens": 1052
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1049
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C2:sample-5",
+          "wall_time_ms": 9416.095416992903,
+          "usage": {
+            "input_tokens": 201,
+            "output_tokens": 928
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 925
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C3",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_mod",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "abstain",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C3:sample-0",
+          "wall_time_ms": 9930.269249947742,
+          "usage": {
+            "input_tokens": 201,
+            "output_tokens": 1012
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1008
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C3:sample-1",
+          "wall_time_ms": 10445.50162483938,
+          "usage": {
+            "input_tokens": 201,
+            "output_tokens": 1022
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1019
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C3:sample-2",
+          "wall_time_ms": 18229.179584188387,
+          "usage": {
+            "input_tokens": 201,
+            "output_tokens": 1365
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1361
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C3:sample-3",
+          "wall_time_ms": 10135.357791092247,
+          "usage": {
+            "input_tokens": 201,
+            "output_tokens": 1012
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1008
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C3:sample-4",
+          "wall_time_ms": 12389.706165995449,
+          "usage": {
+            "input_tokens": 201,
+            "output_tokens": 1237
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1234
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C3:sample-5",
+          "wall_time_ms": 12916.835041018203,
+          "usage": {
+            "input_tokens": 201,
+            "output_tokens": 1237
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1234
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "abstain",
+        "tie_broken": true
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C4",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_hi",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C4:sample-0",
+          "wall_time_ms": 12650.005375035107,
+          "usage": {
+            "input_tokens": 202,
+            "output_tokens": 1233
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1229
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C4:sample-1",
+          "wall_time_ms": 12016.333209117875,
+          "usage": {
+            "input_tokens": 202,
+            "output_tokens": 1233
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1229
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C4:sample-2",
+          "wall_time_ms": 10256.955625023693,
+          "usage": {
+            "input_tokens": 202,
+            "output_tokens": 1072
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1068
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C4:sample-3",
+          "wall_time_ms": 10253.860665950924,
+          "usage": {
+            "input_tokens": 202,
+            "output_tokens": 930
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 926
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C4:sample-4",
+          "wall_time_ms": 9816.814917139709,
+          "usage": {
+            "input_tokens": 202,
+            "output_tokens": 974
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 970
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C4:sample-5",
+          "wall_time_ms": 10214.446374913678,
+          "usage": {
+            "input_tokens": 202,
+            "output_tokens": 1072
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1068
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C5",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_vhi",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C5:sample-0",
+          "wall_time_ms": 12310.605084057897,
+          "usage": {
+            "input_tokens": 198,
+            "output_tokens": 1107
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1103
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C5:sample-1",
+          "wall_time_ms": 11211.39575005509,
+          "usage": {
+            "input_tokens": 198,
+            "output_tokens": 1138
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1134
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C5:sample-2",
+          "wall_time_ms": 12624.308582860976,
+          "usage": {
+            "input_tokens": 198,
+            "output_tokens": 1107
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1103
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C5:sample-3",
+          "wall_time_ms": 10134.474041871727,
+          "usage": {
+            "input_tokens": 198,
+            "output_tokens": 935
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 931
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C5:sample-4",
+          "wall_time_ms": 11060.878457967192,
+          "usage": {
+            "input_tokens": 198,
+            "output_tokens": 1102
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1098
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:C5:sample-5",
+          "wall_time_ms": 8906.84179100208,
+          "usage": {
+            "input_tokens": 198,
+            "output_tokens": 935
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 931
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "F1",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced",
+        "fluid_neg"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:F1:sample-0",
+          "wall_time_ms": 11502.117375144735,
+          "usage": {
+            "input_tokens": 210,
+            "output_tokens": 1205
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1201
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:F1:sample-1",
+          "wall_time_ms": 13553.241832880303,
+          "usage": {
+            "input_tokens": 210,
+            "output_tokens": 1170
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1166
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:F1:sample-2",
+          "wall_time_ms": 13504.973833914846,
+          "usage": {
+            "input_tokens": 210,
+            "output_tokens": 1437
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1433
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:F1:sample-3",
+          "wall_time_ms": 14271.734250010923,
+          "usage": {
+            "input_tokens": 210,
+            "output_tokens": 1170
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1166
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:F1:sample-4",
+          "wall_time_ms": 16234.289957908913,
+          "usage": {
+            "input_tokens": 210,
+            "output_tokens": 1606
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1602
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:F1:sample-5",
+          "wall_time_ms": 11311.862165806815,
+          "usage": {
+            "input_tokens": 210,
+            "output_tokens": 1205
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1201
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "F2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced",
+        "fluid_pos"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:F2:sample-0",
+          "wall_time_ms": 13820.106583181769,
+          "usage": {
+            "input_tokens": 215,
+            "output_tokens": 1255
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1251
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:F2:sample-1",
+          "wall_time_ms": 10034.334709169343,
+          "usage": {
+            "input_tokens": 215,
+            "output_tokens": 1031
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1027
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:F2:sample-2",
+          "wall_time_ms": 11774.625833146274,
+          "usage": {
+            "input_tokens": 215,
+            "output_tokens": 1144
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1140
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:F2:sample-3",
+          "wall_time_ms": 14440.375415841118,
+          "usage": {
+            "input_tokens": 215,
+            "output_tokens": 1244
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1240
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:F2:sample-4",
+          "wall_time_ms": 10273.100125137717,
+          "usage": {
+            "input_tokens": 215,
+            "output_tokens": 1031
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1027
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:F2:sample-5",
+          "wall_time_ms": 10397.242625011131,
+          "usage": {
+            "input_tokens": 215,
+            "output_tokens": 1031
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1027
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "F3",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced",
+        "fluid_verypos"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:F3:sample-0",
+          "wall_time_ms": 12414.172499906272,
+          "usage": {
+            "input_tokens": 215,
+            "output_tokens": 1244
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1240
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:F3:sample-1",
+          "wall_time_ms": 11611.15387501195,
+          "usage": {
+            "input_tokens": 215,
+            "output_tokens": 1209
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1205
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:F3:sample-2",
+          "wall_time_ms": 12781.370333163068,
+          "usage": {
+            "input_tokens": 215,
+            "output_tokens": 1258
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1254
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:F3:sample-3",
+          "wall_time_ms": 10800.645915791392,
+          "usage": {
+            "input_tokens": 215,
+            "output_tokens": 1060
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1056
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:F3:sample-4",
+          "wall_time_ms": 12034.736084053293,
+          "usage": {
+            "input_tokens": 215,
+            "output_tokens": 1206
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1202
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:F3:sample-5",
+          "wall_time_ms": 11838.321458082646,
+          "usage": {
+            "input_tokens": 215,
+            "output_tokens": 1206
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1202
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "D1",
+      "premises": [
+        "ad",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:D1:sample-0",
+          "wall_time_ms": 8805.635834112763,
+          "usage": {
+            "input_tokens": 172,
+            "output_tokens": 879
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 876
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:D1:sample-1",
+          "wall_time_ms": 9624.635457992554,
+          "usage": {
+            "input_tokens": 172,
+            "output_tokens": 1011
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1008
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:D1:sample-2",
+          "wall_time_ms": 8905.748249962926,
+          "usage": {
+            "input_tokens": 172,
+            "output_tokens": 894
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 891
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:D1:sample-3",
+          "wall_time_ms": 8569.28029190749,
+          "usage": {
+            "input_tokens": 172,
+            "output_tokens": 894
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 891
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:D1:sample-4",
+          "wall_time_ms": 7608.242207905278,
+          "usage": {
+            "input_tokens": 172,
+            "output_tokens": 773
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 770
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:D1:sample-5",
+          "wall_time_ms": 9560.231334064156,
+          "usage": {
+            "input_tokens": 172,
+            "output_tokens": 1011
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1008
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "D2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "pe"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:D2:sample-0",
+          "wall_time_ms": 10815.642082830891,
+          "usage": {
+            "input_tokens": 180,
+            "output_tokens": 925
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 922
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:D2:sample-1",
+          "wall_time_ms": 11023.572833044454,
+          "usage": {
+            "input_tokens": 180,
+            "output_tokens": 956
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 953
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:D2:sample-2",
+          "wall_time_ms": 9052.660041023046,
+          "usage": {
+            "input_tokens": 180,
+            "output_tokens": 909
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 906
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:D2:sample-3",
+          "wall_time_ms": 8680.586999980733,
+          "usage": {
+            "input_tokens": 180,
+            "output_tokens": 845
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 842
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:D2:sample-4",
+          "wall_time_ms": 7591.81262482889,
+          "usage": {
+            "input_tokens": 180,
+            "output_tokens": 756
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 753
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:D2:sample-5",
+          "wall_time_ms": 8500.876249978319,
+          "usage": {
+            "input_tokens": 180,
+            "output_tokens": 845
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 842
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "D3",
+      "premises": [
+        "ad",
+        "pna_focal"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:D3:sample-0",
+          "wall_time_ms": 5951.961749931797,
+          "usage": {
+            "input_tokens": 171,
+            "output_tokens": 557
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 554
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:D3:sample-1",
+          "wall_time_ms": 7253.517207922414,
+          "usage": {
+            "input_tokens": 171,
+            "output_tokens": 655
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 652
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:D3:sample-2",
+          "wall_time_ms": 6244.783083209768,
+          "usage": {
+            "input_tokens": 171,
+            "output_tokens": 557
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 554
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:D3:sample-3",
+          "wall_time_ms": 6005.617624847218,
+          "usage": {
+            "input_tokens": 171,
+            "output_tokens": 557
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 554
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:D3:sample-4",
+          "wall_time_ms": 7216.040666913614,
+          "usage": {
+            "input_tokens": 171,
+            "output_tokens": 744
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 741
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:D3:sample-5",
+          "wall_time_ms": 6849.82387511991,
+          "usage": {
+            "input_tokens": 171,
+            "output_tokens": 671
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 668
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B0",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B0:sample-0",
+          "wall_time_ms": 20314.034083858132,
+          "usage": {
+            "input_tokens": 216,
+            "output_tokens": 1089
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1085
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B0:sample-1",
+          "wall_time_ms": 10096.886916086078,
+          "usage": {
+            "input_tokens": 216,
+            "output_tokens": 1089
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1085
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B0:sample-2",
+          "wall_time_ms": 11182.040916057304,
+          "usage": {
+            "input_tokens": 216,
+            "output_tokens": 1206
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1202
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B0:sample-3",
+          "wall_time_ms": 9799.806541064754,
+          "usage": {
+            "input_tokens": 216,
+            "output_tokens": 1089
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1085
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B0:sample-4",
+          "wall_time_ms": 11472.520249895751,
+          "usage": {
+            "input_tokens": 216,
+            "output_tokens": 1206
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1202
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B0:sample-5",
+          "wall_time_ms": 11468.676124932244,
+          "usage": {
+            "input_tokens": 216,
+            "output_tokens": 1206
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1202
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B1",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B1:sample-0",
+          "wall_time_ms": 14335.133916931227,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 1448
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1444
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B1:sample-1",
+          "wall_time_ms": 11092.772374860942,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 1190
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1186
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B1:sample-2",
+          "wall_time_ms": 9671.950666001067,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 1041
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1037
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B1:sample-3",
+          "wall_time_ms": 11000.725917052478,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 1190
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1186
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B1:sample-4",
+          "wall_time_ms": 10524.100749986246,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 1128
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1124
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B1:sample-5",
+          "wall_time_ms": 17896.52295806445,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 1967
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1964
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 1,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B2",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "pf_mod",
+        "rs_imvlow",
+        "sep"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B2:sample-0",
+          "wall_time_ms": 11487.278041895479,
+          "usage": {
+            "input_tokens": 222,
+            "output_tokens": 1259
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1255
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B2:sample-1",
+          "wall_time_ms": 11673.988166963682,
+          "usage": {
+            "input_tokens": 222,
+            "output_tokens": 1259
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1255
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B2:sample-2",
+          "wall_time_ms": 11634.756083833054,
+          "usage": {
+            "input_tokens": 222,
+            "output_tokens": 1259
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1255
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B2:sample-3",
+          "wall_time_ms": 11300.399666186422,
+          "usage": {
+            "input_tokens": 222,
+            "output_tokens": 1259
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1255
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B2:sample-4",
+          "wall_time_ms": 12788.186957826838,
+          "usage": {
+            "input_tokens": 222,
+            "output_tokens": 1377
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1373
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B2:sample-5",
+          "wall_time_ms": 24898.242624942213,
+          "usage": {
+            "input_tokens": 222,
+            "output_tokens": 1496
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1492
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B3",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "cd_pneumotox",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B3:sample-0",
+          "wall_time_ms": 23342.089208075777,
+          "usage": {
+            "input_tokens": 239,
+            "output_tokens": 1307
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1303
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B3:sample-1",
+          "wall_time_ms": 14540.173874935135,
+          "usage": {
+            "input_tokens": 239,
+            "output_tokens": 1445
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1441
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B3:sample-2",
+          "wall_time_ms": 12949.30237508379,
+          "usage": {
+            "input_tokens": 239,
+            "output_tokens": 1445
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1441
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B3:sample-3",
+          "wall_time_ms": 20639.160874998197,
+          "usage": {
+            "input_tokens": 239,
+            "output_tokens": 1022
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1018
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B3:sample-4",
+          "wall_time_ms": 9555.519958026707,
+          "usage": {
+            "input_tokens": 239,
+            "output_tokens": 1022
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1018
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B3:sample-5",
+          "wall_time_ms": 12969.591124914587,
+          "usage": {
+            "input_tokens": 239,
+            "output_tokens": 1401
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1397
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B4",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "pf_severe",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B4:sample-0",
+          "wall_time_ms": 10383.476332994178,
+          "usage": {
+            "input_tokens": 213,
+            "output_tokens": 1164
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1160
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B4:sample-1",
+          "wall_time_ms": 9378.17008420825,
+          "usage": {
+            "input_tokens": 213,
+            "output_tokens": 959
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 955
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B4:sample-2",
+          "wall_time_ms": 14026.22374985367,
+          "usage": {
+            "input_tokens": 213,
+            "output_tokens": 1554
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1550
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B4:sample-3",
+          "wall_time_ms": 15050.157624995336,
+          "usage": {
+            "input_tokens": 213,
+            "output_tokens": 1552
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1549
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B4:sample-4",
+          "wall_time_ms": 14183.300500037149,
+          "usage": {
+            "input_tokens": 213,
+            "output_tokens": 1554
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1550
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B4:sample-5",
+          "wall_time_ms": 15365.150250028819,
+          "usage": {
+            "input_tokens": 213,
+            "output_tokens": 1552
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1549
+        }
+      ],
+      "majority_vote": {
+        "good": 4,
+        "bad": 2,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B5",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "ef_reduced",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B5:sample-0",
+          "wall_time_ms": 14685.418916167691,
+          "usage": {
+            "input_tokens": 243,
+            "output_tokens": 1433
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1430
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B5:sample-1",
+          "wall_time_ms": 14037.274624919519,
+          "usage": {
+            "input_tokens": 243,
+            "output_tokens": 1433
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1430
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B5:sample-2",
+          "wall_time_ms": 21944.98433289118,
+          "usage": {
+            "input_tokens": 243,
+            "output_tokens": 1278
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1274
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B5:sample-3",
+          "wall_time_ms": 12428.653500042856,
+          "usage": {
+            "input_tokens": 243,
+            "output_tokens": 1426
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1423
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B5:sample-4",
+          "wall_time_ms": 12618.48674993962,
+          "usage": {
+            "input_tokens": 243,
+            "output_tokens": 1426
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1423
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B5:sample-5",
+          "wall_time_ms": 11468.284375034273,
+          "usage": {
+            "input_tokens": 243,
+            "output_tokens": 1278
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1274
+        }
+      ],
+      "majority_vote": {
+        "good": 2,
+        "bad": 4,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B6",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "bnp_vhi",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B6:sample-0",
+          "wall_time_ms": 13000.60912501067,
+          "usage": {
+            "input_tokens": 231,
+            "output_tokens": 1275
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1272
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B6:sample-1",
+          "wall_time_ms": 14104.761334136128,
+          "usage": {
+            "input_tokens": 231,
+            "output_tokens": 1275
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1272
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B6:sample-2",
+          "wall_time_ms": 13030.489583034068,
+          "usage": {
+            "input_tokens": 231,
+            "output_tokens": 1275
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1272
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B6:sample-3",
+          "wall_time_ms": 21156.758249970153,
+          "usage": {
+            "input_tokens": 231,
+            "output_tokens": 1226
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1222
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B6:sample-4",
+          "wall_time_ms": 11406.803874997422,
+          "usage": {
+            "input_tokens": 231,
+            "output_tokens": 1226
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1222
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B6:sample-5",
+          "wall_time_ms": 13327.618583105505,
+          "usage": {
+            "input_tokens": 231,
+            "output_tokens": 1534
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1531
+        }
+      ],
+      "majority_vote": {
+        "good": 2,
+        "bad": 4,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B7",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "cd_cardiotox",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B7:sample-0",
+          "wall_time_ms": 13130.755708087236,
+          "usage": {
+            "input_tokens": 238,
+            "output_tokens": 1482
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1479
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B7:sample-1",
+          "wall_time_ms": 13675.248167011887,
+          "usage": {
+            "input_tokens": 238,
+            "output_tokens": 1166
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1163
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B7:sample-2",
+          "wall_time_ms": 23124.04966680333,
+          "usage": {
+            "input_tokens": 238,
+            "output_tokens": 1482
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1479
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B7:sample-3",
+          "wall_time_ms": 12315.630041062832,
+          "usage": {
+            "input_tokens": 238,
+            "output_tokens": 1316
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1312
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B7:sample-4",
+          "wall_time_ms": 13815.195709001273,
+          "usage": {
+            "input_tokens": 238,
+            "output_tokens": 1419
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1416
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B7:sample-5",
+          "wall_time_ms": 23914.938083151355,
+          "usage": {
+            "input_tokens": 238,
+            "output_tokens": 1482
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1479
+        }
+      ],
+      "majority_vote": {
+        "good": 1,
+        "bad": 5,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B8",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "fluid_verypos",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B8:sample-0",
+          "wall_time_ms": 11989.778584102169,
+          "usage": {
+            "input_tokens": 239,
+            "output_tokens": 1304
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1301
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B8:sample-1",
+          "wall_time_ms": 13232.11970902048,
+          "usage": {
+            "input_tokens": 239,
+            "output_tokens": 1342
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1339
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B8:sample-2",
+          "wall_time_ms": 20717.18083298765,
+          "usage": {
+            "input_tokens": 239,
+            "output_tokens": 1135
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1132
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B8:sample-3",
+          "wall_time_ms": 22803.363458020613,
+          "usage": {
+            "input_tokens": 239,
+            "output_tokens": 1304
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1301
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B8:sample-4",
+          "wall_time_ms": 11430.433250032365,
+          "usage": {
+            "input_tokens": 239,
+            "output_tokens": 1253
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1250
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:B8:sample-5",
+          "wall_time_ms": 11499.479749938473,
+          "usage": {
+            "input_tokens": 239,
+            "output_tokens": 1253
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1250
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G1",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_hfnc"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G1:sample-0",
+          "wall_time_ms": 17982.357083121315,
+          "usage": {
+            "input_tokens": 232,
+            "output_tokens": 1914
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1910
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G1:sample-1",
+          "wall_time_ms": 12753.11554200016,
+          "usage": {
+            "input_tokens": 232,
+            "output_tokens": 1384
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1380
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G1:sample-2",
+          "wall_time_ms": 23136.840916937217,
+          "usage": {
+            "input_tokens": 232,
+            "output_tokens": 1384
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1380
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G1:sample-3",
+          "wall_time_ms": 12290.977749973536,
+          "usage": {
+            "input_tokens": 232,
+            "output_tokens": 1384
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1380
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G1:sample-4",
+          "wall_time_ms": 24424.80929195881,
+          "usage": {
+            "input_tokens": 232,
+            "output_tokens": 1509
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1505
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G1:sample-5",
+          "wall_time_ms": 11519.001291831955,
+          "usage": {
+            "input_tokens": 232,
+            "output_tokens": 1148
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1144
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G2",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_niv"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G2:sample-0",
+          "wall_time_ms": 22476.594291860238,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 1253
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1249
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G2:sample-1",
+          "wall_time_ms": 22127.192959189415,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 1253
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1249
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G2:sample-2",
+          "wall_time_ms": 13037.95541706495,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 1411
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1407
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G2:sample-3",
+          "wall_time_ms": 22415.81774991937,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 1874
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1871
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G2:sample-4",
+          "wall_time_ms": 11885.187832871452,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 1253
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1249
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G2:sample-5",
+          "wall_time_ms": 11655.139584094286,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 1253
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1249
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 1,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G3",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G3:sample-0",
+          "wall_time_ms": 12848.425708943978,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 1416
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1412
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G3:sample-1",
+          "wall_time_ms": 9444.830750115216,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 1014
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1010
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G3:sample-2",
+          "wall_time_ms": 12909.348416142166,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 1416
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1412
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G3:sample-3",
+          "wall_time_ms": 25436.242333147675,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 1506
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1502
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G3:sample-4",
+          "wall_time_ms": 19896.152999950573,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 1014
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1010
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G3:sample-5",
+          "wall_time_ms": 9998.644000152126,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 1014
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1010
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G4",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_imvmiddle"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G4:sample-0",
+          "wall_time_ms": 11772.04337483272,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 1317
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1313
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G4:sample-1",
+          "wall_time_ms": 23962.19666604884,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 1409
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1405
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G4:sample-2",
+          "wall_time_ms": 10797.76579211466,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 1226
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1222
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G4:sample-3",
+          "wall_time_ms": 11011.359250172973,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 1181
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1177
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G4:sample-4",
+          "wall_time_ms": 23352.275874931365,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 1409
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1405
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G4:sample-5",
+          "wall_time_ms": 13101.141791092232,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 1409
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1405
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G5",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_imvhigh"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G5:sample-0",
+          "wall_time_ms": 14668.973333900794,
+          "usage": {
+            "input_tokens": 223,
+            "output_tokens": 1378
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1374
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G5:sample-1",
+          "wall_time_ms": 12503.913833992556,
+          "usage": {
+            "input_tokens": 223,
+            "output_tokens": 1330
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1326
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G5:sample-2",
+          "wall_time_ms": 12503.820375073701,
+          "usage": {
+            "input_tokens": 223,
+            "output_tokens": 1330
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1326
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G5:sample-3",
+          "wall_time_ms": 11982.159374980256,
+          "usage": {
+            "input_tokens": 223,
+            "output_tokens": 1282
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1278
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G5:sample-4",
+          "wall_time_ms": 15510.008875047788,
+          "usage": {
+            "input_tokens": 223,
+            "output_tokens": 1663
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1659
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "google/gemini-2.5-pro:coh--thin--plain:G5:sample-5",
+          "wall_time_ms": 12044.925875030458,
+          "usage": {
+            "input_tokens": 223,
+            "output_tokens": 1282
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1278
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}

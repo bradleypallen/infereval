@@ -1,0 +1,3705 @@
+{
+  "schema_version": "1.0",
+  "id": "claude-opus-4-7:coh--anchored--epistemic",
+  "benchmark_id": "clinical-pilot-cpe-ards-v0.5",
+  "benchmark_hash": "sha256:885bc46488bae2b466763cdfd342f30a32a92bb99924603ca26d58a7b37cf687",
+  "model": {
+    "provider": "anthropic",
+    "model_id": "claude-opus-4-7",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "seed": 7,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 6,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-clinical-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1",
+    "question_form": "coherence",
+    "coherence_frame_id": "defeasible-coherence-explicit-v1"
+  },
+  "framework_version": "0.17.6",
+  "started_at": "2026-07-06T02:40:17.018290Z",
+  "finished_at": "2026-07-06T02:47:08.631592Z",
+  "items": [
+    {
+      "id": "A0",
+      "premises": [
+        "ad",
+        "bi_mod"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A0:sample-0",
+          "wall_time_ms": 1497.5171249825507,
+          "usage": {
+            "input_tokens": 574,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A0:sample-1",
+          "wall_time_ms": 1358.5382499732077,
+          "usage": {
+            "input_tokens": 574,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A0:sample-2",
+          "wall_time_ms": 1329.3221248313785,
+          "usage": {
+            "input_tokens": 574,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A0:sample-3",
+          "wall_time_ms": 1506.0460830572993,
+          "usage": {
+            "input_tokens": 574,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A0:sample-4",
+          "wall_time_ms": 1331.3362919725478,
+          "usage": {
+            "input_tokens": 574,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A0:sample-5",
+          "wall_time_ms": 1226.6692910343409,
+          "usage": {
+            "input_tokens": 574,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A1",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "cv_struct"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A1:sample-0",
+          "wall_time_ms": 4301.337375072762,
+          "usage": {
+            "input_tokens": 596,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A1:sample-1",
+          "wall_time_ms": 1422.738708090037,
+          "usage": {
+            "input_tokens": 596,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A1:sample-2",
+          "wall_time_ms": 1575.5908749997616,
+          "usage": {
+            "input_tokens": 596,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A1:sample-3",
+          "wall_time_ms": 1322.5410419981927,
+          "usage": {
+            "input_tokens": 596,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A1:sample-4",
+          "wall_time_ms": 3469.609708059579,
+          "usage": {
+            "input_tokens": 596,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A1:sample-5",
+          "wall_time_ms": 1420.4457919113338,
+          "usage": {
+            "input_tokens": 596,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A2:sample-0",
+          "wall_time_ms": 1333.4447080269456,
+          "usage": {
+            "input_tokens": 603,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A2:sample-1",
+          "wall_time_ms": 1472.2308339551091,
+          "usage": {
+            "input_tokens": 603,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A2:sample-2",
+          "wall_time_ms": 1602.2663752082735,
+          "usage": {
+            "input_tokens": 603,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A2:sample-3",
+          "wall_time_ms": 854.6508748549968,
+          "usage": {
+            "input_tokens": 603,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A2:sample-4",
+          "wall_time_ms": 1187.6562091056257,
+          "usage": {
+            "input_tokens": 603,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A2:sample-5",
+          "wall_time_ms": 870.7989589311182,
+          "usage": {
+            "input_tokens": 603,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A3",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_vhi"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A3:sample-0",
+          "wall_time_ms": 5370.513665955514,
+          "usage": {
+            "input_tokens": 594,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A3:sample-1",
+          "wall_time_ms": 1424.8169581405818,
+          "usage": {
+            "input_tokens": 594,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A3:sample-2",
+          "wall_time_ms": 1338.9929591212422,
+          "usage": {
+            "input_tokens": 594,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A3:sample-3",
+          "wall_time_ms": 1431.7224582191557,
+          "usage": {
+            "input_tokens": 594,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A3:sample-4",
+          "wall_time_ms": 1659.7319168504328,
+          "usage": {
+            "input_tokens": 594,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A3:sample-5",
+          "wall_time_ms": 1420.520915882662,
+          "usage": {
+            "input_tokens": 594,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A4",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "fluid_verypos"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A4:sample-0",
+          "wall_time_ms": 1325.0717502087355,
+          "usage": {
+            "input_tokens": 609,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A4:sample-1",
+          "wall_time_ms": 1307.400916935876,
+          "usage": {
+            "input_tokens": 609,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A4:sample-2",
+          "wall_time_ms": 1193.2971668429673,
+          "usage": {
+            "input_tokens": 609,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A4:sample-3",
+          "wall_time_ms": 1284.6833751536906,
+          "usage": {
+            "input_tokens": 609,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A4:sample-4",
+          "wall_time_ms": 1623.1047920882702,
+          "usage": {
+            "input_tokens": 609,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A4:sample-5",
+          "wall_time_ms": 1130.5160000920296,
+          "usage": {
+            "input_tokens": 609,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A5",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "pv_large"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A5:sample-0",
+          "wall_time_ms": 1336.957875173539,
+          "usage": {
+            "input_tokens": 590,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A5:sample-1",
+          "wall_time_ms": 2813.980167033151,
+          "usage": {
+            "input_tokens": 590,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A5:sample-2",
+          "wall_time_ms": 1155.5508750025183,
+          "usage": {
+            "input_tokens": 590,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A5:sample-3",
+          "wall_time_ms": 1322.290709009394,
+          "usage": {
+            "input_tokens": 590,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A5:sample-4",
+          "wall_time_ms": 1464.3758339807391,
+          "usage": {
+            "input_tokens": 590,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A5:sample-5",
+          "wall_time_ms": 1628.312333021313,
+          "usage": {
+            "input_tokens": 590,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A6",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_preserved"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A6:sample-0",
+          "wall_time_ms": 2565.5395828653127,
+          "usage": {
+            "input_tokens": 604,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A6:sample-1",
+          "wall_time_ms": 1447.5111251231283,
+          "usage": {
+            "input_tokens": 604,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A6:sample-2",
+          "wall_time_ms": 1314.8347078822553,
+          "usage": {
+            "input_tokens": 604,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A6:sample-3",
+          "wall_time_ms": 1135.3264169301838,
+          "usage": {
+            "input_tokens": 604,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A6:sample-4",
+          "wall_time_ms": 1116.6650410741568,
+          "usage": {
+            "input_tokens": 604,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A6:sample-5",
+          "wall_time_ms": 1401.435833889991,
+          "usage": {
+            "input_tokens": 604,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A7",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_lo"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A7:sample-0",
+          "wall_time_ms": 2112.3546671587974,
+          "usage": {
+            "input_tokens": 592,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A7:sample-1",
+          "wall_time_ms": 1235.8339170459658,
+          "usage": {
+            "input_tokens": 592,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A7:sample-2",
+          "wall_time_ms": 2417.7854168228805,
+          "usage": {
+            "input_tokens": 592,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A7:sample-3",
+          "wall_time_ms": 1738.008374813944,
+          "usage": {
+            "input_tokens": 592,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A7:sample-4",
+          "wall_time_ms": 1409.6957079600543,
+          "usage": {
+            "input_tokens": 592,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A7:sample-5",
+          "wall_time_ms": 1457.7584168873727,
+          "usage": {
+            "input_tokens": 592,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A8",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "fluid_neg",
+        "pv_none"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A8:sample-0",
+          "wall_time_ms": 1171.9842499587685,
+          "usage": {
+            "input_tokens": 613,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A8:sample-1",
+          "wall_time_ms": 1582.8691250644624,
+          "usage": {
+            "input_tokens": 613,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A8:sample-2",
+          "wall_time_ms": 1337.0097919832915,
+          "usage": {
+            "input_tokens": 613,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A8:sample-3",
+          "wall_time_ms": 1078.8924160879105,
+          "usage": {
+            "input_tokens": 613,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A8:sample-4",
+          "wall_time_ms": 1482.0623339619488,
+          "usage": {
+            "input_tokens": 613,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A8:sample-5",
+          "wall_time_ms": 1499.976959079504,
+          "usage": {
+            "input_tokens": 613,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "A9",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "pna_focal"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A9:sample-0",
+          "wall_time_ms": 1465.1970830745995,
+          "usage": {
+            "input_tokens": 592,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A9:sample-1",
+          "wall_time_ms": 1355.426040943712,
+          "usage": {
+            "input_tokens": 592,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A9:sample-2",
+          "wall_time_ms": 1260.6976251117885,
+          "usage": {
+            "input_tokens": 592,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A9:sample-3",
+          "wall_time_ms": 1522.4896669387817,
+          "usage": {
+            "input_tokens": 592,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A9:sample-4",
+          "wall_time_ms": 1409.1419999022037,
+          "usage": {
+            "input_tokens": 592,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:A9:sample-5",
+          "wall_time_ms": 2024.5334580540657,
+          "usage": {
+            "input_tokens": 592,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C1",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_lo",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C1:sample-0",
+          "wall_time_ms": 1535.23183404468,
+          "usage": {
+            "input_tokens": 614,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C1:sample-1",
+          "wall_time_ms": 2076.9140000920743,
+          "usage": {
+            "input_tokens": 614,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C1:sample-2",
+          "wall_time_ms": 4435.8674578834325,
+          "usage": {
+            "input_tokens": 614,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C1:sample-3",
+          "wall_time_ms": 2660.728625021875,
+          "usage": {
+            "input_tokens": 614,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C1:sample-4",
+          "wall_time_ms": 1309.886666946113,
+          "usage": {
+            "input_tokens": 614,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C1:sample-5",
+          "wall_time_ms": 1693.165082950145,
+          "usage": {
+            "input_tokens": 614,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_grey",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "abstain",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "UNCLEAR",
+          "parsed_verdict": "abstain",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C2:sample-0",
+          "wall_time_ms": 1952.271542046219,
+          "usage": {
+            "input_tokens": 617,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "UNCLEAR",
+          "parsed_verdict": "abstain",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C2:sample-1",
+          "wall_time_ms": 1634.7545830067247,
+          "usage": {
+            "input_tokens": 617,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "UNCLEAR",
+          "parsed_verdict": "abstain",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C2:sample-2",
+          "wall_time_ms": 2114.3391251098365,
+          "usage": {
+            "input_tokens": 617,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "UNCLEAR",
+          "parsed_verdict": "abstain",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C2:sample-3",
+          "wall_time_ms": 2390.6439589336514,
+          "usage": {
+            "input_tokens": 617,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "UNCLEAR",
+          "parsed_verdict": "abstain",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C2:sample-4",
+          "wall_time_ms": 1639.35162499547,
+          "usage": {
+            "input_tokens": 617,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "UNCLEAR",
+          "parsed_verdict": "abstain",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C2:sample-5",
+          "wall_time_ms": 1524.4316668249667,
+          "usage": {
+            "input_tokens": 617,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 0,
+        "abstain": 6,
+        "verdict": "abstain",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C3",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_mod",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C3:sample-0",
+          "wall_time_ms": 1584.3761661089957,
+          "usage": {
+            "input_tokens": 617,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C3:sample-1",
+          "wall_time_ms": 1595.4912500455976,
+          "usage": {
+            "input_tokens": 617,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C3:sample-2",
+          "wall_time_ms": 2784.24174990505,
+          "usage": {
+            "input_tokens": 617,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C3:sample-3",
+          "wall_time_ms": 2014.4534579012543,
+          "usage": {
+            "input_tokens": 617,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C3:sample-4",
+          "wall_time_ms": 1880.487124901265,
+          "usage": {
+            "input_tokens": 617,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C3:sample-5",
+          "wall_time_ms": 1919.0870828460902,
+          "usage": {
+            "input_tokens": 617,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C4",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_hi",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C4:sample-0",
+          "wall_time_ms": 2343.291458906606,
+          "usage": {
+            "input_tokens": 618,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C4:sample-1",
+          "wall_time_ms": 1649.9086669646204,
+          "usage": {
+            "input_tokens": 618,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C4:sample-2",
+          "wall_time_ms": 1634.1742079239339,
+          "usage": {
+            "input_tokens": 618,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C4:sample-3",
+          "wall_time_ms": 2149.2561250925064,
+          "usage": {
+            "input_tokens": 618,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C4:sample-4",
+          "wall_time_ms": 7271.501625189558,
+          "usage": {
+            "input_tokens": 618,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C4:sample-5",
+          "wall_time_ms": 1520.7402079831809,
+          "usage": {
+            "input_tokens": 618,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "C5",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "bnp_vhi",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C5:sample-0",
+          "wall_time_ms": 2060.1729578338563,
+          "usage": {
+            "input_tokens": 616,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C5:sample-1",
+          "wall_time_ms": 1509.445957839489,
+          "usage": {
+            "input_tokens": 616,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C5:sample-2",
+          "wall_time_ms": 1460.8234169427305,
+          "usage": {
+            "input_tokens": 616,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C5:sample-3",
+          "wall_time_ms": 2601.163958897814,
+          "usage": {
+            "input_tokens": 616,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C5:sample-4",
+          "wall_time_ms": 1493.5661249328405,
+          "usage": {
+            "input_tokens": 616,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:C5:sample-5",
+          "wall_time_ms": 1423.7627920228988,
+          "usage": {
+            "input_tokens": 616,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "F1",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced",
+        "fluid_neg"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:F1:sample-0",
+          "wall_time_ms": 1766.0112499725074,
+          "usage": {
+            "input_tokens": 630,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:F1:sample-1",
+          "wall_time_ms": 1724.9399591237307,
+          "usage": {
+            "input_tokens": 630,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:F1:sample-2",
+          "wall_time_ms": 2075.873374938965,
+          "usage": {
+            "input_tokens": 630,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:F1:sample-3",
+          "wall_time_ms": 1500.8795000612736,
+          "usage": {
+            "input_tokens": 630,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:F1:sample-4",
+          "wall_time_ms": 1433.5419579874724,
+          "usage": {
+            "input_tokens": 630,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:F1:sample-5",
+          "wall_time_ms": 1811.6297500673681,
+          "usage": {
+            "input_tokens": 630,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "F2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced",
+        "fluid_pos"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:F2:sample-0",
+          "wall_time_ms": 1462.0292498730123,
+          "usage": {
+            "input_tokens": 642,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:F2:sample-1",
+          "wall_time_ms": 1433.2743340637535,
+          "usage": {
+            "input_tokens": 642,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:F2:sample-2",
+          "wall_time_ms": 1469.8759170714766,
+          "usage": {
+            "input_tokens": 642,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:F2:sample-3",
+          "wall_time_ms": 1443.9602908678353,
+          "usage": {
+            "input_tokens": 642,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:F2:sample-4",
+          "wall_time_ms": 1384.3372920528054,
+          "usage": {
+            "input_tokens": 642,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:F2:sample-5",
+          "wall_time_ms": 1453.953874995932,
+          "usage": {
+            "input_tokens": 642,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "F3",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "ef_reduced",
+        "fluid_verypos"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:F3:sample-0",
+          "wall_time_ms": 2434.7549581434578,
+          "usage": {
+            "input_tokens": 638,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:F3:sample-1",
+          "wall_time_ms": 1637.4047501012683,
+          "usage": {
+            "input_tokens": 638,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:F3:sample-2",
+          "wall_time_ms": 1476.4540831092745,
+          "usage": {
+            "input_tokens": 638,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:F3:sample-3",
+          "wall_time_ms": 1974.849124904722,
+          "usage": {
+            "input_tokens": 638,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:F3:sample-4",
+          "wall_time_ms": 1464.6183750592172,
+          "usage": {
+            "input_tokens": 638,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:F3:sample-5",
+          "wall_time_ms": 2201.189582934603,
+          "usage": {
+            "input_tokens": 638,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "D1",
+      "premises": [
+        "ad",
+        "cv_minor"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:D1:sample-0",
+          "wall_time_ms": 1211.0463751014322,
+          "usage": {
+            "input_tokens": 570,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:D1:sample-1",
+          "wall_time_ms": 3114.4092089962214,
+          "usage": {
+            "input_tokens": 570,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:D1:sample-2",
+          "wall_time_ms": 1560.2239170111716,
+          "usage": {
+            "input_tokens": 570,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:D1:sample-3",
+          "wall_time_ms": 1282.9640831332654,
+          "usage": {
+            "input_tokens": 570,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:D1:sample-4",
+          "wall_time_ms": 1579.4982500374317,
+          "usage": {
+            "input_tokens": 570,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:D1:sample-5",
+          "wall_time_ms": 1489.7592498455197,
+          "usage": {
+            "input_tokens": 570,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "D2",
+      "premises": [
+        "ad",
+        "bi_mod",
+        "pe"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:D2:sample-0",
+          "wall_time_ms": 2390.3378329705447,
+          "usage": {
+            "input_tokens": 589,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:D2:sample-1",
+          "wall_time_ms": 1442.7114590071142,
+          "usage": {
+            "input_tokens": 589,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:D2:sample-2",
+          "wall_time_ms": 1738.0377079825848,
+          "usage": {
+            "input_tokens": 589,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:D2:sample-3",
+          "wall_time_ms": 1845.2419170644134,
+          "usage": {
+            "input_tokens": 589,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:D2:sample-4",
+          "wall_time_ms": 1431.2612500507385,
+          "usage": {
+            "input_tokens": 589,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:D2:sample-5",
+          "wall_time_ms": 1257.3077080305666,
+          "usage": {
+            "input_tokens": 589,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "D3",
+      "premises": [
+        "ad",
+        "pna_focal"
+      ],
+      "conclusions": [
+        "cpe"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:D3:sample-0",
+          "wall_time_ms": 1300.1468749716878,
+          "usage": {
+            "input_tokens": 566,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:D3:sample-1",
+          "wall_time_ms": 1566.5631669107825,
+          "usage": {
+            "input_tokens": 566,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:D3:sample-2",
+          "wall_time_ms": 1502.7418748941272,
+          "usage": {
+            "input_tokens": 566,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:D3:sample-3",
+          "wall_time_ms": 1262.158792000264,
+          "usage": {
+            "input_tokens": 566,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:D3:sample-4",
+          "wall_time_ms": 1501.9360419828445,
+          "usage": {
+            "input_tokens": 566,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "COHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:D3:sample-5",
+          "wall_time_ms": 1432.1023339871317,
+          "usage": {
+            "input_tokens": 566,
+            "output_tokens": 9
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B0",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B0:sample-0",
+          "wall_time_ms": 1433.4315001033247,
+          "usage": {
+            "input_tokens": 627,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B0:sample-1",
+          "wall_time_ms": 1842.794083058834,
+          "usage": {
+            "input_tokens": 627,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B0:sample-2",
+          "wall_time_ms": 1845.2620839234442,
+          "usage": {
+            "input_tokens": 627,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B0:sample-3",
+          "wall_time_ms": 1634.5127909444273,
+          "usage": {
+            "input_tokens": 627,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B0:sample-4",
+          "wall_time_ms": 1294.9744169600308,
+          "usage": {
+            "input_tokens": 627,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B0:sample-5",
+          "wall_time_ms": 1264.3174170516431,
+          "usage": {
+            "input_tokens": 627,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B1",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B1:sample-0",
+          "wall_time_ms": 1536.092083901167,
+          "usage": {
+            "input_tokens": 640,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B1:sample-1",
+          "wall_time_ms": 1327.4117500986904,
+          "usage": {
+            "input_tokens": 640,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B1:sample-2",
+          "wall_time_ms": 1595.963457832113,
+          "usage": {
+            "input_tokens": 640,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B1:sample-3",
+          "wall_time_ms": 1269.21262498945,
+          "usage": {
+            "input_tokens": 640,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B1:sample-4",
+          "wall_time_ms": 1592.0237910468131,
+          "usage": {
+            "input_tokens": 640,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B1:sample-5",
+          "wall_time_ms": 1275.3023749683052,
+          "usage": {
+            "input_tokens": 640,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B2",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "pf_mod",
+        "rs_imvlow",
+        "sep"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B2:sample-0",
+          "wall_time_ms": 1327.3137919604778,
+          "usage": {
+            "input_tokens": 638,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B2:sample-1",
+          "wall_time_ms": 2056.8944581318647,
+          "usage": {
+            "input_tokens": 638,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B2:sample-2",
+          "wall_time_ms": 1631.0302910860628,
+          "usage": {
+            "input_tokens": 638,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B2:sample-3",
+          "wall_time_ms": 1516.4087919984013,
+          "usage": {
+            "input_tokens": 638,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B2:sample-4",
+          "wall_time_ms": 1452.9994169715792,
+          "usage": {
+            "input_tokens": 638,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B2:sample-5",
+          "wall_time_ms": 1523.6110838595778,
+          "usage": {
+            "input_tokens": 638,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B3",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "cd_pneumotox",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B3:sample-0",
+          "wall_time_ms": 1645.35400015302,
+          "usage": {
+            "input_tokens": 672,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B3:sample-1",
+          "wall_time_ms": 1535.005709156394,
+          "usage": {
+            "input_tokens": 672,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B3:sample-2",
+          "wall_time_ms": 1463.9942918438464,
+          "usage": {
+            "input_tokens": 672,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B3:sample-3",
+          "wall_time_ms": 1516.2776249926537,
+          "usage": {
+            "input_tokens": 672,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B3:sample-4",
+          "wall_time_ms": 1625.6887498311698,
+          "usage": {
+            "input_tokens": 672,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B3:sample-5",
+          "wall_time_ms": 1761.8058340158314,
+          "usage": {
+            "input_tokens": 672,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B4",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "pf_severe",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B4:sample-0",
+          "wall_time_ms": 1337.0452078524977,
+          "usage": {
+            "input_tokens": 626,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B4:sample-1",
+          "wall_time_ms": 2072.8108750190586,
+          "usage": {
+            "input_tokens": 626,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B4:sample-2",
+          "wall_time_ms": 1687.4210420064628,
+          "usage": {
+            "input_tokens": 626,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B4:sample-3",
+          "wall_time_ms": 1677.1245838608593,
+          "usage": {
+            "input_tokens": 626,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B4:sample-4",
+          "wall_time_ms": 1624.3120001163334,
+          "usage": {
+            "input_tokens": 626,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B4:sample-5",
+          "wall_time_ms": 1607.7700830064714,
+          "usage": {
+            "input_tokens": 626,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B5",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "ef_reduced",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "The Berlin criteria for ARDS: acute onset, bilateral opacities, not fully explained by cardiac failure, PaO2/FiO2 ≤ 300 with PEEP ≥ 5. The patient meets all these. LVEF 30-39% is reduced but ARDS is not excluded by cardiac dysfunction alone—there's a clear risk factor (aspiration). \n\nINCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B5:sample-0",
+          "wall_time_ms": 3373.0383331421763,
+          "usage": {
+            "input_tokens": 669,
+            "output_tokens": 141
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "The Berlin criteria for ARDS: acute onset, bilateral opacities not fully explained by cardiac failure, PaO2/FiO2 ≤ 300 with PEEP ≥ 5, and a risk factor (aspiration). The LVEF 30-39% raises a question of cardiogenic contribution, but ARDS can coexist and isn't excluded by reduced EF alone—especially with a clear aspiration trigger and diffuse opacities.\n\nINCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B5:sample-1",
+          "wall_time_ms": 4613.962416071445,
+          "usage": {
+            "input_tokens": 669,
+            "output_tokens": 164
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "The Berlin criteria for ARDS: acute onset, bilateral opacities not fully explained by cardiac failure, PaO2/FiO2 ≤ 300 with PEEP ≥ 5, and respiratory failure not fully explained by cardiac failure/fluid overload.\n\nHere: acute dyspnea ✓, bilateral opacities ✓, P/F 100-200 ✓, PEEP 5-10 ✓, risk factor (aspiration) ✓. LVEF 30-39% is reduced but the opacities are described as extensive/diffuse and there's a clear ARDS risk factor (aspiration), so cardiac failure doesn't fully explain it.\n\nINCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B5:sample-2",
+          "wall_time_ms": 4605.538999894634,
+          "usage": {
+            "input_tokens": 669,
+            "output_tokens": 237
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "The Berlin criteria for ARDS: acute onset, bilateral opacities, respiratory failure not fully explained by cardiac failure/fluid overload, PaO2/FiO2 ≤ 300 with PEEP ≥ 5.\n\nHere: acute dyspnea, bilateral opacities, P/F 100-200 (moderate), PEEP 5-10, and a risk factor (aspiration). LVEF 30-39% is reduced but ARDS isn't excluded just by cardiac dysfunction—it must not be fully explained by it, and aspiration provides an alternative explanation.\n\nINCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B5:sample-3",
+          "wall_time_ms": 4550.704332999885,
+          "usage": {
+            "input_tokens": 669,
+            "output_tokens": 209
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "The Berlin definition of ARDS requires: acute onset, bilateral opacities not fully explained by cardiac failure, PaO2/FiO2 ≤ 300 with PEEP ≥ 5, and a risk factor. Here: acute dyspnea, aspiration (risk factor), bilateral opacities, P/F 100-200 (moderate ARDS range), PEEP 5-10. LVEF 30-39% is reduced but the extensive bilateral opacities with aspiration event suggest ARDS rather than purely cardiogenic edema. However, the reduced EF introduces some possibility that edema could be cardiogenic...\n\nStill, by default criteria this meets ARDS.\n\nINCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B5:sample-4",
+          "wall_time_ms": 4868.7929580919445,
+          "usage": {
+            "input_tokens": 669,
+            "output_tokens": 240
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "The Berlin criteria for ARDS: acute onset, bilateral opacities, not fully explained by cardiac failure, PaO2/FiO2 ≤ 300 with PEEP ≥ 5. \n\nHere: acute dyspnea ✓, bilateral opacities ✓, P/F 100-200 ✓, PEEP 5-10 ✓, risk factor (aspiration) ✓. LVEF 30-39% is reduced but ARDS isn't excluded by cardiac dysfunction alone—need to show respiratory failure not fully explained by cardiac failure. With aspiration event and diffuse opacities, ARDS is the standard diagnosis.\n\nINCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B5:sample-5",
+          "wall_time_ms": 4546.0587500128895,
+          "usage": {
+            "input_tokens": 669,
+            "output_tokens": 235
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B6",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "bnp_vhi",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "The Berlin criteria for ARDS require that the respiratory failure not be fully explained by cardiac failure/fluid overload. A BNP >5000 strongly suggests cardiac cause, which could exclude ARDS. However, ARDS can coexist with elevated BNP, and the imaging/PF ratio/ventilation fit ARDS criteria.\n\nThe very high BNP provides a plausible defeater (cardiogenic pulmonary edema explaining the findings).\n\nCOHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B6:sample-0",
+          "wall_time_ms": 4360.729958163574,
+          "usage": {
+            "input_tokens": 647,
+            "output_tokens": 164
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "The Berlin definition of ARDS requires that respiratory failure not be fully explained by cardiac failure/fluid overload. BNP >5000 strongly suggests cardiogenic pulmonary edema, which could be the primary explanation rather than ARDS.\n\nCOHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B6:sample-1",
+          "wall_time_ms": 2558.540957979858,
+          "usage": {
+            "input_tokens": 647,
+            "output_tokens": 95
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "The Berlin criteria for ARDS require that respiratory failure not be fully explained by cardiac failure/fluid overload. BNP >5000 strongly suggests cardiogenic pulmonary edema, which could be the explanation instead of ARDS. So denying ARDS is defensible here.\n\nCOHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B6:sample-2",
+          "wall_time_ms": 3788.8607499189675,
+          "usage": {
+            "input_tokens": 647,
+            "output_tokens": 106
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "The Berlin definition of ARDS requires that the respiratory failure not be fully explained by cardiac failure or fluid overload. A BNP > 5000 pg/mL strongly suggests cardiogenic pulmonary edema/heart failure, which could be the primary explanation for the bilateral opacities and hypoxemia. This provides a reasonable defeater for the ARDS diagnosis.\n\nCOHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B6:sample-3",
+          "wall_time_ms": 3550.2598751336336,
+          "usage": {
+            "input_tokens": 647,
+            "output_tokens": 140
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "The Berlin criteria for ARDS require that the respiratory failure not be fully explained by cardiac failure/fluid overload. A BNP >5000 strongly suggests cardiac failure, which could be the explanation for the pulmonary edema rather than ARDS. This is a legitimate defeater.\n\nCOHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B6:sample-4",
+          "wall_time_ms": 2719.304708065465,
+          "usage": {
+            "input_tokens": 647,
+            "output_tokens": 108
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "The Berlin criteria for ARDS require that respiratory failure not be fully explained by cardiac failure/fluid overload. BNP >5000 strongly suggests cardiac failure, which could exclude ARDS diagnosis. This provides a potential defeater.\n\nCOHERENT",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B6:sample-5",
+          "wall_time_ms": 2742.1174170449376,
+          "usage": {
+            "input_tokens": 647,
+            "output_tokens": 96
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 6,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B7",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "cd_cardiotox",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B7:sample-0",
+          "wall_time_ms": 1231.2872079201043,
+          "usage": {
+            "input_tokens": 666,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B7:sample-1",
+          "wall_time_ms": 1418.4775000903755,
+          "usage": {
+            "input_tokens": 666,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B7:sample-2",
+          "wall_time_ms": 1441.573167219758,
+          "usage": {
+            "input_tokens": 666,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B7:sample-3",
+          "wall_time_ms": 1311.103249900043,
+          "usage": {
+            "input_tokens": 666,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B7:sample-4",
+          "wall_time_ms": 1453.986374894157,
+          "usage": {
+            "input_tokens": 666,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B7:sample-5",
+          "wall_time_ms": 1336.7379999253899,
+          "usage": {
+            "input_tokens": 666,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "B8",
+      "premises": [
+        "ad",
+        "bi_diffuse",
+        "fluid_verypos",
+        "pf_mod",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT\n\nWait - the fluid overload is a potential defeater (hydrostatic pulmonary edema/fluid overload can mimic ARDS, and Berlin criteria require ARDS not be fully explained by cardiac failure/fluid overload).\n\nINCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B8:sample-0",
+          "wall_time_ms": 3193.8744171056896,
+          "usage": {
+            "input_tokens": 662,
+            "output_tokens": 99
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B8:sample-1",
+          "wall_time_ms": 2427.398207830265,
+          "usage": {
+            "input_tokens": 662,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT\n\nWait - the fluid overload could suggest hydrostatic pulmonary edema (cardiogenic) rather than ARDS. The Berlin definition requires that respiratory failure not be fully explained by cardiac failure or fluid overload. Large-volume IV fluids with very positive balance raises the possibility that this is hydrostatic edema, which would be a defeater.\n\nCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B8:sample-2",
+          "wall_time_ms": 4187.202415894717,
+          "usage": {
+            "input_tokens": 662,
+            "output_tokens": 139
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B8:sample-3",
+          "wall_time_ms": 1854.219416854903,
+          "usage": {
+            "input_tokens": 662,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT\n\nWait - the fluid balance suggests possible hydrostatic pulmonary edema/volume overload, which per Berlin criteria requires exclusion. This could be a defeater.\n\nINCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B8:sample-4",
+          "wall_time_ms": 2662.8276670817286,
+          "usage": {
+            "input_tokens": 662,
+            "output_tokens": 78
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:B8:sample-5",
+          "wall_time_ms": 1562.8379581030458,
+          "usage": {
+            "input_tokens": 662,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G1",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_hfnc"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "ARDS Berlin criteria: acute onset, bilateral opacities, not fully explained by cardiac failure, and PaO2/FiO2 ≤ 300 with PEEP ≥5. The P/F 200-300 is mild ARDS range, but traditionally required PEEP ≥5 via mechanical ventilation/CPAP. However, updated 2023 global definition includes HFNC ≥30 L/min as qualifying. Aspiration is a known risk factor.\n\nINCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G1:sample-0",
+          "wall_time_ms": 7650.972458999604,
+          "usage": {
+            "input_tokens": 645,
+            "output_tokens": 170
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G1:sample-1",
+          "wall_time_ms": 13361.52062495239,
+          "usage": {
+            "input_tokens": 645,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "ARDS Berlin criteria: acute onset, bilateral opacities, not fully explained by cardiac failure, PaO2/FiO2 ≤ 300 with PEEP ≥ 5 (or now with HFNC ≥30 L/min per newer definitions). This patient meets all these. Aspiration is a known ARDS risk factor.\n\nINCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G1:sample-2",
+          "wall_time_ms": 4867.137874942273,
+          "usage": {
+            "input_tokens": 645,
+            "output_tokens": 127
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "ARDS (Berlin definition) requires PaO2/FiO2 ≤ 300 with PEEP/CPAP ≥ 5, bilateral opacities, acute onset, not fully explained by cardiac failure. However, the 2023 updated definition includes HFNC ≥30 L/min. The patient meets criteria. But aspiration is a known cause.\n\nDenying ARDS seems incoherent.\n\nINCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G1:sample-3",
+          "wall_time_ms": 4674.674832960591,
+          "usage": {
+            "input_tokens": 645,
+            "output_tokens": 147
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "ARDS (Berlin definition) requires acute onset, bilateral opacities not fully explained by cardiac failure, and PaO2/FiO2 ≤ 300 with PEEP/CPAP ≥ 5. However, the P/F 200-300 range with HFNC... recent definitions (2023 global) include HFNC ≥30 L/min. Aspiration is a known risk factor. This meets ARDS criteria.\n\nINCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G1:sample-4",
+          "wall_time_ms": 3825.8837091270834,
+          "usage": {
+            "input_tokens": 645,
+            "output_tokens": 153
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "ARDS requires bilateral opacities not fully explained by cardiac failure, acute onset, and PaO2/FiO2 ≤ 300 (with respiratory support). The Berlin/new global definition includes HFNC ≥30 L/min. P/F 200-300 = mild ARDS. Aspiration is a risk factor.\n\nINCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G1:sample-5",
+          "wall_time_ms": 3781.070665922016,
+          "usage": {
+            "input_tokens": 645,
+            "output_tokens": 122
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G2",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_niv"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G2:sample-0",
+          "wall_time_ms": 2059.4495001714677,
+          "usage": {
+            "input_tokens": 641,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G2:sample-1",
+          "wall_time_ms": 1419.355042045936,
+          "usage": {
+            "input_tokens": 641,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G2:sample-2",
+          "wall_time_ms": 2179.312124848366,
+          "usage": {
+            "input_tokens": 641,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G2:sample-3",
+          "wall_time_ms": 1505.7482081465423,
+          "usage": {
+            "input_tokens": 641,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G2:sample-4",
+          "wall_time_ms": 1518.1185000110418,
+          "usage": {
+            "input_tokens": 641,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G2:sample-5",
+          "wall_time_ms": 1554.0825000498444,
+          "usage": {
+            "input_tokens": 641,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G3",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_imvlow"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G3:sample-0",
+          "wall_time_ms": 1479.1379580274224,
+          "usage": {
+            "input_tokens": 640,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G3:sample-1",
+          "wall_time_ms": 1489.9843749590218,
+          "usage": {
+            "input_tokens": 640,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G3:sample-2",
+          "wall_time_ms": 1518.820583121851,
+          "usage": {
+            "input_tokens": 640,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G3:sample-3",
+          "wall_time_ms": 1392.5570838619024,
+          "usage": {
+            "input_tokens": 640,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G3:sample-4",
+          "wall_time_ms": 1546.8106670305133,
+          "usage": {
+            "input_tokens": 640,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G3:sample-5",
+          "wall_time_ms": 1417.7291251253337,
+          "usage": {
+            "input_tokens": 640,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G4",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_imvmiddle"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G4:sample-0",
+          "wall_time_ms": 1285.492999944836,
+          "usage": {
+            "input_tokens": 640,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G4:sample-1",
+          "wall_time_ms": 1460.7455420773476,
+          "usage": {
+            "input_tokens": 640,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G4:sample-2",
+          "wall_time_ms": 1775.5780841689557,
+          "usage": {
+            "input_tokens": 640,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G4:sample-3",
+          "wall_time_ms": 1462.7448751125485,
+          "usage": {
+            "input_tokens": 640,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G4:sample-4",
+          "wall_time_ms": 1541.695874882862,
+          "usage": {
+            "input_tokens": 640,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G4:sample-5",
+          "wall_time_ms": 1539.1256669536233,
+          "usage": {
+            "input_tokens": 640,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    },
+    {
+      "id": "G5",
+      "premises": [
+        "ad",
+        "asp",
+        "bi_diffuse",
+        "pf_mild",
+        "rs_imvhigh"
+      ],
+      "conclusions": [
+        "ards"
+      ],
+      "analyst_verdicts": [
+        "abstain"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G5:sample-0",
+          "wall_time_ms": 1533.6110419593751,
+          "usage": {
+            "input_tokens": 639,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G5:sample-1",
+          "wall_time_ms": 1534.6257081255317,
+          "usage": {
+            "input_tokens": 639,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G5:sample-2",
+          "wall_time_ms": 1357.655999949202,
+          "usage": {
+            "input_tokens": 639,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G5:sample-3",
+          "wall_time_ms": 1611.2581670749933,
+          "usage": {
+            "input_tokens": 639,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G5:sample-4",
+          "wall_time_ms": 1464.1922088339925,
+          "usage": {
+            "input_tokens": 639,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 5,
+          "raw_response": "INCOHERENT",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "claude-opus-4-7:coh--anchored--epistemic:G5:sample-5",
+          "wall_time_ms": 1504.8881249967963,
+          "usage": {
+            "input_tokens": 639,
+            "output_tokens": 11
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 6,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}
