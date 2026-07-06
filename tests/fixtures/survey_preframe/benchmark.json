@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0",
+  "id": "preframe-golden",
+  "title": null,
+  "domain": null,
+  "description": null,
+  "bearers": {
+    "p": {
+      "expression": "the patient has acute dyspnea",
+      "paraphrases": [],
+      "references": [],
+      "ordinal_family": null
+    },
+    "q": {
+      "expression": "the patient has cardiogenic pulmonary edema",
+      "paraphrases": [],
+      "references": [],
+      "ordinal_family": null
+    },
+    "r": {
+      "expression": "the patient has ARDS",
+      "paraphrases": [],
+      "references": [],
+      "ordinal_family": null
+    }
+  },
+  "analysts": [
+    {
+      "id": "a1",
+      "display_name": null,
+      "notes": null,
+      "expertise_description": null,
+      "panel": null
+    }
+  ],
+  "context_builders": {
+    "premise": {
+      "kind": "template",
+      "template": "{expressions}",
+      "joiner": " and "
+    },
+    "conclusion": {
+      "kind": "template",
+      "template": "{expressions}",
+      "joiner": " or "
+    }
+  },
+  "verification_prompt": null,
+  "template_id": null,
+  "coherence_frame_id": null,
+  "items": [
+    {
+      "id": "one",
+      "premises": [
+        "p"
+      ],
+      "conclusions": [
+        "q"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "analyst_rationales": null,
+      "tags": [],
+      "rsr_target": null,
+      "references": [],
+      "factor_levels": {},
+      "construction_metadata": null,
+      "ladder": null,
+      "variation": null,
+      "target": null,
+      "placeholder": null,
+      "construction_note": null,
+      "monotonicity_step": null
+    },
+    {
+      "id": "two",
+      "premises": [
+        "p",
+        "q"
+      ],
+      "conclusions": [
+        "r"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "analyst_rationales": null,
+      "tags": [],
+      "rsr_target": null,
+      "references": [],
+      "factor_levels": {},
+      "construction_metadata": null,
+      "ladder": null,
+      "variation": null,
+      "target": null,
+      "placeholder": null,
+      "construction_note": null,
+      "monotonicity_step": null
+    }
+  ],
+  "factors": {},
+  "factor_constraints": null,
+  "factor_kinds": {},
+  "primary_panel": null,
+  "references": [],
+  "ordinal_families": {},
+  "copresence_rules": [],
+  "entailment_rules": [],
+  "regularities": [],
+  "targets": []
+}

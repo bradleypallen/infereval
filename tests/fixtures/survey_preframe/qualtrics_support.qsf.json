@@ -1,0 +1,271 @@
+{
+  "SurveyEntry": {
+    "SurveyID": "SV_infereval_recruit",
+    "SurveyName": "Analyst recruitment for preframe-golden",
+    "SurveyDescription": null,
+    "SurveyOwnerID": null,
+    "SurveyBrandID": null,
+    "DivisionID": null,
+    "SurveyLanguage": "EN",
+    "SurveyActiveResponseSet": "RS_default",
+    "SurveyStatus": "Inactive",
+    "SurveyStartDate": "0000-00-00 00:00:00",
+    "SurveyExpirationDate": "0000-00-00 00:00:00",
+    "SurveyCreationDate": "2026-01-01 00:00:00",
+    "CreatorID": null,
+    "LastModified": "2026-01-01 00:00:00",
+    "LastAccessed": "0000-00-00 00:00:00",
+    "LastActivated": "0000-00-00 00:00:00",
+    "Deleted": null
+  },
+  "SurveyElements": [
+    {
+      "SurveyID": "SV_infereval_recruit",
+      "Element": "BL",
+      "PrimaryAttribute": "Survey Blocks",
+      "SecondaryAttribute": null,
+      "TertiaryAttribute": null,
+      "Payload": [
+        {
+          "Type": "Default",
+          "Description": "Items",
+          "ID": "BL_items",
+          "BlockElements": [
+            {
+              "Type": "Question",
+              "QuestionID": "QID1"
+            },
+            {
+              "Type": "PageBreak"
+            },
+            {
+              "Type": "Question",
+              "QuestionID": "QID2"
+            },
+            {
+              "Type": "Question",
+              "QuestionID": "QID3"
+            },
+            {
+              "Type": "PageBreak"
+            },
+            {
+              "Type": "Question",
+              "QuestionID": "QID4"
+            },
+            {
+              "Type": "Question",
+              "QuestionID": "QID5"
+            },
+            {
+              "Type": "PageBreak"
+            }
+          ],
+          "Options": {
+            "BlockLocking": "false",
+            "RandomizeQuestions": "RandomWithXPrior",
+            "BlockVisibility": "Collapsed",
+            "Randomization": {
+              "Advanced": null,
+              "TotalRandSubset": "4",
+              "EvenPresentation": false,
+              "QuestionsPerPage": "0",
+              "RandomizeAll": [
+                "QID2",
+                "QID3",
+                "QID4",
+                "QID5"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "SurveyID": "SV_infereval_recruit",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID1",
+      "SecondaryAttribute": "Briefly describe your clinical or domain expertise relevant to these inferences \u2014 your specialty, years in practice, role, and any board certifications.",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "Briefly describe your clinical or domain expertise relevant to these inferences \u2014 your specialty, years in practice, role, and any board certifications.",
+        "DefaultChoices": false,
+        "DataExportTag": "expertise",
+        "QuestionID": "QID1",
+        "QuestionType": "TE",
+        "Selector": "ESTB",
+        "DataVisibility": {
+          "Private": false,
+          "Hidden": false
+        },
+        "Configuration": {
+          "QuestionDescriptionOption": "UseText"
+        },
+        "QuestionDescription": "Briefly describe your clinical or domain expertise relevant to these inferences \u2014 your specialty, years in practice, role, and any board certifications.",
+        "Validation": {
+          "Settings": {
+            "ForceResponse": "OFF",
+            "Type": "None"
+          }
+        },
+        "Language": []
+      }
+    },
+    {
+      "SurveyID": "SV_infereval_recruit",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID2",
+      "SecondaryAttribute": "Verdict on one",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "Given the following premises, is the conclusion a good diagnostic inference, a bad one, or are you unable to judge?\n\nPremises:\n- the patient has acute dyspnea\n\nConclusion:\n- the patient has cardiogenic pulmonary edema",
+        "DataExportTag": "one",
+        "QuestionID": "QID2",
+        "QuestionType": "MC",
+        "Selector": "SAVR",
+        "SubSelector": "TX",
+        "Configuration": {
+          "QuestionDescriptionOption": "UseText"
+        },
+        "QuestionDescription": "Verdict on one",
+        "Choices": {
+          "1": {
+            "Display": "Good \u2014 follows from premises"
+          },
+          "2": {
+            "Display": "Bad \u2014 does not follow"
+          },
+          "3": {
+            "Display": "Abstain \u2014 cannot judge"
+          }
+        },
+        "ChoiceOrder": [
+          "1",
+          "2",
+          "3"
+        ],
+        "Validation": {
+          "Settings": {
+            "ForceResponse": "ON",
+            "Type": "None"
+          }
+        },
+        "Language": [],
+        "DataVisibility": {
+          "Private": false,
+          "Hidden": false
+        },
+        "NextChoiceId": 4,
+        "NextAnswerId": 1
+      }
+    },
+    {
+      "SurveyID": "SV_infereval_recruit",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID3",
+      "SecondaryAttribute": "Rationale on one",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "Optional: briefly explain why you chose that verdict (especially helpful if you abstained or rated bad).",
+        "DefaultChoices": false,
+        "DataExportTag": "one_rationale",
+        "QuestionID": "QID3",
+        "QuestionType": "TE",
+        "Selector": "ESTB",
+        "DataVisibility": {
+          "Private": false,
+          "Hidden": false
+        },
+        "Configuration": {
+          "QuestionDescriptionOption": "UseText"
+        },
+        "QuestionDescription": "Rationale on one",
+        "Validation": {
+          "Settings": {
+            "ForceResponse": "OFF",
+            "Type": "None"
+          }
+        },
+        "Language": []
+      }
+    },
+    {
+      "SurveyID": "SV_infereval_recruit",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID4",
+      "SecondaryAttribute": "Verdict on two",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "Given the following premises, is the conclusion a good diagnostic inference, a bad one, or are you unable to judge?\n\nPremises:\n- the patient has acute dyspnea\n- the patient has cardiogenic pulmonary edema\n\nConclusion:\n- the patient has ARDS",
+        "DataExportTag": "two",
+        "QuestionID": "QID4",
+        "QuestionType": "MC",
+        "Selector": "SAVR",
+        "SubSelector": "TX",
+        "Configuration": {
+          "QuestionDescriptionOption": "UseText"
+        },
+        "QuestionDescription": "Verdict on two",
+        "Choices": {
+          "1": {
+            "Display": "Good \u2014 follows from premises"
+          },
+          "2": {
+            "Display": "Bad \u2014 does not follow"
+          },
+          "3": {
+            "Display": "Abstain \u2014 cannot judge"
+          }
+        },
+        "ChoiceOrder": [
+          "1",
+          "2",
+          "3"
+        ],
+        "Validation": {
+          "Settings": {
+            "ForceResponse": "ON",
+            "Type": "None"
+          }
+        },
+        "Language": [],
+        "DataVisibility": {
+          "Private": false,
+          "Hidden": false
+        },
+        "NextChoiceId": 4,
+        "NextAnswerId": 1
+      }
+    },
+    {
+      "SurveyID": "SV_infereval_recruit",
+      "Element": "SQ",
+      "PrimaryAttribute": "QID5",
+      "SecondaryAttribute": "Rationale on two",
+      "TertiaryAttribute": null,
+      "Payload": {
+        "QuestionText": "Optional: briefly explain why you chose that verdict (especially helpful if you abstained or rated bad).",
+        "DefaultChoices": false,
+        "DataExportTag": "two_rationale",
+        "QuestionID": "QID5",
+        "QuestionType": "TE",
+        "Selector": "ESTB",
+        "DataVisibility": {
+          "Private": false,
+          "Hidden": false
+        },
+        "Configuration": {
+          "QuestionDescriptionOption": "UseText"
+        },
+        "QuestionDescription": "Rationale on two",
+        "Validation": {
+          "Settings": {
+            "ForceResponse": "OFF",
+            "Type": "None"
+          }
+        },
+        "Language": []
+      }
+    }
+  ]
+}

@@ -32,13 +32,15 @@ from typing import TYPE_CHECKING
 
 from .render import (
     DEFAULT_EXPERTISE_PROMPT,
-    DEFAULT_RATIONALE_PROMPT,
+    rationale_prompt,
     render_survey_question,
     sanitize_export_tag,
 )
 
 if TYPE_CHECKING:
     from ..benchmark import Benchmark
+    from ..prompts import VerificationPrompt
+    from ..templates import CoherenceFrame
 
 log = logging.getLogger(__name__)
 
@@ -51,6 +53,8 @@ def build_gas_script(
     include_rationales: bool = True,
     expertise_prompt: str = DEFAULT_EXPERTISE_PROMPT,
     question_form: str = "support",
+    coherence_frame: CoherenceFrame | None = None,
+    verification_prompt: VerificationPrompt | None = None,
 ) -> tuple[str, list[dict[str, object]]]:
     """Build a Google Apps Script source string for ``benchmark``.
 
@@ -74,6 +78,12 @@ def build_gas_script(
         question.
     expertise_prompt
         Prompt for the survey's first (expertise) free-text question.
+    coherence_frame, verification_prompt
+        Passed straight through to
+        :func:`~infereval.survey.render.render_survey_question`, where
+        ALL frame resolution happens. The resolved frame id (uniform
+        across items in one export — asserted) is recorded on each
+        mapping row.
 
     Returns
     -------
@@ -83,7 +93,8 @@ def build_gas_script(
     mapping
         Per-item mapping records — same shape as the Qualtrics mapping
         sidecar: ``item_id``, ``verdict_data_export_tag``,
-        ``rationale_data_export_tag``, ``was_hashed``. The Google
+        ``rationale_data_export_tag``, ``was_hashed``,
+        ``question_form``, ``frame_id``. The Google
         Forms CSV importer uses the ``[item:<tag>]`` prefix in each
         question title to map column headers back to item ids; this
         mapping is the authoritative reference.
@@ -125,6 +136,7 @@ def build_gas_script(
     lines.append("")
 
     mapping: list[dict[str, object]] = []
+    resolved_frame_ids: set[str | None] = set()
     for i, item in enumerate(benchmark.items, start=1):
         tag, was_hashed = sanitize_export_tag(item.id)
         # v0.9.2: the full prompt (header + premises/conclusion bullets)
@@ -134,7 +146,14 @@ def build_gas_script(
         # CSV column header — long titles make the CSV painful to
         # review. See PR for v0.9.2 and the screenshot that motivated
         # it.
-        sq = render_survey_question(benchmark, item, question_form=question_form)
+        sq = render_survey_question(
+            benchmark,
+            item,
+            question_form=question_form,
+            coherence_frame=coherence_frame,
+            verification_prompt=verification_prompt,
+        )
+        resolved_frame_ids.add(sq.frame_id)
         page_description = sq.full_text()
         verdict_title = f"Item {i} verdict"
         rationale_tag: str | None = None
@@ -155,7 +174,7 @@ def build_gas_script(
             rationale_title = f"Item {i} rationale (optional)"
             lines.append("  form.addParagraphTextItem()")
             lines.append(f"      .setTitle({json.dumps(rationale_title)})")
-            lines.append(f"      .setHelpText({json.dumps(DEFAULT_RATIONALE_PROMPT)})")
+            lines.append(f"      .setHelpText({json.dumps(rationale_prompt(question_form))})")
             lines.append("      .setRequired(false);")
         lines.append("")
 
@@ -164,7 +183,21 @@ def build_gas_script(
             "verdict_data_export_tag": tag,
             "rationale_data_export_tag": rationale_tag,
             "was_hashed": was_hashed,
+            "question_form": sq.question_form,
+            "frame_id": sq.frame_id,
         })
+
+    # One export = one frame (see qualtrics_qsf.build_qsf).
+    assert len(resolved_frame_ids) <= 1, (
+        f"survey export resolved multiple frame ids in one export: "
+        f"{sorted(str(f) for f in resolved_frame_ids)}"
+    )
+    log.info(
+        "survey.export.frame platform=google_forms benchmark=%s question_form=%s frame_id=%s",
+        benchmark.id,
+        question_form,
+        next(iter(resolved_frame_ids), None),
+    )
 
     lines.append("  Logger.log('Form created:');")
     lines.append("  Logger.log(form.getPublishedUrl());")

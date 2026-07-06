@@ -1,0 +1,135 @@
+{
+  "title": "Analyst recruitment for preframe-golden",
+  "nickname": "infereval-preframe-golden",
+  "language": "en",
+  "category": "research_efforts",
+  "pages": [
+    {
+      "title": "Welcome",
+      "position": 1,
+      "questions": [
+        {
+          "headings": [
+            {
+              "heading": "Briefly describe your clinical or domain expertise relevant to these inferences \u2014 your specialty, years in practice, role, and any board certifications."
+            }
+          ],
+          "position": 1,
+          "family": "open_ended",
+          "subtype": "essay",
+          "required": {
+            "text": "This question requires an answer.",
+            "type": "all"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Item 1 of 2",
+      "description": "Given the following premises, is the conclusion a good diagnostic inference, a bad one, or are you unable to judge?\n\nPremises:\n- the patient has acute dyspnea\n\nConclusion:\n- the patient has cardiogenic pulmonary edema",
+      "position": 2,
+      "questions": [
+        {
+          "headings": [
+            {
+              "heading": "Item 1 verdict"
+            }
+          ],
+          "position": 1,
+          "family": "single_choice",
+          "subtype": "vertical",
+          "answers": {
+            "choices": [
+              {
+                "text": "Good \u2014 follows from premises",
+                "position": 1
+              },
+              {
+                "text": "Bad \u2014 does not follow",
+                "position": 2
+              },
+              {
+                "text": "Abstain \u2014 cannot judge",
+                "position": 3
+              }
+            ]
+          },
+          "required": {
+            "text": "Please select one.",
+            "type": "one"
+          }
+        },
+        {
+          "headings": [
+            {
+              "heading": "Item 1 rationale (optional)"
+            },
+            {
+              "heading": "Optional: briefly explain why you chose that verdict (especially helpful if you abstained or rated bad)."
+            }
+          ],
+          "position": 2,
+          "family": "open_ended",
+          "subtype": "essay"
+        }
+      ]
+    },
+    {
+      "title": "Item 2 of 2",
+      "description": "Given the following premises, is the conclusion a good diagnostic inference, a bad one, or are you unable to judge?\n\nPremises:\n- the patient has acute dyspnea\n- the patient has cardiogenic pulmonary edema\n\nConclusion:\n- the patient has ARDS",
+      "position": 3,
+      "questions": [
+        {
+          "headings": [
+            {
+              "heading": "Item 2 verdict"
+            }
+          ],
+          "position": 1,
+          "family": "single_choice",
+          "subtype": "vertical",
+          "answers": {
+            "choices": [
+              {
+                "text": "Good \u2014 follows from premises",
+                "position": 1
+              },
+              {
+                "text": "Bad \u2014 does not follow",
+                "position": 2
+              },
+              {
+                "text": "Abstain \u2014 cannot judge",
+                "position": 3
+              }
+            ]
+          },
+          "required": {
+            "text": "Please select one.",
+            "type": "one"
+          }
+        },
+        {
+          "headings": [
+            {
+              "heading": "Item 2 rationale (optional)"
+            },
+            {
+              "heading": "Optional: briefly explain why you chose that verdict (especially helpful if you abstained or rated bad)."
+            }
+          ],
+          "position": 2,
+          "family": "open_ended",
+          "subtype": "essay"
+        }
+      ]
+    }
+  ],
+  "page_randomization": {
+    "type": "all",
+    "pages_to_randomize": [
+      2,
+      3
+    ]
+  }
+}

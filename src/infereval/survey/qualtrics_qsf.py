@@ -30,13 +30,15 @@ from typing import TYPE_CHECKING, Any
 
 from .render import (
     DEFAULT_EXPERTISE_PROMPT,
-    DEFAULT_RATIONALE_PROMPT,
+    rationale_prompt,
     render_survey_question,
     sanitize_export_tag,
 )
 
 if TYPE_CHECKING:
     from ..benchmark import Benchmark
+    from ..prompts import VerificationPrompt
+    from ..templates import CoherenceFrame
 
 log = logging.getLogger(__name__)
 
@@ -55,8 +57,18 @@ def build_qsf(
     include_rationales: bool = True,
     expertise_prompt: str = DEFAULT_EXPERTISE_PROMPT,
     question_form: str = "support",
+    coherence_frame: CoherenceFrame | None = None,
+    verification_prompt: VerificationPrompt | None = None,
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """Build a Qualtrics ``.qsf`` document for ``benchmark``.
+
+    ``coherence_frame`` / ``verification_prompt`` are passed straight
+    through to :func:`~infereval.survey.render.render_survey_question`,
+    where ALL frame resolution happens (explicit argument, then the
+    benchmark's binding, then the library default) — the exporter never
+    resolves a frame itself. The resolved frame id, uniform across every
+    item in one export (asserted), is recorded on each mapping row so the
+    sidecar carries the frame provenance the import guard checks.
 
     Returns
     -------
@@ -72,9 +84,13 @@ def build_qsf(
           ``include_rationales=False``)
         - ``was_hashed`` (``True`` when the item id triggered the
           sha256-hash fallback)
+        - ``question_form`` (the logical question the survey asks)
+        - ``frame_id`` (the resolved norm-statement frame the header
+          renders; uniform across all rows of one export)
 
         The CLI writes this alongside the ``.qsf`` as
-        ``<output>.mapping.json`` when any item id was hashed.
+        ``<output>.mapping.json`` when any item id was hashed or when
+        the export rendered under a non-default frame.
     """
     effective_title = title if title is not None else f"Analyst recruitment for {benchmark.id}"
 
@@ -102,12 +118,20 @@ def build_qsf(
         {"Type": "PageBreak"},
     ]
     next_qid = 2
+    resolved_frame_ids: set[str | None] = set()
     for item in benchmark.items:
         tag, was_hashed = sanitize_export_tag(item.id)
         verdict_qid = f"QID{next_qid}"
         next_qid += 1
 
-        sq = render_survey_question(benchmark, item, question_form=question_form)
+        sq = render_survey_question(
+            benchmark,
+            item,
+            question_form=question_form,
+            coherence_frame=coherence_frame,
+            verification_prompt=verification_prompt,
+        )
+        resolved_frame_ids.add(sq.frame_id)
         elements.append(
             _mc_question(
                 qid=verdict_qid,
@@ -130,7 +154,7 @@ def build_qsf(
                 _text_entry_question(
                     qid=rationale_qid,
                     label=f"Rationale on {item.id}",
-                    prompt=DEFAULT_RATIONALE_PROMPT,
+                    prompt=rationale_prompt(question_form),
                     data_export_tag=rationale_tag,
                     force_response=False,
                 )
@@ -149,8 +173,24 @@ def build_qsf(
                 "verdict_data_export_tag": tag,
                 "rationale_data_export_tag": rationale_tag,
                 "was_hashed": was_hashed,
+                "question_form": sq.question_form,
+                "frame_id": sq.frame_id,
             }
         )
+
+    # One export = one frame: every item's header renders the same
+    # norm-statement surface, so the sidecar's per-row frame_id is a
+    # single value. A violation is a render.py resolution bug.
+    assert len(resolved_frame_ids) <= 1, (
+        f"survey export resolved multiple frame ids in one export: "
+        f"{sorted(str(f) for f in resolved_frame_ids)}"
+    )
+    log.info(
+        "survey.export.frame platform=qualtrics benchmark=%s question_form=%s frame_id=%s",
+        benchmark.id,
+        question_form,
+        next(iter(resolved_frame_ids), None),
+    )
 
     # Single block holding the page-broken elements; randomization on items only.
     block_payload: dict[str, Any] = {

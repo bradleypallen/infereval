@@ -62,6 +62,31 @@ infereval survey export benchmark.json -o survey.qsf --question-form coherence
 infereval survey import benchmark.json responses.csv -o benchmark_with_analysts.json --question-form coherence
 ```
 
+## Survey frames
+
+The question form fixes *which* logical question the survey asks; the **frame** fixes *under which stated norms* it is asked. On the model side the frame is the system prompt (a [`CoherenceFrame`](api.md#infereval.templates) under `coherence`, a `VerificationPrompt` under `support`); on the survey side, the frame's human-facing surface is its **`survey_header`** — the instruction text rendered above each item's body, stating the same assessment norms in respondent voice.
+
+The header is the *only* thing a frame controls on a survey. Choice labels (Good / Bad / Abstain, Coherent / Incoherent / Unclear) and the importer's decode — including the coherence polarity inversion — stay library-controlled at every frame, exactly as the question line, labels, and parse regex do on the model side. This is the survey side of the polarity firewall: no frame can silently invert verdicts on either elicitation surface.
+
+### Resolution order
+
+`render_survey_question` resolves the frame by mirroring the model path:
+
+- **`coherence`** — an explicit `coherence_frame=` argument, then a programmatic `register_coherence_frame(benchmark_id, …)` binding, then the benchmark's declared `coherence_frame_id`, then the thin default (`thin-v1`). All three built-in frames (`thin-v1`, `defeasible-coherence-explicit-v1`, `defeasible-coherence-underdet-v1`) ship authored headers.
+- **`support`** — an explicit `verification_prompt=` argument, then the benchmark's `verification_prompt` binding, then the default prompt (`default-v1`).
+
+The resolved frame's id is recorded on the rendered question as `SurveyQuestion.frame_id`, so exports can carry it as provenance and imports can refuse mixed-frame compositions.
+
+### Fail-loud, with one documented fallback
+
+A resolved frame that declares **no** `survey_header` raises `ValueError` rather than silently eliciting humans under different wording than the frame the evaluation records — declaring the human-facing wording is part of the frame's identity. This applies to any coherence frame without a header and to any *explicitly passed* verification prompt without one.
+
+The single deliberate exception: a **benchmark-bound** support prompt without a header (a `verification_prompt` override in the benchmark JSON, which has no `survey_header` field) falls back to the locked v0.9.0 default header. This preserves every pre-frame support survey byte-for-byte — support surveys have always shown the default wording regardless of the benchmark's verification-prompt binding. The fallback is honest and loud: `frame_id` records `"default-v1"` (what was actually shown, not the benchmark's binding), and a `survey.frame.fallback` warning is logged naming the benchmark and the bound prompt id, so the model/survey frame misalignment is visible in the run logs instead of hidden.
+
+### Frames and `κ_C`
+
+The rule above — *"a survey must ask the **same** logical question the model is evaluated under, or `κ_C(model vs analyst)` compares two different judgments"* — extends to the frame axis: model and human elicitation must share the question form **and** the frame. The frame-anchoring captures showed the stated norms are the variable that decides how the coherence question behaves, so a model evaluated under an anchored frame but compared against humans surveyed under the thin header (or vice versa) is a cross-instrument comparison, not an agreement measurement. Whatever frame the model is evaluated under (`coherence_frame_id` / `verification_prompt`), export the human survey under the same one, and check `frame_id` at import time.
+
 ## Qualtrics
 
 ### Export
