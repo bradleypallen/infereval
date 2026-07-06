@@ -95,7 +95,10 @@ def main() -> int:
     p.add_argument("--n-samples", type=int, default=6)
     p.add_argument("--out", type=Path, required=True)
     p.add_argument("--max-tokens-support", type=int, default=2048)
-    p.add_argument("--max-tokens-coherence", type=int, default=64)
+    p.add_argument("--max-tokens-coherence", type=int, default=2048)
+    p.add_argument("--cells", type=str, default="all",
+                   help="Comma-separated cell labels to run (default: all). "
+                   "Use to re-run cells invalidated by an instrument artifact.")
     args = p.parse_args()
 
     api_key = os.environ.get(args.key_env)
@@ -140,7 +143,11 @@ def main() -> int:
             "verdicts": {it.id: it.model_verdict.value for it in eta.items},
         }
 
+    selected = None if args.cells == "all" else {c.strip() for c in args.cells.split(",")}
+
     for label, system, rendering in support_cells:
+        if selected is not None and label not in selected:
+            continue
         print(f"  running {label} ...", flush=True)
         frame_id = label.replace("--", "-")
         eta = evaluate(
@@ -156,6 +163,8 @@ def main() -> int:
         record(label, eta)
 
     for label, frame, template in coherence_cells:
+        if selected is not None and label not in selected:
+            continue
         print(f"  running {label} ...", flush=True)
         eta = evaluate(
             bench, provider,
@@ -170,7 +179,14 @@ def main() -> int:
         )
         record(label, eta)
 
-    (args.out / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+    # Partial re-runs merge into an existing summary (superseding those cells).
+    summary_path = args.out / "summary.json"
+    if selected is not None and summary_path.exists():
+        prior = json.loads(summary_path.read_text())
+        prior["cells"].update(summary["cells"])
+        prior["n_samples"] = summary["n_samples"]
+        summary = prior
+    summary_path.write_text(json.dumps(summary, indent=2) + "\n")
 
     print(f"\n=== {args.model}: endorsement (good, of {bench.n}) ===")
     print(f"  {'cell':28s} {'this model':>10s} {'gpt-4.1':>8s}")
