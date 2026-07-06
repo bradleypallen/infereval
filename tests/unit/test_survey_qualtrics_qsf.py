@@ -118,28 +118,114 @@ class TestMappingSidecar:
             assert row["rationale_data_export_tag"] is None
 
 
-# ---- Randomization payload ----------------------------------------------
+# ---- Randomization (BlockRandomizer flow) ---------------------------------
+
+
+def _flow(qsf: dict) -> dict:
+    return next(el for el in qsf["SurveyElements"] if el["Element"] == "FL")["Payload"]
+
+
+def _blocks(qsf: dict) -> list[dict]:
+    return next(el for el in qsf["SurveyElements"] if el["Element"] == "BL")["Payload"]
 
 
 class TestRandomization:
-    def test_randomize_on_emits_randomization_payload(self) -> None:
-        qsf, _ = build_qsf(_pulm(), randomize_items=True, include_rationales=True)
-        block_el = next(el for el in qsf["SurveyElements"] if el["Element"] == "BL")
-        block = block_el["Payload"][0]
-        assert "Options" in block
-        rand = block["Options"]["Randomization"]
-        # All item question QIDs are in RandomizeAll (verdicts + rationales).
+    def test_randomize_on_uses_block_randomizer_over_item_units(self) -> None:
+        """Randomization is over item blocks (verdict + rationale travel
+        together), never over individual questions."""
         bench = _pulm()
-        assert len(rand["RandomizeAll"]) == 2 * bench.n
-        # Expertise QID1 is NOT in the randomization list.
-        assert "QID1" not in rand["RandomizeAll"]
+        qsf, _ = build_qsf(bench, randomize_items=True, include_rationales=True)
+        flow = _flow(qsf)
+        randomizer = next(n for n in flow["Flow"] if n.get("Type") == "BlockRandomizer")
+        assert randomizer["SubSet"] == bench.n  # all items shown, random order
+        assert len(randomizer["Flow"]) == bench.n
+        # Each randomized block holds exactly one item's verdict + rationale.
+        randomized_ids = {n["ID"] for n in randomizer["Flow"]}
+        item_blocks = [b for b in _blocks(qsf) if b["ID"] in randomized_ids]
+        assert len(item_blocks) == bench.n
+        for block in item_blocks:
+            qids = [be["QuestionID"] for be in block["BlockElements"]]
+            assert len(qids) == 2  # verdict + its rationale, inseparable
+        # Expertise block is the flow's first node, outside the randomizer.
+        first = flow["Flow"][0]
+        assert first["Type"] == "Block"
+        intro = next(b for b in _blocks(qsf) if b["ID"] == first["ID"])
+        assert [be["QuestionID"] for be in intro["BlockElements"]] == ["QID1"]
 
-    def test_randomize_off_omits_payload(self) -> None:
+    def test_randomize_off_single_block_flow(self) -> None:
         qsf, _ = build_qsf(_stop_sign(), randomize_items=False)
-        block_el = next(el for el in qsf["SurveyElements"] if el["Element"] == "BL")
-        block = block_el["Payload"][0]
-        # No randomization options means no shuffle.
-        assert "Options" not in block or "Randomization" not in block.get("Options", {})
+        flow = _flow(qsf)
+        assert [n["Type"] for n in flow["Flow"]] == ["Block"]
+        assert flow["Properties"]["Count"] == 2  # Root + one block node
+        # All questions live in the one Default block, page-broken.
+        default = next(b for b in _blocks(qsf) if b["Type"] == "Default")
+        assert {"Type": "Page Break"} in default["BlockElements"]
+
+
+# ---- Canonical import structure -------------------------------------------
+
+
+class TestCanonicalImportStructure:
+    """The structural contract a live Qualtrics import enforces — the
+    original exporter emitted only BL + SQ elements with free-form ids
+    and was rejected by the importer ("Something went wrong and the
+    project wasn't created")."""
+
+    def test_required_element_census(self) -> None:
+        qsf, _ = build_qsf(_pulm())
+        census: dict[str, int] = {}
+        for el in qsf["SurveyElements"]:
+            census[el["Element"]] = census.get(el["Element"], 0) + 1
+        for required in ("BL", "FL", "SO", "SCO", "PROJ", "STAT", "QC", "RS"):
+            assert census.get(required) == 1, (required, census)
+
+    def test_id_grammar(self) -> None:
+        import re
+
+        qsf, _ = build_qsf(_pulm())
+        entry = qsf["SurveyEntry"]
+        assert re.fullmatch(r"SV_[a-zA-Z0-9]{15}", entry["SurveyID"])
+        assert re.fullmatch(r"UR_[a-zA-Z0-9]{15}", entry["SurveyOwnerID"])
+        assert re.fullmatch(r"RS_[a-zA-Z0-9]{15}", entry["SurveyActiveResponseSet"])
+        for block in _blocks(qsf):
+            assert re.fullmatch(r"BL_[a-zA-Z0-9]{15}", block["ID"])
+
+    def test_flow_references_existing_blocks(self) -> None:
+        qsf, _ = build_qsf(_pulm(), randomize_items=True)
+        block_ids = {b["ID"] for b in _blocks(qsf)}
+
+        def refs(nodes: list[dict]) -> set[str]:
+            out: set[str] = set()
+            for n in nodes:
+                if "ID" in n:
+                    out.add(n["ID"])
+                out |= refs(n.get("Flow", []))
+            return out
+
+        assert refs(_flow(qsf)["Flow"]) <= block_ids
+
+    def test_question_count_element_matches_sq_census(self) -> None:
+        bench = _pulm()
+        qsf, _ = build_qsf(bench, include_rationales=True)
+        qc = next(el for el in qsf["SurveyElements"] if el["Element"] == "QC")
+        assert qc["SecondaryAttribute"] == str(1 + 2 * bench.n)
+
+    def test_trash_block_present(self) -> None:
+        qsf, _ = build_qsf(_stop_sign())
+        assert any(b["Type"] == "Trash" for b in _blocks(qsf))
+
+    def test_deterministic_output(self) -> None:
+        """Same benchmark → byte-identical artifact (golden-test property)."""
+        import json
+
+        a, _ = build_qsf(_pulm())
+        b, _ = build_qsf(_pulm())
+        assert json.dumps(a) == json.dumps(b)
+
+    def test_distinct_benchmarks_get_distinct_survey_ids(self) -> None:
+        a, _ = build_qsf(_pulm())
+        b, _ = build_qsf(_stop_sign())
+        assert a["SurveyEntry"]["SurveyID"] != b["SurveyEntry"]["SurveyID"]
 
 
 # ---- Expertise question ------------------------------------------------

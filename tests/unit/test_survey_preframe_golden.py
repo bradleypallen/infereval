@@ -25,6 +25,16 @@ Regeneration log:
   header review) to the coherence wording ("chose Unclear or found the
   position untenable"). Verified diff-confined to that line on all three
   platforms before regenerating. Support fixtures untouched.
+- 2026-07-06 (qualtrics fixtures only, both forms): a live import attempt
+  rejected the generated .qsf ("Something went wrong and the project
+  wasn't created") — the artifact had no Survey Flow element, no
+  SO/SCO/PROJ/STAT/QC/RS companions, free-form ids, and a fabricated
+  randomization payload. build_qsf now emits the canonical import
+  structure (deterministic SV_/BL_/RS_/UR_ ids, FL flow, BlockRandomizer
+  over per-item blocks). Verified the respondent-visible wording surface
+  (QuestionText + choice displays, both forms) byte-identical before
+  regenerating; no live survey wording changed. Google Forms and
+  SurveyMonkey fixtures untouched.
 """
 
 from __future__ import annotations
