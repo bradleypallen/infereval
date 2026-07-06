@@ -10,16 +10,27 @@ platform-specific quirks out of here.
 from __future__ import annotations
 
 import hashlib
+import logging
 import re
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import TYPE_CHECKING
 
 from ..context import strip_tex_math
+from ..templates import THIN_COHERENCE_FRAME
 from ..types import Verdict
 
 if TYPE_CHECKING:
     from ..benchmark import Benchmark, BenchmarkItem
+    from ..prompts import VerificationPrompt
+    from ..templates import CoherenceFrame
+
+log = logging.getLogger(__name__)
+
+# The thin frame always declares its survey surface; assert at import time so
+# the alias below can never silently become None.
+assert THIN_COHERENCE_FRAME.survey_header is not None
+_THIN_SURVEY_HEADER: str = THIN_COHERENCE_FRAME.survey_header
 
 
 # ---- Default question template strings ------------------------------------
@@ -58,11 +69,9 @@ DEFAULT_EXPERTISE_PROMPT: str = (
 #: ``question_form="coherence"``, so the human analyst and the model answer the
 #: SAME question. Plainly worded — the participant judges coherence directly; the
 #: ``incoherent → good`` inversion lives server-side (see
-#: :func:`verdict_from_choice_text`).
-COHERENCE_QUESTION_HEADER: str = (
-    "Consider the position described below. Could this whole position be held at "
-    "once without conflict, or is it untenable?"
-)
+#: :func:`verdict_from_choice_text`). Since the survey frame axis landed, the
+#: canonical text lives on the thin frame; this constant aliases it unchanged.
+COHERENCE_QUESTION_HEADER: str = _THIN_SURVEY_HEADER
 
 #: Coherence MC choices. First word (Coherent / Incoherent / Unclear) is the parse
 #: key the importer maps back to a :class:`~infereval.types.Verdict`.
@@ -153,6 +162,14 @@ class SurveyQuestion:
     header: str
     body: str
     choices: tuple[str, str, str]
+    frame_id: str | None = None
+    """The frame the header renders (the norm-statement axis): the
+    :class:`~infereval.templates.CoherenceFrame` id under ``coherence``, the
+    :class:`~infereval.prompts.VerificationPrompt` id under ``support``.
+    Recorded so the export sidecar can carry it and the merger can refuse
+    mixed-frame compositions — humans and the model must share question form
+    AND frame for ``κ_C`` to compare like with like. ``None`` only on
+    questions rendered before the frame axis existed."""
 
     def full_text(self) -> str:
         """Header + blank line + body — what each platform renders per item."""
@@ -164,6 +181,8 @@ def render_survey_question(
     item: BenchmarkItem,
     *,
     question_form: str = "support",
+    coherence_frame: CoherenceFrame | None = None,
+    verification_prompt: VerificationPrompt | None = None,
 ) -> SurveyQuestion:
     """Render one item's survey question under ``question_form``.
 
@@ -171,6 +190,18 @@ def render_survey_question(
     only). ``coherence`` renders the bilateral coherence question through the
     same template registry the model uses, so the human sees the same content
     scaffolding at every arity.
+
+    The header is the frame surface (the norm-statement axis). Resolution
+    mirrors the model path: under ``coherence``, an explicit
+    ``coherence_frame`` argument, then a programmatic registration, then the
+    benchmark's ``coherence_frame_id``, then the thin default; under
+    ``support``, an explicit ``verification_prompt``, then the benchmark's
+    ``verification_prompt`` binding, then the default prompt. A resolved
+    frame without a declared ``survey_header`` raises rather than silently
+    eliciting humans under different wording than the recorded frame — the
+    only fallback is the locked v0.9.0 support header for ``default-v1``.
+    Choice labels and the importer decode are frame-independent at every
+    frame (the survey side of the polarity firewall).
     """
     if question_form == "support":
         if len(item.conclusions) != 1:
@@ -179,18 +210,67 @@ def render_survey_question(
                 f"(|Δ|=1); item {item.id!r} has |Δ|={len(item.conclusions)}. Use "
                 f"question_form='coherence'."
             )
+        from ..prompts import resolve_verification_prompt
+
+        if verification_prompt is not None:
+            # An explicit prompt is an explicit frame choice: it must declare
+            # its human-facing wording or the render refuses.
+            if verification_prompt.survey_header is None:
+                raise ValueError(
+                    f"verification prompt {verification_prompt.id!r} declares "
+                    f"no survey_header; a survey cannot be rendered under it "
+                    f"without one (declaring the human-facing wording is part "
+                    f"of the frame's identity)."
+                )
+            header, frame_id = verification_prompt.survey_header, verification_prompt.id
+        else:
+            vp = resolve_verification_prompt(benchmark.verification_prompt)
+            if vp.survey_header is not None:
+                header, frame_id = vp.survey_header, vp.id
+            else:
+                # Pre-frame behavior, preserved: support surveys always used
+                # the locked v0.9.0 header regardless of the benchmark's
+                # verification-prompt binding. frame_id records what was
+                # actually shown ("default-v1" wording), and the warning makes
+                # a model/survey frame misalignment visible instead of hidden.
+                header, frame_id = DEFAULT_QUESTION_HEADER, "default-v1"
+                if vp.id != "default-v1":
+                    log.warning(
+                        "survey.frame.fallback benchmark=%s verification_prompt=%s "
+                        "declares no survey_header; rendering the default-v1 survey "
+                        "header — the model and survey frames differ for this item.",
+                        benchmark.id,
+                        vp.id,
+                    )
         return SurveyQuestion(
             question_form="support",
-            header=DEFAULT_QUESTION_HEADER,
+            header=header,
             body=render_implication_text(benchmark, item),
             choices=DEFAULT_VERDICT_CHOICES,
+            frame_id=frame_id,
         )
     if question_form == "coherence":
+        from ..templates import resolve_coherence_frame
+
+        frame = (
+            coherence_frame
+            if coherence_frame is not None
+            else resolve_coherence_frame(
+                benchmark.id, frame_id=benchmark.coherence_frame_id
+            )
+        )
+        if frame.survey_header is None:
+            raise ValueError(
+                f"coherence frame {frame.id!r} declares no survey_header; a "
+                f"survey cannot be rendered under it without one (declaring "
+                f"the human-facing wording is part of the frame's identity)."
+            )
         return SurveyQuestion(
             question_form="coherence",
-            header=COHERENCE_QUESTION_HEADER,
+            header=frame.survey_header,
             body=_render_coherence_body(benchmark, item),
             choices=COHERENCE_VERDICT_CHOICES,
+            frame_id=frame.id,
         )
     raise ValueError(f"unknown question_form {question_form!r}")
 

@@ -153,17 +153,36 @@ class CoherenceFrame:
     Frames are versioned by id; redefining a frame's text under an existing
     id breaks provenance --- mint a new id instead, mirroring the
     additive-only bearer-versioning contract.
+
+    ``survey_header`` is the frame's *human-facing* surface: the survey
+    instruction text stating the same assessment norms in respondent
+    voice. It changes ONLY the header --- the choice labels and the
+    importer decode stay library-controlled at every frame, exactly as the
+    question line/labels/decode do on the model side. ``None`` means the
+    frame has no survey surface, and rendering a survey under it fails
+    loudly rather than silently eliciting humans under a different frame
+    than the one recorded.
     """
 
     id: str
     system: str
+    survey_header: str | None = None
 
 
 #: The library's original coherence system prompt, unchanged: the label
 #: contract with no material norms. This is the default frame; every
 #: coherence evaluation produced by :func:`infereval.evaluation.evaluate`
 #: before frames existed was elicited under exactly this text.
-THIN_COHERENCE_FRAME = CoherenceFrame(id="thin-v1", system=_COHERENCE_SYSTEM)
+THIN_COHERENCE_FRAME = CoherenceFrame(
+    id="thin-v1",
+    system=_COHERENCE_SYSTEM,
+    # Canonical text of the v0.17.4 coherence survey header, unchanged:
+    # survey.render.COHERENCE_QUESTION_HEADER aliases this field.
+    survey_header=(
+        "Consider the position described below. Could this whole position be "
+        "held at once without conflict, or is it untenable?"
+    ),
+)
 
 #: Materiality-anchored coherence frame: states the defeasibility norms
 #: explicitly (material coherence, NOT strict consistency, defeater
@@ -197,6 +216,23 @@ DEFEASIBLE_COHERENCE_FRAME = CoherenceFrame(
         "a penguin; and denies: a can fly.\n"
         "  Verdict: COHERENT  (the second commitment is a defeater; the position "
         "holds together)"
+    ),
+    survey_header=(
+        "Consider the position described below. A position commits to some "
+        "claims and may deny others. This is not a question about strict "
+        "logical contradiction: judge whether the whole position can be held "
+        "together in the ordinary course of things, granting its commitments "
+        "as stated and assuming typical circumstances. A position is "
+        "untenable when it denies something its commitments would ordinarily "
+        "settle, even without a strict contradiction; it can be held together "
+        "when its commitments leave room for what it denies — including when "
+        "one commitment defeats what would otherwise ordinarily follow.\n\n"
+        'For example: a position that commits to "a is a bird" and denies '
+        '"a can fly" is untenable in the ordinary course of things (typical '
+        'birds fly). A position that commits to "a is a bird and a is a '
+        'penguin" and denies "a can fly" can be held together (the second '
+        "commitment defeats the default).\n\n"
+        "Could this whole position be held at once, or is it untenable?"
     ),
 )
 
@@ -241,6 +277,28 @@ UNDERDET_COHERENCE_FRAME = CoherenceFrame(
         "unusually heavy for its kind; and denies: a can fly.\n"
         "  Verdict: UNCLEAR  (the commitments pull in different directions without "
         "settling the matter; competent reasoners could disagree)"
+    ),
+    survey_header=(
+        "Consider the position described below. A position commits to some "
+        "claims and may deny others. This is not a question about strict "
+        "logical contradiction: judge whether the whole position can be held "
+        "together in the ordinary course of things, granting its commitments "
+        "as stated and assuming typical circumstances. A position is "
+        "untenable when it denies something its commitments would ordinarily "
+        "settle, even without a strict contradiction; it can be held together "
+        "when its commitments leave room for what it denies — including when "
+        "one commitment defeats what would otherwise ordinarily follow. If "
+        "the commitments bear on what the position denies but neither "
+        "ordinarily settle it nor rule it out — so that competent judges "
+        "could reasonably disagree — choose Unclear.\n\n"
+        'For example: a position that commits to "a is a bird" and denies '
+        '"a can fly" is untenable in the ordinary course of things (typical '
+        'birds fly). A position that commits to "a is a bird and a is a '
+        'penguin" and denies "a can fly" can be held together (the second '
+        'commitment defeats the default). A position that commits to "a is a '
+        'bird and a is unusually heavy for its kind" and denies "a can fly" '
+        "is one where competent judges could reasonably disagree (Unclear).\n\n"
+        "Could this whole position be held at once, or is it untenable?"
     ),
 )
 

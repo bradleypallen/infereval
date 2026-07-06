@@ -394,10 +394,16 @@ class TestRetestRefusal:
 
 class TestPolarityFirewall:
     def test_frame_has_no_decode_or_labels_surface(self) -> None:
-        # Structural check: a frame carries ONLY (id, system). The answer
-        # contract and the decode inversion are library-owned, so no frame can
-        # silently invert verdicts.
-        assert {f.name for f in dataclasses.fields(CoherenceFrame)} == {"id", "system"}
+        # Structural check: a frame carries ONLY norm-statement surfaces —
+        # the model system text and its human-facing survey header. The
+        # answer contract (question line, labels, parse regex, decode
+        # inversion, survey choice labels) is library-owned, so no frame can
+        # silently invert verdicts on either elicitation surface.
+        assert {f.name for f in dataclasses.fields(CoherenceFrame)} == {
+            "id",
+            "system",
+            "survey_header",
+        }
 
     @pytest.mark.parametrize("frame", BUILTIN_FRAMES, ids=lambda f: f.id)
     def test_decode_is_identical_under_every_frame(
