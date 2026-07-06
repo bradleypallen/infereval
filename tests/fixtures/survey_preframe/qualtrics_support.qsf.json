@@ -1,18 +1,18 @@
 {
   "SurveyEntry": {
-    "SurveyID": "SV_infereval_recruit",
+    "SurveyID": "SV_5a9a60b2fbdc3fb",
     "SurveyName": "Analyst recruitment for preframe-golden",
     "SurveyDescription": null,
-    "SurveyOwnerID": null,
-    "SurveyBrandID": null,
+    "SurveyOwnerID": "UR_fc4c412e1864a1a",
+    "SurveyBrandID": "infereval",
     "DivisionID": null,
     "SurveyLanguage": "EN",
-    "SurveyActiveResponseSet": "RS_default",
+    "SurveyActiveResponseSet": "RS_9f9b9312f45d432",
     "SurveyStatus": "Inactive",
     "SurveyStartDate": "0000-00-00 00:00:00",
     "SurveyExpirationDate": "0000-00-00 00:00:00",
     "SurveyCreationDate": "2026-01-01 00:00:00",
-    "CreatorID": null,
+    "CreatorID": "UR_fc4c412e1864a1a",
     "LastModified": "2026-01-01 00:00:00",
     "LastAccessed": "0000-00-00 00:00:00",
     "LastActivated": "0000-00-00 00:00:00",
@@ -20,7 +20,7 @@
   },
   "SurveyElements": [
     {
-      "SurveyID": "SV_infereval_recruit",
+      "SurveyID": "SV_5a9a60b2fbdc3fb",
       "Element": "BL",
       "PrimaryAttribute": "Survey Blocks",
       "SecondaryAttribute": null,
@@ -28,16 +28,20 @@
       "Payload": [
         {
           "Type": "Default",
-          "Description": "Items",
-          "ID": "BL_items",
+          "Description": "Introduction",
+          "ID": "BL_6f83fd8b3a50f71",
           "BlockElements": [
             {
               "Type": "Question",
               "QuestionID": "QID1"
-            },
-            {
-              "Type": "PageBreak"
-            },
+            }
+          ]
+        },
+        {
+          "Type": "Standard",
+          "Description": "Item one",
+          "ID": "BL_2859e59d3475d33",
+          "BlockElements": [
             {
               "Type": "Question",
               "QuestionID": "QID2"
@@ -45,10 +49,14 @@
             {
               "Type": "Question",
               "QuestionID": "QID3"
-            },
-            {
-              "Type": "PageBreak"
-            },
+            }
+          ]
+        },
+        {
+          "Type": "Standard",
+          "Description": "Item two",
+          "ID": "BL_7ff798de2e6662a",
+          "BlockElements": [
             {
               "Type": "Question",
               "QuestionID": "QID4"
@@ -56,33 +64,141 @@
             {
               "Type": "Question",
               "QuestionID": "QID5"
-            },
-            {
-              "Type": "PageBreak"
             }
-          ],
-          "Options": {
-            "BlockLocking": "false",
-            "RandomizeQuestions": "RandomWithXPrior",
-            "BlockVisibility": "Collapsed",
-            "Randomization": {
-              "Advanced": null,
-              "TotalRandSubset": "4",
-              "EvenPresentation": false,
-              "QuestionsPerPage": "0",
-              "RandomizeAll": [
-                "QID2",
-                "QID3",
-                "QID4",
-                "QID5"
-              ]
-            }
-          }
+          ]
+        },
+        {
+          "Type": "Trash",
+          "Description": "Trash / Unused Questions",
+          "ID": "BL_27e6023544bb6d3",
+          "BlockElements": []
         }
       ]
     },
     {
-      "SurveyID": "SV_infereval_recruit",
+      "SurveyID": "SV_5a9a60b2fbdc3fb",
+      "Element": "FL",
+      "PrimaryAttribute": "Survey Flow",
+      "SecondaryAttribute": null,
+      "TertiaryAttribute": null,
+      "Payload": {
+        "Type": "Root",
+        "FlowID": "FL_1",
+        "Flow": [
+          {
+            "ID": "BL_6f83fd8b3a50f71",
+            "Type": "Block",
+            "FlowID": "FL_2"
+          },
+          {
+            "Type": "BlockRandomizer",
+            "FlowID": "FL_3",
+            "SubSet": 2,
+            "EvenPresentation": false,
+            "Flow": [
+              {
+                "ID": "BL_2859e59d3475d33",
+                "Type": "Standard",
+                "FlowID": "FL_4"
+              },
+              {
+                "ID": "BL_7ff798de2e6662a",
+                "Type": "Standard",
+                "FlowID": "FL_5"
+              }
+            ]
+          }
+        ],
+        "Properties": {
+          "Count": 5
+        }
+      }
+    },
+    {
+      "SurveyID": "SV_5a9a60b2fbdc3fb",
+      "Element": "SO",
+      "PrimaryAttribute": "Survey Options",
+      "SecondaryAttribute": null,
+      "TertiaryAttribute": null,
+      "Payload": {
+        "BackButton": "false",
+        "SaveAndContinue": "true",
+        "SurveyProtection": "PublicSurvey",
+        "BallotBoxStuffingPrevention": "false",
+        "NoIndex": "Yes",
+        "SecureResponseFiles": "true",
+        "SurveyExpiration": "None",
+        "SurveyTermination": "DefaultMessage",
+        "Header": "",
+        "Footer": "",
+        "ProgressBarDisplay": "None",
+        "PartialData": "+1 week",
+        "ValidationMessage": "",
+        "PreviousButton": "",
+        "NextButton": "",
+        "SkinLibrary": "qualtrics",
+        "SkinType": "MQ",
+        "Skin": "skin1",
+        "NewScoring": 1,
+        "CustomStyles": ""
+      }
+    },
+    {
+      "SurveyID": "SV_5a9a60b2fbdc3fb",
+      "Element": "SCO",
+      "PrimaryAttribute": "Scoring",
+      "SecondaryAttribute": null,
+      "TertiaryAttribute": null,
+      "Payload": {
+        "ScoringCategories": [],
+        "ScoringCategoryGroups": [],
+        "ScoringSummaryCategory": null,
+        "ScoringSummaryAfterQuestions": 0,
+        "ScoringSummaryAfterSurvey": 0,
+        "DefaultScoringCategory": null,
+        "AutoScoringCategory": null
+      }
+    },
+    {
+      "SurveyID": "SV_5a9a60b2fbdc3fb",
+      "Element": "PROJ",
+      "PrimaryAttribute": "CORE",
+      "SecondaryAttribute": null,
+      "TertiaryAttribute": "1.1.0",
+      "Payload": {
+        "ProjectCategory": "CORE",
+        "SchemaVersion": "1.1.0"
+      }
+    },
+    {
+      "SurveyID": "SV_5a9a60b2fbdc3fb",
+      "Element": "STAT",
+      "PrimaryAttribute": "Survey Statistics",
+      "SecondaryAttribute": null,
+      "TertiaryAttribute": null,
+      "Payload": {
+        "MobileCompatible": true,
+        "ID": "Survey Statistics"
+      }
+    },
+    {
+      "SurveyID": "SV_5a9a60b2fbdc3fb",
+      "Element": "QC",
+      "PrimaryAttribute": "Survey Question Count",
+      "SecondaryAttribute": "5",
+      "TertiaryAttribute": null,
+      "Payload": null
+    },
+    {
+      "SurveyID": "SV_5a9a60b2fbdc3fb",
+      "Element": "RS",
+      "PrimaryAttribute": "RS_9f9b9312f45d432",
+      "SecondaryAttribute": "Default Response Set",
+      "TertiaryAttribute": null,
+      "Payload": null
+    },
+    {
+      "SurveyID": "SV_5a9a60b2fbdc3fb",
       "Element": "SQ",
       "PrimaryAttribute": "QID1",
       "SecondaryAttribute": "Briefly describe your clinical or domain expertise relevant to these inferences \u2014 your specialty, years in practice, role, and any board certifications.",
@@ -112,7 +228,7 @@
       }
     },
     {
-      "SurveyID": "SV_infereval_recruit",
+      "SurveyID": "SV_5a9a60b2fbdc3fb",
       "Element": "SQ",
       "PrimaryAttribute": "QID2",
       "SecondaryAttribute": "Verdict on one",
@@ -160,7 +276,7 @@
       }
     },
     {
-      "SurveyID": "SV_infereval_recruit",
+      "SurveyID": "SV_5a9a60b2fbdc3fb",
       "Element": "SQ",
       "PrimaryAttribute": "QID3",
       "SecondaryAttribute": "Rationale on one",
@@ -190,7 +306,7 @@
       }
     },
     {
-      "SurveyID": "SV_infereval_recruit",
+      "SurveyID": "SV_5a9a60b2fbdc3fb",
       "Element": "SQ",
       "PrimaryAttribute": "QID4",
       "SecondaryAttribute": "Verdict on two",
@@ -238,7 +354,7 @@
       }
     },
     {
-      "SurveyID": "SV_infereval_recruit",
+      "SurveyID": "SV_5a9a60b2fbdc3fb",
       "Element": "SQ",
       "PrimaryAttribute": "QID5",
       "SecondaryAttribute": "Rationale on two",
