@@ -193,6 +193,17 @@ class IncompleteRespondentError(ValueError):
     and a respondent has missing verdicts or didn't finish the survey."""
 
 
+class FrameMismatchError(ValueError):
+    """Raised by :func:`merge_respondents` when the coherence frame recorded
+    in the export mapping sidecar conflicts with the frame the caller
+    declares, or when the sidecar's rows record conflicting frames.
+
+    Responses elicited under one norm-statement frame cannot be composed
+    into a benchmark as if they were elicited under another — the frame
+    is part of the instrument's identity (the survey-side analogue of the
+    retest path's refusal to compose across ``question_form``)."""
+
+
 def merge_respondents(
     benchmark: Benchmark,
     respondents: list[SurveyRespondent],
@@ -200,6 +211,7 @@ def merge_respondents(
     mapping: list[dict[str, Any]] | None = None,
     analyst_id_prefix: str = "clinician-",
     require_complete: bool = True,
+    frame_id: str | None = None,
 ) -> Benchmark:
     """Extend ``benchmark`` with one new analyst column per respondent.
 
@@ -224,6 +236,15 @@ def merge_respondents(
     require_complete
         When ``True`` (default), reject any respondent who didn't
         ``finished=True`` or whose verdicts cover fewer than all items.
+    frame_id
+        The frame the caller declares the responses were elicited under.
+        Compared against the ``frame_id`` recorded per row in the export
+        mapping sidecar: a mismatch raises :class:`FrameMismatchError`
+        instead of silently merging analyst columns elicited under a
+        different instrument. ``None`` means no declaration — the guard
+        then only checks that the sidecar's own rows agree with each
+        other. Decode is untouched: this guards composition, not the
+        choice→verdict mapping.
 
     Returns
     -------
@@ -237,8 +258,13 @@ def merge_respondents(
     IncompleteRespondentError
         When ``require_complete=True`` and a respondent fails the
         completeness check.
+    FrameMismatchError
+        When the sidecar-recorded frame conflicts with ``frame_id`` (or
+        the sidecar rows conflict with each other).
     """
     from ..benchmark import Benchmark as _Benchmark  # local import; avoid TYPE_CHECKING cycle
+
+    _check_frame_consistency(mapping, declared_frame_id=frame_id)
 
     tag_for_item: dict[str, str] = _build_tag_lookup(benchmark, mapping)
 
@@ -311,6 +337,53 @@ def merge_respondents(
         }
     )
     return merged
+
+
+def _check_frame_consistency(
+    mapping: list[dict[str, Any]] | None,
+    *,
+    declared_frame_id: str | None,
+) -> None:
+    """The merge-side frame guard (survey analogue of the retest path's
+    question_form composition rule).
+
+    Reads the ``frame_id`` recorded per row in the export mapping sidecar
+    and refuses to merge when (a) the rows record conflicting frames, or
+    (b) the caller declares a frame that differs from the recorded one.
+    Pre-frame sidecars (no ``frame_id`` keys) and absent sidecars pass —
+    there is nothing recorded to conflict with.
+    """
+    recorded: set[str] = set()
+    if mapping is not None:
+        recorded = {
+            row["frame_id"]
+            for row in mapping
+            if isinstance(row.get("frame_id"), str)
+        }
+    if len(recorded) > 1:
+        raise FrameMismatchError(
+            f"export mapping records conflicting frame ids "
+            f"{sorted(recorded)}; responses elicited under different frames "
+            f"cannot be merged into one benchmark — split the artifacts and "
+            f"import each under its own frame."
+        )
+    recorded_id = next(iter(recorded), None)
+    if (
+        declared_frame_id is not None
+        and recorded_id is not None
+        and declared_frame_id != recorded_id
+    ):
+        raise FrameMismatchError(
+            f"declared frame_id={declared_frame_id!r} but the export mapping "
+            f"records frame_id={recorded_id!r}; responses elicited under one "
+            f"frame cannot be imported as another — declare the recorded "
+            f"frame or re-export under the declared one."
+        )
+    log.info(
+        "survey.merge.frame_guard declared=%s recorded=%s",
+        declared_frame_id,
+        recorded_id,
+    )
 
 
 def _build_tag_lookup(

@@ -222,17 +222,20 @@ DEFEASIBLE_COHERENCE_FRAME = CoherenceFrame(
         "claims and may deny others. This is not a question about strict "
         "logical contradiction: judge whether the whole position can be held "
         "together in the ordinary course of things, granting its commitments "
-        "as stated and assuming typical circumstances. A position is "
-        "untenable when it denies something its commitments would ordinarily "
-        "settle, even without a strict contradiction; it can be held together "
-        "when its commitments leave room for what it denies — including when "
-        "one commitment defeats what would otherwise ordinarily follow.\n\n"
+        "as stated and assuming typical circumstances and standard kinds of "
+        "things. A position is untenable when it denies something its "
+        "commitments would ordinarily settle, even without a strict "
+        "contradiction, or when its commitments cannot all hold together in "
+        "the ordinary course of things; it can be held together when its "
+        "commitments leave room for what it denies — including when one "
+        "commitment defeats what would otherwise ordinarily follow.\n\n"
         'For example: a position that commits to "a is a bird" and denies '
         '"a can fly" is untenable in the ordinary course of things (typical '
         'birds fly). A position that commits to "a is a bird and a is a '
-        'penguin" and denies "a can fly" can be held together (the second '
-        "commitment defeats the default).\n\n"
-        "Could this whole position be held at once, or is it untenable?"
+        'penguin" and denies "a can fly" can be held together (penguins are '
+        "birds that do not fly, so the denial fits).\n\n"
+        "Could this whole position be held at once without conflict, is it "
+        "untenable, or can you not judge?"
     ),
 )
 
@@ -283,22 +286,27 @@ UNDERDET_COHERENCE_FRAME = CoherenceFrame(
         "claims and may deny others. This is not a question about strict "
         "logical contradiction: judge whether the whole position can be held "
         "together in the ordinary course of things, granting its commitments "
-        "as stated and assuming typical circumstances. A position is "
-        "untenable when it denies something its commitments would ordinarily "
-        "settle, even without a strict contradiction; it can be held together "
-        "when its commitments leave room for what it denies — including when "
-        "one commitment defeats what would otherwise ordinarily follow. If "
-        "the commitments bear on what the position denies but neither "
-        "ordinarily settle it nor rule it out — so that competent judges "
-        "could reasonably disagree — choose Unclear.\n\n"
+        "as stated and assuming typical circumstances and standard kinds of "
+        "things. A position is untenable when it denies something its "
+        "commitments would ordinarily settle, even without a strict "
+        "contradiction, or when its commitments cannot all hold together in "
+        "the ordinary course of things; it can be held together when its "
+        "commitments leave room for what it denies — including when one "
+        "commitment defeats what would otherwise ordinarily follow. If the "
+        "commitments bear on what the position denies but neither ordinarily "
+        "settle it nor override it — so that competent judges could "
+        "reasonably disagree — treat it as a case you cannot settle either "
+        "way.\n\n"
         'For example: a position that commits to "a is a bird" and denies '
         '"a can fly" is untenable in the ordinary course of things (typical '
         'birds fly). A position that commits to "a is a bird and a is a '
-        'penguin" and denies "a can fly" can be held together (the second '
-        'commitment defeats the default). A position that commits to "a is a '
-        'bird and a is unusually heavy for its kind" and denies "a can fly" '
-        "is one where competent judges could reasonably disagree (Unclear).\n\n"
-        "Could this whole position be held at once, or is it untenable?"
+        'penguin" and denies "a can fly" can be held together (penguins are '
+        'birds that do not fly, so the denial fits). A position that commits '
+        'to "a is a bird and a is unusually heavy for its kind" and denies '
+        '"a can fly" is one where competent judges could reasonably disagree '
+        "(a case you could not settle either way).\n\n"
+        "Could this whole position be held at once without conflict, is it "
+        "untenable, or is this a case you cannot settle either way?"
     ),
 )
 

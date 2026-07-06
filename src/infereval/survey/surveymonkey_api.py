@@ -26,13 +26,15 @@ from typing import TYPE_CHECKING
 
 from .render import (
     DEFAULT_EXPERTISE_PROMPT,
-    DEFAULT_RATIONALE_PROMPT,
+    rationale_prompt,
     render_survey_question,
     sanitize_export_tag,
 )
 
 if TYPE_CHECKING:
     from ..benchmark import Benchmark
+    from ..prompts import VerificationPrompt
+    from ..templates import CoherenceFrame
 
 log = logging.getLogger(__name__)
 
@@ -60,9 +62,17 @@ def build_surveymonkey_payload(
     include_rationales: bool = True,
     expertise_prompt: str = DEFAULT_EXPERTISE_PROMPT,
     question_form: str = "support",
+    coherence_frame: CoherenceFrame | None = None,
+    verification_prompt: VerificationPrompt | None = None,
 ) -> tuple[dict[str, object], list[dict[str, object]]]:
     """Build the JSON body for ``POST /v3/surveys`` and the mapping
     sidecar.
+
+    ``coherence_frame`` / ``verification_prompt`` are passed straight
+    through to :func:`~infereval.survey.render.render_survey_question`,
+    where ALL frame resolution happens. The resolved frame id (uniform
+    across items in one export — asserted) is recorded on each mapping
+    row.
 
     Returns
     -------
@@ -75,7 +85,8 @@ def build_surveymonkey_payload(
         Per-item mapping records — same shape as the Qualtrics /
         Google Forms mappings: ``item_id``,
         ``verdict_data_export_tag``, ``rationale_data_export_tag``,
-        ``was_hashed``. SurveyMonkey CSV column headers are literal
+        ``was_hashed``, ``question_form``, ``frame_id``. SurveyMonkey
+        CSV column headers are literal
         question titles, so the CSV importer parses ``[item:<tag>]``
         out of the title in the same way as Google Forms.
     """
@@ -104,10 +115,18 @@ def build_surveymonkey_payload(
     ]
 
     mapping: list[dict[str, object]] = []
+    resolved_frame_ids: set[str | None] = set()
 
     for i, item in enumerate(benchmark.items, start=1):
         tag, was_hashed = sanitize_export_tag(item.id)
-        sq = render_survey_question(benchmark, item, question_form=question_form)
+        sq = render_survey_question(
+            benchmark,
+            item,
+            question_form=question_form,
+            coherence_frame=coherence_frame,
+            verification_prompt=verification_prompt,
+        )
+        resolved_frame_ids.add(sq.frame_id)
         page_description = sq.full_text()
         verdict_title = f"Item {i} verdict"
         questions: list[dict[str, object]] = [
@@ -131,7 +150,7 @@ def build_surveymonkey_payload(
             questions.append({
                 "headings": [
                     {"heading": f"Item {i} rationale (optional)"},
-                    {"heading": DEFAULT_RATIONALE_PROMPT},
+                    {"heading": rationale_prompt(question_form)},
                 ],
                 "position": 2,
                 "family": "open_ended",
@@ -151,7 +170,21 @@ def build_surveymonkey_payload(
             "verdict_data_export_tag": tag,
             "rationale_data_export_tag": rationale_tag,
             "was_hashed": was_hashed,
+            "question_form": sq.question_form,
+            "frame_id": sq.frame_id,
         })
+
+    # One export = one frame (see qualtrics_qsf.build_qsf).
+    assert len(resolved_frame_ids) <= 1, (
+        f"survey export resolved multiple frame ids in one export: "
+        f"{sorted(str(f) for f in resolved_frame_ids)}"
+    )
+    log.info(
+        "survey.export.frame platform=surveymonkey benchmark=%s question_form=%s frame_id=%s",
+        benchmark.id,
+        question_form,
+        next(iter(resolved_frame_ids), None),
+    )
 
     payload: dict[str, object] = {
         "title": effective_title,

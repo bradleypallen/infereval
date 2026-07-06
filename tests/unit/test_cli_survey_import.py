@@ -196,3 +196,85 @@ class TestMappingSidecar:
         # Item_001 → R_alpha said GOOD.
         from infereval.types import Verdict
         assert merged.items[0].analyst_verdicts[-1] == Verdict.GOOD
+
+
+class TestFrameGuard:
+    def _write_mapping(self, tmp_path: Path, frame_id: str) -> Path:
+        mapping_path = tmp_path / "mapping.json"
+        mapping = [
+            {
+                "item_id": f"item_00{i}",
+                "verdict_data_export_tag": f"item_00{i}",
+                "frame_id": frame_id,
+            }
+            for i in range(1, 6)
+        ]
+        mapping_path.write_text(json.dumps(mapping))
+        return mapping_path
+
+    def test_frame_mismatch_refused_with_both_ids_named(
+        self, five_item_benchmark_path: Path, tmp_path: Path
+    ) -> None:
+        """Sidecar records thin-v1; the caller declares the anchored frame —
+        the import refuses instead of merging cross-frame verdicts."""
+        mapping_path = self._write_mapping(tmp_path, "thin-v1")
+        out = tmp_path / "merged.json"
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "survey", "import", str(five_item_benchmark_path),
+                "-r", str(QUALTRICS_FIXTURE),
+                "-o", str(out),
+                "--mapping", str(mapping_path),
+                "--respondent", "R_alpha",
+                "--coherence-frame", "defeasible-coherence-explicit-v1",
+            ],
+        )
+        assert result.exit_code == 2
+        assert "frame mismatch" in result.output
+        # The error names both ids.
+        assert "thin-v1" in result.output
+        assert "defeasible-coherence-explicit-v1" in result.output
+        assert not out.exists()
+
+    def test_matching_declaration_imports(
+        self, five_item_benchmark_path: Path, tmp_path: Path
+    ) -> None:
+        mapping_path = self._write_mapping(tmp_path, "default-v1")
+        out = tmp_path / "merged.json"
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "survey", "import", str(five_item_benchmark_path),
+                "-r", str(QUALTRICS_FIXTURE),
+                "-o", str(out),
+                "--mapping", str(mapping_path),
+                "--respondent", "R_alpha",
+                "--coherence-frame", "default-v1",
+            ],
+        )
+        assert result.exit_code == 0, result.output
+        merged = Benchmark.load(out)
+        assert len(merged.analysts) == 2
+
+    def test_no_declaration_still_imports(
+        self, five_item_benchmark_path: Path, tmp_path: Path
+    ) -> None:
+        """A recorded frame with no --coherence-frame declaration passes:
+        the guard only refuses conflicts, it does not require declarations."""
+        mapping_path = self._write_mapping(tmp_path, "defeasible-coherence-explicit-v1")
+        out = tmp_path / "merged.json"
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "survey", "import", str(five_item_benchmark_path),
+                "-r", str(QUALTRICS_FIXTURE),
+                "-o", str(out),
+                "--mapping", str(mapping_path),
+                "--respondent", "R_alpha",
+            ],
+        )
+        assert result.exit_code == 0, result.output

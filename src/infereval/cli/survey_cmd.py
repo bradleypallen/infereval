@@ -26,6 +26,7 @@ from infereval.benchmark import Benchmark
 from infereval.survey.google_forms_csv import parse_google_forms_csv
 from infereval.survey.google_forms_gas import build_gas_script
 from infereval.survey.qualtrics_csv import (
+    FrameMismatchError,
     IncompleteRespondentError,
     merge_respondents,
     parse_qualtrics_csv,
@@ -42,10 +43,19 @@ from infereval.survey.surveymonkey_api import (
     publish_to_surveymonkey,
 )
 from infereval.survey.surveymonkey_csv import parse_surveymonkey_csv
+from infereval.templates import CoherenceFrame, coherence_frame_for_id
 
 log = logging.getLogger(__name__)
 
 _PLATFORM_CHOICES = ["qualtrics", "google_forms", "surveymonkey"]
+
+#: Frame ids whose survey surface is the pre-frame default wording:
+#: ``default-v1`` (the locked v0.9.0 support header) and ``thin-v1`` (the
+#: v0.17.4 coherence header, canonical on the thin frame). Exports under
+#: these need no frame provenance on disk to be reproducible — every
+#: pre-frame artifact was rendered under exactly this wording — so the
+#: Qualtrics sidecar-writing rule treats them as "nothing to record".
+_DEFAULT_SURVEY_FRAME_IDS: frozenset[str] = frozenset({"default-v1", "thin-v1"})
 
 
 @click.group(
@@ -134,6 +144,23 @@ def survey_group() -> None:
         "any arity; import with the same --question-form to decode."
     ),
 )
+@click.option(
+    "--coherence-frame",
+    "coherence_frame_id",
+    type=str,
+    default=None,
+    help=(
+        "Coherence-frame id whose survey header the exported questions "
+        "render (built-ins: thin-v1, defeasible-coherence-explicit-v1, "
+        "defeasible-coherence-underdet-v1). Unknown ids fail before any "
+        "artifact is written. The resolved frame id is recorded in the "
+        "mapping sidecar; import with the same --coherence-frame to pass "
+        "the merge guard. Meaningful only with --question-form coherence. "
+        "Default: render_survey_question's frame resolution (a "
+        "programmatic registration, then the benchmark's "
+        "coherence_frame_id, then thin-v1)."
+    ),
+)
 # SurveyMonkey-only:
 @click.option(
     "--surveymonkey-token",
@@ -160,18 +187,31 @@ def export_cmd(
     include_rationales: bool,
     expertise_prompt: str,
     question_form: str,
+    coherence_frame_id: str | None,
     surveymonkey_token: str | None,
     surveymonkey_base_url: str,
 ) -> None:
     log.info(
-        "survey.export.start benchmark=%s output=%s platform=%s",
-        benchmark_path, output, platform,
+        "survey.export.start benchmark=%s output=%s platform=%s "
+        "question_form=%s coherence_frame=%s",
+        benchmark_path, output, platform, question_form, coherence_frame_id,
     )
     try:
         benchmark = Benchmark.load(benchmark_path)
     except Exception as exc:  # noqa: BLE001
         click.echo(f"ERROR: could not load benchmark: {exc}", err=True)
         sys.exit(2)
+
+    # Resolve an explicit --coherence-frame up front: an unknown id fails
+    # fast, before any artifact is written (mirrors `infereval evaluate`).
+    # None defers to render_survey_question's default frame resolution.
+    coherence_frame: CoherenceFrame | None = None
+    if coherence_frame_id is not None:
+        try:
+            coherence_frame = coherence_frame_for_id(coherence_frame_id)
+        except ValueError as exc:
+            click.echo(f"ERROR: {exc}", err=True)
+            sys.exit(2)
 
     output.parent.mkdir(parents=True, exist_ok=True)
 
@@ -183,6 +223,7 @@ def export_cmd(
             include_rationales=include_rationales,
             expertise_prompt=expertise_prompt,
             question_form=question_form,
+            coherence_frame=coherence_frame,
         )
         output.write_text(json.dumps(qsf, indent=2), encoding="utf-8")
         click.echo(f"OK: wrote Qualtrics .qsf to {output}")
@@ -196,6 +237,7 @@ def export_cmd(
             include_rationales=include_rationales,
             expertise_prompt=expertise_prompt,
             question_form=question_form,
+            coherence_frame=coherence_frame,
         )
         output.write_text(gas, encoding="utf-8")
         click.echo(f"OK: wrote Google Apps Script to {output}")
@@ -223,6 +265,7 @@ def export_cmd(
             include_rationales=include_rationales,
             expertise_prompt=expertise_prompt,
             question_form=question_form,
+            coherence_frame=coherence_frame,
         )
         try:
             response = publish_to_surveymonkey(
@@ -259,15 +302,32 @@ def _maybe_write_mapping(
 
     For Qualtrics the sidecar is optional (the DataExportTag carries
     the mapping inside the .qsf), so the caller writes it only when
-    any item id was hashed. For Google Forms and SurveyMonkey
-    (v0.9.1+) the sidecar is **required** for the importer to resolve
-    ``Item N`` anchors back to item ids — the caller passes
-    ``always=True``.
+    any item id was hashed — or, since the survey frame axis, when the
+    export rendered under a non-default frame: the sidecar is where the
+    resolved ``frame_id`` lives on disk, and the import-side merge guard
+    can only check what was recorded. Default-frame exports stay
+    sidecar-free so pre-frame outputs are byte-unchanged. For Google
+    Forms and SurveyMonkey (v0.9.1+) the sidecar is **required** for the
+    importer to resolve ``Item N`` anchors back to item ids — the caller
+    passes ``always=True``.
     """
-    if not always and not any(row.get("was_hashed") for row in mapping):
+    non_default_frame = any(
+        isinstance(row.get("frame_id"), str)
+        and row["frame_id"] not in _DEFAULT_SURVEY_FRAME_IDS
+        for row in mapping
+    )
+    if (
+        not always
+        and not any(row.get("was_hashed") for row in mapping)
+        and not non_default_frame
+    ):
         return
     sidecar = output.with_suffix(output.suffix + ".mapping.json")
     sidecar.write_text(json.dumps(mapping, indent=2), encoding="utf-8")
+    log.info(
+        "survey.export.mapping_sidecar path=%s rows=%d non_default_frame=%s",
+        sidecar, len(mapping), non_default_frame,
+    )
     click.echo(f"OK: wrote mapping sidecar to {sidecar}")
 
 
@@ -350,6 +410,19 @@ def _maybe_write_mapping(
         "correctly (coherence applies the Incoherent→good inversion)."
     ),
 )
+@click.option(
+    "--coherence-frame",
+    "coherence_frame_id",
+    type=str,
+    default=None,
+    help=(
+        "Frame id you declare the survey was exported under. When the "
+        "mapping sidecar records a frame_id, the merge refuses on a "
+        "mismatch (responses elicited under one frame cannot be imported "
+        "as another). Compared as an id string — decode is "
+        "frame-independent, so no catalog lookup is needed here."
+    ),
+)
 def import_cmd(
     benchmark_path: Path,
     responses_path: Path,
@@ -360,10 +433,12 @@ def import_cmd(
     respondent_id: str | None,
     require_complete: bool,
     question_form: str,
+    coherence_frame_id: str | None,
 ) -> None:
     log.info(
-        "survey.import.start benchmark=%s responses=%s platform=%s",
-        benchmark_path, responses_path, platform,
+        "survey.import.start benchmark=%s responses=%s platform=%s "
+        "question_form=%s coherence_frame=%s",
+        benchmark_path, responses_path, platform, question_form, coherence_frame_id,
     )
     try:
         benchmark = Benchmark.load(benchmark_path)
@@ -409,7 +484,11 @@ def import_cmd(
             mapping=mapping,
             analyst_id_prefix=analyst_id_prefix,
             require_complete=require_complete,
+            frame_id=coherence_frame_id,
         )
+    except FrameMismatchError as exc:
+        click.echo(f"ERROR: frame mismatch — {exc}", err=True)
+        sys.exit(2)
     except IncompleteRespondentError as exc:
         click.echo(f"ERROR: incomplete respondent — {exc}", err=True)
         sys.exit(2)

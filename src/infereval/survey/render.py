@@ -52,11 +52,28 @@ DEFAULT_VERDICT_CHOICES: tuple[str, str, str] = (
     "Abstain — cannot judge",
 )
 
-#: Default prompt rendered above the optional per-item rationale field.
+#: Default prompt rendered above the optional per-item rationale field
+#: (support form; wording locked at v0.9.0).
 DEFAULT_RATIONALE_PROMPT: str = (
     "Optional: briefly explain why you chose that verdict "
     "(especially helpful if you abstained or rated bad)."
 )
+
+#: Coherence-form rationale prompt. The support wording leaks support-form
+#: vocabulary ("abstained", "bad") onto a surface whose choices are
+#: Coherent / Incoherent / Unclear; this variant speaks the coherence
+#: labels' language and never mentions the internal good/bad scale.
+COHERENCE_RATIONALE_PROMPT: str = (
+    "Optional: briefly explain why you chose that verdict (especially "
+    "helpful if you chose Unclear or found the position untenable)."
+)
+
+
+def rationale_prompt(question_form: str) -> str:
+    """The per-item rationale prompt for ``question_form``."""
+    if question_form == "coherence":
+        return COHERENCE_RATIONALE_PROMPT
+    return DEFAULT_RATIONALE_PROMPT
 
 #: Default prompt for the survey's first (expertise) free-text question.
 DEFAULT_EXPERTISE_PROMPT: str = (

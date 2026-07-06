@@ -8,6 +8,23 @@ with the additional commitment that the benchmark and evaluation JSON
 schemas are versioned independently (`schema_version: "1.0"`) and promised
 stable from 1.0 onward, regardless of the framework version.
 
+## [Unreleased]
+
+**The frame axis reaches the survey surface: a frame now declares its human-facing wording, so human elicitation can be run under the same norm statement the model was evaluated under.** The v0.17.6 coherence-frame API made the norm-statement axis a versioned instrument component on the model side; until now the survey side always rendered the fixed default headers, so a frame-anchored model evaluation could only be compared against humans surveyed under different stated norms. With no frame bound anywhere, every survey renders byte-identically to prior releases.
+
+### Added — survey frame surface (`survey_header` + `SurveyQuestion.frame_id`)
+
+- `CoherenceFrame.survey_header` and `VerificationPrompt.survey_header` (optional, additive): the frame's human-facing surface — the survey instruction text stating the frame's assessment norms in respondent voice, rendered as the question header. A frame controls ONLY the header: choice labels and the importer decode (including the coherence polarity inversion) stay library-controlled at every frame — the survey side of the polarity firewall, structurally tested alongside the model-side one.
+- All three built-in coherence frames ship authored headers. `thin-v1` carries the v0.17.4 coherence header byte-identically — the canonical text now lives on the frame, and `survey.render.COHERENCE_QUESTION_HEADER` aliases it unchanged.
+- `render_survey_question(..., coherence_frame=, verification_prompt=)`: explicit frame arguments, with resolution mirroring the model path — under `coherence`, explicit argument > programmatic `register_coherence_frame` binding > benchmark `coherence_frame_id` > thin default; under `support`, explicit argument > benchmark `verification_prompt` binding > default prompt.
+- `SurveyQuestion.frame_id`: the rendered question records which frame its header renders (the norm-statement peer of `question_form`), so exports can carry it as provenance and imports can refuse mixed-frame compositions — humans and the model must share question form AND frame for `κ_C` to compare like with like (documented in `docs/surveys.md`).
+- Fail-loud guard: rendering a survey under a frame with no declared `survey_header` raises — for any coherence frame and any explicitly passed verification prompt — rather than silently eliciting humans under different wording than the frame the evaluation records. One deliberate, documented exception: a **benchmark-bound** support prompt without a header (a JSON `verification_prompt` override, which has no `survey_header` field) falls back to the locked v0.9.0 default header, preserving every pre-frame support survey byte-for-byte; `frame_id` honestly records `"default-v1"` (what was shown, not the binding) and a `survey.frame.fallback` warning is logged naming the benchmark and the bound prompt id, so the model/survey frame misalignment is visible in post-run analysis instead of hidden.
+- CLI: the frame axis is threaded through exporters/importers and survey export/import.
+
+### Compatibility
+
+- **Defaults are byte-identical to prior output, with one reviewed exception.** With nothing bound, `support` renders the locked v0.9.0 header (`frame_id="default-v1"`) and `coherence` renders the v0.17.4 header (`frame_id="thin-v1"`) on all three platforms; regression-tested against golden fixtures generated from the pre-change exporters. The exception: the coherence-form per-item rationale prompt no longer reuses the support wording ("abstained or rated bad" — support vocabulary leaking onto a Coherent/Incoherent/Unclear surface, flagged by the header review) and now reads "chose Unclear or found the position untenable"; support output is untouched.
+
 ## [0.17.6] — 2026-07-03
 
 **The clinical pilot's domain template is promoted into the library, bound declaratively via a new benchmark-level `template_id` field.** The 2026-07-02 R0/R1/R2 clinical pilot capture (`experiments/results/clinical_pilot/r0r1r2_2026-07-02/analysis.md`, Finding 2) showed the patient-framed rendering recovers 4 of 5 question-form verdict flips and lifts coverage to 1.00 relative to the plain framework template; coherence evaluations of the clinical pilot now use it by default, with no Python-side setup.
