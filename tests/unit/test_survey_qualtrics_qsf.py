@@ -162,6 +162,136 @@ class TestRandomization:
         assert {"Type": "Page Break"} in default["BlockElements"]
 
 
+# ---- Instructions header mode (DESIGN §6.1) --------------------------------
+
+
+class TestInstructionsHeaderMode:
+    """header_mode='instructions': the frame's full header renders once as
+    a Descriptive Text page; each item question carries only the item body
+    plus the frame's closing question line (survey_stem)."""
+
+    def _build(self, **kwargs):
+        from infereval.templates import DEFEASIBLE_COHERENCE_FRAME
+
+        return build_qsf(
+            _pulm(),
+            question_form="coherence",
+            coherence_frame=DEFEASIBLE_COHERENCE_FRAME,
+            header_mode="instructions",
+            **kwargs,
+        )
+
+    def test_header_renders_once_as_descriptive_text(self) -> None:
+        from infereval.templates import DEFEASIBLE_COHERENCE_FRAME
+
+        qsf, _ = self._build()
+        dbs = [
+            el
+            for el in qsf["SurveyElements"]
+            if el.get("Element") == "SQ" and el["Payload"]["QuestionType"] == "DB"
+        ]
+        assert len(dbs) == 1
+        assert dbs[0]["Payload"]["QuestionText"] == DEFEASIBLE_COHERENCE_FRAME.survey_header
+
+    def test_instructions_page_precedes_expertise_outside_randomization(self) -> None:
+        qsf, _ = self._build(randomize_items=True)
+        flow = _flow(qsf)
+        first = flow["Flow"][0]
+        assert first["Type"] == "Block"
+        intro = next(b for b in _blocks(qsf) if b["ID"] == first["ID"])
+        kinds = [(e.get("Type"), e.get("QuestionID")) for e in intro["BlockElements"]]
+        instructions_qid = kinds[0][1]
+        qsf_sq = {
+            el["PrimaryAttribute"]: el["Payload"]
+            for el in qsf["SurveyElements"]
+            if el.get("Element") == "SQ"
+        }
+        assert qsf_sq[instructions_qid]["QuestionType"] == "DB"
+        assert kinds[1] == ("Page Break", None)
+        assert qsf_sq[kinds[2][1]]["DataExportTag"] == "expertise"
+
+    def test_item_questions_carry_body_plus_stem_not_header(self) -> None:
+        from infereval.templates import DEFEASIBLE_COHERENCE_FRAME
+
+        qsf, _ = self._build()
+        header = DEFEASIBLE_COHERENCE_FRAME.survey_header
+        stem = DEFEASIBLE_COHERENCE_FRAME.survey_stem
+        mcs = [
+            el["Payload"]
+            for el in qsf["SurveyElements"]
+            if el.get("Element") == "SQ" and el["Payload"]["QuestionType"] == "MC"
+        ]
+        assert len(mcs) == _pulm().n
+        for p in mcs:
+            assert header not in p["QuestionText"]
+            assert p["QuestionText"].endswith(stem)
+
+    def test_mapping_records_header_mode(self) -> None:
+        _qsf, mapping = self._build()
+        assert all(row["header_mode"] == "instructions" for row in mapping)
+        _qsf2, mapping2 = build_qsf(_pulm())
+        assert all(row["header_mode"] == "per-question" for row in mapping2)
+
+    def test_default_mode_has_no_descriptive_text_element(self) -> None:
+        qsf, _ = build_qsf(_pulm())
+        assert not any(
+            el.get("Element") == "SQ" and el["Payload"]["QuestionType"] == "DB"
+            for el in qsf["SurveyElements"]
+        )
+
+    def test_stemless_frame_fails_loudly(self) -> None:
+        from infereval.templates import CoherenceFrame
+
+        stemless = CoherenceFrame(
+            id="stemless-test-v1",
+            system="sys",
+            survey_header="A header without a declared stem?",
+        )
+        import pytest
+
+        with pytest.raises(ValueError, match="survey_stem"):
+            build_qsf(
+                _pulm(),
+                question_form="coherence",
+                coherence_frame=stemless,
+                header_mode="instructions",
+            )
+
+    def test_unknown_header_mode_rejected(self) -> None:
+        import pytest
+
+        with pytest.raises(ValueError, match="header_mode"):
+            build_qsf(_pulm(), header_mode="banner")
+
+    def test_norand_single_block_starts_with_instructions(self) -> None:
+        qsf, _ = self._build(randomize_items=False)
+        default = next(b for b in _blocks(qsf) if b["Type"] == "Default")
+        first = default["BlockElements"][0]
+        qsf_sq = {
+            el["PrimaryAttribute"]: el["Payload"]
+            for el in qsf["SurveyElements"]
+            if el.get("Element") == "SQ"
+        }
+        assert qsf_sq[first["QuestionID"]]["QuestionType"] == "DB"
+
+    def test_support_form_instructions_mode(self) -> None:
+        """The default-v1 support header is a single question line and
+        serves as its own stem."""
+        from infereval.survey.render import DEFAULT_QUESTION_HEADER
+
+        qsf, mapping = build_qsf(
+            _pulm(), question_form="support", header_mode="instructions"
+        )
+        dbs = [
+            el["Payload"]
+            for el in qsf["SurveyElements"]
+            if el.get("Element") == "SQ" and el["Payload"]["QuestionType"] == "DB"
+        ]
+        assert len(dbs) == 1
+        assert dbs[0]["QuestionText"] == DEFAULT_QUESTION_HEADER
+        assert all(row["header_mode"] == "instructions" for row in mapping)
+
+
 # ---- Canonical import structure -------------------------------------------
 
 

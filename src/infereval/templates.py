@@ -162,11 +162,21 @@ class CoherenceFrame:
     frame has no survey surface, and rendering a survey under it fails
     loudly rather than silently eliciting humans under a different frame
     than the one recorded.
+
+    ``survey_stem`` is the header's own closing question line, declared
+    separately so an exporter's instructions header mode can render the
+    full header ONCE as a survey-level instructions page and repeat only
+    this line per item. It must be a verbatim trailing substring of
+    ``survey_header`` (tested for the built-ins): the stem introduces no
+    wording that is not already part of the frame's reviewed surface.
+    ``None`` means the frame declares no stem and the instructions mode
+    fails loudly for it.
     """
 
     id: str
     system: str
     survey_header: str | None = None
+    survey_stem: str | None = None
 
 
 #: The library's original coherence system prompt, unchanged: the label
@@ -181,6 +191,10 @@ THIN_COHERENCE_FRAME = CoherenceFrame(
     survey_header=(
         "Consider the position described below. Could this whole position be "
         "held at once without conflict, or is it untenable?"
+    ),
+    survey_stem=(
+        "Could this whole position be held at once without conflict, or is "
+        "it untenable?"
     ),
 )
 
@@ -234,6 +248,10 @@ DEFEASIBLE_COHERENCE_FRAME = CoherenceFrame(
         'birds fly). A position that commits to "a is a bird and a is a '
         'penguin" and denies "a can fly" can be held together (penguins are '
         "birds that do not fly, so the denial fits).\n\n"
+        "Could this whole position be held at once without conflict, is it "
+        "untenable, or can you not judge?"
+    ),
+    survey_stem=(
         "Could this whole position be held at once without conflict, is it "
         "untenable, or can you not judge?"
     ),
@@ -305,6 +323,10 @@ UNDERDET_COHERENCE_FRAME = CoherenceFrame(
         'to "a is a bird and a is unusually heavy for its kind" and denies '
         '"a can fly" is one where competent judges could reasonably disagree '
         "(a case you could not settle either way).\n\n"
+        "Could this whole position be held at once without conflict, is it "
+        "untenable, or is this a case you cannot settle either way?"
+    ),
+    survey_stem=(
         "Could this whole position be held at once without conflict, is it "
         "untenable, or is this a case you cannot settle either way?"
     ),

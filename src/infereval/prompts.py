@@ -70,6 +70,14 @@ class VerificationPrompt:
         ``default-v1`` only and fails loudly for any other prompt, so a
         non-default frame can never silently elicit humans under the
         default's wording.
+    survey_stem
+        The header's own closing question line, repeated per item when an
+        exporter renders the header once as an instructions page (the
+        support-form analogue of
+        :attr:`infereval.templates.CoherenceFrame.survey_stem`). Must be a
+        verbatim trailing substring of ``survey_header`` — the stem adds
+        no wording beyond the frame's reviewed surface. ``None`` means the
+        instructions header mode fails loudly for this prompt.
     """
 
     id: str
@@ -77,6 +85,7 @@ class VerificationPrompt:
     user_template: str
     parse_regex: str = DEFAULT_PARSE_REGEX
     survey_header: str | None = None
+    survey_stem: str | None = None
 
     def build_user(self, premise_context: str, conclusion_context: str) -> str:
         """Return the per-sample user prompt with both contexts substituted in."""

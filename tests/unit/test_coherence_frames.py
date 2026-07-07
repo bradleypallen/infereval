@@ -395,15 +395,30 @@ class TestRetestRefusal:
 class TestPolarityFirewall:
     def test_frame_has_no_decode_or_labels_surface(self) -> None:
         # Structural check: a frame carries ONLY norm-statement surfaces —
-        # the model system text and its human-facing survey header. The
-        # answer contract (question line, labels, parse regex, decode
-        # inversion, survey choice labels) is library-owned, so no frame can
-        # silently invert verdicts on either elicitation surface.
+        # the model system text, its human-facing survey header, and the
+        # header's own closing question line (survey_stem). The answer
+        # contract (question line, labels, parse regex, decode inversion,
+        # survey choice labels) is library-owned, so no frame can silently
+        # invert verdicts on either elicitation surface.
         assert {f.name for f in dataclasses.fields(CoherenceFrame)} == {
             "id",
             "system",
             "survey_header",
+            "survey_stem",
         }
+
+    @pytest.mark.parametrize("frame", BUILTIN_FRAMES, ids=lambda f: f.id)
+    def test_survey_stem_is_verbatim_tail_of_header(
+        self, frame: CoherenceFrame
+    ) -> None:
+        # The stem is the header's own closing question line, verbatim: the
+        # instructions header mode (header once + stem per item) introduces
+        # no wording that is not already part of the frame's reviewed
+        # surface.
+        assert frame.survey_header is not None
+        assert frame.survey_stem is not None
+        assert frame.survey_header.endswith(frame.survey_stem)
+        assert frame.survey_stem.strip().endswith("?")
 
     @pytest.mark.parametrize("frame", BUILTIN_FRAMES, ids=lambda f: f.id)
     def test_decode_is_identical_under_every_frame(

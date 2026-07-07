@@ -96,6 +96,48 @@ class TestCoherenceFrameOption:
         # The anchored header made it into the artifact itself.
         assert "ordinary course of things" in out.read_text()
 
+    def test_header_mode_instructions_writes_db_and_sidecar(self, tmp_path: Path) -> None:
+        out = tmp_path / "recruit.qsf"
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "survey", "export", str(PULM_PATH), "-o", str(out),
+                "--question-form", "coherence",
+                "--coherence-frame", "defeasible-coherence-explicit-v1",
+                "--header-mode", "instructions",
+            ],
+        )
+        assert result.exit_code == 0, result.output
+        loaded = json.loads(out.read_text())
+        dbs = [
+            el
+            for el in loaded["SurveyElements"]
+            if el.get("Element") == "SQ" and el["Payload"]["QuestionType"] == "DB"
+        ]
+        assert len(dbs) == 1
+        sidecar = out.with_suffix(".qsf.mapping.json")
+        assert sidecar.exists()  # non-default header mode → provenance on disk
+        rows = json.loads(sidecar.read_text())
+        assert all(r["header_mode"] == "instructions" for r in rows)
+
+    def test_header_mode_instructions_refused_for_other_platforms(
+        self, tmp_path: Path
+    ) -> None:
+        out = tmp_path / "form.gs"
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "survey", "export", str(PULM_PATH), "-o", str(out),
+                "--platform", "google_forms",
+                "--header-mode", "instructions",
+            ],
+        )
+        assert result.exit_code != 0
+        assert "qualtrics only" in result.output
+        assert not out.exists()
+
     def test_default_coherence_export_writes_no_sidecar(self, tmp_path: Path) -> None:
         """No frame flag + thin resolution: the pre-frame behavior — safe item
         ids, no sidecar — is preserved byte-for-byte."""
