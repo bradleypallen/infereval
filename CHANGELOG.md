@@ -8,7 +8,24 @@ with the additional commitment that the benchmark and evaluation JSON
 schemas are versioned independently (`schema_version: "1.0"`) and promised
 stable from 1.0 onward, regardless of the framework version.
 
-## [Unreleased]
+## [0.17.7] — 2026-07-06
+
+**The first live Qualtrics import validated the survey export end-to-end — after first rejecting it.** Every prior release's `.qsf` output had only ever been tested against the project's own hand-built fixtures; the first import into a real Qualtrics account failed ("Something went wrong and the project wasn't created"). This release fixes the exporter's structure (both the fixed shape and the block-randomizer shape are now proven by live imports), adds the instructions header mode that live use immediately showed was needed for long frame headers, and ships the survey frame surface merged since v0.17.6.
+
+### Fixed — Qualtrics `.qsf` files now actually import
+
+- The generated file had no Survey Flow (`FL`) element — the survey block was orphaned, so the importer had nothing to instantiate — plus free-form ids where Qualtrics validates `XX_` + exactly 15 alphanumerics, none of the `SO`/`SCO`/`PROJ`/`STAT`/`QC`/`RS` companion elements, `"PageBreak"` where the canonical spelling is `"Page Break"`, and a fabricated block-Options randomization payload (`"RandomWithXPrior"`) that Qualtrics never emits — and which, had it imported, would have shuffled rationale questions independently of their verdicts. `build_qsf` now emits the canonical structure, verified against a real Qualtrics export and an import-tested minimal reference.
+- Ids are derived deterministically from the benchmark id (sha256), so identical inputs still yield byte-identical artifacts — the golden-test property — while satisfying the importer's id grammar.
+- Under `randomize_items`, each item's verdict + rationale live in one Standard block and the flow presents the item blocks through a `BlockRandomizer` node: randomization is over item units, never individual questions, so a rationale can never be separated from its verdict.
+- A structural self-check (`_validate_qsf`) runs on every build — element census, id grammar, flow→block and block→question cross-references, question count — and logs the census for post-run analysis.
+- The pre-frame golden fixtures for Qualtrics were regenerated for this structural change only; the respondent-visible wording surface (question texts, choice displays, both question forms) was verified byte-identical before regeneration. Google Forms and SurveyMonkey artifacts are untouched.
+
+### Added — instructions header mode (`header_mode="instructions"`)
+
+- Live use immediately surfaced the next problem: the frame's survey header repeats above every item, and the anchored frames' headers are unreadably long when repeated (and an invitation to satisfice in a real survey). `build_qsf(header_mode="instructions")` renders the resolved frame's full survey header ONCE as a Descriptive Text instructions page — shown before the expertise question, outside randomization — and each item question carries only the item body plus the frame's closing question line.
+- `CoherenceFrame.survey_stem` / `VerificationPrompt.survey_stem` (optional, additive): the header's own closing question line, declared separately and tested to be a verbatim trailing substring of `survey_header` for every built-in frame — the mode changes where text renders, never what wording the respondent is judged under. Frames without a declared stem fail loudly under the instructions mode.
+- `infereval survey export --header-mode {per-question,instructions}` (Qualtrics only; other platforms refuse rather than silently rendering per-question). The header mode is recorded on every mapping-sidecar row as presentation provenance, and a non-default mode forces the sidecar to be written.
+- The default `per-question` mode is byte-unchanged.
 
 **The frame axis reaches the survey surface: a frame now declares its human-facing wording, so human elicitation can be run under the same norm statement the model was evaluated under.** The v0.17.6 coherence-frame API made the norm-statement axis a versioned instrument component on the model side; until now the survey side always rendered the fixed default headers, so a frame-anchored model evaluation could only be compared against humans surveyed under different stated norms. With no frame bound anywhere, every survey renders byte-identically to prior releases.
 
