@@ -89,6 +89,7 @@ def build_qsf(
     question_form: str = "support",
     coherence_frame: CoherenceFrame | None = None,
     verification_prompt: VerificationPrompt | None = None,
+    header_mode: str = "per-question",
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """Build a Qualtrics ``.qsf`` document for ``benchmark``.
 
@@ -99,6 +100,18 @@ def build_qsf(
     resolves a frame itself. The resolved frame id, uniform across every
     item in one export (asserted), is recorded on each mapping row so the
     sidecar carries the frame provenance the import guard checks.
+
+    ``header_mode`` controls where the frame's survey header renders:
+
+    - ``"per-question"`` (default, pre-existing behavior): the full
+      header repeats above every item question.
+    - ``"instructions"``: the full header renders ONCE as a survey-level
+      instructions page (a Descriptive Text question shown before the
+      expertise question, outside randomization); each item question
+      carries only the item body plus the frame's ``survey_stem`` (the
+      header's own closing question line — verbatim, so no wording enters
+      the elicitation surface that is not already part of the frame).
+      Fails loudly when the resolved frame declares no ``survey_stem``.
 
     Returns
     -------
@@ -117,11 +130,18 @@ def build_qsf(
         - ``question_form`` (the logical question the survey asks)
         - ``frame_id`` (the resolved norm-statement frame the header
           renders; uniform across all rows of one export)
+        - ``header_mode`` (where the header rendered: per-question or
+          instructions — a presentation-provenance axis)
 
         The CLI writes this alongside the ``.qsf`` as
         ``<output>.mapping.json`` when any item id was hashed or when
-        the export rendered under a non-default frame.
+        the export rendered under a non-default frame or header mode.
     """
+    if header_mode not in ("per-question", "instructions"):
+        raise ValueError(
+            f"unknown header_mode {header_mode!r}; expected 'per-question' "
+            f"or 'instructions'."
+        )
     effective_title = title if title is not None else f"Analyst recruitment for {benchmark.id}"
 
     survey_id = _qsf_id("SV_", f"infereval|{benchmark.id}|survey")
@@ -148,6 +168,7 @@ def build_qsf(
     item_qids: list[tuple[str, list[str]]] = []  # (item.id, its QIDs)
     next_qid = 2
     resolved_frame_ids: set[str | None] = set()
+    header_texts: set[str] = set()
     for item in benchmark.items:
         tag, was_hashed = sanitize_export_tag(item.id)
         verdict_qid = f"QID{next_qid}"
@@ -161,12 +182,17 @@ def build_qsf(
             verification_prompt=verification_prompt,
         )
         resolved_frame_ids.add(sq.frame_id)
+        header_texts.add(sq.header)
         sq_elements.append(
             _mc_question(
                 survey_id=survey_id,
                 qid=verdict_qid,
                 label=f"Verdict on {item.id}",
-                prompt=sq.full_text(),
+                prompt=(
+                    sq.body_with_stem()
+                    if header_mode == "instructions"
+                    else sq.full_text()
+                ),
                 choices=list(sq.choices),
                 data_export_tag=tag,
                 force_response=True,
@@ -200,6 +226,7 @@ def build_qsf(
                 "was_hashed": was_hashed,
                 "question_form": sq.question_form,
                 "frame_id": sq.frame_id,
+                "header_mode": header_mode,
             }
         )
 
@@ -211,15 +238,45 @@ def build_qsf(
         f"{sorted(str(f) for f in resolved_frame_ids)}"
     )
     log.info(
-        "survey.export.frame platform=qualtrics benchmark=%s question_form=%s frame_id=%s",
+        "survey.export.frame platform=qualtrics benchmark=%s question_form=%s "
+        "frame_id=%s header_mode=%s",
         benchmark.id,
         question_form,
         next(iter(resolved_frame_ids), None),
+        header_mode,
     )
+
+    # Intro portion of the survey (always first, outside randomization):
+    # under the instructions header mode, the frame's full header renders
+    # once as a Descriptive Text page before the expertise question.
+    intro_elements: list[dict[str, str]] = [
+        {"Type": "Question", "QuestionID": expertise_qid}
+    ]
+    if header_mode == "instructions":
+        if not header_texts:
+            raise ValueError(
+                "header_mode='instructions' requires at least one item (the "
+                "instructions page renders the resolved frame's header)."
+            )
+        instructions_qid = f"QID{next_qid}"
+        next_qid += 1
+        sq_elements.insert(
+            0,
+            _descriptive_text_question(
+                survey_id=survey_id,
+                qid=instructions_qid,
+                text=next(iter(header_texts)),
+            ),
+        )
+        intro_elements = [
+            {"Type": "Question", "QuestionID": instructions_qid},
+            {"Type": "Page Break"},
+            {"Type": "Question", "QuestionID": expertise_qid},
+        ]
 
     blocks, flow_nodes = _blocks_and_flow(
         benchmark_id=benchmark.id,
-        expertise_qid=expertise_qid,
+        intro_elements=intro_elements,
         item_qids=item_qids,
         randomize_items=randomize_items,
     )
@@ -300,21 +357,25 @@ def build_qsf(
 def _blocks_and_flow(
     *,
     benchmark_id: str,
-    expertise_qid: str,
+    intro_elements: list[dict[str, str]],
     item_qids: list[tuple[str, list[str]]],
     randomize_items: bool,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Build the BL payload (list of blocks) and the Root flow's nodes.
+
+    ``intro_elements`` are the BlockElements of the survey's non-item
+    lead-in (expertise question, plus the instructions page under that
+    header mode) — always shown first, outside randomization.
 
     ``randomize_items=False``: one Default block holding every question
     with explicit page breaks, plus the Trash block; the flow is a
     single Block node — this shape matches the import-proven reference
     files node-for-node.
 
-    ``randomize_items=True``: an Introduction block (expertise only),
-    one Standard block per item (verdict + rationale; block boundaries
-    paginate), and a ``BlockRandomizer`` flow node over the item blocks
-    with ``SubSet = n`` (present all items, random order).
+    ``randomize_items=True``: an Introduction block (``intro_elements``
+    only), one Standard block per item (verdict + rationale; block
+    boundaries paginate), and a ``BlockRandomizer`` flow node over the
+    item blocks with ``SubSet = n`` (present all items, random order).
     """
     trash_block = {
         "Type": "Trash",
@@ -330,7 +391,7 @@ def _blocks_and_flow(
                 "Type": "Default",
                 "Description": "Introduction",
                 "ID": intro_id,
-                "BlockElements": [{"Type": "Question", "QuestionID": expertise_qid}],
+                "BlockElements": list(intro_elements),
             }
         ]
         item_nodes: list[dict[str, Any]] = []
@@ -364,7 +425,7 @@ def _blocks_and_flow(
 
     items_id = _qsf_id("BL_", f"infereval|{benchmark_id}|block|items")
     block_elements: list[dict[str, str]] = [
-        {"Type": "Question", "QuestionID": expertise_qid},
+        *intro_elements,
         {"Type": "Page Break"},
     ]
     for _item_id, qids in item_qids:
@@ -431,6 +492,38 @@ def _survey_options() -> dict[str, Any]:
         "Skin": "skin1",
         "NewScoring": 1,
         "CustomStyles": "",
+    }
+
+
+def _descriptive_text_question(
+    *,
+    survey_id: str,
+    qid: str,
+    text: str,
+) -> dict[str, Any]:
+    """A Descriptive Text (DB) element — display-only, collects no data.
+
+    Used by the instructions header mode to show the frame's full survey
+    header once, on its own page, before the expertise question.
+    """
+    return {
+        "SurveyID": survey_id,
+        "Element": "SQ",
+        "PrimaryAttribute": qid,
+        "SecondaryAttribute": "Instructions",
+        "TertiaryAttribute": None,
+        "Payload": {
+            "QuestionText": text,
+            "DataExportTag": "instructions",
+            "QuestionID": qid,
+            "QuestionType": "DB",
+            "Selector": "TB",
+            "DataVisibility": {"Private": False, "Hidden": False},
+            "Configuration": {"QuestionDescriptionOption": "UseText"},
+            "QuestionDescription": "Instructions",
+            "Validation": {"Settings": {"Type": "None"}},
+            "Language": [],
+        },
     }
 
 

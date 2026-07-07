@@ -161,6 +161,21 @@ def survey_group() -> None:
         "coherence_frame_id, then thin-v1)."
     ),
 )
+@click.option(
+    "--header-mode",
+    type=click.Choice(["per-question", "instructions"]),
+    default="per-question",
+    show_default=True,
+    help=(
+        "Where the frame's survey header renders. 'per-question' repeats "
+        "the full header above every item. 'instructions' renders it once "
+        "as a survey-level instructions page (before the expertise "
+        "question, outside randomization) and repeats only the frame's "
+        "closing question line per item — required for long anchored "
+        "headers, which invite satisficing when repeated. Qualtrics only; "
+        "recorded in the mapping sidecar."
+    ),
+)
 # SurveyMonkey-only:
 @click.option(
     "--surveymonkey-token",
@@ -188,14 +203,22 @@ def export_cmd(
     expertise_prompt: str,
     question_form: str,
     coherence_frame_id: str | None,
+    header_mode: str,
     surveymonkey_token: str | None,
     surveymonkey_base_url: str,
 ) -> None:
     log.info(
         "survey.export.start benchmark=%s output=%s platform=%s "
-        "question_form=%s coherence_frame=%s",
+        "question_form=%s coherence_frame=%s header_mode=%s",
         benchmark_path, output, platform, question_form, coherence_frame_id,
+        header_mode,
     )
+    if header_mode != "per-question" and platform != "qualtrics":
+        raise click.UsageError(
+            f"--header-mode {header_mode} is implemented for --platform "
+            f"qualtrics only; {platform} exports render the header "
+            f"per-question."
+        )
     try:
         benchmark = Benchmark.load(benchmark_path)
     except Exception as exc:  # noqa: BLE001
@@ -224,6 +247,7 @@ def export_cmd(
             expertise_prompt=expertise_prompt,
             question_form=question_form,
             coherence_frame=coherence_frame,
+            header_mode=header_mode,
         )
         output.write_text(json.dumps(qsf, indent=2), encoding="utf-8")
         click.echo(f"OK: wrote Qualtrics .qsf to {output}")
@@ -303,10 +327,11 @@ def _maybe_write_mapping(
     For Qualtrics the sidecar is optional (the DataExportTag carries
     the mapping inside the .qsf), so the caller writes it only when
     any item id was hashed — or, since the survey frame axis, when the
-    export rendered under a non-default frame: the sidecar is where the
-    resolved ``frame_id`` lives on disk, and the import-side merge guard
-    can only check what was recorded. Default-frame exports stay
-    sidecar-free so pre-frame outputs are byte-unchanged. For Google
+    export rendered under a non-default frame or header mode: the sidecar
+    is where the resolved ``frame_id`` / ``header_mode`` live on disk, and
+    the import-side merge guard can only check what was recorded.
+    Default-frame exports stay sidecar-free so pre-frame outputs are
+    byte-unchanged. For Google
     Forms and SurveyMonkey (v0.9.1+) the sidecar is **required** for the
     importer to resolve ``Item N`` anchors back to item ids — the caller
     passes ``always=True``.
@@ -316,10 +341,14 @@ def _maybe_write_mapping(
         and row["frame_id"] not in _DEFAULT_SURVEY_FRAME_IDS
         for row in mapping
     )
+    non_default_header_mode = any(
+        row.get("header_mode") not in (None, "per-question") for row in mapping
+    )
     if (
         not always
         and not any(row.get("was_hashed") for row in mapping)
         and not non_default_frame
+        and not non_default_header_mode
     ):
         return
     sidecar = output.with_suffix(output.suffix + ".mapping.json")

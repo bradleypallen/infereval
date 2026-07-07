@@ -43,6 +43,10 @@ DEFAULT_QUESTION_HEADER: str = (
     "diagnostic inference, a bad one, or are you unable to judge?"
 )
 
+#: The default-v1 header is a single question line, so under the
+#: instructions header mode it serves verbatim as its own per-item stem.
+DEFAULT_QUESTION_STEM: str = DEFAULT_QUESTION_HEADER
+
 #: Default MC choice labels rendered in each survey platform. The first
 #: word (Good / Bad / Abstain) is the parse key the importer uses to
 #: map back to :class:`~infereval.types.Verdict`.
@@ -187,10 +191,30 @@ class SurveyQuestion:
     mixed-frame compositions — humans and the model must share question form
     AND frame for ``κ_C`` to compare like with like. ``None`` only on
     questions rendered before the frame axis existed."""
+    stem: str | None = None
+    """The frame's closing question line (its ``survey_stem``), for
+    exporters that render the header once as a survey-level instructions
+    page and repeat only this line per item. Always a verbatim trailing
+    substring of ``header`` for the built-in frames (tested), so the
+    instructions mode introduces no wording beyond the frame's reviewed
+    surface. ``None`` when the resolved frame declares no stem, in which
+    case :meth:`body_with_stem` fails loudly."""
 
     def full_text(self) -> str:
         """Header + blank line + body — what each platform renders per item."""
         return f"{self.header}\n\n{self.body}"
+
+    def body_with_stem(self) -> str:
+        """Body + blank line + the frame's question stem — the per-item
+        text under the instructions header mode."""
+        if self.stem is None:
+            raise ValueError(
+                f"frame {self.frame_id!r} declares no survey_stem; the "
+                f"instructions header mode cannot render per-item questions "
+                f"under it. Declare the header's closing question line as "
+                f"survey_stem, or export with header_mode='per-question'."
+            )
+        return f"{self.body}\n\n{self.stem}"
 
 
 def render_survey_question(
@@ -240,10 +264,12 @@ def render_survey_question(
                     f"of the frame's identity)."
                 )
             header, frame_id = verification_prompt.survey_header, verification_prompt.id
+            stem = verification_prompt.survey_stem
         else:
             vp = resolve_verification_prompt(benchmark.verification_prompt)
             if vp.survey_header is not None:
                 header, frame_id = vp.survey_header, vp.id
+                stem = vp.survey_stem
             else:
                 # Pre-frame behavior, preserved: support surveys always used
                 # the locked v0.9.0 header regardless of the benchmark's
@@ -251,6 +277,7 @@ def render_survey_question(
                 # actually shown ("default-v1" wording), and the warning makes
                 # a model/survey frame misalignment visible instead of hidden.
                 header, frame_id = DEFAULT_QUESTION_HEADER, "default-v1"
+                stem = DEFAULT_QUESTION_STEM
                 if vp.id != "default-v1":
                     log.warning(
                         "survey.frame.fallback benchmark=%s verification_prompt=%s "
@@ -265,6 +292,7 @@ def render_survey_question(
             body=render_implication_text(benchmark, item),
             choices=DEFAULT_VERDICT_CHOICES,
             frame_id=frame_id,
+            stem=stem,
         )
     if question_form == "coherence":
         from ..templates import resolve_coherence_frame
@@ -288,6 +316,7 @@ def render_survey_question(
             body=_render_coherence_body(benchmark, item),
             choices=COHERENCE_VERDICT_CHOICES,
             frame_id=frame.id,
+            stem=frame.survey_stem,
         )
     raise ValueError(f"unknown question_form {question_form!r}")
 
