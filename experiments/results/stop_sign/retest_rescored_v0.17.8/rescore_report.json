@@ -1,0 +1,2227 @@
+{
+  "framework_version": "0.17.7",
+  "parser_rule": "last committed match ('Verdict:'-marked or alone on the final non-empty line), else first match",
+  "blast_radius_changed_samples": [
+    {
+      "file": "experiments/results/stop_sign/retest/claude-haiku-4.5-original/eta-0.json",
+      "item": "row-0",
+      "sample_index": 0,
+      "stored": "bad",
+      "first_match": "bad",
+      "v0178": "good"
+    },
+    {
+      "file": "experiments/results/stop_sign/retest/claude-haiku-4.5-original/eta-0.json",
+      "item": "row-0",
+      "sample_index": 1,
+      "stored": "bad",
+      "first_match": "bad",
+      "v0178": "good"
+    },
+    {
+      "file": "experiments/results/stop_sign/retest/claude-haiku-4.5-original/eta-0.json",
+      "item": "row-0",
+      "sample_index": 2,
+      "stored": "bad",
+      "first_match": "bad",
+      "v0178": "good"
+    },
+    {
+      "file": "experiments/results/stop_sign/retest/claude-haiku-4.5-original/eta-1.json",
+      "item": "row-0",
+      "sample_index": 1,
+      "stored": "bad",
+      "first_match": "bad",
+      "v0178": "good"
+    },
+    {
+      "file": "experiments/results/stop_sign/retest/claude-haiku-4.5-original/eta-2.json",
+      "item": "row-0",
+      "sample_index": 1,
+      "stored": "bad",
+      "first_match": "bad",
+      "v0178": "good"
+    },
+    {
+      "file": "experiments/results/stop_sign/retest/claude-haiku-4.5-original/eta-2.json",
+      "item": "row-0",
+      "sample_index": 2,
+      "stored": "bad",
+      "first_match": "bad",
+      "v0178": "good"
+    },
+    {
+      "file": "experiments/results/stop_sign/retest/claude-haiku-4.5-original/eta-3.json",
+      "item": "row-0",
+      "sample_index": 0,
+      "stored": "bad",
+      "first_match": "bad",
+      "v0178": "good"
+    }
+  ],
+  "cells": [
+    {
+      "cell": "claude-haiku-4.5-intrinsic",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "claude-haiku-4.5-original",
+      "changed": true,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "B B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.0,
+          "kappa_c_after": 0.2,
+          "item_changes": [
+            {
+              "item": "row-0",
+              "old": "bad",
+              "new": "good"
+            }
+          ]
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "B B B B",
+          "row_after": "B B B B",
+          "kappa_c_before": 0.0,
+          "kappa_c_after": 0.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "B B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.0,
+          "kappa_c_after": 0.2,
+          "item_changes": [
+            {
+              "item": "row-0",
+              "old": "bad",
+              "new": "good"
+            }
+          ]
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "B B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.0,
+          "kappa_c_after": 0.2,
+          "item_changes": [
+            {
+              "item": "row-0",
+              "old": "bad",
+              "new": "good"
+            }
+          ]
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": null,
+          "kappa_after": 0.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": null,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": null,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "claude-haiku-4.5-perceptual",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "claude-opus-4.7-intrinsic",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "claude-opus-4.7-original",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "claude-opus-4.7-perceptual",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "deepseek-v4-flash-intrinsic",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "deepseek-v4-flash-original",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "deepseek-v4-flash-perceptual",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 0.5,
+          "kappa_after": 0.5
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "deepseek-v4-pro-intrinsic",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "deepseek-v4-pro-original",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "deepseek-v4-pro-perceptual",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 0.5,
+          "kappa_after": 0.5
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 0.5,
+          "kappa_after": 0.5
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 0.5,
+          "kappa_after": 0.5
+        }
+      ]
+    },
+    {
+      "cell": "gemini-2.5-flash-intrinsic",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "gemini-2.5-flash-original",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "gemini-2.5-flash-perceptual",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "gemini-2.5-pro-intrinsic",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "gemini-2.5-pro-original",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "gemini-2.5-pro-perceptual",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 0.5,
+          "kappa_after": 0.5
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 0.5,
+          "kappa_after": 0.5
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "gpt-4.1-intrinsic",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "gpt-4.1-original",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "gpt-4.1-perceptual",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "gpt-5.4-intrinsic",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "gpt-5.4-mini-intrinsic",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G G",
+          "row_after": "G G G G",
+          "kappa_c_before": 0.0,
+          "kappa_c_after": 0.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G G",
+          "row_after": "G G G G",
+          "kappa_c_before": 0.0,
+          "kappa_c_after": 0.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G G",
+          "row_after": "G G G G",
+          "kappa_c_before": 0.0,
+          "kappa_c_after": 0.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": null,
+          "kappa_after": null
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": null,
+          "kappa_after": null
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 0.0,
+          "kappa_after": 0.0
+        }
+      ]
+    },
+    {
+      "cell": "gpt-5.4-mini-original",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 0.5,
+          "kappa_after": 0.5
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 0.5,
+          "kappa_after": 0.5
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "gpt-5.4-mini-perceptual",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 0.5,
+          "kappa_after": 0.5
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 0.5,
+          "kappa_after": 0.5
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 0.5,
+          "kappa_after": 0.5
+        }
+      ]
+    },
+    {
+      "cell": "gpt-5.4-original",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "gpt-5.4-perceptual",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "mistral-large-intrinsic",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "mistral-large-original",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G A B",
+          "row_after": "G G A B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G A B",
+          "row_after": "G G A B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G A B",
+          "row_after": "G G A B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "mistral-large-perceptual",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "mistral-small-intrinsic",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "mistral-small-original",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "mistral-small-perceptual",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "qwen3-max-intrinsic",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "A G G A",
+          "row_after": "A G G A",
+          "kappa_c_before": null,
+          "kappa_c_after": null,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G A",
+          "row_after": "G G G A",
+          "kappa_c_before": null,
+          "kappa_c_after": null,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": null,
+          "kappa_after": null
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": null,
+          "kappa_after": null
+        }
+      ]
+    },
+    {
+      "cell": "qwen3-max-original",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "A G G A",
+          "row_after": "A G G A",
+          "kappa_c_before": null,
+          "kappa_c_after": null,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": null,
+          "kappa_after": null
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "qwen3-max-perceptual",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G B A B",
+          "row_after": "G B A B",
+          "kappa_c_before": 0.39999999999999997,
+          "kappa_c_after": 0.39999999999999997,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "qwen3.6-flash-intrinsic",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "qwen3.6-flash-original",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G G G B",
+          "row_after": "G G G B",
+          "kappa_c_before": 1.0,
+          "kappa_c_after": 1.0,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        }
+      ]
+    },
+    {
+      "cell": "qwen3.6-flash-perceptual",
+      "changed": false,
+      "captures": [
+        {
+          "eta": "eta-0.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-1.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-2.json",
+          "row_before": "G G B B",
+          "row_after": "G G B B",
+          "kappa_c_before": 0.5,
+          "kappa_c_after": 0.5,
+          "item_changes": []
+        },
+        {
+          "eta": "eta-3.json",
+          "row_before": "G B B B",
+          "row_after": "G B B B",
+          "kappa_c_before": 0.2,
+          "kappa_c_after": 0.2,
+          "item_changes": []
+        }
+      ],
+      "retest": [
+        {
+          "pair": "eta-0 vs eta-1",
+          "kappa_before": 0.5,
+          "kappa_after": 0.5
+        },
+        {
+          "pair": "eta-0 vs eta-2",
+          "kappa_before": 1.0,
+          "kappa_after": 1.0
+        },
+        {
+          "pair": "eta-0 vs eta-3",
+          "kappa_before": 0.5,
+          "kappa_after": 0.5
+        }
+      ]
+    }
+  ]
+}

@@ -84,6 +84,48 @@ class TestParseVerdict:
         # Pathological case: model says GOOD then BAD. We take the first.
         assert parse_verdict("GOOD then BAD")[0] == Verdict.GOOD
 
+    def test_explicit_verdict_marker_overrides_first_match(self) -> None:
+        # Observed in claude-haiku-4.5 stop-sign captures: provisional token,
+        # reasoning, then a committed "Verdict: GOOD".
+        text = (
+            "BAD\n\nStop signs can be other colors. Let me reconsider: under "
+            "default conditions stop signs are red.\n\nVerdict: GOOD"
+        )
+        assert parse_verdict(text) == (Verdict.GOOD, "ok")
+
+    def test_last_marked_verdict_wins(self) -> None:
+        text = "Verdict: GOOD\nOn reflection, no.\nVerdict: **BAD**"
+        assert parse_verdict(text)[0] == Verdict.BAD
+
+    def test_marker_matching_first_token_is_unchanged(self) -> None:
+        assert parse_verdict("Verdict: BAD (painted blue defeats it)")[0] == Verdict.BAD
+
+    def test_unmarked_later_token_does_not_override(self) -> None:
+        # Without a marker the first-match rule still holds.
+        assert parse_verdict("BAD. Some would say GOOD, but no.")[0] == Verdict.BAD
+
+    def test_bare_token_on_final_line_overrides_first_match(self) -> None:
+        text = (
+            "BAD\n\nThe premise does not guarantee this.\n\nActually, reconsidering: "
+            "a stop sign is ordinarily red.\n\nGOOD"
+        )
+        assert parse_verdict(text) == (Verdict.GOOD, "ok")
+
+    def test_bare_token_on_final_line_with_emphasis(self) -> None:
+        assert parse_verdict("BAD\n\nOn reflection...\n\n**GOOD**.")[0] == Verdict.GOOD
+
+    def test_single_line_response_is_first_match(self) -> None:
+        # A one-line response has no "final line" distinct from the whole.
+        assert parse_verdict("GOOD")[0] == Verdict.GOOD
+        assert parse_verdict("GOOD then BAD")[0] == Verdict.GOOD
+
+    def test_final_line_with_prose_is_not_committed(self) -> None:
+        assert parse_verdict("BAD\n\nsome would still call it GOOD")[0] == Verdict.BAD
+
+    def test_marker_rule_applies_to_custom_pattern(self) -> None:
+        rx = re.compile(r"\[(GOOD|BAD)\]", re.IGNORECASE)
+        assert parse_verdict("[BAD] ... Verdict: [GOOD]", rx)[0] == Verdict.GOOD
+
     def test_unparseable_no_match(self) -> None:
         assert parse_verdict("Hmm, I'm not sure.") == (Verdict.ABSTAIN, "unparseable")
 

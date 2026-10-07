@@ -8,6 +8,15 @@ with the additional commitment that the benchmark and evaluation JSON
 schemas are versioned independently (`schema_version: "1.0"`) and promised
 stable from 1.0 onward, regardless of the framework version.
 
+## [Unreleased] — 0.17.8
+
+### Fixed — verdict parser recorded a model's provisional answer instead of its committed one
+
+- `parse_verdict` took the **first** GOOD/BAD/ABSTAIN token in a response. claude-haiku-4.5 ignores the "No other text" instruction on the stop-sign benchmark: it opens with a provisional token, reasons ("Actually, reconsidering: …"), and closes with `Verdict: GOOD` or a bare `GOOD` on the final line. The first-match rule recorded the provisional `BAD`.
+- New rule: a match is a *committed answer* if it is immediately preceded by an explicit `Verdict:` marker, or stands alone (up to punctuation / emphasis) on the response's last non-empty line; the last committed answer wins. Responses with no committed-answer cue — including every bare single-token response — parse exactly as before (first match). Overrides are logged at DEBUG (`infereval.prompts`) for post-run analysis.
+- Blast radius over every stored evaluation under `experiments/results/`: **7 samples change, all claude-haiku-4.5 stop-sign `original` row-0.** The Haiku `original` verdict row becomes `G B B B` (perceptual pattern) in eta-0, eta-2 and eta-3 (κ_C vs the analyst row +0.200, was 0.000 on a degenerate constant column); eta-1 stays `B B B B`. No other cell in any experiment changes.
+- `experiments/scripts/rescore_verdict_marker_v0178.py` re-parses stored `raw_response`s (no provider calls) and writes re-scored etas plus `rescore_report.{json,md}` and a JSONL log to `experiments/results/stop_sign/retest_rescored_v0.17.8/`. Original captures are untouched.
+
 ## [0.17.7] — 2026-07-06
 
 **The first live Qualtrics import validated the survey export end-to-end — after first rejecting it.** Every prior release's `.qsf` output had only ever been tested against the project's own hand-built fixtures; the first import into a real Qualtrics account failed ("Something went wrong and the project wasn't created"). This release fixes the exporter's structure (both the fixed shape and the block-randomizer shape are now proven by live imports), adds the instructions header mode that live use immediately showed was needed for long frame headers, and ships the survey frame surface merged since v0.17.6.

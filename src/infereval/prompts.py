@@ -15,6 +15,7 @@ from English prose continuations.
 
 from __future__ import annotations
 
+import logging
 import re
 from dataclasses import dataclass
 
@@ -40,6 +41,16 @@ DEFAULT_USER_TEMPLATE = (
 
 DEFAULT_PARSE_REGEX = r"\b(GOOD|BAD|ABSTAIN)\b"
 
+# Committed-answer cues. Models that ignore "No other text" (observed:
+# claude-haiku-4.5 on the stop-sign benchmark) open with a provisional token,
+# reason, and close with either ``Verdict: <TOKEN>`` (the user template ends
+# with ``Verdict:``) or the bare token alone on the final line.
+_VERDICT_MARKER = re.compile(r"verdict\s*[:\-]?\s*[*_`\"']*\s*$", re.IGNORECASE)
+_MARKER_LOOKBEHIND = 32
+_DECORATION = " \t*_`\"'.!:()[]"
+
+log = logging.getLogger(__name__)
+
 
 @dataclass(frozen=True)
 class VerificationPrompt:
@@ -57,7 +68,10 @@ class VerificationPrompt:
         placeholders, used to build each per-sample user prompt.
     parse_regex
         Regex applied (case-insensitively) to the model's response. The
-        first match's group 1 is uppercased and interpreted as a
+        selected match's group 1 (see :func:`parse_verdict`: the last
+        committed answer — ``Verdict:``-marked or alone on the final line —
+        else the first match)
+        is uppercased and interpreted as a
         :class:`Verdict` value (``GOOD`` / ``BAD`` / ``ABSTAIN``).
     survey_header
         Optional human-facing surface of this prompt's frame: the survey
@@ -144,14 +158,53 @@ def parse_verdict(
 ) -> tuple[Verdict, ParseStatus]:
     """Extract a :class:`Verdict` from a raw model response.
 
+    Selection rule:
+
+    1. A match is a *committed answer* if it is immediately preceded by an
+       explicit ``Verdict:`` marker (case-insensitive, optional markdown
+       emphasis), or if it stands alone (up to punctuation / emphasis) on
+       the response's last non-empty line. If any committed answers exist,
+       the **last** one wins — the model's answer after any reasoning.
+    2. Otherwise the **first** match wins (the pre-v0.17.8 rule, unchanged
+       for every response without a committed-answer cue, including every
+       bare single-token response).
+
     Returns ``(Verdict.ABSTAIN, "unparseable")`` if no token matches; per
     the paper's Definition 2 ("Unparseable responses are mapped to abstain").
     """
     if pattern is None:
         pattern = DEFAULT_VERIFICATION_PROMPT.compile_parser()
-    match = pattern.search(text)
-    if match is None:
+    matches = list(pattern.finditer(text))
+    if not matches:
         return Verdict.ABSTAIN, "unparseable"
+    match = matches[0]
+    stripped = text.rstrip()
+    last_line_start = stripped.rfind("\n") + 1
+    last_line = stripped[last_line_start:]
+
+    def _committed(m: re.Match[str]) -> bool:
+        if _VERDICT_MARKER.search(text[max(0, m.start() - _MARKER_LOOKBEHIND) : m.start()]):
+            return True
+        return (
+            last_line_start > 0
+            and m.start() >= last_line_start
+            and last_line.strip(_DECORATION).upper() == m.group(1).upper()
+        )
+
+    marked = [m for m in matches if _committed(m)]
+    if marked and marked[-1] is not match:
+        chosen = marked[-1]
+        if chosen.group(1).upper() != match.group(1).upper():
+            log.debug(
+                "parse_verdict: committed answer overrides first match "
+                "(first=%s at %d, committed=%s at %d, response_len=%d)",
+                match.group(1).upper(),
+                match.start(),
+                chosen.group(1).upper(),
+                chosen.start(),
+                len(text),
+            )
+        match = chosen
     token = match.group(1).upper()
     try:
         return Verdict(token.lower()), "ok"
