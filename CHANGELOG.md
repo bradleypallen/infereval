@@ -8,7 +8,9 @@ with the additional commitment that the benchmark and evaluation JSON
 schemas are versioned independently (`schema_version: "1.0"`) and promised
 stable from 1.0 onward, regardless of the framework version.
 
-## [Unreleased] — 0.17.8
+## [0.17.8] — 2026-10-27
+
+**The verdict parser now records a model's committed answer, not its provisional first token; the stop-sign sweep is re-scored and its write-up corrected.** Only claude-haiku-4.5's stop-sign `original` cell changes. This release is the version cited by the AJP reply ("Answerable Use of LLMs Without Settling Sapience").
 
 ### Fixed — verdict parser recorded a model's provisional answer instead of its committed one
 
@@ -16,6 +18,15 @@ stable from 1.0 onward, regardless of the framework version.
 - New rule: a match is a *committed answer* if it is immediately preceded by an explicit `Verdict:` marker, or stands alone (up to punctuation / emphasis) on the response's last non-empty line; the last committed answer wins. Responses with no committed-answer cue — including every bare single-token response — parse exactly as before (first match). Overrides are logged at DEBUG (`infereval.prompts`) for post-run analysis.
 - Blast radius over every stored evaluation under `experiments/results/`: **7 samples change, all claude-haiku-4.5 stop-sign `original` row-0.** The Haiku `original` verdict row becomes `G B B B` (perceptual pattern) in eta-0, eta-2 and eta-3 (κ_C vs the analyst row +0.200, was 0.000 on a degenerate constant column); eta-1 stays `B B B B`. No other cell in any experiment changes.
 - `experiments/scripts/rescore_verdict_marker_v0178.py` re-parses stored `raw_response`s (no provider calls) and writes re-scored etas plus `rescore_report.{json,md}` and a JSONL log to `experiments/results/stop_sign/retest_rescored_v0.17.8/`. Original captures are untouched.
+
+### Changed — stop-sign sweep write-up corrected against stored artifacts
+
+- `experiments/results/stop_sign_2026-06-09.md` had reliability figures that did not match the stored `*-multi-retest.json` artifacts. Corrected, after the re-score: test–retest κ = 1 / undefined / (0,1) / ≤ 0 = 97 / 5 / 13 / 2 of 117 pairs; 29 of 39 cells perfect; 10 non-perfect cells; 36 `provider_error` samples (not 26). Headline counts corrected (`original`: 12/13 at κ_C = +1.000, 11 exact; `intrinsic`: 11/13), as is the perceptual split (5 at +0.500, 7 at +0.200). A corrections block at the top of the write-up records old and new values.
+- `experiments/scripts/recompute_stop_sign_reliability.py` recomputes every figure from the stored etas (original and re-scored), with no provider calls. Outputs: `experiments/results/stop_sign/retest_rescored_v0.17.8/reliability_recompute.{json,md}` plus a JSONL log.
+
+### Fixed — PyPI README link
+
+- The README's link to the stop-sign R22 capture was relative (since v0.11.0) and did not resolve on PyPI; it is now an absolute GitHub URL.
 
 ## [0.17.7] — 2026-07-06
 
