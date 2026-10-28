@@ -104,12 +104,18 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--old-grid", type=Path, default=DEFAULT_OLD_GRID)
     ap.add_argument("--old-thin", type=Path, default=DEFAULT_OLD_THIN)
     ap.add_argument("--table-out", type=Path, default=DEFAULT_TABLE_OUT)
+    ap.add_argument(
+        "--exclude", action="append", default=[],
+        help="Model label(s) to hold out (e.g. a model whose cells have no "
+             "clean capture yet). Noted in the table caption.",
+    )
     args = ap.parse_args(argv)
+    models = [m for m in MODEL_ORDER if m not in args.exclude]
 
     sweep = args.sweep_dir
     new_rows: dict[tuple[str, str], list[str]] = {}
     new_kappa: dict[tuple[str, str], float | None] = {}
-    for m in MODEL_ORDER:
+    for m in models:
         for w in WORDINGS:
             p = sweep / f"{m}-{w}.json"
             new_rows[(m, w)] = verdict_row(p)
@@ -140,7 +146,7 @@ def main(argv: list[str] | None = None) -> int:
         r"& G\,G\,G\,B & --- \\",
         r"\midrule",
     ]
-    for m in MODEL_ORDER:
+    for m in models:
         cells = [m]
         for w in WORDINGS:
             row = new_rows[(m, w)]
@@ -164,6 +170,11 @@ def main(argv: list[str] | None = None) -> int:
             r"$^{\dagger}$Degenerate substantive subset: the model's column "
             r"is constant, so $\kappa_C$ carries no agreement signal beyond "
             r"the raw row shown.")
+    if args.exclude:
+        caption.append(
+            " ".join(args.exclude) + r" held out pending a clean capture "
+            r"(persistent upstream rate-limiting at sweep time); the table "
+            r"regenerates unchanged once its cells land.")
     if "ddagger" in marks_used:
         caption.append(
             r"$^{\ddagger}$Abstain present; substantive agreement is perfect "
@@ -188,7 +199,7 @@ def main(argv: list[str] | None = None) -> int:
         "|---|---|---|---|---|",
     ]
     n_changed = 0
-    for m in MODEL_ORDER:
+    for m in models:
         old_m = OLD_MODEL_FOR.get(m, m)
         for w in WORDINGS:
             old_w = OLD_WORDING_FOR[w]

@@ -1,0 +1,310 @@
+{
+  "schema_version": "1.0",
+  "id": "physw:qwen3.8-max-physical",
+  "benchmark_id": "stop-sign-physw-physical",
+  "benchmark_hash": "sha256:f6766505b35ac59bd66aba5ce79fbda5954dd84e287d5c0d539da893106fbbd5",
+  "model": {
+    "provider": "openrouter",
+    "model_id": "qwen/qwen3.8-max-0902",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 4096,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 3,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-explicit-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1",
+    "question_form": "support",
+    "coherence_frame_id": "thin-v1"
+  },
+  "framework_version": "0.17.8",
+  "started_at": "2026-10-28T10:23:15.516428Z",
+  "finished_at": "2026-10-28T10:24:43.663873Z",
+  "items": [
+    {
+      "id": "row-0",
+      "premises": [
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.8-max-physical:row-0:sample-0",
+          "wall_time_ms": 3818.126583002595,
+          "usage": {
+            "input_tokens": 300,
+            "output_tokens": 92
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 88
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.8-max-physical:row-0:sample-1",
+          "wall_time_ms": 3562.768874999165,
+          "usage": {
+            "input_tokens": 300,
+            "output_tokens": 118
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 114
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.8-max-physical:row-0:sample-2",
+          "wall_time_ms": 3085.961499997211,
+          "usage": {
+            "input_tokens": 300,
+            "output_tokens": 95
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 91
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-1",
+      "premises": [
+        "n",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.8-max-physical:row-1:sample-0",
+          "wall_time_ms": 5744.855583998287,
+          "usage": {
+            "input_tokens": 304,
+            "output_tokens": 180
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 176
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.8-max-physical:row-1:sample-1",
+          "wall_time_ms": 4574.048499998753,
+          "usage": {
+            "input_tokens": 304,
+            "output_tokens": 112
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 108
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.8-max-physical:row-1:sample-2",
+          "wall_time_ms": 4794.907499999681,
+          "usage": {
+            "input_tokens": 304,
+            "output_tokens": 155
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 152
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nighttime"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-2",
+      "premises": [
+        "n",
+        "nr",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.8-max-physical:row-2:sample-0",
+          "wall_time_ms": 17394.526666001184,
+          "usage": {
+            "input_tokens": 315,
+            "output_tokens": 683
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 679
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.8-max-physical:row-2:sample-1",
+          "wall_time_ms": 16120.23354199846,
+          "usage": {
+            "input_tokens": 315,
+            "output_tokens": 543
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 539
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.8-max-physical:row-2:sample-2",
+          "wall_time_ms": 11057.387541000935,
+          "usage": {
+            "input_tokens": 315,
+            "output_tokens": 379
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 375
+        }
+      ],
+      "majority_vote": {
+        "good": 3,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nonreflective"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-3",
+      "premises": [
+        "ba",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.8-max-physical:row-3:sample-0",
+          "wall_time_ms": 5262.372583998513,
+          "usage": {
+            "input_tokens": 306,
+            "output_tokens": 196
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 192
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.8-max-physical:row-3:sample-1",
+          "wall_time_ms": 6592.913832999329,
+          "usage": {
+            "input_tokens": 306,
+            "output_tokens": 216
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 212
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.8-max-physical:row-3:sample-2",
+          "wall_time_ms": 6126.976999999897,
+          "usage": {
+            "input_tokens": 306,
+            "output_tokens": 193
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 189
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 3,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "painted-blue"
+      ],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}

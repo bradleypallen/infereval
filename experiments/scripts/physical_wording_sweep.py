@@ -65,6 +65,7 @@ from infereval.evaluation import (  # noqa: E402
 )
 from infereval.prompts import DEFAULT_VERIFICATION_PROMPT  # noqa: E402
 from infereval.providers import get_provider  # noqa: E402
+from infereval.providers.base import RetryPolicy  # noqa: E402
 
 BENCHMARK_PATH = REPO_ROOT / "examples" / "stop_sign" / "benchmark.json"
 
@@ -99,6 +100,24 @@ SWEEP_MODELS = [
 #: and the acceptance gate stays at zero clipped samples.
 GRID_MAX_TOKENS_DEFAULT = 2048
 GRID_MAX_TOKENS: dict[str, int] = {"qwen3.8-max": 8192}
+
+#: Per-model retry overrides. OpenRouter's mistral upstream is persistently
+#: capacity-limited (429 "Provider returned error" across four sweep passes,
+#: 2026-10-28); the default policy (4 attempts, ~3.5 s total backoff) gives
+#: up far too early against that failure mode. 8 attempts with 5 s initial
+#: exponential backoff grinds through intermittent capacity (worst case
+#: ~10 min per sample; typical far less).
+RETRY_OVERRIDES: dict[str, RetryPolicy] = {
+    "mistral-large": RetryPolicy(max_attempts=8, backoff_initial_s=5.0),
+    "mistral-small": RetryPolicy(max_attempts=8, backoff_initial_s=5.0),
+}
+
+
+def _provider_for(spec: ModelSpec):
+    kwargs = dict(spec.extra_kwargs)
+    if spec.label in RETRY_OVERRIDES:
+        kwargs["retry_policy"] = RETRY_OVERRIDES[spec.label]
+    return get_provider(spec.provider_name, spec.model_id, **kwargs)
 
 #: Thin default-frame addendum config — matches the July gradient cell
 #: (support-plain) exactly so old-vs-new rows diff like for like.
@@ -140,7 +159,7 @@ def run_grid_cell(
     eta_path = out_dir / f"{cell}.json"
     if skip_completed and _cell_done(eta_path):
         return cell, "skipped (complete)", 0.0
-    provider = get_provider(spec.provider_name, spec.model_id, **spec.extra_kwargs)
+    provider = _provider_for(spec)
     bench = make_physical_benchmark(variant_name, ra_expr)
     t0 = time.monotonic()
     eta = evaluate(
@@ -171,7 +190,7 @@ def run_thin_cell(
     if skip_completed and _cell_done(eta_path):
         return cell, "skipped (complete)", 0.0
     spec = next(m for m in MODELS if m.label == THIN_MODEL_LABEL)
-    provider = get_provider(spec.provider_name, spec.model_id, **spec.extra_kwargs)
+    provider = _provider_for(spec)
     bench = make_physical_benchmark(variant_name, ra_expr)
     t0 = time.monotonic()
     eta = evaluate(
@@ -245,6 +264,9 @@ def main(argv: list[str] | None = None) -> int:
         "variants": VARIANTS,
         "nr_expression": NR_EXPRESSION,
         "nr_expression_replaced": NR_EXPRESSION_OLD,
+        "retry_overrides": {k: {"max_attempts": v.max_attempts,
+                                "backoff_initial_s": v.backoff_initial_s}
+                            for k, v in RETRY_OVERRIDES.items()},
         "model_substitutions": {
             "qwen3-max": "qwen3.8-max (qwen/qwen3.8-max-0902) — OpenRouter "
                          "retired qwen3-max 2026-10-09; cross-model slot",
