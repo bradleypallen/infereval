@@ -485,6 +485,14 @@ def evaluate(
         extra_context={"benchmark_id": benchmark.id, "framework_version": __version__},
     ):
         started = datetime.now(timezone.utc)
+        # Stamp the resolved prompt id into the config BEFORE logging:
+        # run.started previously dumped the config field's default
+        # ("default-v1") alongside a correctly resolved top-level
+        # verification_prompt_id, so the event contradicted itself
+        # whenever an explicit prompt was passed.
+        cfg_with_prompt_id = cfg.model_copy(
+            update={"verification_prompt_id": prompt.id}
+        )
         log_event(
             log,
             "run.started",
@@ -494,7 +502,7 @@ def evaluate(
             provider=provider.name,
             model_id=provider.model_id,
             params=par.model_dump(mode="json"),
-            endorsement_config=cfg.model_dump(mode="json"),
+            endorsement_config=cfg_with_prompt_id.model_dump(mode="json"),
             verification_prompt_id=prompt.id,
             template_id=resolved_template.id,
             coherence_frame_id=resolved_frame.id,
@@ -542,9 +550,6 @@ def evaluate(
             )
 
         finished = datetime.now(timezone.utc)
-        cfg_with_prompt_id = cfg.model_copy(
-            update={"verification_prompt_id": prompt.id}
-        )
 
         log_event(
             log,

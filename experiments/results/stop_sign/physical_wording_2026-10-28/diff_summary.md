@@ -50,3 +50,7 @@ The `physical` column replaces the old `intrinsic` wording — that diff is an a
 | original | G B B B | G B B B | no change |
 | physical | — | G G B B | new condition (no July counterpart) |
 | perceptual | — | G B B B | new condition (no July counterpart) |
+
+## n=3 vs n=5 (top-up): majority-verdict changes
+
+No majority verdict changed under the top-up.

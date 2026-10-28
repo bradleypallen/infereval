@@ -57,6 +57,24 @@ DEFAULT_TABLE_OUT = Path(
     "/Users/bradleyallen/Documents/GitHub/stop-sign-note/table3_physical.tex")
 
 
+def cell_path(sweep: Path, m: str, w: str) -> Path:
+    """Prefer the merged 5-sample eta when the top-up has run."""
+    n5 = sweep / f"{m}-{w}.n5.json"
+    return n5 if n5.is_file() else sweep / f"{m}-{w}.json"
+
+
+def vote_splits(eta_json: Path) -> dict[str, tuple[int, int, int]]:
+    """Per-item (good, bad, abstain) counts for non-unanimous votes."""
+    data = json.loads(eta_json.read_text())
+    out: dict[str, tuple[int, int, int]] = {}
+    for it in data["items"]:
+        mv = it["majority_vote"]
+        g, b, a = mv["good"], mv["bad"], mv["abstain"]
+        if max(g, b, a) < g + b + a:
+            out[it["id"]] = (g, b, a)
+    return out
+
+
 def verdict_row(eta_json: Path) -> list[str]:
     data = json.loads(eta_json.read_text())
     v = {it["id"]: it["model_verdict"] for it in data["items"]}
@@ -115,11 +133,15 @@ def main(argv: list[str] | None = None) -> int:
     sweep = args.sweep_dir
     new_rows: dict[tuple[str, str], list[str]] = {}
     new_kappa: dict[tuple[str, str], float | None] = {}
+    splits: dict[tuple[str, str], dict[str, tuple[int, int, int]]] = {}
     for m in models:
         for w in WORDINGS:
-            p = sweep / f"{m}-{w}.json"
+            p = cell_path(sweep, m, w)
             new_rows[(m, w)] = verdict_row(p)
             new_kappa[(m, w)] = kappa_of(p)
+            sp = vote_splits(p)
+            if sp:
+                splits[(m, w)] = sp
 
     # ---- LaTeX table -------------------------------------------------------
     marks_used: set[str] = set()
@@ -152,7 +174,11 @@ def main(argv: list[str] | None = None) -> int:
             row = new_rows[(m, w)]
             k_text, marks = kappa_cell(new_kappa[(m, w)], row)
             marks_used |= marks
-            cells.append(letters(row, bold_departures=True))
+            cell_letters = letters(row, bold_departures=True)
+            if (m, w) in splits:
+                cell_letters += r"$^{*}$"
+                marks_used.add("star")
+            cells.append(cell_letters)
             cells.append(k_text)
         lines.append(" & ".join(cells) + r" \\")
     lines += [r"\bottomrule", r"\end{tabular}"]
@@ -171,10 +197,22 @@ def main(argv: list[str] | None = None) -> int:
             r"is constant, so $\kappa_C$ carries no agreement signal beyond "
             r"the raw row shown.")
     if args.exclude:
+        if args.exclude == ["mistral-large"]:
+            caption.append(
+                r"Twelve models were run; mistral-large was excluded for "
+                r"persistent upstream rate-limiting.")
+        else:
+            caption.append(
+                " ".join(args.exclude) + r" held out pending a clean capture.")
+    if "star" in marks_used:
+        parts = []
+        for (m, w), sp in sorted(splits.items()):
+            inner = ", ".join(
+                f"{iid} {g}/{b}/{a}" for iid, (g, b, a) in sorted(sp.items()))
+            parts.append(f"{m} {w}: {inner}")
         caption.append(
-            " ".join(args.exclude) + r" held out pending a clean capture "
-            r"(persistent upstream rate-limiting at sweep time); the table "
-            r"regenerates unchanged once its cells land.")
+            r"$^{*}$Non-unanimous vote; splits as good/bad/abstain --- "
+            + "; ".join(parts) + ".")
     if "ddagger" in marks_used:
         caption.append(
             r"$^{\ddagger}$Abstain present; substantive agreement is perfect "
@@ -233,6 +271,26 @@ def main(argv: list[str] | None = None) -> int:
             old_s = "—"
         diff_lines.append("| {} | {} | {} | {} |".format(
             w, old_s, " ".join(LETTER[v] for v in new), note))
+    n5_changes = []
+    for m in models:
+        for w in WORDINGS:
+            n5 = sweep / f"{m}-{w}.n5.json"
+            if not n5.is_file():
+                continue
+            r3 = verdict_row(sweep / f"{m}-{w}.json")
+            r5 = verdict_row(n5)
+            for i in range(4):
+                if r3[i] != r5[i]:
+                    n5_changes.append((m, w, ROWS[i], r3[i], r5[i]))
+    diff_lines += ["", "## n=3 vs n=5 (top-up): majority-verdict changes", ""]
+    if n5_changes:
+        diff_lines += ["| Model | wording | item | n=3 | n=5 |", "|---|---|---|---|---|"]
+        diff_lines += [
+            f"| {m} | {w} | {r} | {LETTER[a]} | {LETTER[b]} |"
+            for m, w, r, a, b in n5_changes
+        ]
+    else:
+        diff_lines.append("No majority verdict changed under the top-up.")
     diff_path = sweep / "diff_summary.md"
     diff_path.write_text("\n".join(diff_lines) + "\n")
     print(f"wrote {diff_path} ({n_changed} grid cells with changes)")

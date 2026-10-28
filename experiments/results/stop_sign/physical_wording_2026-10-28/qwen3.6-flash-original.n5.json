@@ -1,0 +1,422 @@
+{
+  "schema_version": "1.0",
+  "id": "physw:qwen3.6-flash-original+topup",
+  "benchmark_id": "stop-sign-physw-original",
+  "benchmark_hash": "sha256:7da036e015a480e8f15a026f508b80030a0e11b50570be500ff1fbfec2ba9afb",
+  "model": {
+    "provider": "openrouter",
+    "model_id": "qwen/qwen3.6-flash",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 5,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-explicit-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1",
+    "question_form": "support",
+    "coherence_frame_id": "thin-v1"
+  },
+  "framework_version": "0.17.8",
+  "started_at": "2026-10-28T09:15:33.682874Z",
+  "finished_at": "2026-10-28T09:17:04.477703Z",
+  "items": [
+    {
+      "id": "row-0",
+      "premises": [
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-original:row-0:sample-0",
+          "wall_time_ms": 3331.9323750001786,
+          "usage": {
+            "input_tokens": 243,
+            "output_tokens": 272
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 266
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-original:row-0:sample-1",
+          "wall_time_ms": 5488.226665998809,
+          "usage": {
+            "input_tokens": 243,
+            "output_tokens": 482
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 476
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-original:row-0:sample-2",
+          "wall_time_ms": 8833.019292000245,
+          "usage": {
+            "input_tokens": 243,
+            "output_tokens": 805
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 799
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:qwen3.6-flash-original:row-0:sample-0",
+          "wall_time_ms": 4704.803541000729,
+          "usage": {
+            "input_tokens": 243,
+            "output_tokens": 344
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 338
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:qwen3.6-flash-original:row-0:sample-1",
+          "wall_time_ms": 4163.706584000465,
+          "usage": {
+            "input_tokens": 243,
+            "output_tokens": 414
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 409
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-1",
+      "premises": [
+        "n",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-original:row-1:sample-0",
+          "wall_time_ms": 9430.370042002323,
+          "usage": {
+            "input_tokens": 247,
+            "output_tokens": 800
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 794
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-original:row-1:sample-1",
+          "wall_time_ms": 4036.0886249982286,
+          "usage": {
+            "input_tokens": 247,
+            "output_tokens": 347
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 341
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-original:row-1:sample-2",
+          "wall_time_ms": 9364.839874997415,
+          "usage": {
+            "input_tokens": 247,
+            "output_tokens": 791
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 786
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:qwen3.6-flash-original:row-1:sample-0",
+          "wall_time_ms": 4800.7617499970365,
+          "usage": {
+            "input_tokens": 247,
+            "output_tokens": 401
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 395
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:qwen3.6-flash-original:row-1:sample-1",
+          "wall_time_ms": 6666.970874997787,
+          "usage": {
+            "input_tokens": 247,
+            "output_tokens": 598
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 593
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nighttime"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-2",
+      "premises": [
+        "n",
+        "nr",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-original:row-2:sample-0",
+          "wall_time_ms": 9756.0725000003,
+          "usage": {
+            "input_tokens": 258,
+            "output_tokens": 886
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 881
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-original:row-2:sample-1",
+          "wall_time_ms": 8871.13862499973,
+          "usage": {
+            "input_tokens": 258,
+            "output_tokens": 776
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 770
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-original:row-2:sample-2",
+          "wall_time_ms": 12864.719749999495,
+          "usage": {
+            "input_tokens": 258,
+            "output_tokens": 1144
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1138
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:qwen3.6-flash-original:row-2:sample-0",
+          "wall_time_ms": 13021.455958001752,
+          "usage": {
+            "input_tokens": 258,
+            "output_tokens": 1205
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1199
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:qwen3.6-flash-original:row-2:sample-1",
+          "wall_time_ms": 9039.280458000576,
+          "usage": {
+            "input_tokens": 258,
+            "output_tokens": 892
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 887
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nonreflective"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-3",
+      "premises": [
+        "ba",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-original:row-3:sample-0",
+          "wall_time_ms": 5098.03500000271,
+          "usage": {
+            "input_tokens": 249,
+            "output_tokens": 452
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 447
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-original:row-3:sample-1",
+          "wall_time_ms": 6652.271874998405,
+          "usage": {
+            "input_tokens": 249,
+            "output_tokens": 617
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 611
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-original:row-3:sample-2",
+          "wall_time_ms": 7059.284832997946,
+          "usage": {
+            "input_tokens": 249,
+            "output_tokens": 672
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 666
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw-topup:qwen3.6-flash-original:row-3:sample-0",
+          "wall_time_ms": 4485.381709000649,
+          "usage": {
+            "input_tokens": 249,
+            "output_tokens": 389
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 383
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw-topup:qwen3.6-flash-original:row-3:sample-1",
+          "wall_time_ms": 7458.450166999683,
+          "usage": {
+            "input_tokens": 249,
+            "output_tokens": 699
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 694
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 5,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "painted-blue"
+      ],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}

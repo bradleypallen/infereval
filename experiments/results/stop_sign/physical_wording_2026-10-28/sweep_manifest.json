@@ -61,5 +61,15 @@
     "temperature": 0.0,
     "max_tokens": 16,
     "seed": 7
-  }
+  },
+  "topup": {
+    "date": "2026-10-28",
+    "n_samples": "3 -> 5 (2 appended as sample_index 3-4)",
+    "files": "{cell}-topup.json/.jsonl raw capture; {cell}.n5.json merged 5-sample eta (analysis input); originals untouched",
+    "majority": "3-of-5 via infereval.endorsement.majority_vote, tie_break=abstain, provider-error samples excluded",
+    "excluded": [
+      "mistral-large"
+    ]
+  },
+  "_comment_logging_bug": "Pre-topup .jsonl run.started events record endorsement_config.verification_prompt_id='default-v1' while the top-level verification_prompt_id (authoritative) and the system text are defeasible-explicit-v1: evaluate() stamped the resolved prompt id into the config only after the run. Fixed in evaluation.py on branch physical-wording before the top-up runs; existing logs deliberately left as captured."
 }
