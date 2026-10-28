@@ -1,0 +1,422 @@
+{
+  "schema_version": "1.0",
+  "id": "physw:gpt-5.4-physical+topup",
+  "benchmark_id": "stop-sign-physw-physical",
+  "benchmark_hash": "sha256:f6766505b35ac59bd66aba5ce79fbda5954dd84e287d5c0d539da893106fbbd5",
+  "model": {
+    "provider": "openai",
+    "model_id": "gpt-5.4",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 5,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-explicit-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1",
+    "question_form": "support",
+    "coherence_frame_id": "thin-v1"
+  },
+  "framework_version": "0.17.8",
+  "started_at": "2026-10-28T09:14:48.830845Z",
+  "finished_at": "2026-10-28T09:15:01.203214Z",
+  "items": [
+    {
+      "id": "row-0",
+      "premises": [
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gpt-5.4-physical:row-0:sample-0",
+          "wall_time_ms": 2877.306917001988,
+          "usage": {
+            "input_tokens": 242,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gpt-5.4-physical:row-0:sample-1",
+          "wall_time_ms": 752.7023330003431,
+          "usage": {
+            "input_tokens": 242,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gpt-5.4-physical:row-0:sample-2",
+          "wall_time_ms": 1199.9202500010142,
+          "usage": {
+            "input_tokens": 242,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:gpt-5.4-physical:row-0:sample-0",
+          "wall_time_ms": 2036.3102499977686,
+          "usage": {
+            "input_tokens": 242,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:gpt-5.4-physical:row-0:sample-1",
+          "wall_time_ms": 1071.134499998152,
+          "usage": {
+            "input_tokens": 242,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-1",
+      "premises": [
+        "n",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gpt-5.4-physical:row-1:sample-0",
+          "wall_time_ms": 748.2265420003387,
+          "usage": {
+            "input_tokens": 246,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gpt-5.4-physical:row-1:sample-1",
+          "wall_time_ms": 674.9552080000285,
+          "usage": {
+            "input_tokens": 246,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gpt-5.4-physical:row-1:sample-2",
+          "wall_time_ms": 737.6912079998874,
+          "usage": {
+            "input_tokens": 246,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:gpt-5.4-physical:row-1:sample-0",
+          "wall_time_ms": 1529.3222920008702,
+          "usage": {
+            "input_tokens": 246,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:gpt-5.4-physical:row-1:sample-1",
+          "wall_time_ms": 931.2175000013667,
+          "usage": {
+            "input_tokens": 246,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nighttime"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-2",
+      "premises": [
+        "n",
+        "nr",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gpt-5.4-physical:row-2:sample-0",
+          "wall_time_ms": 716.1225000018021,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gpt-5.4-physical:row-2:sample-1",
+          "wall_time_ms": 1130.4184999971767,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gpt-5.4-physical:row-2:sample-2",
+          "wall_time_ms": 754.3888330001209,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:gpt-5.4-physical:row-2:sample-0",
+          "wall_time_ms": 1007.4495000008028,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:gpt-5.4-physical:row-2:sample-1",
+          "wall_time_ms": 914.756459002092,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nonreflective"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-3",
+      "premises": [
+        "ba",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gpt-5.4-physical:row-3:sample-0",
+          "wall_time_ms": 1003.3043750008801,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gpt-5.4-physical:row-3:sample-1",
+          "wall_time_ms": 801.6074170009233,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gpt-5.4-physical:row-3:sample-2",
+          "wall_time_ms": 964.235916002508,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:gpt-5.4-physical:row-3:sample-0",
+          "wall_time_ms": 1220.912832999602,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:gpt-5.4-physical:row-3:sample-1",
+          "wall_time_ms": 1092.8577499980747,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 4
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "painted-blue"
+      ],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}

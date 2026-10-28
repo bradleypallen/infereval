@@ -88,3 +88,37 @@ class TestPromptDeterminism:
             )
             prompts.append(started["prompt"])
         assert prompts[0] == prompts[1]
+
+
+class TestRunStartedConfigConsistency:
+    def test_logged_config_records_resolved_prompt_id(self, tmp_path: Path) -> None:
+        """run.started's endorsement_config must name the prompt actually
+        used. Regression: with an explicit verification_prompt, the event
+        used to dump the config field's default ("default-v1") alongside a
+        correctly resolved top-level verification_prompt_id — the two
+        fields in one event contradicted each other (caught in the
+        2026-10-28 physical-wording sweep logs)."""
+        from infereval.prompts import VerificationPrompt
+
+        vp = VerificationPrompt(
+            id="consistency-test-v1",
+            system="sys",
+            user_template="{premise_context} {conclusion_context}",
+        )
+        log = tmp_path / "run.jsonl"
+        evaluate(
+            _bench(),
+            ScriptedProvider(responses=["GOOD"] * 5),
+            config=EndorsementConfig(n_samples=1),
+            verification_prompt=vp,
+            log_path=log,
+            run_id="consistency-run",
+        )
+        started = next(
+            e for e in _read_events(log) if e.get("event") == "run.started"
+        )
+        assert started["verification_prompt_id"] == "consistency-test-v1"
+        assert (
+            started["endorsement_config"]["verification_prompt_id"]
+            == "consistency-test-v1"
+        )

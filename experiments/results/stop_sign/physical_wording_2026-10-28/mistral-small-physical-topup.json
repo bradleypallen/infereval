@@ -1,0 +1,254 @@
+{
+  "schema_version": "1.0",
+  "id": "physw-topup:mistral-small-physical",
+  "benchmark_id": "stop-sign-physw-physical",
+  "benchmark_hash": "sha256:f6766505b35ac59bd66aba5ce79fbda5954dd84e287d5c0d539da893106fbbd5",
+  "model": {
+    "provider": "openrouter",
+    "model_id": "mistralai/mistral-small-2603",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 2,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-explicit-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1",
+    "question_form": "support",
+    "coherence_frame_id": "thin-v1"
+  },
+  "framework_version": "0.17.8",
+  "started_at": "2026-10-28T17:44:50.083850Z",
+  "finished_at": "2026-10-28T17:46:01.655472Z",
+  "items": [
+    {
+      "id": "row-0",
+      "premises": [
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:mistral-small-physical:row-0:sample-0",
+          "wall_time_ms": 1767.837250001321,
+          "usage": {
+            "input_tokens": 264,
+            "output_tokens": 3
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:mistral-small-physical:row-0:sample-1",
+          "wall_time_ms": 878.2379170006607,
+          "usage": {
+            "input_tokens": 264,
+            "output_tokens": 3
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 2,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-1",
+      "premises": [
+        "n",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:mistral-small-physical:row-1:sample-0",
+          "wall_time_ms": 769.7184170028777,
+          "usage": {
+            "input_tokens": 269,
+            "output_tokens": 3
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:mistral-small-physical:row-1:sample-1",
+          "wall_time_ms": 1754.3763329995272,
+          "usage": {
+            "input_tokens": 269,
+            "output_tokens": 3
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 2,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nighttime"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-2",
+      "premises": [
+        "n",
+        "nr",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:mistral-small-physical:row-2:sample-0",
+          "wall_time_ms": 3832.8947500012873,
+          "usage": {
+            "input_tokens": 281,
+            "output_tokens": 3
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:mistral-small-physical:row-2:sample-1",
+          "wall_time_ms": 672.1760420005012,
+          "usage": {
+            "input_tokens": 281,
+            "output_tokens": 3
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 2,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nonreflective"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-3",
+      "premises": [
+        "ba",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:mistral-small-physical:row-3:sample-0",
+          "wall_time_ms": 2907.0663749989762,
+          "usage": {
+            "input_tokens": 270,
+            "output_tokens": 3
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:mistral-small-physical:row-3:sample-1",
+          "wall_time_ms": 819.2110829986632,
+          "usage": {
+            "input_tokens": 270,
+            "output_tokens": 3
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 0
+        }
+      ],
+      "majority_vote": {
+        "good": 2,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "painted-blue"
+      ],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}

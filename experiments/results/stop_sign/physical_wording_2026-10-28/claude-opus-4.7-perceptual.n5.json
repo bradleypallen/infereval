@@ -1,0 +1,402 @@
+{
+  "schema_version": "1.0",
+  "id": "physw:claude-opus-4.7-perceptual+topup",
+  "benchmark_id": "stop-sign-physw-perceptual",
+  "benchmark_hash": "sha256:5b3eac14d8ce6afd20548f65cc56273eafc2a53b4bb6fa5a4ed1de110cdd63ec",
+  "model": {
+    "provider": "anthropic",
+    "model_id": "claude-opus-4-7",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 5,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-explicit-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1",
+    "question_form": "support",
+    "coherence_frame_id": "thin-v1"
+  },
+  "framework_version": "0.17.8",
+  "started_at": "2026-10-28T09:15:01.530425Z",
+  "finished_at": "2026-10-28T09:15:20.116797Z",
+  "items": [
+    {
+      "id": "row-0",
+      "premises": [
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:claude-opus-4.7-perceptual:row-0:sample-0",
+          "wall_time_ms": 823.4338750007737,
+          "usage": {
+            "input_tokens": 369,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:claude-opus-4.7-perceptual:row-0:sample-1",
+          "wall_time_ms": 572.3631250002654,
+          "usage": {
+            "input_tokens": 369,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:claude-opus-4.7-perceptual:row-0:sample-2",
+          "wall_time_ms": 2702.194082998176,
+          "usage": {
+            "input_tokens": 369,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:claude-opus-4.7-perceptual:row-0:sample-0",
+          "wall_time_ms": 1725.5622500015306,
+          "usage": {
+            "input_tokens": 369,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:claude-opus-4.7-perceptual:row-0:sample-1",
+          "wall_time_ms": 1737.2670419972565,
+          "usage": {
+            "input_tokens": 369,
+            "output_tokens": 8
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-1",
+      "premises": [
+        "n",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:claude-opus-4.7-perceptual:row-1:sample-0",
+          "wall_time_ms": 1349.9598339985823,
+          "usage": {
+            "input_tokens": 376,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:claude-opus-4.7-perceptual:row-1:sample-1",
+          "wall_time_ms": 1123.26483400102,
+          "usage": {
+            "input_tokens": 376,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:claude-opus-4.7-perceptual:row-1:sample-2",
+          "wall_time_ms": 1347.6464160012256,
+          "usage": {
+            "input_tokens": 376,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw-topup:claude-opus-4.7-perceptual:row-1:sample-0",
+          "wall_time_ms": 1250.2114590024576,
+          "usage": {
+            "input_tokens": 376,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw-topup:claude-opus-4.7-perceptual:row-1:sample-1",
+          "wall_time_ms": 4870.177667002281,
+          "usage": {
+            "input_tokens": 376,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 5,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nighttime"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-2",
+      "premises": [
+        "n",
+        "nr",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:claude-opus-4.7-perceptual:row-2:sample-0",
+          "wall_time_ms": 1227.5099159996898,
+          "usage": {
+            "input_tokens": 391,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:claude-opus-4.7-perceptual:row-2:sample-1",
+          "wall_time_ms": 1050.3484170003503,
+          "usage": {
+            "input_tokens": 391,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:claude-opus-4.7-perceptual:row-2:sample-2",
+          "wall_time_ms": 1201.751583001169,
+          "usage": {
+            "input_tokens": 391,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw-topup:claude-opus-4.7-perceptual:row-2:sample-0",
+          "wall_time_ms": 1116.6936669978895,
+          "usage": {
+            "input_tokens": 391,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw-topup:claude-opus-4.7-perceptual:row-2:sample-1",
+          "wall_time_ms": 1180.3940839999996,
+          "usage": {
+            "input_tokens": 391,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 5,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nonreflective"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-3",
+      "premises": [
+        "ba",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:claude-opus-4.7-perceptual:row-3:sample-0",
+          "wall_time_ms": 1180.2664999995613,
+          "usage": {
+            "input_tokens": 377,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:claude-opus-4.7-perceptual:row-3:sample-1",
+          "wall_time_ms": 2331.8887909990735,
+          "usage": {
+            "input_tokens": 377,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:claude-opus-4.7-perceptual:row-3:sample-2",
+          "wall_time_ms": 1144.1391250009474,
+          "usage": {
+            "input_tokens": 377,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw-topup:claude-opus-4.7-perceptual:row-3:sample-0",
+          "wall_time_ms": 1434.3180420000863,
+          "usage": {
+            "input_tokens": 377,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw-topup:claude-opus-4.7-perceptual:row-3:sample-1",
+          "wall_time_ms": 1577.7798329982033,
+          "usage": {
+            "input_tokens": 377,
+            "output_tokens": 7
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 5,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "painted-blue"
+      ],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}

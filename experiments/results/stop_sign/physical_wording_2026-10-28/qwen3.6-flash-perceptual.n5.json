@@ -1,0 +1,422 @@
+{
+  "schema_version": "1.0",
+  "id": "physw:qwen3.6-flash-perceptual+topup",
+  "benchmark_id": "stop-sign-physw-perceptual",
+  "benchmark_hash": "sha256:5b3eac14d8ce6afd20548f65cc56273eafc2a53b4bb6fa5a4ed1de110cdd63ec",
+  "model": {
+    "provider": "openrouter",
+    "model_id": "qwen/qwen3.6-flash",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 5,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-explicit-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1",
+    "question_form": "support",
+    "coherence_frame_id": "thin-v1"
+  },
+  "framework_version": "0.17.8",
+  "started_at": "2026-10-28T09:15:33.977262Z",
+  "finished_at": "2026-10-28T09:17:21.326537Z",
+  "items": [
+    {
+      "id": "row-0",
+      "premises": [
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-perceptual:row-0:sample-0",
+          "wall_time_ms": 3629.523874998995,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 311
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 305
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-perceptual:row-0:sample-1",
+          "wall_time_ms": 3549.632082998869,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 324
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 318
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-perceptual:row-0:sample-2",
+          "wall_time_ms": 3831.9265409991203,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 321
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 315
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:qwen3.6-flash-perceptual:row-0:sample-0",
+          "wall_time_ms": 5790.430124998238,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 419
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 414
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:qwen3.6-flash-perceptual:row-0:sample-1",
+          "wall_time_ms": 2967.414541002654,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 312
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 306
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-1",
+      "premises": [
+        "n",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-perceptual:row-1:sample-0",
+          "wall_time_ms": 13875.398332998884,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 1120
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1115
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-perceptual:row-1:sample-1",
+          "wall_time_ms": 15794.43554199679,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 1399
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1393
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-perceptual:row-1:sample-2",
+          "wall_time_ms": 14212.057540997193,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 1167
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1161
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw-topup:qwen3.6-flash-perceptual:row-1:sample-0",
+          "wall_time_ms": 9833.201624998765,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 933
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 927
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw-topup:qwen3.6-flash-perceptual:row-1:sample-1",
+          "wall_time_ms": 12939.843625001231,
+          "usage": {
+            "input_tokens": 248,
+            "output_tokens": 1202
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1196
+        }
+      ],
+      "majority_vote": {
+        "good": 1,
+        "bad": 4,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nighttime"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-2",
+      "premises": [
+        "n",
+        "nr",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-perceptual:row-2:sample-0",
+          "wall_time_ms": 12136.647999999695,
+          "usage": {
+            "input_tokens": 259,
+            "output_tokens": 1085
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1079
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-perceptual:row-2:sample-1",
+          "wall_time_ms": 11776.97758299837,
+          "usage": {
+            "input_tokens": 259,
+            "output_tokens": 1180
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1175
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-perceptual:row-2:sample-2",
+          "wall_time_ms": 11576.980041001661,
+          "usage": {
+            "input_tokens": 259,
+            "output_tokens": 975
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 969
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw-topup:qwen3.6-flash-perceptual:row-2:sample-0",
+          "wall_time_ms": 9470.508667000104,
+          "usage": {
+            "input_tokens": 259,
+            "output_tokens": 1005
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 999
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw-topup:qwen3.6-flash-perceptual:row-2:sample-1",
+          "wall_time_ms": 9340.59141599937,
+          "usage": {
+            "input_tokens": 259,
+            "output_tokens": 1061
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1056
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 5,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nonreflective"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-3",
+      "premises": [
+        "ba",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-perceptual:row-3:sample-0",
+          "wall_time_ms": 6458.858040998166,
+          "usage": {
+            "input_tokens": 250,
+            "output_tokens": 602
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 596
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-perceptual:row-3:sample-1",
+          "wall_time_ms": 6289.249875000678,
+          "usage": {
+            "input_tokens": 250,
+            "output_tokens": 646
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 641
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:qwen3.6-flash-perceptual:row-3:sample-2",
+          "wall_time_ms": 4207.986290999543,
+          "usage": {
+            "input_tokens": 250,
+            "output_tokens": 383
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 378
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw-topup:qwen3.6-flash-perceptual:row-3:sample-0",
+          "wall_time_ms": 4911.723540997627,
+          "usage": {
+            "input_tokens": 250,
+            "output_tokens": 474
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 468
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw-topup:qwen3.6-flash-perceptual:row-3:sample-1",
+          "wall_time_ms": 3378.041416999622,
+          "usage": {
+            "input_tokens": 250,
+            "output_tokens": 329
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 323
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 5,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "painted-blue"
+      ],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}

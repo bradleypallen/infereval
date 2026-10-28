@@ -1,0 +1,422 @@
+{
+  "schema_version": "1.0",
+  "id": "physw:gemini-2.5-pro-original+topup",
+  "benchmark_id": "stop-sign-physw-original",
+  "benchmark_hash": "sha256:7da036e015a480e8f15a026f508b80030a0e11b50570be500ff1fbfec2ba9afb",
+  "model": {
+    "provider": "openrouter",
+    "model_id": "google/gemini-2.5-pro",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 5,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-explicit-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1",
+    "question_form": "support",
+    "coherence_frame_id": "thin-v1"
+  },
+  "framework_version": "0.17.8",
+  "started_at": "2026-10-28T09:15:34.536709Z",
+  "finished_at": "2026-10-28T09:17:18.899928Z",
+  "items": [
+    {
+      "id": "row-0",
+      "premises": [
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gemini-2.5-pro-original:row-0:sample-0",
+          "wall_time_ms": 9552.376957999513,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 760
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 760
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gemini-2.5-pro-original:row-0:sample-1",
+          "wall_time_ms": 9112.960957998439,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 783
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 783
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gemini-2.5-pro-original:row-0:sample-2",
+          "wall_time_ms": 9283.679083000607,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 783
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 783
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:gemini-2.5-pro-original:row-0:sample-0",
+          "wall_time_ms": 8486.317083999893,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 584
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 584
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:gemini-2.5-pro-original:row-0:sample-1",
+          "wall_time_ms": 8463.832958997955,
+          "usage": {
+            "input_tokens": 224,
+            "output_tokens": 760
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 760
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-1",
+      "premises": [
+        "n",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gemini-2.5-pro-original:row-1:sample-0",
+          "wall_time_ms": 8846.20016700137,
+          "usage": {
+            "input_tokens": 228,
+            "output_tokens": 773
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 773
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gemini-2.5-pro-original:row-1:sample-1",
+          "wall_time_ms": 10162.757792000775,
+          "usage": {
+            "input_tokens": 228,
+            "output_tokens": 863
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 863
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gemini-2.5-pro-original:row-1:sample-2",
+          "wall_time_ms": 9067.009541999141,
+          "usage": {
+            "input_tokens": 228,
+            "output_tokens": 757
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 757
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:gemini-2.5-pro-original:row-1:sample-0",
+          "wall_time_ms": 8479.328082998109,
+          "usage": {
+            "input_tokens": 228,
+            "output_tokens": 773
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 773
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:gemini-2.5-pro-original:row-1:sample-1",
+          "wall_time_ms": 9562.182917001337,
+          "usage": {
+            "input_tokens": 228,
+            "output_tokens": 863
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 863
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nighttime"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-2",
+      "premises": [
+        "n",
+        "nr",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gemini-2.5-pro-original:row-2:sample-0",
+          "wall_time_ms": 9635.18849999673,
+          "usage": {
+            "input_tokens": 237,
+            "output_tokens": 889
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 889
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gemini-2.5-pro-original:row-2:sample-1",
+          "wall_time_ms": 9068.788624997978,
+          "usage": {
+            "input_tokens": 237,
+            "output_tokens": 727
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 727
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw:gemini-2.5-pro-original:row-2:sample-2",
+          "wall_time_ms": 9406.212916001095,
+          "usage": {
+            "input_tokens": 237,
+            "output_tokens": 729
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 729
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:gemini-2.5-pro-original:row-2:sample-0",
+          "wall_time_ms": 8974.755125000229,
+          "usage": {
+            "input_tokens": 237,
+            "output_tokens": 810
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 810
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "physw-topup:gemini-2.5-pro-original:row-2:sample-1",
+          "wall_time_ms": 8203.566665997641,
+          "usage": {
+            "input_tokens": 237,
+            "output_tokens": 727
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 727
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nonreflective"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-3",
+      "premises": [
+        "ba",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:gemini-2.5-pro-original:row-3:sample-0",
+          "wall_time_ms": 6981.703749999724,
+          "usage": {
+            "input_tokens": 230,
+            "output_tokens": 569
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 569
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:gemini-2.5-pro-original:row-3:sample-1",
+          "wall_time_ms": 6121.175000000221,
+          "usage": {
+            "input_tokens": 230,
+            "output_tokens": 528
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 528
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw:gemini-2.5-pro-original:row-3:sample-2",
+          "wall_time_ms": 7112.924458000634,
+          "usage": {
+            "input_tokens": 230,
+            "output_tokens": 569
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 569
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw-topup:gemini-2.5-pro-original:row-3:sample-0",
+          "wall_time_ms": 6418.717832999391,
+          "usage": {
+            "input_tokens": 230,
+            "output_tokens": 569
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 569
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "physw-topup:gemini-2.5-pro-original:row-3:sample-1",
+          "wall_time_ms": 6465.5148340025335,
+          "usage": {
+            "input_tokens": 230,
+            "output_tokens": 528
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 528
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 5,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "painted-blue"
+      ],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}
