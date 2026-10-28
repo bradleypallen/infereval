@@ -1,0 +1,65 @@
+{
+  "sweep": "physical-wording",
+  "date": "2026-10-28",
+  "branch": "physical-wording",
+  "framework_version": "0.17.8",
+  "benchmark_source": "examples/stop_sign/benchmark.json",
+  "variants": {
+    "original": "$a$ is red",
+    "physical": "a's surface would reflect light predominantly in the roughly 620\u2013750 nm band when illuminated",
+    "perceptual": "a visibly appears red"
+  },
+  "nr_expression": "a is not made with retroreflective sheeting",
+  "nr_expression_replaced": "$a$ is not made with reflective material",
+  "retry_overrides": {
+    "mistral-large": {
+      "max_attempts": 8,
+      "backoff_initial_s": 5.0
+    },
+    "mistral-small": {
+      "max_attempts": 8,
+      "backoff_initial_s": 5.0
+    }
+  },
+  "model_substitutions": {
+    "qwen3-max": "qwen3.8-max (qwen/qwen3.8-max-0902) \u2014 OpenRouter retired qwen3-max 2026-10-09; cross-model slot"
+  },
+  "analyst_row": [
+    "good",
+    "good",
+    "good",
+    "bad"
+  ],
+  "grid": {
+    "models": [
+      "gpt-4.1",
+      "gpt-5.4",
+      "gpt-5.4-mini",
+      "claude-opus-4.7",
+      "claude-haiku-4.5",
+      "deepseek-v4-pro",
+      "deepseek-v4-flash",
+      "qwen3.8-max",
+      "qwen3.6-flash",
+      "gemini-2.5-pro",
+      "gemini-2.5-flash",
+      "mistral-large",
+      "mistral-small"
+    ],
+    "prompt": "defeasible-explicit-v1",
+    "n_samples": 3,
+    "temperature": 0.0,
+    "max_tokens": 2048,
+    "max_tokens_overrides": {
+      "qwen3.8-max": 8192
+    }
+  },
+  "thin_addendum": {
+    "model": "gpt-4.1",
+    "prompt": "default-v1",
+    "n_samples": 6,
+    "temperature": 0.0,
+    "max_tokens": 16,
+    "seed": 7
+  }
+}
