@@ -1,0 +1,422 @@
+{
+  "schema_version": "1.0",
+  "id": "simnr:gemini-2.5-pro-perceptual",
+  "benchmark_id": "stop-sign-simnr-perceptual",
+  "benchmark_hash": "sha256:d8376752b517a27883e6a442a081c5d8ef0dd39cb4bb0c2274a3d5204c84de28",
+  "model": {
+    "provider": "openrouter",
+    "model_id": "google/gemini-2.5-pro",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 5,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-explicit-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1",
+    "question_form": "support",
+    "coherence_frame_id": "thin-v1"
+  },
+  "framework_version": "0.17.8",
+  "started_at": "2026-10-31T16:05:36.617766Z",
+  "finished_at": "2026-10-31T16:08:16.761946Z",
+  "items": [
+    {
+      "id": "row-0",
+      "premises": [
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-0:sample-0",
+          "wall_time_ms": 9412.868917002925,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 1063
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1063
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-0:sample-1",
+          "wall_time_ms": 8909.223624999868,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 976
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 976
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-0:sample-2",
+          "wall_time_ms": 8499.951167003019,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 976
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 976
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-0:sample-3",
+          "wall_time_ms": 8276.936542002659,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 946
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 946
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-0:sample-4",
+          "wall_time_ms": 9521.631457995682,
+          "usage": {
+            "input_tokens": 225,
+            "output_tokens": 1063
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1063
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-1",
+      "premises": [
+        "n",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-1:sample-0",
+          "wall_time_ms": 8686.495334004576,
+          "usage": {
+            "input_tokens": 229,
+            "output_tokens": 970
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 970
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-1:sample-1",
+          "wall_time_ms": 9213.768374997017,
+          "usage": {
+            "input_tokens": 229,
+            "output_tokens": 1024
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1024
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-1:sample-2",
+          "wall_time_ms": 9967.554125003517,
+          "usage": {
+            "input_tokens": 229,
+            "output_tokens": 1153
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1153
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-1:sample-3",
+          "wall_time_ms": 9523.249458994542,
+          "usage": {
+            "input_tokens": 229,
+            "output_tokens": 1153
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1153
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-1:sample-4",
+          "wall_time_ms": 8429.271000000881,
+          "usage": {
+            "input_tokens": 229,
+            "output_tokens": 970
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 970
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nighttime"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-2",
+      "premises": [
+        "n",
+        "nr",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-2:sample-0",
+          "wall_time_ms": 7098.623583005974,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 772
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 772
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-2:sample-1",
+          "wall_time_ms": 10418.463125002745,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 1148
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1148
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-2:sample-2",
+          "wall_time_ms": 9431.153375000576,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 1148
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 1148
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-2:sample-3",
+          "wall_time_ms": 8602.63691599539,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 962
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 962
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-2:sample-4",
+          "wall_time_ms": 7511.604625004111,
+          "usage": {
+            "input_tokens": 244,
+            "output_tokens": 772
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 772
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 5,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nonreflective"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-3",
+      "premises": [
+        "ba",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-3:sample-0",
+          "wall_time_ms": 4920.141708003939,
+          "usage": {
+            "input_tokens": 231,
+            "output_tokens": 520
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 520
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-3:sample-1",
+          "wall_time_ms": 4872.79637499887,
+          "usage": {
+            "input_tokens": 231,
+            "output_tokens": 520
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 520
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-3:sample-2",
+          "wall_time_ms": 5803.99112500163,
+          "usage": {
+            "input_tokens": 231,
+            "output_tokens": 641
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 641
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-3:sample-3",
+          "wall_time_ms": 5379.908625000098,
+          "usage": {
+            "input_tokens": 231,
+            "output_tokens": 572
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 572
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:gemini-2.5-pro-perceptual:row-3:sample-4",
+          "wall_time_ms": 5645.478832993831,
+          "usage": {
+            "input_tokens": 231,
+            "output_tokens": 572
+          },
+          "finish_reason": "stop",
+          "reasoning_tokens": 572
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 5,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "painted-blue"
+      ],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}

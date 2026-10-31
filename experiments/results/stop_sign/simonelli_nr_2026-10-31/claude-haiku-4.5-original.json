@@ -1,0 +1,402 @@
+{
+  "schema_version": "1.0",
+  "id": "simnr:claude-haiku-4.5-original",
+  "benchmark_id": "stop-sign-simnr-original",
+  "benchmark_hash": "sha256:8e9ff739cb65aa63cbb89e361830d8bef0a7ce2af8cec725f75b8cba31e16b66",
+  "model": {
+    "provider": "anthropic",
+    "model_id": "claude-haiku-4-5-20251001",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 5,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-explicit-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1",
+    "question_form": "support",
+    "coherence_frame_id": "thin-v1"
+  },
+  "framework_version": "0.17.8",
+  "started_at": "2026-10-31T16:08:41.010132Z",
+  "finished_at": "2026-10-31T16:09:02.519333Z",
+  "items": [
+    {
+      "id": "row-0",
+      "premises": [
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-0:sample-0",
+          "wall_time_ms": 552.8375409994624,
+          "usage": {
+            "input_tokens": 251,
+            "output_tokens": 5
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-0:sample-1",
+          "wall_time_ms": 389.9884159982321,
+          "usage": {
+            "input_tokens": 251,
+            "output_tokens": 5
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-0:sample-2",
+          "wall_time_ms": 411.1442499997793,
+          "usage": {
+            "input_tokens": 251,
+            "output_tokens": 5
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-0:sample-3",
+          "wall_time_ms": 402.04095900116954,
+          "usage": {
+            "input_tokens": 251,
+            "output_tokens": 5
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-0:sample-4",
+          "wall_time_ms": 434.866832998523,
+          "usage": {
+            "input_tokens": 251,
+            "output_tokens": 5
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-1",
+      "premises": [
+        "n",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD\n\nThe premise that \"it is nighttime\" is a defeater. At night, a stop sign would not appear red due to lack of light—it would appear dark or black. The nighttime condition explicitly undermines the inference that the stop sign is red.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-1:sample-0",
+          "wall_time_ms": 1141.8248330010101,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 59
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD\n\nThe premise that \"it is nighttime\" is a defeater. At night, a stop sign would not appear red due to lack of light—it would appear dark or black. The nighttime condition explicitly undermines the inference that the stop sign is red.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-1:sample-1",
+          "wall_time_ms": 1193.808624993835,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 59
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD\n\nThe premise that \"it is nighttime\" is a defeater. At night, a stop sign would not appear red due to lack of light—it would appear dark or black. The nighttime condition explicitly undermines the inference that the stop sign is red.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-1:sample-2",
+          "wall_time_ms": 1227.9532500033383,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 59
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD\n\nThe premise that \"it is nighttime\" is a defeater. At night, a stop sign would not appear red due to lack of light—it would appear dark or black. The nighttime condition explicitly undermines the inference that the stop sign is red.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-1:sample-3",
+          "wall_time_ms": 1159.1481249997742,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 59
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD\n\nThe premise that \"it is nighttime\" is a defeater. At night, a stop sign would not appear red due to lack of light—it would appear dark or black. The nighttime condition explicitly undermines the inference that the stop sign is red.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-1:sample-4",
+          "wall_time_ms": 1193.886166998709,
+          "usage": {
+            "input_tokens": 256,
+            "output_tokens": 59
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 5,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nighttime"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-2",
+      "premises": [
+        "n",
+        "nr",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD\n\nThe premises explicitly state it is nighttime and that object a is not made with reflective material. Stop signs are red, but at nighttime without reflective properties, the sign would not be visibly red to an observer (it would appear dark or black). The premises contain a defeater to the normal inference that a stop sign is red—the nighttime condition combined with lack of reflectivity undermines visibility of the red color.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-2:sample-0",
+          "wall_time_ms": 1596.114915999351,
+          "usage": {
+            "input_tokens": 274,
+            "output_tokens": 95
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD\n\nThe premises explicitly state it is nighttime and that object a is not made with reflective material. Stop signs are red, but at nighttime without reflective properties, the sign would not be visibly red to an observer (it would appear dark or black). The premises contain a defeater to the normal inference that a stop sign is red—the nighttime condition combined with lack of reflectivity undermines visibility of the red color.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-2:sample-1",
+          "wall_time_ms": 1603.3912499988219,
+          "usage": {
+            "input_tokens": 274,
+            "output_tokens": 95
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD\n\nThe premises explicitly state it is nighttime and that object a is not made with reflective material. Stop signs are red, but at nighttime without reflective properties, the sign would not be visibly red to an observer (it would appear dark or black). The premises contain a defeater to the normal inference that a stop sign is red—the nighttime condition combined with lack of reflectivity undermines visibility of the red color.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-2:sample-2",
+          "wall_time_ms": 1563.303333998192,
+          "usage": {
+            "input_tokens": 274,
+            "output_tokens": 95
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD\n\nThe premises explicitly state it is nighttime and that object a is not made with reflective material. Stop signs are red, but at nighttime without reflective properties, the sign would not be visibly red to an observer (it would appear dark or black). The premises contain a defeater to the normal inference that a stop sign is red—the nighttime condition combined with lack of reflectivity undermines visibility of the red color.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-2:sample-3",
+          "wall_time_ms": 1617.6157919981051,
+          "usage": {
+            "input_tokens": 274,
+            "output_tokens": 95
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD\n\nThe premises explicitly state it is nighttime and that object a is not made with reflective material. Stop signs are red, but at nighttime without reflective properties, the sign would not be visibly red to an observer (it would appear dark or black). The premises contain a defeater to the normal inference that a stop sign is red—the nighttime condition combined with lack of reflectivity undermines visibility of the red color.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-2:sample-4",
+          "wall_time_ms": 1606.0148749966174,
+          "usage": {
+            "input_tokens": 274,
+            "output_tokens": 95
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 5,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nonreflective"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-3",
+      "premises": [
+        "ba",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD\n\nThe premise that \"a has been painted blue\" directly contradicts the conclusion that \"a is red.\" Additionally, while stop signs are typically red, the explicit statement that the object has been painted blue is a defeater that overrides the default expectation. The premises positively rule out the conclusion.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-3:sample-0",
+          "wall_time_ms": 1090.16341700044,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 67
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD\n\nThe premise that \"a has been painted blue\" directly contradicts the conclusion that \"a is red.\" Additionally, while stop signs are typically red, the explicit statement that the object has been painted blue is a defeater that overrides the default expectation. The premises positively rule out the conclusion.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-3:sample-1",
+          "wall_time_ms": 1064.8847499978729,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 67
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD\n\nThe premise that \"a has been painted blue\" directly contradicts the conclusion that \"a is red.\" Additionally, while stop signs are typically red, the explicit statement that the object has been painted blue is a defeater that overrides the default expectation. The premises positively rule out the conclusion.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-3:sample-2",
+          "wall_time_ms": 1106.45808299887,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 67
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD\n\nThe premise that \"a has been painted blue\" directly contradicts the conclusion that \"a is red.\" Additionally, while stop signs are typically red, the explicit statement that the object has been painted blue is a defeater that overrides the default expectation. The premises positively rule out the conclusion.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-3:sample-3",
+          "wall_time_ms": 1078.8142500023241,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 67
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD\n\nThe premise that \"a has been painted blue\" directly contradicts the conclusion that \"a is red.\" Additionally, while stop signs are typically red, the explicit statement that the object has been painted blue is a defeater that overrides the default expectation. The premises positively rule out the conclusion.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-original:row-3:sample-4",
+          "wall_time_ms": 1061.2750829968718,
+          "usage": {
+            "input_tokens": 257,
+            "output_tokens": 67
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 5,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "painted-blue"
+      ],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}

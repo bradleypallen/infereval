@@ -1,0 +1,72 @@
+{
+  "sweep": "simonelli-nr",
+  "date": "2026-10-31",
+  "branch": "physical-wording",
+  "framework_version": "0.17.8",
+  "benchmark_source": "examples/stop_sign/benchmark.json",
+  "variants": {
+    "original": "$a$ is red",
+    "physical": "a's surface would reflect light predominantly in the roughly 620\u2013750 nm band when illuminated",
+    "physical-indicative": "a's surface reflects light predominantly in the roughly 620\u2013750 nm band",
+    "perceptual": "a visibly appears red"
+  },
+  "nr_expression": "a is not made with a reflective material or coating to reflect car headlights",
+  "nr_expression_note": "Simonelli's clause verbatim (p. 15); replaces the 28 Oct sweep's 'a is not made with retroreflective sheeting'. All other premises unchanged (sa, n, ba).",
+  "analyst_row": [
+    "good",
+    "good",
+    "good",
+    "bad"
+  ],
+  "grid": {
+    "models": [
+      "gpt-4.1",
+      "gpt-5.4",
+      "gpt-5.4-mini",
+      "claude-opus-4.7",
+      "claude-haiku-4.5",
+      "deepseek-v4-pro",
+      "deepseek-v4-flash",
+      "qwen3.8-max",
+      "qwen3.6-flash",
+      "gemini-2.5-pro",
+      "gemini-2.5-flash",
+      "mistral-small"
+    ],
+    "prompt": "defeasible-explicit-v1",
+    "n_samples": 5,
+    "temperature": 0.0,
+    "max_tokens": 2048,
+    "max_tokens_overrides": {
+      "qwen3.8-max": 8192,
+      "qwen3.6-flash": 4096
+    },
+    "majority": "3-of-5, abstain tie-break, provider-error samples excluded"
+  },
+  "model_substitutions": {
+    "qwen3-max": "qwen3.8-max (qwen/qwen3.8-max-0902) \u2014 OpenRouter retired qwen3-max 2026-10-09; carried over from the 28 Oct sweep; cross-model slot"
+  },
+  "excluded": [
+    "mistral-large"
+  ],
+  "thin_addendum": {
+    "model": "gpt-4.1",
+    "prompt": "default-v1",
+    "n_samples": 6,
+    "temperature": 0.0,
+    "max_tokens": 16,
+    "seed": 7,
+    "wordings": [
+      "original",
+      "physical",
+      "physical-indicative",
+      "perceptual"
+    ]
+  },
+  "predictions_under_test": [
+    "(i) physical-indicative flips row-1 (nighttime addition) to bad for most models: dropping the subjunctive and 'when illuminated' makes present reflection, not disposition, the asserted content.",
+    "(ii) the two G G G G cells under physical (gpt-5.4, mistral-small \u2014 kind-property reading surviving repainting) become G G G B under physical-indicative."
+  ],
+  "budget_note": "qwen3.6-flash escalated to 4096 mid-sweep (two clipped samples at 2048 on the perceptual wording); its 28 Oct cells ran at 2048, so budget differs for that model's cross-sweep comparisons.",
+  "logging_note": "run.started endorsement_config.verification_prompt_id records the resolved prompt (defeasible-explicit-v1) in this sweep: the stamping fix merged in PR #104 is in the executing tree."
+}

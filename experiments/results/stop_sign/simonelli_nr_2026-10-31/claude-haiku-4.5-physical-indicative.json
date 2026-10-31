@@ -1,0 +1,402 @@
+{
+  "schema_version": "1.0",
+  "id": "simnr:claude-haiku-4.5-physical-indicative",
+  "benchmark_id": "stop-sign-simnr-physical-indicative",
+  "benchmark_hash": "sha256:5f5d671b415b9d0504df795170e110d28b7eaae07707fe93eee08982b050878d",
+  "model": {
+    "provider": "anthropic",
+    "model_id": "claude-haiku-4-5-20251001",
+    "params": {
+      "temperature": 0.0,
+      "max_tokens": 2048,
+      "stop": []
+    }
+  },
+  "endorsement_config": {
+    "n_samples": 5,
+    "tie_break": "abstain",
+    "verification_prompt_id": "defeasible-explicit-v1",
+    "context_builder_premise_id": "conjunction-and-v1",
+    "context_builder_conclusion_id": "disjunction-or-v1",
+    "question_form": "support",
+    "coherence_frame_id": "thin-v1"
+  },
+  "framework_version": "0.17.8",
+  "started_at": "2026-10-31T15:54:26.761981Z",
+  "finished_at": "2026-10-31T15:55:04.539850Z",
+  "items": [
+    {
+      "id": "row-0",
+      "premises": [
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "good",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "GOOD\n\nStop signs are standardly red, and red surfaces reflect light predominantly in the 620–750 nm wavelength band (the red portion of the visible spectrum). Under typical conditions and standard background knowledge, this inference follows as a material default.",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-0:sample-0",
+          "wall_time_ms": 1604.1797090001637,
+          "usage": {
+            "input_tokens": 264,
+            "output_tokens": 55
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "GOOD\n\nStop signs are standardly red, and red surfaces reflect light predominantly in the 620–750 nm wavelength band (the red portion of the visible spectrum). Under typical conditions and standard background knowledge, this inference follows as a material default.",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-0:sample-1",
+          "wall_time_ms": 1100.9159160021227,
+          "usage": {
+            "input_tokens": 264,
+            "output_tokens": 55
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "GOOD\n\nStop signs are standardly red, and red surfaces reflect light predominantly in the 620–750 nm wavelength band (the red portion of the visible spectrum). Under typical conditions and standard background knowledge, this inference follows as a material default.",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-0:sample-2",
+          "wall_time_ms": 1062.8114589999313,
+          "usage": {
+            "input_tokens": 264,
+            "output_tokens": 55
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "GOOD\n\nStop signs are standardly red, and red surfaces reflect light predominantly in the 620–750 nm wavelength band (the red portion of the visible spectrum). Under typical conditions and standard background knowledge, this inference follows as a material default.",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-0:sample-3",
+          "wall_time_ms": 1146.3094999999157,
+          "usage": {
+            "input_tokens": 264,
+            "output_tokens": 55
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "GOOD\n\nStop signs are standardly red, and red surfaces reflect light predominantly in the 620–750 nm wavelength band (the red portion of the visible spectrum). Under typical conditions and standard background knowledge, this inference follows as a material default.",
+          "parsed_verdict": "good",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-0:sample-4",
+          "wall_time_ms": 1060.6077919946983,
+          "usage": {
+            "input_tokens": 264,
+            "output_tokens": 55
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 5,
+        "bad": 0,
+        "abstain": 0,
+        "verdict": "good",
+        "tie_broken": false
+      },
+      "tags": [
+        "base-inference"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-1",
+      "premises": [
+        "n",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD\n\nThe premise that it is nighttime is a defeater. At night, there is minimal ambient light, so a stop sign's surface would not be reflecting light in any significant way, let alone predominantly in the red band (620-750 nm). While stop signs are designed to reflect red light during the day, the nighttime condition prevents the normal reflective property from being observable or operative in the way the conclusion suggests.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-1:sample-0",
+          "wall_time_ms": 2294.281166003202,
+          "usage": {
+            "input_tokens": 269,
+            "output_tokens": 92
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD\n\nThe premise that it is nighttime is a defeater. At night, there is minimal ambient light, so a stop sign's surface would not be reflecting light in any significant way, let alone predominantly in the red band (620-750 nm). While stop signs are designed to reflect red light during the day, the nighttime condition prevents the normal reflective property from being observable or operative in the way the conclusion suggests.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-1:sample-1",
+          "wall_time_ms": 1721.887958003208,
+          "usage": {
+            "input_tokens": 269,
+            "output_tokens": 92
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD\n\nThe premise that it is nighttime is a defeater. At night, there is minimal ambient light, so a stop sign's surface would not be reflecting light in any significant way, let alone predominantly in the red band (620-750 nm). While stop signs are designed to reflect red light during the day, the nighttime condition prevents the normal reflective property from being observable or operative in the way the conclusion suggests.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-1:sample-2",
+          "wall_time_ms": 1712.362459002179,
+          "usage": {
+            "input_tokens": 269,
+            "output_tokens": 92
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD\n\nThe premise that it is nighttime is a defeater. At night, there is minimal ambient light, so a stop sign's surface would not be reflecting light in any significant way, let alone predominantly in the red band (620-750 nm). While stop signs are designed to reflect red light during the day, the nighttime condition prevents the normal reflective property from being observable or operative in the way the conclusion suggests.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-1:sample-3",
+          "wall_time_ms": 1721.7188340000575,
+          "usage": {
+            "input_tokens": 269,
+            "output_tokens": 92
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD\n\nThe premise that it is nighttime is a defeater. At night, there is minimal ambient light, so a stop sign's surface would not be reflecting light in any significant way, let alone predominantly in the red band (620-750 nm). While stop signs are designed to reflect red light during the day, the nighttime condition prevents the normal reflective property from being observable or operative in the way the conclusion suggests.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-1:sample-4",
+          "wall_time_ms": 1702.7140420032083,
+          "usage": {
+            "input_tokens": 269,
+            "output_tokens": 92
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 5,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nighttime"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-2",
+      "premises": [
+        "n",
+        "nr",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "good"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD\n\nThe premises explicitly state that a is NOT made with a reflective material or coating to reflect car headlights. Stop signs are typically red and reflective specifically to be visible at night via car headlights. The conclusion asserts that a's surface reflects light in the red band (620-750 nm), which is precisely what a reflective stop sign would do. The first premise directly contradicts the conditions necessary for the conclusion to hold.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-2:sample-0",
+          "wall_time_ms": 1456.5585410018684,
+          "usage": {
+            "input_tokens": 287,
+            "output_tokens": 97
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD\n\nThe premises explicitly state that a is NOT made with a reflective material or coating to reflect car headlights. Stop signs are typically red and reflective specifically to be visible at night via car headlights. The conclusion asserts that a's surface reflects light in the red band (620-750 nm), which is precisely what a reflective stop sign would do. The first premise directly contradicts the conditions necessary for the conclusion to hold.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-2:sample-1",
+          "wall_time_ms": 1982.6657920057187,
+          "usage": {
+            "input_tokens": 287,
+            "output_tokens": 97
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD\n\nThe premises explicitly state that a is NOT made with a reflective material or coating to reflect car headlights. Stop signs are typically red and reflective specifically to be visible at night via car headlights. The conclusion asserts that a's surface reflects light in the red band (620-750 nm), which is precisely what a reflective stop sign would do. The first premise directly contradicts the conditions necessary for the conclusion to hold.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-2:sample-2",
+          "wall_time_ms": 1441.690749998088,
+          "usage": {
+            "input_tokens": 287,
+            "output_tokens": 97
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD\n\nThe premises explicitly state that a is NOT made with a reflective material or coating to reflect car headlights. Stop signs are typically red and reflective specifically to be visible at night via car headlights. The conclusion asserts that a's surface reflects light in the red band (620-750 nm), which is precisely what a reflective stop sign would do. The first premise directly contradicts the conditions necessary for the conclusion to hold.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-2:sample-3",
+          "wall_time_ms": 1425.7060829986585,
+          "usage": {
+            "input_tokens": 287,
+            "output_tokens": 97
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD\n\nThe premises explicitly state that a is NOT made with a reflective material or coating to reflect car headlights. Stop signs are typically red and reflective specifically to be visible at night via car headlights. The conclusion asserts that a's surface reflects light in the red band (620-750 nm), which is precisely what a reflective stop sign would do. The first premise directly contradicts the conditions necessary for the conclusion to hold.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-2:sample-4",
+          "wall_time_ms": 1425.8045419992413,
+          "usage": {
+            "input_tokens": 287,
+            "output_tokens": 97
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 5,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "irrelevant-addition",
+        "nonreflective"
+      ],
+      "references": []
+    },
+    {
+      "id": "row-3",
+      "premises": [
+        "ba",
+        "sa"
+      ],
+      "conclusions": [
+        "ra"
+      ],
+      "analyst_verdicts": [
+        "bad"
+      ],
+      "model_verdict": "bad",
+      "samples": [
+        {
+          "sample_index": 0,
+          "raw_response": "BAD\n\nThe premises state that object a has been painted blue. Blue paint reflects light predominantly in the roughly 450–495 nm band (blue wavelengths), not the 620–750 nm band (red wavelengths). The premise that a is a stop sign is irrelevant to its current optical properties—what matters is that it has been painted blue, which directly contradicts the conclusion about red-wavelength reflection.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-3:sample-0",
+          "wall_time_ms": 1494.9260840003262,
+          "usage": {
+            "input_tokens": 270,
+            "output_tokens": 94
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 1,
+          "raw_response": "BAD\n\nThe premises state that object a has been painted blue. Blue paint reflects light predominantly in the roughly 450–495 nm band (blue wavelengths), not the 620–750 nm band (red wavelengths). The premise that a is a stop sign is irrelevant to its current optical properties—what matters is that it has been painted blue, which directly contradicts the conclusion about red-wavelength reflection.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-3:sample-1",
+          "wall_time_ms": 1584.5439999975497,
+          "usage": {
+            "input_tokens": 270,
+            "output_tokens": 94
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 2,
+          "raw_response": "BAD\n\nThe premises state that object a has been painted blue. Blue paint reflects light predominantly in the roughly 450–495 nm band (blue wavelengths), not the 620–750 nm band (red wavelengths). The premise that a is a stop sign is irrelevant to its current optical properties—what matters is that it has been painted blue, which directly contradicts the conclusion about red-wavelength reflection.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-3:sample-2",
+          "wall_time_ms": 1496.3464999964344,
+          "usage": {
+            "input_tokens": 270,
+            "output_tokens": 94
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 3,
+          "raw_response": "BAD\n\nThe premises state that object a has been painted blue. Blue paint reflects light predominantly in the roughly 450–495 nm band (blue wavelengths), not the 620–750 nm band (red wavelengths). The premise that a is a stop sign is irrelevant to its current optical properties—what matters is that it has been painted blue, which directly contradicts the conclusion about red-wavelength reflection.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-3:sample-3",
+          "wall_time_ms": 1523.5851660036133,
+          "usage": {
+            "input_tokens": 270,
+            "output_tokens": 94
+          },
+          "finish_reason": "end_turn"
+        },
+        {
+          "sample_index": 4,
+          "raw_response": "BAD\n\nThe premises state that object a has been painted blue. Blue paint reflects light predominantly in the roughly 450–495 nm band (blue wavelengths), not the 620–750 nm band (red wavelengths). The premise that a is a stop sign is irrelevant to its current optical properties—what matters is that it has been painted blue, which directly contradicts the conclusion about red-wavelength reflection.",
+          "parsed_verdict": "bad",
+          "parse_status": "ok",
+          "request_id": "simnr:claude-haiku-4.5-physical-indicative:row-3:sample-4",
+          "wall_time_ms": 1525.4319579980802,
+          "usage": {
+            "input_tokens": 270,
+            "output_tokens": 94
+          },
+          "finish_reason": "end_turn"
+        }
+      ],
+      "majority_vote": {
+        "good": 0,
+        "bad": 5,
+        "abstain": 0,
+        "verdict": "bad",
+        "tie_broken": false
+      },
+      "tags": [
+        "defeater",
+        "painted-blue"
+      ],
+      "references": []
+    }
+  ],
+  "references": [],
+  "paraphrase_variant": 0
+}
