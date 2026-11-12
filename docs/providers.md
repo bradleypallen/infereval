@@ -28,7 +28,16 @@ Model id conventions (as of 2026-05): `claude-haiku-4-5-20251001`, `claude-sonne
 
 ### Quirks
 
-- **`seed` is ignored.** Anthropic's Messages API does not honor a `seed` parameter. If you supply one, the framework records it in `Evaluation.model.params.seed` (so you can see what was requested) and emits a one-time warning on the `infereval.providers.anthropic` logger: `provider.anthropic.seed_ignored`. The seed has no effect on the model's output. Use `temperature=0.0` for the closest approximation of determinism Anthropic supports.
+- **`seed` is ignored.** Anthropic's Messages API does not honor a `seed` parameter. If you supply one, the framework records it in `Evaluation.model.params.seed` (so you can see what was requested) and emits a one-time warning on the `infereval.providers.anthropic` logger: `provider.anthropic.seed_ignored`. The seed has no effect on the model's output. A lower `temperature` is the closest approximation of determinism, where the model and SDK can still send it (next item).
+- **`temperature` / `top_p` depend on the SDK and the model.** The provider picks a route at construction time and logs it as `provider.anthropic.sampling_route`; each sample's log event records `sampling_route` and `sampling_sent`.
+
+  | Installed `anthropic` SDK | API version it sends | How sampling is sent |
+  |---|---|---|
+  | 0.x | `2023-06-01` | keyword arguments (as before) |
+  | 1.x | `2023-06-01` | `extra_body` (1.x removed the keyword arguments) |
+  | 2.x and later | `2026-10-21` | not sent: that API version rejects them on every model, even `temperature=1` |
+
+  On the 2.x route the default (`temperature=1.0`, no `top_p`) is omitted, which samples identically. A non-default value raises `ProviderConfigError` before any API call. Install `'anthropic<2'` if a run needs one. Models that don't accept non-default sampling (Opus 4.7/4.8, the Claude 5 generation, Fable, Mythos) never get these parameters whatever the SDK; a non-default request logs one `provider.anthropic.sampling_ignored` warning. Claude 4.6-and-earlier models such as Haiku 4.5 still honour them on the 0.x and 1.x routes.
 - **`stop` sequences** are passed through as `stop_sequences=[...]`. The default-v1 verification prompt doesn't need them.
 - **Per-call cost is small** for typical evaluations: each sample is ~80 input tokens + ~6 output tokens. A 4-item × 5-sample run is ~$0.001 on Haiku.
 
@@ -36,7 +45,7 @@ Model id conventions (as of 2026-05): `claude-haiku-4-5-20251001`, `claude-sonne
 
 ```python
 EndorsementConfig(n_samples=5)
-ProviderParams(temperature=0.0, max_tokens=1024)   # framework default
+ProviderParams(temperature=1.0, max_tokens=1024)   # framework default; works on every SDK route
 ```
 
 The framework defaults to `max_tokens=1024` at both the Python API and the CLI (`--max-tokens 1024`), which is sufficient for Haiku, Sonnet, and Opus on the `default-v1` prompt (Opus 4.7+ engages extended thinking, which consumes part of the budget). Older Anthropic models emit only a handful of tokens for a one-word verdict regardless of this cap.
