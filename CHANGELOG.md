@@ -8,9 +8,9 @@ with the additional commitment that the benchmark and evaluation JSON
 schemas are versioned independently (`schema_version: "1.0"`) and promised
 stable from 1.0 onward, regardless of the framework version.
 
-## [Unreleased]
+## [0.17.9] — 2026-11-12
 
-**The Anthropic provider works with `anthropic` SDK 1.x and 2.x.** Before this, every Anthropic call failed under those SDKs and was recorded as ABSTAIN. A benchmark with its own prompt can also declare the survey wording human respondents see.
+**The Anthropic provider works with `anthropic` SDK 1.x and 2.x.** Before this, every Anthropic call failed under those SDKs and was recorded as ABSTAIN. A benchmark with its own prompt can also declare the survey wording human respondents see. The docs no longer depend on an unpublished manuscript, and gain a Formal specification page.
 
 ### Fixed — Anthropic provider failed every call on `anthropic` SDK 1.x and later
 
