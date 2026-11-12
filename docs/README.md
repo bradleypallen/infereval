@@ -7,6 +7,7 @@ The README is the front door. This directory has the longer-form material.
 | Guide | When you want it |
 |---|---|
 | [**Concepts**](concepts.md) | Mental model of the methodology — bearers, expression functions, contexts, the endorsement function `E_M`, the derived frame, the benchmark, the metrics. |
+| [**Formal specification**](formal_specification.md) | The definitions the package implements, with formulas: expression and context functions, endorsement `E_M`, the derived frame `⟨B, I_M⟩`, benchmarks, coverage, Cohen's and Fleiss' κ, the inter-analyst baseline. Each is mapped to its code. |
 | [**Authoring benchmarks**](authoring_benchmarks.md) | Writing your own `benchmark.json` for a new domain — bearer carving, expression functions, RSR targets, factorial design, construction provenance, reference panels, validation. |
 | [**Interpreting metrics**](interpreting_metrics.md) | What κ_C, κ_F, κ_F\* (per-panel and cross-panel) tell you; reading by-tag and factor-effects decompositions; sensitivity-sweep stability verdicts; what to do about low coverage. |
 | [**Providers**](providers.md) | Per-provider quirks: Anthropic's seed ignore, DeepSeek's silent reasoning tokens, OpenRouter attribution headers, the OpenAI Chat-Completions choice. |

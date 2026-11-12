@@ -214,7 +214,7 @@ The metrics functions return `None` (with a logged warning) rather than raise. T
 - **`κ_C` undefined when `p_e = 1`.** On the substantive subset, every item is the same class (all `good` or all `bad`) for both `M` and the reference. Chance and observed are both 1.0; their difference is 0/0. This often appears on small tag subsets where the analysts unanimously labeled one way and `M` matched.
 - **`κ_F` undefined when no items have all-substantive annotations.** Same idea as `κ_C` empty `S`, applied across the full annotator set.
 - **`κ_F*` undefined when `m < 2`.** Single-analyst benchmarks have no inter-analyst comparison.
-- **`κ_F*` undefined when analysts are unanimous.** `m ≥ 2` analysts agreeing perfectly on every item gives `P̄_e = 1` and chance and observed are both 1.0. No signal.
+- **`κ_F*` undefined when every analyst rating is in one class.** If all analysts say `good` on every item (or all `bad`), `P̄_e = 1` and there is no signal. Analysts who agree on every item but whose items include both `good` and `bad` are a different case: `κ_F* = 1.0`, perfect agreement and a well-defined ceiling. `κ_F*` is also undefined with fewer than two analysts.
 
 Each of these returns `null` in the JSON output and `"undefined"` in the text / markdown output, with the reason logged at WARNING. They are diagnostic, not failures — they tell you something concrete about the structure of your benchmark or the model's behavior.
 

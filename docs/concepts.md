@@ -1,6 +1,6 @@
 # Concepts
 
-A pedagogical walk through what `infereval` does. The [Glossary](glossary.md) collects the notation, and [Interpreting metrics](interpreting_metrics.md) goes deeper on what the numbers mean.
+A pedagogical walk through what `infereval` does. The [Formal specification](formal_specification.md) states the definitions precisely, the [Glossary](glossary.md) collects the notation, and [Interpreting metrics](interpreting_metrics.md) goes deeper on what the numbers mean.
 
 ## The question
 
