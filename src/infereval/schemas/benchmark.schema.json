@@ -665,7 +665,7 @@
     },
     "VerificationPromptOverride": {
       "additionalProperties": false,
-      "description": "Optional benchmark-level override of the framework's default verification prompt.\n\nAll four fields are optional in practice (``template`` is required by\nthe schema since it is the minimal thing an override needs to\ncontribute). When a field is ``None`` the framework default is used:\n\n- :attr:`system` ``None`` \u2192 :data:`infereval.prompts.DEFAULT_SYSTEM_PROMPT`.\n- :attr:`parse_regex` ``None`` \u2192 :data:`infereval.prompts.DEFAULT_PARSE_REGEX`.\n- :attr:`id` ``None`` \u2192 the caller-supplied ``override_id`` parameter to\n  :func:`infereval.prompts.resolve_verification_prompt`.\n\nAdding the ``system`` field makes the paraphrase-axis experiment\nfully JSON-drivable (no Python required to vary the verification prompt).",
+      "description": "Optional benchmark-level override of the framework's default verification prompt.\n\nAll four fields are optional in practice (``template`` is required by\nthe schema since it is the minimal thing an override needs to\ncontribute). When a field is ``None`` the framework default is used:\n\n- :attr:`system` ``None`` \u2192 :data:`infereval.prompts.DEFAULT_SYSTEM_PROMPT`.\n- :attr:`parse_regex` ``None`` \u2192 :data:`infereval.prompts.DEFAULT_PARSE_REGEX`.\n- :attr:`id` ``None`` \u2192 the caller-supplied ``override_id`` parameter to\n  :func:`infereval.prompts.resolve_verification_prompt`.\n\nAdding the ``system`` field makes the paraphrase-axis experiment\nfully JSON-drivable (no Python required to vary the verification prompt).\n\n``survey_header`` / ``survey_stem`` declare the prompt's human-facing\nsurvey wording (see :class:`infereval.prompts.VerificationPrompt`), so a\nbenchmark with its own prompt can ask human analysts the same question\nthe model is asked. Without them, ``infereval survey export`` falls back\nto the default-v1 survey header (with a warning). The stem, when given,\nmust be a verbatim trailing substring of the header.",
       "properties": {
         "template": {
           "title": "Template",
@@ -706,6 +706,30 @@
           ],
           "default": null,
           "title": "Id"
+        },
+        "survey_header": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Survey Header"
+        },
+        "survey_stem": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Survey Stem"
         }
       },
       "required": [

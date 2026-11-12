@@ -282,7 +282,9 @@ def render_survey_question(
                     log.warning(
                         "survey.frame.fallback benchmark=%s verification_prompt=%s "
                         "declares no survey_header; rendering the default-v1 survey "
-                        "header — the model and survey frames differ for this item.",
+                        "header — the model and survey frames differ for this item. "
+                        "Declare survey_header (and optionally survey_stem) in the "
+                        "benchmark's verification_prompt to ask humans the model's question.",
                         benchmark.id,
                         vp.id,
                     )

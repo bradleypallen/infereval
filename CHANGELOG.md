@@ -10,7 +10,7 @@ stable from 1.0 onward, regardless of the framework version.
 
 ## [Unreleased]
 
-**The Anthropic provider works with `anthropic` SDK 1.x and 2.x.** Before this, every Anthropic call failed under those SDKs and was recorded as ABSTAIN.
+**The Anthropic provider works with `anthropic` SDK 1.x and 2.x.** Before this, every Anthropic call failed under those SDKs and was recorded as ABSTAIN. A benchmark with its own prompt can also declare the survey wording human respondents see.
 
 ### Fixed — Anthropic provider failed every call on `anthropic` SDK 1.x and later
 
@@ -18,6 +18,13 @@ stable from 1.0 onward, regardless of the framework version.
 - The provider now chooses a sampling route from the installed SDK and the client's `anthropic-version` header. On 0.x it passes keyword arguments, as before. On 1.x (API `2023-06-01`) it sends them in `extra_body`. On 2.x+ (API `2026-10-21`, which rejects sampling parameters on every model) it omits them. Omitting is identical to the default `temperature=1.0`. A non-default value raises `ProviderConfigError` before any API call, instead of failing as one ABSTAIN per sample. The route is logged (`provider.anthropic.sampling_route`), and each sample event records `sampling_route` and `sampling_sent`. `AnthropicProvider(..., sampling_route=...)` overrides detection.
 - `top_p` is no longer sent to models that reject sampling parameters: Opus 4.7 previously got `top_p` even though `temperature` was skipped. That model list now covers Opus 4.8, the Claude 5 generation (Opus / Sonnet / Haiku 5.x), Fable and Mythos. A non-default request to one of these logs one `provider.anthropic.sampling_ignored` warning.
 - New regression test binds the provider's real `messages.create` keyword arguments to the installed SDK's signature. The provider tests pass on `anthropic` 0.125.0, 1.17.0 and 2.8.0.
+
+### Fixed — custom-prompt benchmarks exported surveys under the clinical default question
+
+- A benchmark's `verification_prompt` override had no survey fields, so `infereval survey export` (support form) always rendered the default-v1 header: "Given the following premises, is the conclusion a good *diagnostic* inference…". For a non-clinical benchmark with its own prompt, humans and the model were asked different questions, and only a `survey.frame.fallback` log warning said so.
+- `VerificationPromptOverride` now takes optional `survey_header` and `survey_stem`, passed through `resolve_verification_prompt` to the `VerificationPrompt`'s existing survey surface. A benchmark that declares them exports surveys under its own wording, with its own `id` recorded as `frame_id` in the mapping sidecar. `survey_stem` must be a verbatim trailing substring of `survey_header` (validated), and requires it.
+- Additive schema change: `benchmark.schema.json` regenerated. Benchmarks without the fields, and every default-frame export, are unchanged (the pre-frame golden tests still pass). The fallback warning now says how to declare the wording.
+- Docs: `authoring_benchmarks.md` and `surveys.md` (Survey frames). The `VerificationPrompt.survey_header` docstring now matches the fallback behaviour.
 
 ### Changed — docs
 
