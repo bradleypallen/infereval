@@ -27,7 +27,7 @@ from infereval.cli.validate_cmd import validate_cmd
 
 @click.group(
     context_settings={"help_option_names": ["-h", "--help"]},
-    help="Inferentialist evaluation of LLMs (per Allen 2026).",
+    help="Inferentialist evaluation of LLMs.",
 )
 @click.version_option(__version__, "-V", "--version", prog_name="infereval")
 def cli() -> None:

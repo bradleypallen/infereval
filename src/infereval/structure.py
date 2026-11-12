@@ -5,12 +5,11 @@ Construct-Validity Gap in infereval*). Addresses **R13** (structural
 coherence check on the derived frame) — the philosophically central
 addition that moves the framework from "supporting agreement
 measurement" to "supporting mastery characterization in the
-inferentialist sense" (Hlobil & Brandom 2025; Brandom 1994; Allen 2026
-Remark 5).
+inferentialist sense" (Hlobil & Brandom 2025; Brandom 1994).
 
 The Hlobil–Brandom framework treats a handful of structural properties
 as constitutive of inferential mastery. The framework guarantees one of
-them by construction (**containment closure**, clause i of Definition 3);
+them by construction (**containment closure**, clause i of :math:`I_M` membership);
 the others have to be *checked against the evaluation outcome*. This
 module implements those checks as first-class operations so that
 aggregate agreement statistics aren't conflated with structural mastery.
@@ -139,7 +138,7 @@ def containment_closure_check(
 ) -> StructuralCheck:
     """Sanity-check that all self-implications are in ``I_M`` by construction.
 
-    Per Definition 3 clause i, every implication ⟨Γ, Δ⟩ with
+    By clause i of :math:`I_M` membership, every implication ⟨Γ, Δ⟩ with
     ``Γ ∩ Δ ≠ ∅`` is in ``I_M`` regardless of what the model says.
     This check counts such items in the benchmark and confirms they're
     structurally satisfied; it doesn't *need* to consult the model's

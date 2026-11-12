@@ -88,7 +88,7 @@ def make_template_builder(
     -----
     The empty-input case returns the template formatted against an empty
     string, which by default yields the empty string. The endorser does not
-    use this builder on empty implications (Definition 3 excludes them).
+    use this builder on empty implications (``I_M`` excludes ⟨∅, ∅⟩).
     """
 
     def _build(expressions: Sequence[str]) -> str:

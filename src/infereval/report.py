@@ -87,7 +87,7 @@ class CarvingClaim(BaseModel):
 
     acknowledges_carving_indexed: bool
     """``True`` iff any in-principle claims are framed in the
-    carving-indexed form Remark 10 specifies."""
+    carving-indexed form (relative to the analyst-supplied carving)."""
     notes: str = ""
     """Required when ``acknowledges_carving_indexed`` is ``True``;
     document the carving used or pointers to the discussion."""
@@ -965,7 +965,7 @@ def render_markdown(
     # (test-retest) — so test-retest reliability sits at the same visual
     # level as agreement. The `## 2.` anchor is preserved (no
     # renumbering cascade) but the visual hierarchy now reflects the
-    # methodology paper's framing: agreement and reliability are
+    # methodology's framing: agreement and reliability are
     # co-equal construct-validity dimensions, not a primary plus an
     # optional footnote.
     lines.append("## 2. Summary metrics")
@@ -980,7 +980,7 @@ def render_markdown(
     # sub-bullet so the methodological distinction (panels are an
     # additive convergent-validity device, not a replacement for the
     # baseline) is visible at the surface where the reader looks for
-    # the Remark 4 number.
+    # the inter-analyst baseline.
     if panel_names:
         lines.append(
             f"- **Inter-analyst κ_F\\* (all analysts)**: "

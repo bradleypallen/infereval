@@ -6,9 +6,8 @@ plain/domain). Reports, per the brief:
 
 - per-item **total-variation distance** between the two runs' sample verdict
   distributions (good/bad/abstain), and its mean;
-- a **cross-run κ** treating the two runs as two annotators (reuse Cohen's κ,
-  Definition 9), computed **only over items substantive in both** runs
-  (Definition 7); and
+- a **cross-run κ** treating the two runs as two annotators (reuse Cohen's κ),
+  computed **only over items substantive in both** runs; and
 - a **coverage floor** (§12.4): when the both-substantive intersection is too
   small a fraction of the items, κ is reported as *insufficient overlap* rather
   than as a low-N number.
@@ -112,7 +111,7 @@ def compare_runs(
     )
 
     # Cross-run κ: treat run B's model verdict as the reference for run A,
-    # restricted to items substantive in both runs (Definition 7).
+    # restricted to items substantive in both runs.
     def _ref(i: int) -> Verdict:
         return verdict_b[eta_a.items[i].id]
 

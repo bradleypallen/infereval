@@ -172,8 +172,8 @@ def parse_verdict(
        for every response without a committed-answer cue, including every
        bare single-token response).
 
-    Returns ``(Verdict.ABSTAIN, "unparseable")`` if no token matches; per
-    the paper's Definition 2 ("Unparseable responses are mapped to abstain").
+    Returns ``(Verdict.ABSTAIN, "unparseable")`` if no token matches:
+    unparseable responses are mapped to abstain.
     """
     if pattern is None:
         pattern = DEFAULT_VERIFICATION_PROMPT.compile_parser()

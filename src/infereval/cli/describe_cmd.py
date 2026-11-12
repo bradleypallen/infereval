@@ -422,7 +422,7 @@ def _render_items(bench: Benchmark) -> None:
     """Print every item in an expert-readable form (Issue #28).
 
     For each implication: bearer-id form on the header line (compact,
-    links back to the methodology paper), resolved English expressions
+    matches the formal notation), resolved English expressions
     for premises and conclusions, analyst verdict(s), tag annotation,
     and the full reference block — citation + DOI + URL + section + note
     for every reference attached to the item.

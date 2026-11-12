@@ -1,12 +1,11 @@
 """Core data types for the infereval framework.
 
-Tracks the notation in the paper (Allen 2026):
+Tracks the formal notation (see the Glossary docs page):
 
 - :class:`Verdict` -- the codomain of :math:`E_M`: ``good`` / ``bad`` / ``abstain``.
 - :class:`Bearer` -- an element of the bearer set :math:`B`. Carries its id, the
   canonical natural-language expression :math:`\\delta(\\varphi)`, and an optional
-  paraphrase family (for the second axis of variation discussed in the paper's
-  Discussion section, Remark on "Two dimensions of variation").
+  paraphrase family (for the paraphrase axis of variation).
 - :class:`Implication` -- a candidate implication :math:`\\langle \\Gamma, \\Delta \\rangle`.
   Premises and conclusions are stored as ``frozenset[str]`` of bearer ids so the
   instance is hashable and usable as a dict key (see
@@ -88,8 +87,7 @@ class Bearer:
         are stripped at prompt-construction time, not here.
     paraphrases
         Optional family of meaning-preserving variants of :math:`\\delta(\\varphi)`.
-        Empty by default. Supports the paraphrase axis of variation discussed in
-        the paper's Discussion.
+        Empty by default. Supports the paraphrase axis of variation.
     """
 
     id: str
@@ -130,10 +128,10 @@ class Implication:
     def is_empty_empty(self) -> bool:
         """Whether this is the :math:`\\langle \\emptyset, \\emptyset \\rangle` implication.
 
-        Excluded from :math:`I_M` by stipulation (Definition 3, last sentence).
+        Excluded from :math:`I_M` by stipulation.
         """
         return not self.premises and not self.conclusions
 
     def intersects(self) -> bool:
-        """Whether :math:`\\Gamma \\cap \\Delta \\neq \\emptyset` (Definition 3, clause (i))."""
+        """Whether :math:`\\Gamma \\cap \\Delta \\neq \\emptyset` (clause (i) of :math:`I_M` membership)."""
         return bool(self.premises & self.conclusions)

@@ -18,7 +18,7 @@ Scoring rule (this is the crux — the naive "non-decreasing over
   earlier ``good`` (symmetrically for ``non_increasing``). A ladder with fewer
   than two substantive steps is *insufficient*, not a pass.
 
-The measurement layer (Definitions 6–10) is untouched; this is an additional,
+The measurement layer (``metrics.py``) is untouched; this is an additional,
 separately-reported diagnostic.
 """
 

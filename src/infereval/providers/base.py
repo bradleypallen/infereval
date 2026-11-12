@@ -48,8 +48,7 @@ class ProviderSampleError(ProviderError):
     """Raised when sampling fails after the retry policy is exhausted.
 
     The endorser treats this as a single failed sample and maps the verdict
-    to ``abstain`` (the paper's Definition 2, "Unparseable responses are
-    mapped to abstain"). v0.15.0+: the resulting ``SampleRecord`` carries
+    to ``abstain`` (unparseable or failed responses are mapped to abstain). v0.15.0+: the resulting ``SampleRecord`` carries
     ``provider_error`` (the str of this exception) so downstream metrics
     can distinguish instrument failure from real model abstention.
     """
