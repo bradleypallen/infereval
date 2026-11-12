@@ -30,9 +30,13 @@ A `verification_prompt` override field exists for benchmarks that need a custom 
   "template": "Premises: {premise_context}\nConclusion: {conclusion_context}\nVerdict:",
   "system": "You are evaluating defeasible material inference. ...",
   "parse_regex": "\\b(GOOD|BAD|ABSTAIN)\\b",
-  "id": "my-defeasible-v1"
+  "id": "my-defeasible-v1",
+  "survey_header": "Treat the premises as true and grant typical background conditions. Does the conclusion ordinarily follow from the premises?",
+  "survey_stem": "Does the conclusion ordinarily follow from the premises?"
 }
 ```
+
+If you will also collect human verdicts with `infereval survey export`, set `survey_header`: the instruction text human respondents see above each item. It states the same norms as `system`, in respondent voice. Without it, a support-form survey falls back to the default-v1 header ("…a good diagnostic inference…"), so humans and the model would answer different questions. `survey_stem`, the header's closing question repeated per item under `--header-mode instructions`, is optional, and it must be a verbatim trailing substring of `survey_header`. See [Survey frames](surveys.md#survey-frames).
 
 The `verification_prompt` override applies only to the legacy `support` question form. Under the default `coherence` form, the rendering axis is a **template**: an optional benchmark-level `template_id` field names a catalogued template (see `infereval.templates.register_template_id`) that both the model prompt path and the survey path render the position through, so the human and the model see the same content scaffolding. The library ships `"clinical-coherence-v1"` (`infereval.templates_clinical.ClinicalTemplate`, the clinical pilot's patient-framed rendering); omit the field to use the plain framework template. An unknown `template_id` fails loudly at evaluation time rather than silently falling back — and any new template should be gated through `infereval.guards.template_equivalence` before use:
 

@@ -200,6 +200,13 @@ class VerificationPromptOverride(BaseModel):
 
     Adding the ``system`` field makes the paraphrase-axis experiment
     fully JSON-drivable (no Python required to vary the verification prompt).
+
+    ``survey_header`` / ``survey_stem`` declare the prompt's human-facing
+    survey wording (see :class:`infereval.prompts.VerificationPrompt`), so a
+    benchmark with its own prompt can ask human analysts the same question
+    the model is asked. Without them, ``infereval survey export`` falls back
+    to the default-v1 survey header (with a warning). The stem, when given,
+    must be a verbatim trailing substring of the header.
     """
 
     model_config = ConfigDict(extra="forbid")
@@ -208,6 +215,21 @@ class VerificationPromptOverride(BaseModel):
     system: str | None = None
     parse_regex: str | None = None
     id: str | None = None
+    survey_header: str | None = None
+    survey_stem: str | None = None
+
+    @model_validator(mode="after")
+    def _stem_ends_header(self) -> VerificationPromptOverride:
+        if self.survey_stem is None:
+            return self
+        if self.survey_header is None:
+            raise ValueError("survey_stem requires survey_header")
+        if not self.survey_header.rstrip().endswith(self.survey_stem.strip()):
+            raise ValueError(
+                "survey_stem must be a verbatim trailing substring of survey_header "
+                "(the stem repeats the header's closing question; it adds no new wording)"
+            )
+        return self
 
 
 class RSRTarget(BaseModel):

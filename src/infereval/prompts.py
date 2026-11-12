@@ -79,11 +79,12 @@ class VerificationPrompt:
         voice (the support-form analogue of
         :attr:`infereval.templates.CoherenceFrame.survey_header`). It
         changes only the header — choice labels and importer decode stay
-        library-controlled. ``None`` means no survey surface is declared;
-        the survey renderer falls back to the locked v0.9.0 header for
-        ``default-v1`` only and fails loudly for any other prompt, so a
-        non-default frame can never silently elicit humans under the
-        default's wording.
+        library-controlled. ``None`` means no survey surface is declared.
+        An explicitly passed prompt without one makes the survey renderer
+        refuse. A benchmark's bound prompt without one renders the locked
+        v0.9.0 (default-v1) header and logs ``survey.frame.fallback``. A
+        benchmark override declares one through
+        :attr:`infereval.benchmark.VerificationPromptOverride.survey_header`.
     survey_stem
         The header's own closing question line, repeated per item when an
         exporter renders the header once as an instructions page (the
@@ -149,6 +150,8 @@ def resolve_verification_prompt(
         system=override.system if override.system is not None else DEFAULT_SYSTEM_PROMPT,
         user_template=override.template,
         parse_regex=override.parse_regex or DEFAULT_PARSE_REGEX,
+        survey_header=override.survey_header,
+        survey_stem=override.survey_stem,
     )
 
 

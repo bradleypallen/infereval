@@ -73,7 +73,7 @@ The header is the *only* thing a frame controls on a survey. Choice labels (Good
 `render_survey_question` resolves the frame by mirroring the model path:
 
 - **`coherence`** — an explicit `coherence_frame=` argument, then a programmatic `register_coherence_frame(benchmark_id, …)` binding, then the benchmark's declared `coherence_frame_id`, then the thin default (`thin-v1`). All three built-in frames (`thin-v1`, `defeasible-coherence-explicit-v1`, `defeasible-coherence-underdet-v1`) ship authored headers.
-- **`support`** — an explicit `verification_prompt=` argument, then the benchmark's `verification_prompt` binding, then the default prompt (`default-v1`).
+- **`support`** — an explicit `verification_prompt=` argument, then the benchmark's `verification_prompt` binding (its `survey_header` / `survey_stem`, when the benchmark JSON declares them), then the default prompt (`default-v1`).
 
 The resolved frame's id is recorded on the rendered question as `SurveyQuestion.frame_id`, so exports can carry it as provenance and imports can refuse mixed-frame compositions.
 
@@ -81,7 +81,7 @@ The resolved frame's id is recorded on the rendered question as `SurveyQuestion.
 
 A resolved frame that declares **no** `survey_header` raises `ValueError` rather than silently eliciting humans under different wording than the frame the evaluation records — declaring the human-facing wording is part of the frame's identity. This applies to any coherence frame without a header and to any *explicitly passed* verification prompt without one.
 
-The single deliberate exception: a **benchmark-bound** support prompt without a header (a `verification_prompt` override in the benchmark JSON, which has no `survey_header` field) falls back to the locked v0.9.0 default header. This preserves every pre-frame support survey byte-for-byte — support surveys have always shown the default wording regardless of the benchmark's verification-prompt binding. The fallback is honest and loud: `frame_id` records `"default-v1"` (what was actually shown, not the benchmark's binding), and a `survey.frame.fallback` warning is logged naming the benchmark and the bound prompt id, so the model/survey frame misalignment is visible in the run logs instead of hidden.
+The single deliberate exception: a **benchmark-bound** support prompt without a header (a `verification_prompt` override in the benchmark JSON that leaves out `survey_header`) falls back to the locked v0.9.0 default header. This preserves every pre-frame support survey byte-for-byte — support surveys have always shown the default wording regardless of the benchmark's verification-prompt binding. The fallback is honest and loud: `frame_id` records `"default-v1"` (what was actually shown, not the benchmark's binding), and a `survey.frame.fallback` warning is logged naming the benchmark and the bound prompt id, so the model/survey frame misalignment is visible in the run logs instead of hidden. To remove it, declare the wording in the benchmark: `"verification_prompt": {…, "survey_header": "<the prompt's norms in respondent voice, ending in the question>", "survey_stem": "<that closing question>"}` (see [Authoring benchmarks](authoring_benchmarks.md)). The stem must be a verbatim trailing substring of the header. The export then records the override's `id` as `frame_id` and writes the mapping sidecar.
 
 ### Frames and `κ_C`
 
