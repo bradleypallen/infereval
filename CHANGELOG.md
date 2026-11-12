@@ -8,6 +8,21 @@ with the additional commitment that the benchmark and evaluation JSON
 schemas are versioned independently (`schema_version: "1.0"`) and promised
 stable from 1.0 onward, regardless of the framework version.
 
+## [Unreleased]
+
+**The Anthropic provider works with `anthropic` SDK 1.x and 2.x.** Before this, every Anthropic call failed under those SDKs and was recorded as ABSTAIN.
+
+### Fixed — Anthropic provider failed every call on `anthropic` SDK 1.x and later
+
+- `anthropic` 1.x removed `temperature` and `top_p` from `messages.create()`, and the provider still passed them, so every call raised `TypeError: Messages.create() got an unexpected keyword argument 'temperature'`. That error is classified as non-transient, so each sample was recorded as a `provider_error` ABSTAIN, and the run finished with coverage 0 and no exception. `pip install 'infereval[anthropic]'` (`anthropic>=0.40`) installs 2.x by default, so a fresh install hit this.
+- The provider now chooses a sampling route from the installed SDK and the client's `anthropic-version` header. On 0.x it passes keyword arguments, as before. On 1.x (API `2023-06-01`) it sends them in `extra_body`. On 2.x+ (API `2026-10-21`, which rejects sampling parameters on every model) it omits them. Omitting is identical to the default `temperature=1.0`. A non-default value raises `ProviderConfigError` before any API call, instead of failing as one ABSTAIN per sample. The route is logged (`provider.anthropic.sampling_route`), and each sample event records `sampling_route` and `sampling_sent`. `AnthropicProvider(..., sampling_route=...)` overrides detection.
+- `top_p` is no longer sent to models that reject sampling parameters: Opus 4.7 previously got `top_p` even though `temperature` was skipped. That model list now covers Opus 4.8, the Claude 5 generation (Opus / Sonnet / Haiku 5.x), Fable and Mythos. A non-default request to one of these logs one `provider.anthropic.sampling_ignored` warning.
+- New regression test binds the provider's real `messages.create` keyword arguments to the installed SDK's signature. The provider tests pass on `anthropic` 0.125.0, 1.17.0 and 2.8.0.
+
+### Changed — docs
+
+- `docs/providers.md` documents the per-SDK sampling routes, and the Anthropic recommended default now reads `temperature=1.0` (the actual framework default; it was listed as `0.0`).
+
 ## [0.17.8] — 2026-10-27
 
 **The verdict parser now records a model's committed answer, not its provisional first token; the stop-sign sweep is re-scored and its write-up corrected.** Only claude-haiku-4.5's stop-sign `original` cell changes. This release is the version cited by the AJP reply ("Answerable Use of LLMs Without Settling Sapience").

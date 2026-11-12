@@ -39,7 +39,11 @@ def _fake_response(
 def _provider_with_mock_client(
     create_returns, *, retry_policy: RetryPolicy | None = None
 ) -> tuple[AnthropicProvider, MagicMock]:
-    """Build an AnthropicProvider backed by a MagicMock client."""
+    """Build an AnthropicProvider backed by a MagicMock client.
+
+    Pinned to the SDK 0.x ``kwarg`` sampling route so request-shape tests do
+    not depend on the installed SDK; ``TestSamplingRoutes`` covers the others.
+    """
     mock_client = MagicMock()
     mock_client.messages.create.return_value = create_returns
     return (
@@ -47,6 +51,7 @@ def _provider_with_mock_client(
             "claude-haiku-4-5-20251001",
             client=mock_client,
             retry_policy=retry_policy,
+            sampling_route="kwarg",
         ),
         mock_client,
     )
@@ -149,6 +154,125 @@ class TestRequestConstruction:
         p.sample(SampleRequest(prompt="Q", temperature=0.7))
         kwargs = client.messages.create.call_args.kwargs
         assert kwargs["temperature"] == 0.7
+
+
+# ---- Sampling parameters across SDK generations -----------------------------
+
+
+def _routed_provider(
+    route: str, model: str = "claude-haiku-4-5-20251001"
+) -> tuple[AnthropicProvider, MagicMock]:
+    mock_client = MagicMock()
+    mock_client.messages.create.return_value = _fake_response()
+    return AnthropicProvider(model, client=mock_client, sampling_route=route), mock_client  # type: ignore[arg-type]
+
+
+class TestSamplingRoutes:
+    def test_kwarg_route_passes_sampling_as_kwargs(self) -> None:
+        p, client = _routed_provider("kwarg")
+        p.sample(SampleRequest(prompt="Q", temperature=0.3, top_p=0.9))
+        kwargs = client.messages.create.call_args.kwargs
+        assert kwargs["temperature"] == 0.3
+        assert kwargs["top_p"] == 0.9
+        assert "extra_body" not in kwargs
+
+    def test_extra_body_route_moves_sampling_into_extra_body(self) -> None:
+        # anthropic 1.x: kwargs removed from messages.create, API 2023-06-01 still accepts them.
+        p, client = _routed_provider("extra_body")
+        p.sample(SampleRequest(prompt="Q", temperature=0.3, top_p=0.9))
+        kwargs = client.messages.create.call_args.kwargs
+        assert "temperature" not in kwargs and "top_p" not in kwargs
+        assert kwargs["extra_body"] == {"temperature": 0.3, "top_p": 0.9}
+
+    def test_omit_route_default_sampling_sends_nothing(self) -> None:
+        # anthropic 2.x / API 2026-10-21: omitting == the default temperature 1.0.
+        p, client = _routed_provider("omit")
+        p.sample(SampleRequest(prompt="Q", temperature=1.0))
+        kwargs = client.messages.create.call_args.kwargs
+        assert "temperature" not in kwargs and "top_p" not in kwargs
+        assert "extra_body" not in kwargs
+        assert kwargs["max_tokens"] == 1024
+
+    @pytest.mark.parametrize("req_kwargs", [{"temperature": 0.2}, {"top_p": 0.9}])
+    def test_omit_route_non_default_sampling_raises_config_error(self, req_kwargs) -> None:
+        # Must surface as a config error before any API call, not as a
+        # non-transient sample failure that the endorser records as ABSTAIN.
+        p, client = _routed_provider("omit")
+        with pytest.raises(ProviderConfigError, match="2026-10-21"):
+            p.sample(SampleRequest(prompt="Q", **req_kwargs))
+        client.messages.create.assert_not_called()
+
+    @pytest.mark.parametrize("route", ["kwarg", "extra_body", "omit"])
+    @pytest.mark.parametrize(
+        "model", ["claude-opus-4-7", "claude-opus-4-8", "claude-opus-5-5", "claude-sonnet-5-5",
+                  "claude-haiku-5-5", "claude-fable-5-2"],
+    )
+    def test_models_that_reject_sampling_never_get_it(self, route: str, model: str) -> None:
+        p, client = _routed_provider(route, model)
+        p.sample(SampleRequest(prompt="Q", temperature=0.5, top_p=0.9))
+        kwargs = client.messages.create.call_args.kwargs
+        assert "temperature" not in kwargs and "top_p" not in kwargs
+        assert "extra_body" not in kwargs
+
+    def test_ignored_sampling_warns_once(self, caplog: pytest.LogCaptureFixture) -> None:
+        p, _ = _routed_provider("kwarg", "claude-opus-4-7")
+        with caplog.at_level("WARNING", logger="infereval.providers.anthropic"):
+            p.sample(SampleRequest(prompt="Q", temperature=0.5))
+            p.sample(SampleRequest(prompt="Q2", temperature=0.5))
+        assert sum("sampling_ignored" in r.getMessage() for r in caplog.records) == 1
+
+
+class TestSamplingRouteDetection:
+    @pytest.mark.parametrize(
+        ("sdk_major", "api_version", "expected"),
+        [
+            (0, "2023-06-01", "kwarg"),
+            (None, None, "kwarg"),
+            (1, "2023-06-01", "extra_body"),
+            (1, None, "extra_body"),
+            (2, "2026-10-21", "omit"),
+            (2, None, "omit"),
+            (1, "2026-10-21", "omit"),  # version overridden upward on a 1.x client
+            (2, "2023-06-01", "extra_body"),  # version pinned back on a 2.x client
+        ],
+    )
+    def test_route(self, sdk_major, api_version, expected) -> None:
+        from infereval.providers import anthropic as mod
+
+        client = SimpleNamespace(
+            default_headers={} if api_version is None else {"anthropic-version": api_version}
+        )
+        with patch.object(mod, "_sdk_major", return_value=sdk_major):
+            assert mod._detect_sampling_route(client) == expected
+
+
+class TestInstalledSdkCompatibility:
+    """Regression: the provider's call must bind to the *installed* SDK's
+    ``Messages.create`` signature (SDK 1.x+ dropped ``temperature``, and every
+    call failed with a TypeError that was recorded as ABSTAIN)."""
+
+    @pytest.mark.parametrize("temperature", [1.0, 0.5])
+    def test_create_kwargs_bind_to_installed_signature(self, temperature: float) -> None:
+        import inspect
+
+        anthropic = pytest.importorskip("anthropic")
+        from anthropic.resources.messages import Messages
+
+        sig = inspect.signature(Messages.create)
+        client = anthropic.Anthropic(api_key="test-key")
+        p = AnthropicProvider("claude-haiku-4-5-20251001", client=client)
+        if temperature != 1.0 and p.sampling_route == "omit":
+            with pytest.raises(ProviderConfigError):
+                p.sample(SampleRequest(prompt="Q", temperature=temperature))
+            return
+
+        def fake_create(**kwargs):
+            sig.bind(client.messages, **kwargs)  # TypeError on an unknown kwarg
+            return _fake_response()
+
+        with patch.object(client.messages, "create", side_effect=fake_create) as create:
+            p.sample(SampleRequest(prompt="Q", system="S", temperature=temperature, stop=("x",)))
+        create.assert_called_once()
 
 
 # ---- Response parsing -----------------------------------------------------
