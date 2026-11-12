@@ -57,8 +57,8 @@ def _build_decomposition_cells(
     for target_json in rsr_targets:
         try:
             spec = json.loads(target_json)
-            X = frozenset(spec["X"])  # noqa: N806 -- mirrors paper's RSR-target notation
-            A = frozenset(spec["A"])  # noqa: N806 -- mirrors paper's RSR-target notation
+            X = frozenset(spec["X"])  # noqa: N806 -- mirrors the RSR-target notation ⟨X, A⟩
+            A = frozenset(spec["A"])  # noqa: N806 -- mirrors the RSR-target notation ⟨X, A⟩
         except (json.JSONDecodeError, KeyError, TypeError) as exc:
             raise click.UsageError(
                 f"--by-rsr-target must be JSON like "

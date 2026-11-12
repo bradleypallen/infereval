@@ -1,6 +1,7 @@
 """Metrics for an evaluation :math:`\\eta`.
 
-Implements Section 4 of the paper ("Evaluation methodology"):
+Implements the evaluation methodology (see the Concepts and Interpreting
+metrics docs pages):
 
 - Coverage :math:`\\mathrm{cov}(\\eta)` and per-analyst coverage
   :math:`\\mathrm{cov}_j(\\eta)`.
@@ -11,9 +12,9 @@ Implements Section 4 of the paper ("Evaluation methodology"):
 - Fleiss' kappa :math:`\\kappa_F(\\eta)` with :math:`M` as the
   :math:`(m+1)`-th annotator.
 - Inter-analyst baseline :math:`\\kappa_F^*(\\beta)` over analyst verdicts
-  alone (the comparison point of Remark 4).
+  alone: the ceiling against which the model's agreement is read.
 
-Edge cases the paper flags are returned as :data:`None` (with a logged
+Undefined edge cases are returned as :data:`None` (with a logged
 warning) rather than raised: :math:`\\kappa_F^*` needs :math:`m \\geq 2`
 and non-unanimity; :math:`\\kappa_C` is undefined when
 :math:`p_e = 1`; both kappa variants are undefined when the relevant
@@ -420,7 +421,7 @@ def coverage_per_analyst(eta: Evaluation) -> list[float]:
 def consensus_verdict(verdicts: Sequence[Verdict]) -> Verdict:
     """Return the analyst consensus :math:`c_i` for one item's verdicts.
 
-    From the paper, Definition 8: ``good`` if strict majority of analysts
+    ``good`` if strict majority of analysts
     say ``good`` (vs. ``bad``); ``bad`` if strict majority say ``bad``;
     otherwise ``abstain``. Abstain votes do not count toward the majority
     of either substantive class but contribute to a tie.
@@ -577,8 +578,7 @@ def _fleiss_over_tuples(
     """Fleiss' kappa over a list of equal-length annotator tuples.
 
     Items with any non-substantive verdict are dropped (matching the
-    ``S_F`` filtering of the paper's Definition 10, and the substantive-index
-    restriction of Definition 7).
+    ``S_F`` filtering: only items where every annotator is substantive).
 
     When ``tuple_weights`` is supplied, the per-item agreement
     contributions ``P_i`` and the cross-item category totals are
@@ -668,8 +668,7 @@ def fleiss_kappa(
 
     The annotators on each item are the analyst verdicts followed by
     ``model_verdict``. Items where any annotator (analyst or model) is
-    non-substantive are excluded from :math:`S_F` per the paper's
-    Definition 10.
+    non-substantive are excluded from :math:`S_F`.
 
     Parameters
     ----------
@@ -702,12 +701,12 @@ def inter_analyst_fleiss(
     Accepts either an :class:`~infereval.evaluation.Evaluation` or a
     :class:`~infereval.benchmark.Benchmark`. Returns :data:`None` (with
     a logged warning) when :math:`m < 2` or when the analysts are
-    unanimous on every item -- the two conditions Remark 4 calls out as
-    making the baseline unavailable.
+    unanimous on every item -- the two conditions that make the baseline
+    unavailable.
 
     By default Fleiss' kappa is computed over **all** analyst columns
     declared on ``source.analysts``. This is the methodological reading
-    of Remark 4: the inter-analyst baseline is the agreement of the
+    of the baseline: the inter-analyst baseline is the agreement of the
     full analyst pool whose verdicts the benchmark records.
 
     For panelled benchmarks, the per-panel decomposition is available
@@ -735,7 +734,7 @@ def inter_analyst_fleiss(
         "primary panel only" to "all analysts". The previous default
         silently inflated κ_F* when the primary panel was internally
         unanimous; per :gh-issue:`82`, the all-analyst figure is the
-        methodologically correct Remark 4 baseline. The
+        methodologically correct inter-analyst baseline. The
         ``analyst_indices`` parameter is the explicit migration path
         for the rare caller who wants the pre-0.7.0 narrowed value.
     """

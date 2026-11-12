@@ -1,6 +1,6 @@
 """Benchmark :math:`\\beta` model and JSON I/O.
 
-A benchmark is, per Definition 4 of the paper, a finite set
+A benchmark is a finite set
 :math:`\\{(I_1, V_1), \\ldots, (I_n, V_n)\\}` where each :math:`I_i` is an
 implication and each :math:`V_i = (v_{i,1}, \\ldots, v_{i,m})` is a tuple of
 analyst verdicts. This module defines the Pydantic-validated JSON shape and
@@ -235,7 +235,8 @@ class VerificationPromptOverride(BaseModel):
 class RSRTarget(BaseModel):
     """Target inference :math:`\\langle X, A \\rangle` for an RSR-targeted item.
 
-    See the paper's Remark on "RSR-targeted benchmarks".
+    Items sharing a target together probe the range of subjunctive robustness
+    (RSR) of the inference :math:`\\langle X, A \\rangle`.
     """
 
     model_config = ConfigDict(extra="forbid")
@@ -435,7 +436,7 @@ class BenchmarkItem(BaseModel):
     variation: VariationType | None = None
     """The item's role in its ladder: base / strengthen / contested / defeat /
     abstain_anchor / monotonicity_step. Drives reporting stratification
-    (v0.17.1); the κ layer (Definitions 6–10) ignores it. Additive (v0.17.0)."""
+    (v0.17.1); the κ layer (``metrics.py``) ignores it. Additive (v0.17.0)."""
     target: str | None = None
     """Differential / succedent label for the item (v0.5 schema), e.g.
     ``"cpe"`` or ``"ards"``. In the single-succedent fragment it coincides with
@@ -482,7 +483,7 @@ class BenchmarkItem(BaseModel):
 class Benchmark(BaseModel):
     """A benchmark :math:`\\beta` over a bearer set, analyst panel, and items.
 
-    See the paper, Definition 4.
+    Items pair an implication with one verdict per analyst.
     """
 
     model_config = ConfigDict(extra="forbid")

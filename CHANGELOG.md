@@ -28,6 +28,7 @@ stable from 1.0 onward, regardless of the framework version.
 
 ### Changed — docs
 
+- Source docstrings and comments (rendered on the API page) no longer point to the unpublished manuscript. Its Definition / Remark / Section pointers become plain descriptions. Two user-visible strings change: the CLI `--help` line drops "(per Allen 2026)", and `infereval structure` says "(containment, clause i)" instead of "(Def. 3 clause i)". Two schema descriptions (`RSRTarget`, `Benchmark`) change wording; `benchmark.schema.json` is regenerated, with no structural change.
 - The docs pages and tutorial notebooks no longer point to the unpublished manuscript either. Its numbered Definitions, Remarks, Example and section references are replaced by plain descriptions or links to Concepts and the Glossary, and its entry is dropped from the Construct validity references. References to Simonelli's own paper and analyst row are kept, now named as his.
 - The README no longer depends on the unpublished manuscript *Note on Simonelli's Stop Sign Dialogue*. Its Remark, Definition and Example pointers are replaced by plain descriptions or links to the Concepts docs page, and the citation block now cites the software (`@software`, with the version used).
 - `docs/providers.md` documents the per-SDK sampling routes, and the Anthropic recommended default now reads `temperature=1.0` (the actual framework default; it was listed as `0.0`).

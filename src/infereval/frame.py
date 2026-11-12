@@ -1,6 +1,6 @@
 """Derived implication frame :math:`\\langle B, I_M \\rangle`.
 
-Definition 3 of the paper (Allen 2026):
+Membership in the derived frame:
 
 .. math::
    \\langle \\Gamma, \\Delta \\rangle \\in I_M \\iff
@@ -72,7 +72,7 @@ class DerivedFrame:
         )
 
     def contains(self, implication: Implication) -> bool:
-        """Membership in :math:`I_M` per Definition 3.
+        """Membership in :math:`I_M` (clauses (i) and (ii) above).
 
         ``<empty, empty>`` is excluded by stipulation. Otherwise the iff of
         clauses (i) and (ii) decides. For implications not in
@@ -89,11 +89,10 @@ class DerivedFrame:
         return self.contains(implication)
 
     def satisfies_containment(self) -> bool:
-        """Containment is satisfied by construction (clause (i) of Definition 3).
+        """Containment is satisfied by construction (clause (i) of :math:`I_M`).
 
         This always returns ``True``; the method is provided as an explicit
-        witness of the invariant the paper makes a remark of ("Containment by
-        construction"). Tests assert it to guard against future refactors that
+        witness of the "containment by construction" invariant. Tests assert it to guard against future refactors that
         might break the invariant.
         """
         return True

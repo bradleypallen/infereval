@@ -546,8 +546,8 @@ class MultiIntervalRetestResult:
     consecutive comparisons. So
     ``--interval-s 0 --interval-s 86400 --interval-s 604800`` yields
     three pairs: baseline→back-to-back, baseline→1-day, baseline→
-    1-week. The cleanest write-up framing for the methodology paper's
-    discussion of drift since baseline.
+    1-week. The cleanest framing for a write-up's discussion of drift since
+    baseline.
 
     Single-interval calls (``--interval-s`` passed once, including the
     default ``(0,)``) emit a single :class:`RetestResult` directly for

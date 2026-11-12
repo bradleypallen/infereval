@@ -121,7 +121,7 @@ def structure_cmd(
                 )
                 click.echo(
                     "  All such items are in I_M by construction "
-                    "(Def. 3 clause i)."
+                    "(containment, clause i)."
                 )
         elif check.name == "rsr_role_consistency":
             click.echo("RSR role consistency:")

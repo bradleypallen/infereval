@@ -7,7 +7,7 @@ Three output formats:
 - ``json``: machine-readable, the output of :meth:`MetricsReport.to_dict`.
 
 Filters ``--by-tag`` and ``--by-rsr-target`` decompose the report by item
-subset, matching the decomposition language of the paper, Section 4. Each
+subset (see the Interpreting metrics docs page). Each
 filter takes the same reference (``--reference``) which defaults to
 analyst consensus.
 """

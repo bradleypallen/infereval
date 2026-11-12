@@ -1,6 +1,6 @@
 """Reporting stratification over native item metadata (brief §7).
 
-Decompositions the shape-blind measurement layer (Definitions 6–10) does not
+Decompositions the shape-blind measurement layer (``metrics.py``) does not
 provide, because they read structure the κ core deliberately ignores:
 
 - :func:`variation_breakdown` — group by the item's variation typology

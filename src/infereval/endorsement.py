@@ -4,11 +4,11 @@ The endorser issues ``n_samples`` provider calls with the same verification
 prompt, parses each response into a :class:`Verdict`, and aggregates them
 into a single :math:`E_M` verdict via deterministic majority vote.
 
-Tie-break policy (the paper underdetermines this; we lock conservative
+Tie-break policy (the methodology leaves this open; we lock conservative
 defaults):
 
 - If :class:`Verdict.ABSTAIN` is among the tied verdicts, abstain wins
-  (matches the paper's treatment of abstain as the safe fallback).
+  (abstain is the safe fallback throughout the methodology).
 - Otherwise, a pure GOOD/BAD tie is decided by the configured
   ``tie_break`` policy (``"abstain"`` by default, also ``"good"``,
   ``"bad"``, ``"first"``).
@@ -341,7 +341,7 @@ def endorse(
             verdict, status = extract(result.text)
             # Promote unparseable -> budget_clipped when the provider says the
             # response was truncated by max_tokens. The verdict stays abstain
-            # (Definition 2 fallback) but the parse_status now tells the user
+            # (the unparseable → abstain fallback) but the parse_status now tells the user
             # the abstain is operational, not a model decision.
             if (
                 status == "unparseable"

@@ -113,9 +113,9 @@ select = ["E", "F", "I", "B", "UP", "N", "SIM"]
 ignore = ["E501"]
 
 [tool.ruff.lint.per-file-ignores]
-# Files that mirror the paper's mathematical notation:
+# Files that mirror the formal mathematical notation:
 # S, n_S, p_e, P_i, P_bar, P_bar_e, S_F, n_F, kF, kC, kappa_C, X, A.
-# Conformance to the paper trumps PEP-8 lowercase-locals.
+# Conformance to that notation trumps PEP-8 lowercase-locals.
 "src/infereval/metrics.py" = ["N803", "N806"]
 "src/infereval/cli/describe_cmd.py" = ["N806"]
 "src/infereval/cli/metrics_cmd.py" = ["N803", "N806"]

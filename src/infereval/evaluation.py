@@ -1,6 +1,6 @@
 """Evaluation :math:`\\eta` model and JSON I/O.
 
-An evaluation, per Definition 5 of the paper, is the finite set
+An evaluation is the finite set
 
 .. math::
    \\eta = \\{(I_1, V_1, E_M(I_1)), \\ldots, (I_n, V_n, E_M(I_n))\\}.
