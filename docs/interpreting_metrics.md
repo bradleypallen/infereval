@@ -54,7 +54,7 @@ The standard cautions about Landis–Koch labels apply: these are heuristic, not
 infereval metrics eta.json --reference analyst:analyst-a
 ```
 
-This is informative when analysts disagree among themselves: comparing `M` to each analyst separately can show that `M` is closer to one analyst's column than the other. The paper's discussion of carving-relativity (§5) is exactly this kind of phenomenon — disagreement among competent labelers reflects different ways of carving the domain, and `M` may align with one carving more than another.
+This is informative when analysts disagree among themselves: comparing `M` to each analyst separately can show that `M` is closer to one analyst's column than the other. Carving-relativity is exactly this kind of phenomenon — disagreement among competent labelers reflects different ways of carving the domain, and `M` may align with one carving more than another.
 
 ### `κ_F(η)` — `M` as the `(m+1)`-th annotator
 
@@ -71,9 +71,9 @@ Reading `κ_F`: same scale as `κ_C`. What you compare it to is the next metric.
 
 This is **the most important reference number** when `m ≥ 2`. It's Fleiss' kappa computed over the analysts alone (no `M`), across the full analyst pool whose verdicts the benchmark records.
 
-The paper's Remark 4 makes the point: `κ_F*(β)` tells you how well the analysts agree with each other before `M` is in the picture. It's the ceiling above which `M` is doing something the analysts don't do. It's also the floor: if `κ_F*(β) = 0.6`, then `M` reaching `κ_F = 0.5` is participating in the practice at a level not far from the analysts' own internal agreement — which is a strong result.
+`κ_F*(β)` tells you how well the analysts agree with each other before `M` is in the picture. It's the ceiling above which `M` is doing something the analysts don't do. It's also the floor: if `κ_F*(β) = 0.6`, then `M` reaching `κ_F = 0.5` is participating in the practice at a level not far from the analysts' own internal agreement — which is a strong result.
 
-> **What changed in v0.7.0 ([#82](https://github.com/bradleypallen/infereval/issues/82)).** On panelled benchmarks (those declaring `analysts[*].panel` + `primary_panel`), the pre-v0.7.0 default silently restricted κ_F\*(β) to the primary panel — which inflated the headline number when the primary panel was internally unanimous, even if the second panel disagreed on several items. The methodology says otherwise: the Remark 4 baseline is over the full analyst pool you've recruited, and panels are an *additive* convergent-validity device (per-panel decomposition + cross-panel Cohen's κ) rather than a way to narrow the baseline. From v0.7.0, `inter_analyst_fleiss(bench)` returns the all-analyst figure by default; the construct-validity report's section 2 renders both the headline (all analysts) and the primary-panel sub-figure on panelled benchmarks. The primary-panel value remains reachable via `inter_analyst_fleiss_per_panel(bench)[bench.resolved_primary_panel()]` or by passing `analyst_indices=bench.analyst_indices_in_panel(primary_name)`.
+> **What changed in v0.7.0 ([#82](https://github.com/bradleypallen/infereval/issues/82)).** On panelled benchmarks (those declaring `analysts[*].panel` + `primary_panel`), the pre-v0.7.0 default silently restricted κ_F\*(β) to the primary panel — which inflated the headline number when the primary panel was internally unanimous, even if the second panel disagreed on several items. The methodology says otherwise: the inter-analyst baseline is over the full analyst pool you've recruited, and panels are an *additive* convergent-validity device (per-panel decomposition + cross-panel Cohen's κ) rather than a way to narrow the baseline. From v0.7.0, `inter_analyst_fleiss(bench)` returns the all-analyst figure by default; the construct-validity report's section 2 renders both the headline (all analysts) and the primary-panel sub-figure on panelled benchmarks. The primary-panel value remains reachable via `inter_analyst_fleiss_per_panel(bench)[bench.resolved_primary_panel()]` or by passing `analyst_indices=bench.analyst_indices_in_panel(primary_name)`.
 
 | Comparison | What it tells you |
 |---|---|
@@ -143,7 +143,7 @@ By tag: irrelevant-addition   κ_C = -1.0000
 By tag: defeater              κ_C = +1.0000
 ```
 
-tells you a precise story: `M` handles base inferences and defeaters but is systematically wrong on irrelevant additions. This is exactly the cross-model finding from `experiments/paraphrase_axis_triangulation.py`: Claude Haiku 4.5 vs. the paper's analyst row.
+tells you a precise story: `M` handles base inferences and defeaters but is systematically wrong on irrelevant additions. This is exactly the cross-model finding from `experiments/paraphrase_axis_triangulation.py`: Claude Haiku 4.5 vs. Simonelli's analyst row.
 
 Choose tag conventions when authoring the benchmark with this decomposition in mind. `["base-inference"]`, `["irrelevant-addition"]`, `["defeater"]` are the obvious ones for RSR-style work; add domain-specific tags too (`["nighttime"]`, `["coinfection"]`).
 

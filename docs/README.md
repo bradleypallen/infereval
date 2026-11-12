@@ -6,7 +6,7 @@ The README is the front door. This directory has the longer-form material.
 
 | Guide | When you want it |
 |---|---|
-| [**Concepts**](concepts.md) | Mental model of the methodology — bearers, expression functions, contexts, the endorsement function `E_M`, the derived frame, the benchmark, the metrics. Pedagogical complement to the paper, §3–4. |
+| [**Concepts**](concepts.md) | Mental model of the methodology — bearers, expression functions, contexts, the endorsement function `E_M`, the derived frame, the benchmark, the metrics. |
 | [**Authoring benchmarks**](authoring_benchmarks.md) | Writing your own `benchmark.json` for a new domain — bearer carving, expression functions, RSR targets, factorial design, construction provenance, reference panels, validation. |
 | [**Interpreting metrics**](interpreting_metrics.md) | What κ_C, κ_F, κ_F\* (per-panel and cross-panel) tell you; reading by-tag and factor-effects decompositions; sensitivity-sweep stability verdicts; what to do about low coverage. |
 | [**Providers**](providers.md) | Per-provider quirks: Anthropic's seed ignore, DeepSeek's silent reasoning tokens, OpenRouter attribution headers, the OpenAI Chat-Completions choice. |
@@ -25,10 +25,9 @@ Each tutorial runs end-to-end without any API key by using the bundled `ReplayPr
 
 ## Reference
 
-- **API reference**: the docstrings in `src/infereval/*.py` are kept comprehensive and paper-cross-referenced. `help(infereval.evaluation.evaluate)` is reliable.
+- **API reference**: the docstrings in `src/infereval/*.py` are kept comprehensive and use the notation in the [Glossary](glossary.md). `help(infereval.evaluation.evaluate)` is reliable.
 - **CLI commands** (each has `--help`): `validate`, `describe`, `evaluate`, `metrics`, **`structure`** (v0.4.0), **`model`** (v0.4.1), **`sweep`** (v0.4.2), **`report`** (v0.5.0).
 - **JSON Schemas** (Draft 2020-12): see [`schemas.md`](schemas.md) for the rendered field reference; the raw files are committed at [`benchmark.schema.json`](https://github.com/bradleypallen/infereval/blob/main/src/infereval/schemas/benchmark.schema.json) and [`evaluation.schema.json`](https://github.com/bradleypallen/infereval/blob/main/src/infereval/schemas/evaluation.schema.json). They are generated from the Pydantic models; a drift test keeps them in sync.
-- **Paper**: the methodology's normative specification, *Note on Simonelli's Stop Sign Dialogue* (Allen 2026), is maintained as a separate paper. These docs are the gentle introduction.
 
 ## Stability
 

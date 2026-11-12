@@ -1,7 +1,8 @@
 # API reference
 
 Auto-generated from the docstrings in `src/infereval/`. The docstrings are
-maintained as a first-class artifact and paper-cross-referenced, so
+maintained as a first-class artifact and use the notation in the
+[Glossary](glossary.md), so
 `help(infereval.metrics.cohens_kappa)` is reliable; this page just renders
 the same content as a navigable site.
 
