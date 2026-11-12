@@ -7,9 +7,9 @@
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/bradleypallen/infereval/blob/main/LICENSE)
 
-Inferentialist evaluation of LLMs: derive an implication frame from a language model's endorsement verdicts, then measure the model's agreement with an analyst-labeled benchmark via coverage and Cohen's / Fleiss' kappa. The agreement is **evidence bearing on** an inferential-mastery attribution — not a measurement of mastery itself (per the paper's Remark 8).
+Inferentialist evaluation of LLMs: derive an implication frame from a language model's endorsement verdicts, then measure the model's agreement with an analyst-labeled benchmark via coverage and Cohen's / Fleiss' kappa. The agreement is **evidence bearing on** an inferential-mastery attribution — not a measurement of mastery itself (see [Concepts](https://www.bradleypallen.org/infereval/concepts/)).
 
-`infereval` is the executable companion to *Note on Simonelli's Stop Sign Dialogue: An Implication-Space Instrument for Probing LLM Endorsement of Material Inferential Rules* (Allen, 2026), which is maintained as a separate paper. The framework formalizes the procedure β → η → (cov, κ_C, κ_F, κ_F\*) for any analyst-supplied benchmark.
+`infereval` began as a way to turn Simonelli's stop-sign dialogue with GPT-4.1 into a repeatable evaluation procedure. It implements that procedure, β → η → (cov, κ_C, κ_F, κ_F\*), for any analyst-supplied benchmark. β is the analyst-labeled benchmark, η is the model's derived endorsements, and the rest are the agreement measures described below.
 
 ## Status
 
@@ -17,11 +17,11 @@ Beta (0.x, pre-1.0). The public Python API and CLI surface may shift between min
 
 ## Documentation
 
-The docs site at <https://www.bradleypallen.org/infereval/> covers a [Concepts](https://www.bradleypallen.org/infereval/concepts/) page (methodology mental model), [Authoring benchmarks](https://www.bradleypallen.org/infereval/authoring_benchmarks/), [Interpreting metrics](https://www.bradleypallen.org/infereval/interpreting_metrics/) (κ_C / κ_F / κ_F\*, test-retest κ, decompositions, subsampling CIs, sensitivity sweeps), [Providers](https://www.bradleypallen.org/infereval/providers/) (Anthropic seed handling, DeepSeek reasoning-token budgets, OpenRouter attribution), and [Construct validity of the instrument](https://www.bradleypallen.org/infereval/construct_validity/) — the R1–R22 requirements catalogue and end-to-end workflow in one place. Four executable tutorial notebooks (quickstart, authoring, paraphrase-axis triangulation, pulmonology visualization). Plus an auto-generated [API reference](https://www.bradleypallen.org/infereval/api/), an [Architecture](https://www.bradleypallen.org/infereval/architecture/) dataflow diagram, a [Glossary](https://www.bradleypallen.org/infereval/glossary/) of paper symbols, and a [JSON-schema](https://www.bradleypallen.org/infereval/schemas/) reference.
+The docs site at <https://www.bradleypallen.org/infereval/> covers a [Concepts](https://www.bradleypallen.org/infereval/concepts/) page (methodology mental model), [Authoring benchmarks](https://www.bradleypallen.org/infereval/authoring_benchmarks/), [Interpreting metrics](https://www.bradleypallen.org/infereval/interpreting_metrics/) (κ_C / κ_F / κ_F\*, test-retest κ, decompositions, subsampling CIs, sensitivity sweeps), [Providers](https://www.bradleypallen.org/infereval/providers/) (Anthropic seed handling, DeepSeek reasoning-token budgets, OpenRouter attribution), and [Construct validity of the instrument](https://www.bradleypallen.org/infereval/construct_validity/) — the R1–R22 requirements catalogue and end-to-end workflow in one place. Four executable tutorial notebooks (quickstart, authoring, paraphrase-axis triangulation, pulmonology visualization). Plus an auto-generated [API reference](https://www.bradleypallen.org/infereval/api/), an [Architecture](https://www.bradleypallen.org/infereval/architecture/) dataflow diagram, a [Glossary](https://www.bradleypallen.org/infereval/glossary/) of the notation, and a [JSON-schema](https://www.bradleypallen.org/infereval/schemas/) reference.
 
 ## Findings
 
-A 13-model × 3-paraphrase-variant cross-family sweep against the stop-sign benchmark (2026-06-09) is committed at [`experiments/results/stop_sign_2026-06-09.md`](https://github.com/bradleypallen/infereval/blob/main/experiments/results/stop_sign_2026-06-09.md). Headline: under the paper-aligned δ(ra), 12 of 13 frontier LLMs across six families reproduce Simonelli's analyst row exactly (κ_C = +1.000) — a thirteen-model independent replication of the paper's empirical anchor under fresh v0.15.2 captures. The perceptual variant is the cleavage axis. A companion 6-model pulmonary edema sweep (n=30 items) at [`experiments/results/pulmonology_2026-06-09.md`](https://github.com/bradleypallen/infereval/blob/main/experiments/results/pulmonology_2026-06-09.md) characterizes within-day and day-out R22 reliability; the deepseek-v4-pro cell exhibits monotone κ decay across three time-scales (0.867 → 0.792 → 0.729) — the clearest published example of detectable across-update model drift the framework has produced.
+A 13-model × 3-paraphrase-variant cross-family sweep against the stop-sign benchmark (2026-06-09) is committed at [`experiments/results/stop_sign_2026-06-09.md`](https://github.com/bradleypallen/infereval/blob/main/experiments/results/stop_sign_2026-06-09.md). Headline: under the original wording of δ(ra) ("a is red"), 12 of 13 frontier LLMs across six families reproduce Simonelli's analyst row exactly (κ_C = +1.000). That replicates the verdicts of Simonelli's dialogue across thirteen models, in fresh v0.15.2 captures. The perceptual variant is the cleavage axis. A companion 6-model pulmonary edema sweep (n=30 items) at [`experiments/results/pulmonology_2026-06-09.md`](https://github.com/bradleypallen/infereval/blob/main/experiments/results/pulmonology_2026-06-09.md) characterizes within-day and day-out R22 reliability; the deepseek-v4-pro cell exhibits monotone κ decay across three time-scales (0.867 → 0.792 → 0.729) — the clearest published example of detectable across-update model drift the framework has produced.
 
 ## Install
 
@@ -49,7 +49,7 @@ pip install -e '.[dev]'
 
 ## 60-second quickstart
 
-Inspect the bundled stop-sign benchmark (Example 1 of the paper), then run an evaluation against the deterministic replay fixture — no API key needed:
+Inspect the bundled stop-sign benchmark (a formalization of Simonelli's stop-sign dialogue), then run an evaluation against the deterministic replay fixture — no API key needed:
 
 ```
 # 1. Look at the benchmark.
@@ -88,18 +88,18 @@ For the R22 test-retest discipline, `infereval retest --auto --benchmark <b> --p
 
 - **Coverage** — how often the model takes a substantive position (`cov(η)`).
 - **Cohen's kappa** — agreement against a chosen reference (analyst consensus `c_i` or a single analyst `v_{:,j}`).
-- **Fleiss' kappa** — agreement with the model treated as the `(m+1)`th annotator, alongside the inter-analyst baseline `κ_F*(β)` (Remark 4 of the paper).
+- **Fleiss' kappa** — agreement with the model treated as the `(m+1)`th annotator, alongside the inter-analyst baseline `κ_F*(β)`. The analysts' agreement with one another is the ceiling against which the model's agreement should be read.
 
 Each metric can be decomposed by tag or by RSR target.
 
-**This is not:** a factuality benchmark, a leaderboard, or an answer to whether LLMs are sapient. The methodology is *carving-relative*: results depend on the analyst-supplied bearer carving, context construction, and benchmark. The framework provides the machinery; the analyst supplies the practice the machinery is comparing against. See the Discussion in the paper for what carving-relativity buys and costs.
+**This is not:** a factuality benchmark, a leaderboard, or an answer to whether LLMs are sapient. The methodology is *carving-relative*: results depend on the analyst-supplied bearer carving, context construction, and benchmark. The framework provides the machinery; the analyst supplies the practice the machinery is comparing against. [Concepts](https://www.bradleypallen.org/infereval/concepts/) discusses what carving-relativity buys and costs.
 
 ## API surface
 
 ```python
 from infereval import (
     Verdict, Bearer, Implication,           # core data types
-    DerivedFrame,                            # ⟨B, I_M⟩ per Definition 3
+    DerivedFrame,                            # ⟨B, I_M⟩: bearers + the model's derived implications
 )
 from infereval.benchmark import Benchmark
 from infereval.evaluation import Evaluation, evaluate, EndorsementConfig, ProviderParams
@@ -129,7 +129,7 @@ These are framework defaults, overridable per evaluation:
 | Cohen's kappa reference | Analyst consensus `c_i` (override with `--reference analyst:<id>`) |
 | Provider seed | Honored by OpenAI; ignored (with one-time warning) by Anthropic |
 
-See `CLAUDE.md` and the paper for the full list and the rationale behind each choice.
+See `CLAUDE.md` for the full list and the rationale behind each choice.
 
 ## Development
 
@@ -145,12 +145,15 @@ Live provider tests require `RUN_LIVE_PROVIDER_TESTS=1` and the relevant API key
 
 ## Citation
 
+If you use `infereval` in your work, please cite the software, giving the version you used:
+
 ```bibtex
-@unpublished{allen2026inferential,
-  author = {Allen, Bradley P.},
-  title  = {Note on {S}imonelli's Stop Sign Dialogue: An Implication-Space Instrument for Probing {LLM} Endorsement of Material Inferential Rules},
-  year   = {2026},
-  note   = {University of Amsterdam}
+@software{allen_infereval,
+  author  = {Allen, Bradley P.},
+  title   = {infereval: Inferentialist evaluation of {LLMs}},
+  year    = {2026},
+  version = {0.17.8},
+  url     = {https://github.com/bradleypallen/infereval}
 }
 ```
 

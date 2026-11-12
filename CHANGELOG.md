@@ -28,6 +28,7 @@ stable from 1.0 onward, regardless of the framework version.
 
 ### Changed — docs
 
+- The README no longer depends on the unpublished manuscript *Note on Simonelli's Stop Sign Dialogue*. Its Remark, Definition and Example pointers are replaced by plain descriptions or links to the Concepts docs page, and the citation block now cites the software (`@software`, with the version used).
 - `docs/providers.md` documents the per-SDK sampling routes, and the Anthropic recommended default now reads `temperature=1.0` (the actual framework default; it was listed as `0.0`).
 
 ## [0.17.8] — 2026-10-27
