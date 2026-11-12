@@ -1,6 +1,8 @@
 # Stop-sign benchmark
 
-Formalization of Simonelli's GPT-4.1 stop-sign dialogue (Example 1 of the paper) as a single-analyst RSR-targeted benchmark.
+Formalization of Simonelli's GPT-4.1 stop-sign dialogue as a single-analyst RSR-targeted benchmark.
+
+The analyst column is Simonelli's reading of his own dialogue. The benchmark's `title`, `description` and analyst metadata keep their original wording, which refers to an unpublished manuscript ("Example 1 of Allen 2026"). They are left unchanged because the benchmark hash covers the whole file, and committed evaluations and retest baselines record that hash.
 
 ## Target inference
 
