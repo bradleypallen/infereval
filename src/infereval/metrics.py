@@ -700,9 +700,11 @@ def inter_analyst_fleiss(
 
     Accepts either an :class:`~infereval.evaluation.Evaluation` or a
     :class:`~infereval.benchmark.Benchmark`. Returns :data:`None` (with
-    a logged warning) when :math:`m < 2` or when the analysts are
-    unanimous on every item -- the two conditions that make the baseline
-    unavailable.
+    a logged warning) when :math:`m < 2`, when no item has every analyst
+    substantive, or when every analyst rating over :math:`S_F` falls in one
+    class (:math:`\\bar{P}_e = 1`). Analysts who agree on every item but
+    whose items include both ``good`` and ``bad`` give ``1.0``: perfect,
+    well-defined agreement.
 
     By default Fleiss' kappa is computed over **all** analyst columns
     declared on ``source.analysts``. This is the methodological reading

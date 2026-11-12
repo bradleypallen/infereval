@@ -6,7 +6,8 @@ docstrings; this page collects it in one place so you can cross-reference
 quickly.
 
 This page is the **code/notation contract** the package maintains: each
-symbol below has the in-code counterpart listed.
+symbol below has the in-code counterpart listed. The full definitions, with
+formulas, are in the [Formal specification](formal_specification.md).
 
 ## Core symbols
 
@@ -39,7 +40,7 @@ symbol below has the in-code counterpart listed.
 | `S_F` | Fleiss substantive index | (internal filter) | Items where **every** annotator is substantive. |
 | `κ_C(η, r)` | Cohen's kappa | [`cohens_kappa()`](api.md#infereval.metrics.cohens_kappa) | `M`'s agreement with reference `r` (consensus or a single analyst). Chance-corrected against `{good, bad}` marginals. |
 | `κ_F(η)` | Fleiss' kappa | [`fleiss_kappa()`](api.md#infereval.metrics.fleiss_kappa) | Agreement across all `m + 1` annotators (analysts + `M`). |
-| `κ_F^*(β)` | Inter-analyst Fleiss baseline | [`inter_analyst_fleiss()`](api.md#infereval.metrics.inter_analyst_fleiss) | Fleiss' kappa over analyst verdicts alone, computed across the full analyst pool whose verdicts the benchmark records (the v0.7.0 default, which fixed the pre-0.7.0 silent narrowing to the primary panel — see [#82](https://github.com/bradleypallen/infereval/issues/82)). The baseline against which `κ_C` and `κ_F` are interpreted. Undefined when `m < 2` or analysts unanimous. On panelled benchmarks, the primary-panel value is available via [`inter_analyst_fleiss_per_panel(bench)[bench.resolved_primary_panel()]`](api.md#infereval.metrics.inter_analyst_fleiss_per_panel) or via the explicit `analyst_indices=` parameter, and is rendered as a sub-bullet under the all-analyst headline in the construct-validity report's section 2. |
+| `κ_F^*(β)` | Inter-analyst Fleiss baseline | [`inter_analyst_fleiss()`](api.md#infereval.metrics.inter_analyst_fleiss) | Fleiss' kappa over analyst verdicts alone, computed across the full analyst pool whose verdicts the benchmark records (the v0.7.0 default, which fixed the pre-0.7.0 silent narrowing to the primary panel — see [#82](https://github.com/bradleypallen/infereval/issues/82)). The baseline against which `κ_C` and `κ_F` are interpreted. Undefined when `m < 2` or when every analyst rating falls in one class; analysts agreeing on every item with both classes present give 1.0. On panelled benchmarks, the primary-panel value is available via [`inter_analyst_fleiss_per_panel(bench)[bench.resolved_primary_panel()]`](api.md#infereval.metrics.inter_analyst_fleiss_per_panel) or via the explicit `analyst_indices=` parameter, and is rendered as a sub-bullet under the all-analyst headline in the construct-validity report's section 2. |
 
 ## analyst vs annotator — **load-bearing**
 
