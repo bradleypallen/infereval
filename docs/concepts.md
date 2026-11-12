@@ -1,6 +1,6 @@
 # Concepts
 
-A pedagogical walk through what `infereval` does. The rigorous specification is the paper (maintained separately); this guide is the gentle complement.
+A pedagogical walk through what `infereval` does. The [Glossary](glossary.md) collects the notation, and [Interpreting metrics](interpreting_metrics.md) goes deeper on what the numbers mean.
 
 ## The question
 
@@ -36,7 +36,7 @@ A **bearer** is a propositional content-bearer — informally, "a thing the mode
 
 `B = {sa, ra, n, nr, ba}` is the **bearer set** for this benchmark. Bearers are the atoms the methodology reasons over.
 
-The analyst picks the bearer set. There is no canonical "correct" set for a domain; you choose the granularity that captures the inferential structure you want to evaluate. This is the **carving** of the domain. The methodology is honest that carvings matter (see §5 of the paper); different carvings give different evaluations.
+The analyst picks the bearer set. There is no canonical "correct" set for a domain; you choose the granularity that captures the inferential structure you want to evaluate. This is the **carving** of the domain. The methodology is honest that carvings matter: different carvings give different evaluations.
 
 ### The expression function `δ` and contexts `ctx_Γ` / `ctx_Δ`
 
@@ -85,7 +85,7 @@ Two things to notice:
 - **Containment is built in.** Any implication where the premise set and conclusion set share a bearer is in `I_M` for free, regardless of what `M` says. This makes `⟨B, I_M⟩` a well-formed implication frame in the Hlobil–Brandom sense from the start.
 - **The frame is lazy.** The full `I_M ⊆ ℘(B) × ℘(B)` is exponential in `|B|` and the framework never materializes it. The `DerivedFrame` class lets you query membership for any particular `⟨Γ, Δ⟩` via the iff above.
 
-`⟨B, I_M⟩` is the formal object the paper builds. It's the analyst's window into `M`'s inferential behavior, in a form the Hlobil–Brandom machinery can act on.
+`⟨B, I_M⟩` is the formal object the methodology builds. It's the analyst's window into `M`'s inferential behavior, in a form the Hlobil–Brandom machinery can act on.
 
 ### The benchmark `β`
 
@@ -119,11 +119,11 @@ From `η`, three load-bearing metrics:
 
 **Cohen's kappa** `κ_C(η, r)`. Agreement between `M` and a reference verdict function `r`, corrected for chance, restricted to items where both are substantive. The reference is most commonly the **analyst consensus** `c_i` (majority of analysts; abstain on tie), but can also be any single analyst's column.
 
-**Fleiss' kappa** `κ_F(η)`. Agreement across all annotators when `M` is treated as the `(m+1)`th annotator. Same chance correction. **Inter-analyst Fleiss** `κ_F*(β)` is the analog over analyst verdicts alone — the **baseline** `M`'s `κ_F` should be compared against, per the paper's Remark 4.
+**Fleiss' kappa** `κ_F(η)`. Agreement across all annotators when `M` is treated as the `(m+1)`th annotator. Same chance correction. **Inter-analyst Fleiss** `κ_F*(β)` is the analog over analyst verdicts alone — the **baseline** `M`'s `κ_F` should be compared against: the analysts' agreement with one another before `M` is in the picture.
 
 Decompositions: each metric can be computed over a subset of items filtered by **tag** or by **RSR target**. The `by-tag` filter is invaluable for localizing disagreement (see [`interpreting_metrics.md`](interpreting_metrics.md)).
 
-Each metric returns `None` (with a logged warning) rather than raising when undefined — the substantive subset is empty, `m < 2` for `κ_F*`, all annotators degenerate to one class, etc. These edge cases are exactly the ones the paper calls out.
+Each metric returns `None` (with a logged warning) rather than raising when undefined — the substantive subset is empty, `m < 2` for `κ_F*`, all annotators degenerate to one class, etc. These edge cases are deliberate: an undefined statistic is reported as undefined, not as zero.
 
 ## How it all hangs together
 
@@ -167,7 +167,7 @@ Each metric returns `None` (with a logged warning) rather than raising when unde
               │   Hlobil–Brandom machinery acts on:     │
               │   RSR, implication roles, content       │
               │   inclusion, classical-core extensions  │
-              │   (the paper's formal apparatus).       │
+              │   (the formal apparatus).              │
               └─────────────────────────────────────────┘
 ```
 
@@ -186,7 +186,7 @@ It does not buy you:
 
 - **Model truth**. The methodology is carving-relative; "what `M` really thinks" is not a frame-independent fact, and the framework is honest about this.
 - **A leaderboard**. Comparing models across different benchmarks is incoherent; comparing models on the same benchmark is the unit of comparison the methodology supports.
-- **Settlement of in-principle questions**. Whether LLMs can ever be sapient is not a question this framework answers; the paper's Remark on the form of in-principle claims (§5) discusses the carving-indexed form such claims would have to take.
+- **Settlement of in-principle questions**. Whether LLMs can ever be sapient is not a question this framework answers; any such claim would have to take a carving-indexed form, relative to the analyst-supplied carving.
 
 ## Next steps
 

@@ -132,7 +132,7 @@ For the independent reference check (R4), declare analysts as belonging to named
 
 The validator enforces: if *any* analyst declares a `panel`, *all* must (partial-panel benchmarks are rejected); `primary_panel` must name a panel that at least one analyst belongs to. With ≥ 2 panels declared, `infereval describe` renders per-panel κ_F\* + cross-panel Cohen's κ, and the construct-validity report can mark `cross_panel_check_run: true`. See [`interpreting_metrics.md`](interpreting_metrics.md) for what to read off the per-panel block.
 
-**Declaring panels does not silently change the κ_F\* baseline (v0.7.0+).** Panels are an *additive* convergent-validity device: they give you the per-panel κ_F\* decomposition (`inter_analyst_fleiss_per_panel`) and the cross-panel Cohen's κ (`cross_panel_kappa`) *in addition to* the headline κ_F\*, not in place of it. The headline κ_F\* — the Remark 4 inter-analyst baseline — remains Fleiss' kappa over the full analyst pool whose verdicts the benchmark records (i.e. all of them, across panels). The construct-validity report's section 2 renders both the headline and the primary-panel sub-figure on panelled benchmarks for transparency. Pre-v0.7.0 the headline silently narrowed to the primary panel; [#82](https://github.com/bradleypallen/infereval/issues/82) describes the failure mode that motivated the fix.
+**Declaring panels does not silently change the κ_F\* baseline (v0.7.0+).** Panels are an *additive* convergent-validity device: they give you the per-panel κ_F\* decomposition (`inter_analyst_fleiss_per_panel`) and the cross-panel Cohen's κ (`cross_panel_kappa`) *in addition to* the headline κ_F\*, not in place of it. The headline κ_F\* — the inter-analyst baseline — remains Fleiss' kappa over the full analyst pool whose verdicts the benchmark records (i.e. all of them, across panels). The construct-validity report's section 2 renders both the headline and the primary-panel sub-figure on panelled benchmarks for transparency. Pre-v0.7.0 the headline silently narrowed to the primary panel; [#82](https://github.com/bradleypallen/infereval/issues/82) describes the failure mode that motivated the fix.
 
 ## Step 5: Declare context builders (usually leave default)
 
@@ -392,4 +392,4 @@ infereval metrics medical-eta.json --benchmark path/to/your-benchmark.json \
 - Run a real evaluation: [`providers.md`](providers.md).
 - Read the output: [`interpreting_metrics.md`](interpreting_metrics.md).
 - Use the full construct-validity toolchain (structure / model / sweep / report) to produce a defensible mastery claim: [`construct_validity.md`](construct_validity.md).
-- See the conceptual framework that makes all this coherent: [`concepts.md`](concepts.md) and the paper.
+- See the conceptual framework that makes all this coherent: [`concepts.md`](concepts.md) and the [Glossary](glossary.md).

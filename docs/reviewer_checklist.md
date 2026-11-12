@@ -3,7 +3,7 @@
 A one-page checklist for a referee (or an author self-checking) a study that uses
 `infereval`. It operationalizes the [instrument validation
 walkthrough](instrument_validation.md). Each item is a yes/no a reviewer can
-verify from the paper's methods + the released η / `run.jsonl`.
+verify from the study's methods + the released η / `run.jsonl`.
 
 ## Setup and provenance
 

@@ -67,22 +67,22 @@ every pre-v0.17.2 benchmark and result is unchanged.
 A reviewer can check that the code realizes the definitions by reading this
 table. Each formal object has one authoritative implementation site.
 
-| Formal object (Allen 2026) | Code |
+| Formal object | Code |
 |---|---|
 | Bearer set `B`, expression `δ(φ)` | `types.Bearer` (`id`, `expression`, `paraphrases`) |
 | Context functions `ctx_Γ`, `ctx_Δ` | `context.py` builders (premise join `" and "`, conclusion join `" or "`) |
 | Implication `⟨Γ, Δ⟩` | `types.Implication` (`premises`, `conclusions` as `frozenset[str]`) |
-| Endorsement `E_M` (Def. 2) | `endorsement.endorse()` — n-sample verification prompt → parse → `majority_vote` |
-| Unparseable → abstain (Def. 2) | `prompts.parse_verdict` returns `(ABSTAIN, "unparseable")` |
-| Frame membership `I_M` (Def. 3) | `frame.DerivedFrame.contains()` |
+| Endorsement `E_M` | `endorsement.endorse()` — n-sample verification prompt → parse → `majority_vote` |
+| Unparseable → abstain | `prompts.parse_verdict` returns `(ABSTAIN, "unparseable")` |
+| Frame membership `I_M` | `frame.DerivedFrame.contains()` |
 | Containment, clause (i): `Γ ∩ Δ ≠ ∅` | `types.Implication.intersects()`; `⟨∅,∅⟩` excluded via `is_empty_empty` |
-| Coverage `cov`, per-analyst `cov_j` (Def. 6) | `metrics.coverage`, `coverage_per_analyst` |
-| Substantive index `S` (Def. 7) | `metrics.substantive_index` |
-| Analyst consensus `c_i` (Def. 8) | `metrics.consensus_verdict` / `consensus_reference` |
-| Cohen's `κ_C` (Def. 9) | `metrics.cohens_kappa` |
-| Fleiss' `κ_F`, inter-analyst `κ_F*` (Def. 10) | `metrics.fleiss_kappa`, `inter_analyst_fleiss` |
+| Coverage `cov`, per-analyst `cov_j` | `metrics.coverage`, `coverage_per_analyst` |
+| Substantive index `S` | `metrics.substantive_index` |
+| Analyst consensus `c_i` | `metrics.consensus_verdict` / `consensus_reference` |
+| Cohen's `κ_C` | `metrics.cohens_kappa` |
+| Fleiss' `κ_F`, inter-analyst `κ_F*` | `metrics.fleiss_kappa`, `inter_analyst_fleiss` |
 
-The measurement layer (`metrics.py`, Definitions 6–10) is **shape-blind**: it
+The measurement layer (`metrics.py`) is **shape-blind**: it
 reads only the three-valued `Verdict`, never the arity or bearer structure of an
 item. That isolation is what lets the multi-succedent generalization land under a
 live benchmark without touching κ.
@@ -159,7 +159,7 @@ Each design decision defends a specific threat to construct validity.
   records what "same instrument" means for the comparison (same benchmark hash,
   endorsement config, paraphrase variant; same model snapshot). A mastery claim
   that does not survive R22 at the relevant interval is not defensible.
-- **Content / paraphrase robustness.** The paraphrase axis (Remark 9) varies
+- **Content / paraphrase robustness.** The paraphrase axis varies
   `δ(φ)` under fixed inferential content; the **template-equivalence guard**
   (`guards.template_equivalence`, v0.17.3) lifts the same check to the verdict
   layer — two templates over the same items must agree within a tolerance
@@ -190,7 +190,7 @@ Each design decision defends a specific threat to construct validity.
 
 | Threat | Mitigation | Where |
 |---|---|---|
-| Surface-form sensitivity read as content judgment | paraphrase axis + template-equivalence gate | `guards.py`, Remark 9 |
+| Surface-form sensitivity read as content judgment | paraphrase axis + template-equivalence gate | `guards.py` |
 | Silent API failure counted as model abstention | `provider_error` state; failed calls excluded, not scored | `providers/base.py`, `metrics.py` |
 | Abstain conflated with error | three-valued `Verdict` + separate `provider_error` | `evaluation.SampleRecord` |
 | Author's guess leaking into the reference | placeholder firewall (CI-enforced) | `test_placeholder_firewall.py` |
@@ -225,7 +225,7 @@ and framework version. A reviewer can therefore:
   ladders (C/F/G) monotone across six frontier models, with ladder C carrying an
   informative `bad → good` BNP transition — positive evidence of graded-evidence
   mastery, scored natively by `infereval monotonicity`.
-- **Stop sign (Simonelli).** The paper's Example 1: most frontier models
+- **Stop sign (Simonelli).** The formalized stop-sign dialogue: most frontier models
   reproduce the analyst row, with the documented exceptions surfaced as negative
   findings rather than smoothed over.
 

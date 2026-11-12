@@ -50,7 +50,7 @@ Everything the framework consumes is **analyst-supplied**:
 
 - **Bearers `B`**, an expression function `δ : B → L`, and context-construction
   functions `ctx_Γ`, `ctx_Δ`. Together they determine how implications get
-  presented to the model. See the paper's Definition 1.
+  presented to the model. See [Concepts](concepts.md).
 - **Items**, each a single-bearer-succedent implication `⟨Γ_i, {ψ_i}⟩`
   paired with a verdict tuple `V_i = (v_{i,1}, …, v_{i,m})` from the
   analyst panel. Optional richer metadata — tags, `rsr_target`,
@@ -109,8 +109,8 @@ the verdict at `partially_defensible` per the v0.5.3 audit-cap rules.
 
 ## What this diagram doesn't show
 
-- **The Hlobil–Brandom layer** — `Definition 3` of the paper specifies
-  `⟨B, I_M⟩` as the derived frame; the framework guarantees Containment
+- **The Hlobil–Brandom layer** — the derived frame `⟨B, I_M⟩` is the
+  formal object the analysis works on; the framework guarantees Containment
   by construction (clause i). RSR, ≈, implicational roles, conceptual
   content all live on top of `⟨B, I_M⟩` and aren't separately materialised
   in code (`DerivedFrame.contains()` is the lazy gateway).
@@ -129,7 +129,7 @@ The v0.17.x series generalized the item to `⟨Γ, Δ⟩` at any arity and facto
 elicitation into a `question_form` (support / coherence) composed with a
 per-domain **template registry** (`templates.py`): one prompt,
 `prompt = question_form.frame(template.render(req))`, with the measurement layer
-(Definitions 6–10) untouched. Under `coherence`, the `question_form.frame(...)`
+(`metrics.py`) untouched. Under `coherence`, the `question_form.frame(...)`
 step itself has a named, versioned axis: the **coherence frame**
 (`CoherenceFrame`), the system prompt stating the assessment's norms — the
 norm-statement analogue of the support path's `VerificationPrompt`, while the

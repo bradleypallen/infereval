@@ -2,7 +2,7 @@
 
 > **What this document is.** A single source of truth for the construct-validity methodology that `infereval` implements: what the instrument requires of an evaluation for "strong inter-annotator agreement between model M and analysts on benchmark β" to count as evidence of inferential mastery in domain D, how the framework supports producing that evidence, and what the framework deliberately leaves to the surrounding research program.
 >
-> Companion to the [paper's](https://github.com/bradleypallen/infereval) Section 4 evaluation methodology. Where the paper specifies the formal machinery, this document specifies the construct-validity scaffolding the formal machinery needs to support a defensible mastery claim. The two are intentionally co-engineered.
+> Companion to the evaluation methodology in [Concepts](concepts.md) and [Interpreting metrics](interpreting_metrics.md). Where those pages describe the formal machinery, this document specifies the construct-validity scaffolding the formal machinery needs to support a defensible mastery claim. The two are intentionally co-engineered.
 
 ## Context
 
@@ -28,13 +28,13 @@ The requirements derive from the question: *what would need to be true of an eva
 
   > **How the framework addresses this:** the benchmark schema's `AnalystModel` carries `id`, `display_name`, and `notes` (a free-form text field) where analyst competence is documented. The framework validates the *presence* of analyst declarations but cannot assess whether the credentials cited are appropriate to the domain. The construct-validity report's claims file makes the analyst-panel composition part of the disclosed methodology.
 
-- **R2. Computed and reported inter-analyst baseline.** The methodology computes κ_F*(β) and reports it alongside any agreement statistic involving M, with the baseline meeting the conditions for being defined (m ≥ 2 analysts, non-unanimous benchmark items). *(Fleiss, 1971; Allen, 2026 Remark 4 and Def. 10)*
+- **R2. Computed and reported inter-analyst baseline.** The methodology computes κ_F*(β) and reports it alongside any agreement statistic involving M, with the baseline meeting the conditions for being defined (m ≥ 2 analysts, non-unanimous benchmark items). *(Fleiss, 1971)*
 
-  > **How the framework addresses this:** `infereval.metrics.inter_analyst_fleiss` computes κ_F* over the full analyst pool whose verdicts the benchmark records — surfaced by `infereval describe` (top-level baseline line), `infereval metrics` (per-decomposition), and section 2 of the construct-validity report. Returns `None` with a logged warning in the conditions Remark 4 calls out (m < 2 or unanimous analysts). For panelled benchmarks, `inter_analyst_fleiss_per_panel` returns the κ_F* per declared panel, and the construct-validity report's section 2 renders both the headline all-analyst figure and the primary-panel sub-figure so the methodological distinction is visible. `cross_panel_kappa` computes the Cohen's κ between two panels' per-item consensus columns; that's the R4 convergent check, separate from the baseline.
+  > **How the framework addresses this:** `infereval.metrics.inter_analyst_fleiss` computes κ_F* over the full analyst pool whose verdicts the benchmark records — surfaced by `infereval describe` (top-level baseline line), `infereval metrics` (per-decomposition), and section 2 of the construct-validity report. Returns `None` with a logged warning in the conditions where it is undefined (m < 2 or unanimous analysts). For panelled benchmarks, `inter_analyst_fleiss_per_panel` returns the κ_F* per declared panel, and the construct-validity report's section 2 renders both the headline all-analyst figure and the primary-panel sub-figure so the methodological distinction is visible. `cross_panel_kappa` computes the Cohen's κ between two panels' per-item consensus columns; that's the R4 convergent check, separate from the baseline.
   >
-  > **v0.7.0 behaviour change (closes [#82](https://github.com/bradleypallen/infereval/issues/82)).** Pre-v0.7.0, `inter_analyst_fleiss(benchmark)` silently restricted to the primary panel on panelled benchmarks — which inflated the headline number when the primary panel was internally unanimous (returning +1.0 even when the reviewer panel disagreed on several items). The methodological reading underwriting v0.7.0's default change: panels are an additive convergent-validity device, not a way to restrict the baseline. The full pool of analysts whose verdicts the benchmark records is the pool the Remark 4 baseline is over. The primary-panel value remains reachable via `inter_analyst_fleiss_per_panel(bench)[bench.resolved_primary_panel()]` and is rendered as an explicit sub-bullet in the report's section 2; callers who want it programmatically can pass `inter_analyst_fleiss(bench, analyst_indices=bench.analyst_indices_in_panel(bench.resolved_primary_panel()))`.
+  > **v0.7.0 behaviour change (closes [#82](https://github.com/bradleypallen/infereval/issues/82)).** Pre-v0.7.0, `inter_analyst_fleiss(benchmark)` silently restricted to the primary panel on panelled benchmarks — which inflated the headline number when the primary panel was internally unanimous (returning +1.0 even when the reviewer panel disagreed on several items). The methodological reading underwriting v0.7.0's default change: panels are an additive convergent-validity device, not a way to restrict the baseline. The full pool of analysts whose verdicts the benchmark records is the pool the inter-analyst baseline is over. The primary-panel value remains reachable via `inter_analyst_fleiss_per_panel(bench)[bench.resolved_primary_panel()]` and is rendered as an explicit sub-bullet in the report's section 2; callers who want it programmatically can pass `inter_analyst_fleiss(bench, analyst_indices=bench.analyst_indices_in_panel(bench.resolved_primary_panel()))`.
 
-- **R3. Interpretive framing relative to the baseline.** The methodology frames agreement claims in explicit relation to κ_F*(β) — neither in isolation nor against an unstated absolute threshold — so that "strong agreement" is operationalised as a specific relationship to the analyst-internal ceiling rather than as an arbitrary kappa value. *(Landis & Koch, 1977; Allen, 2026 Remark 4)*
+- **R3. Interpretive framing relative to the baseline.** The methodology frames agreement claims in explicit relation to κ_F*(β) — neither in isolation nor against an unstated absolute threshold — so that "strong agreement" is operationalised as a specific relationship to the analyst-internal ceiling rather than as an arbitrary kappa value. *(Landis & Koch, 1977)*
 
   > **How the framework addresses this:** `infereval describe`, `infereval metrics`, and the construct-validity report all surface κ_F* alongside κ_C / κ_F so the comparison is immediate. The report explicitly relativises the mastery verdict to the declared scope.
 
@@ -44,7 +44,7 @@ The requirements derive from the question: *what would need to be true of an eva
 
   > **How the framework addresses this:** `BenchmarkItem.construction_metadata` carries `authored_by`, `authored_on`, `authored_blind_to_models`, and `source`. The framework validates structure (Pydantic types, `extra="forbid"`) but does not enforce content. `infereval describe` surfaces a construction-provenance summary section plus per-item annotation in `--items` output.
 
-- **R6. Coverage of inferential types salient in the domain.** The methodology ensures β includes the range of inferential types the framework treats as constitutive of mastery — monotonic and defeasible cases, RSR-targeted variation around target inferences, and structural relationships among inferences — rather than enumerating items of a single type. *(Hlobil & Brandom, 2025; Allen, 2026 Remark 5)*
+- **R6. Coverage of inferential types salient in the domain.** The methodology ensures β includes the range of inferential types the framework treats as constitutive of mastery — monotonic and defeasible cases, RSR-targeted variation around target inferences, and structural relationships among inferences — rather than enumerating items of a single type. *(Hlobil & Brandom, 2025)*
 
   > **How the framework addresses this:** the `tags` field carries inferential-role identifiers (`supporter`, `defeater`, `irrelevant-addition`, `base-inference`, etc.). The factorial-design metadata (`factors` + `factor_levels`) makes the inferential-type axes first-class. `infereval structure` checks RSR role consistency against the resulting design.
 
@@ -54,7 +54,7 @@ The requirements derive from the question: *what would need to be true of an eva
 
 **Requirements on stimulus design**
 
-- **R10. Paraphrase variation under fixed inferential content.** The methodology includes, for each item or each condition, multiple meaning-preserving paraphrases of δ, ctx_Γ, and ctx_Δ, so that agreement attributable to inferential content can be separated from agreement attributable to surface form. *(Allen, 2026 Remark 9; Ribeiro et al., 2020; McCoy, Pavlick & Linzen, 2019)*
+- **R10. Paraphrase variation under fixed inferential content.** The methodology includes, for each item or each condition, multiple meaning-preserving paraphrases of δ, ctx_Γ, and ctx_Δ, so that agreement attributable to inferential content can be separated from agreement attributable to surface form. *(Ribeiro et al., 2020; McCoy, Pavlick & Linzen, 2019)*
 
   > **How the framework addresses this:** `BearerModel.paraphrases` is runtime-active. The `--paraphrase-variant K` and `--paraphrase-cycle` flags on `infereval evaluate` orchestrate the per-variant runs; outputs auto-suffix with `-vN`. Content-vs-form sensitivity is a one-flag operation.
 
@@ -81,11 +81,11 @@ The requirements derive from the question: *what would need to be true of an eva
 
 **Requirements on the form of mastery claims**
 
-- **R16. Explicit specification of the mastery sense intended.** The methodology states whether the mastery claim is about evaluative behaviour (endorsements-when-asked), generative behaviour, standing competence, or some combination, and restricts its claims to the sense the measurement supports. *(Allen, 2026 Remark 7; Brandom, 1994)*
+- **R16. Explicit specification of the mastery sense intended.** The methodology states whether the mastery claim is about evaluative behaviour (endorsements-when-asked), generative behaviour, standing competence, or some combination, and restricts its claims to the sense the measurement supports. *(Brandom, 1994)*
 
   > **How the framework addresses this:** `ConstructValidityClaims.mastery_sense`, a required claims-file field with a `Literal["evaluative", "generative", "standing", "combination"]` discriminator plus required free-text description. `infereval report` refuses to render without this field populated.
 
-- **R17. Explicit specification of the scope of the claim.** The methodology states whether the mastery claim is about (a) the items in β, (b) the domain D as sampled by β, or (c) inferential mastery as a general capacity, and provides arguments appropriate to the scope claimed. *(Messick, 1989; Allen, 2026 Remark 10)*
+- **R17. Explicit specification of the scope of the claim.** The methodology states whether the mastery claim is about (a) the items in β, (b) the domain D as sampled by β, or (c) inferential mastery as a general capacity, and provides arguments appropriate to the scope claimed. *(Messick, 1989)*
 
   > **How the framework addresses this:** `ConstructValidityClaims.scope`, with a `Literal["items_in_benchmark", "domain_D_as_sampled", "general_capacity"]` discriminator and a tiered set of required competing-explanation checks per scope. Broader scopes require strictly more checks; the verdict downgrades automatically when checks are missing.
 
@@ -121,7 +121,7 @@ The requirements derive from the question: *what would need to be true of an eva
 
 **Requirements on the analysis**
 
-- **R13. Structural coherence check on the derived frame.** The methodology includes a post-evaluation check that ⟨B, I_M⟩ exhibits the structural properties the inferentialist framework treats as constitutive of mastery (closure under containment, coherent RSR behaviour, appropriate defeasibility patterns), so that aggregate agreement isn't conflated with structural mastery. *(Hlobil & Brandom, 2025; Brandom, 1994; Allen, 2026 Remark 5)*
+- **R13. Structural coherence check on the derived frame.** The methodology includes a post-evaluation check that ⟨B, I_M⟩ exhibits the structural properties the inferentialist framework treats as constitutive of mastery (closure under containment, coherent RSR behaviour, appropriate defeasibility patterns), so that aggregate agreement isn't conflated with structural mastery. *(Hlobil & Brandom, 2025; Brandom, 1994)*
 
   > **How the framework addresses this:** the `infereval.structure` module ships four checks: `containment_closure_check` (sanity), `rsr_role_consistency_check`, `base_case_stability_check`, and `thin_margin_agreement_check` (R22 within-run companion, flagging agreements with thin sample-margin support). `infereval structure <eta.json> --benchmark <bench>` runs all four and prints a human-readable report flagging per-item anomalies.
 
@@ -151,7 +151,7 @@ The requirements derive from the question: *what would need to be true of an eva
 
 **Requirements on the form of mastery claims**
 
-- **R19. Carving-indexed framing of in-principle claims.** The methodology frames any in-principle claims about mastery in the carving-indexed form Remark 10 specifies, rather than as unrestricted claims about concept possession, so that the relativity to analyst-supplied carving is preserved in what gets concluded from the measurement. *(Allen, 2026 Remark 10; Simonelli, 2026; Hlobil & Brandom, 2025)*
+- **R19. Carving-indexed framing of in-principle claims.** The methodology frames any in-principle claims about mastery in carving-indexed form (relative to the analyst-supplied carving; see [Concepts](concepts.md)), rather than as unrestricted claims about concept possession, so that the relativity to analyst-supplied carving is preserved in what gets concluded from the measurement. *(Simonelli, 2026; Hlobil & Brandom, 2025)*
 
   > **How the framework addresses this:** `ConstructValidityClaims.carving`, with `acknowledges_carving_indexed: bool` plus `notes: str`. The verdict computation requires both `acknowledges_carving_indexed=True` AND non-empty `notes` when the claim's scope reaches beyond `items_in_benchmark`. Failing either condition automatically downgrades the verdict to `not_defensible`. The framework cannot enforce carving-indexed framing in third-party write-ups but can refuse to render a defensible verdict for write-ups that ignore it.
 
@@ -165,7 +165,7 @@ Several requirements are workflow discipline that the framework can support but 
 - **Scientific replication.** Strict reproducibility is provided by the SHA-256 hash and audit log; test-retest reliability is provided by `infereval retest`. Replication in the scientific sense — fresh analyst panels, fresh benchmarks, same construction procedure — requires additional studies the framework can lower the cost of but cannot substitute for.
 - **Test-retest temporal occasions.** v0.6.1 separates two issues v0.6.0 was conflating. **(a) The temporal-occasion question:** did the two runs actually happen on different occasions? The framework records run timestamps and provider response IDs where available; it cannot enforce a minimum interval, guarantee that the two attempts are independent, or detect a re-run that's actually a copy of the first artifact under a different `run_id`. This stays a residual analyst-honesty piece — same shape as the leakage-audit-gap self-report for `held_out_items_used` / `training_data_separation_verified`. **(b) The identity-criterion question:** what counts as "the same system" being measured across the two runs? This is now a *declared methodological commitment*, not a research-program residual — the analyst records it in `ConstructValidityClaims.reliability.identity_criterion` and the framework partially substantiates it (the setup-conformance booleans are verified by the parity check on `infereval retest`; the analyst-substantiated booleans are recorded with caveats per the leakage-audit-gap pattern). v0.6.1 elevates (b) out of the research-program residual and into the framework's commitment-and-relativity surface, alongside carving (R19), scope (R17), and the other declared commitments.
 - **Mastery-sense, scope, and constitution-versus-evidence claims.** These are interpretive commitments by whoever writes up results. The framework can prompt for explicit statements but cannot supply the substance.
-- **Carving-indexed framing of in-principle claims.** The framing comes from the analyst's understanding of the paper's Remark 10; the framework can carry the framing forward in its documentation but cannot enforce its use in third-party write-ups.
+- **Carving-indexed framing of in-principle claims.** The framing comes from the analyst's understanding of carving-relativity; the framework can carry the framing forward in its documentation but cannot enforce its use in third-party write-ups.
 
 The right response to these is to organise the research community to do the work, not to extend the tool to pretend otherwise. The framework's posture: make the work cheap enough to do, and make *undeclared* skipping visible in the report. Every workflow requirement has *infrastructure* that makes the work cheaper and *declarations* that make its presence or absence part of the public artifact. Skipping is permitted (some skips are unavoidable at any given stage of a research programme); pretending you didn't skip is not.
 
@@ -530,8 +530,6 @@ Add cross-panel (Phase 4.1) and replication (Phase 4.2) as the research-program 
 - [`tutorials/04_pulmonology_visualization.ipynb`](tutorials/04_pulmonology_visualization.ipynb) — visual analytics complementing the CLI tools (matplotlib + pandas; reads the bundled pulmonology artifacts).
 
 ## References
-
-Allen, B. P. (2026). Note on Simonelli's Stop Sign Dialogue: An Implication-Space Instrument for Probing LLM Endorsement of Material Inferential Rules.
 
 Baayen, R. H., Davidson, D. J., & Bates, D. M. (2008). Mixed-effects modeling with crossed random effects for subjects and items. *Journal of Memory and Language*, 59(4), 390–412.
 

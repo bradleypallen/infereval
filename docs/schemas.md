@@ -85,7 +85,7 @@ bearers, an analyst panel, and items. See the
 |---|---|---|
 | `id` | `str` | Stable identifier. |
 | `premises` | `list[str]` | Bearer ids in `Γ_i`. |
-| `conclusions` | `list[str]` | Bearer ids in `Δ_i` (single-bearer in the paper's instantiation; multi-bearer permitted by infereval). |
+| `conclusions` | `list[str]` | Bearer ids in `Δ_i` (single-bearer in the stop-sign example; multi-bearer permitted by infereval). |
 | `analyst_verdicts` | `list[Verdict]` (length `m`) | `V_i = (v_{i,1}, …, v_{i,m})`. |
 | `analyst_rationales` | `list[str] \| null` | Optional per-analyst, per-item rationale text positionally aligned to `analyst_verdicts` (v0.5.4+). `null` ≠ list with empty strings (semantically distinct). |
 | `tags` | `list[str]` | Decomposition labels for `infereval metrics --by-tag`. Common: `base-inference`, `irrelevant-addition`, `supporter`, `defeater`. |
