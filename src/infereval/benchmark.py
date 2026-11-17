@@ -467,6 +467,16 @@ class BenchmarkItem(BaseModel):
     def _promote_refs(cls, v: object) -> object:
         return _promote_reference_shorthand(v)
 
+    @model_validator(mode="after")
+    def _reject_empty_empty(self) -> BenchmarkItem:
+        """``⟨∅, ∅⟩`` is excluded from I_M by stipulation and has no position to elicit."""
+        if not self.premises and not self.conclusions:
+            raise ValueError(
+                f"item {self.id!r} has no premises and no conclusions (⟨∅, ∅⟩); that "
+                "implication is excluded by stipulation and cannot be a benchmark item"
+            )
+        return self
+
     @field_serializer("premises", "conclusions")
     def _serialize_sorted(self, value: list[str]) -> list[str]:
         return sorted(value)

@@ -8,6 +8,25 @@ with the additional commitment that the benchmark and evaluation JSON
 schemas are versioned independently (`schema_version: "1.0"`) and promised
 stable from 1.0 onward, regardless of the framework version.
 
+## [Unreleased]
+
+**Every sequent shape now renders under the coherence question form.** Items with no premises (⟨∅, Δ⟩, the assertion or undeniability shape) render as a position that commits to nothing and denies Δ, and ⟨∅, ∅⟩ can no longer reach a model. A new `framework-default-v2` template drops the doubled full stop.
+
+### Fixed — items with no premises rendered a malformed coherence prompt
+
+- `framework-default-v1` branched on the number of conclusions but not on an empty premise set, so ⟨∅, {A}⟩ rendered as "Consider a position that commits to the following: ; and denies: A.". It now renders "Consider a position that commits to nothing and denies: A." (and "…denies every one of: A; B." for several conclusions), on the model side and in coherence surveys. Every shape with at least one premise renders byte-identically to before, so existing captures keep their provenance.
+- `VerdictRequest` gains `antecedent_empty` (default `False`), set by the endorser and the survey renderer from the item itself rather than read off the rendered premise text, which a context-builder template can make non-empty. `clinical-coherence-v1` has no idiom for this shape and raises instead of rendering it.
+- The support question form now refuses items with no premises, on both the model and survey sides, pointing to `question_form='coherence'`, as it already did for empty or disjunctive succedents.
+
+### Fixed — ⟨∅, ∅⟩ items passed validation
+
+- `BenchmarkItem` accepted an item with no premises and no conclusions, which `I_M` excludes by stipulation; it would have been sent to the model as "Consider a position that commits to the following: .". Validation now rejects it, and the endorser and both framework templates refuse it as a second guard.
+
+### Added — `framework-default-v2`
+
+- `framework-default-v1` appends "." after the last rendered piece, so bearer expressions that end in a full stop render as "..". `framework-default-v2` closes the stem only when the last piece lacks terminal punctuation; otherwise its text is identical to v1's. It is catalogued, not the default: a benchmark opts in with `template_id: framework-default-v2`. Full stops inside a joined premise list ("A. and B.") come from the context builder, not the template, and are unchanged.
+- New `tests/unit/test_sequent_shapes.py` pins rendering, polarity, guards, schema and survey parity for all shapes.
+
 ## [0.17.9] — 2026-11-12
 
 **The Anthropic provider works with `anthropic` SDK 1.x and 2.x.** Before this, every Anthropic call failed under those SDKs and was recorded as ABSTAIN. A benchmark with its own prompt can also declare the survey wording human respondents see. The docs no longer depend on an unpublished manuscript, and gain a Formal specification page.

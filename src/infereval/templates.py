@@ -41,6 +41,7 @@ __all__ = [
     "CoherenceFrame",
     "DEFEASIBLE_COHERENCE_FRAME",
     "DefaultTemplate",
+    "DefaultTemplateV2",
     "RenderedPrompt",
     "THIN_COHERENCE_FRAME",
     "Template",
@@ -76,12 +77,21 @@ class VerdictRequest:
     ``gamma_ctx`` is the fully-rendered premise (commit) context; ``delta_ctx``
     is the per-member rendered deny context (empty for arity 0, one entry for
     arity 1, several for ``"many"``). No bearer ids appear here.
+
+    ``antecedent_empty`` marks an item with no premises (``⟨∅, Δ⟩``, the
+    assertion/undeniability shape): the position commits to nothing and only
+    denies. It is carried explicitly rather than read off ``gamma_ctx``
+    because a context builder's template can render an empty premise list as
+    non-empty text (e.g. ``"{expressions}."`` → ``"."``). ``⟨∅, ∅⟩`` never
+    reaches a template: it is rejected at benchmark validation and again
+    before rendering.
     """
 
     arity: Arity
     gamma_ctx: str
     delta_ctx: tuple[str, ...]
     structure: str = "commit_deny"
+    antecedent_empty: bool = False
 
 
 @dataclass(frozen=True)
@@ -111,6 +121,8 @@ class DefaultTemplate:
     id: str = "framework-default-v1"
 
     def render(self, req: VerdictRequest) -> str:
+        if req.antecedent_empty:
+            return _render_deny_only(req, end=".")
         commit = f"commits to the following: {req.gamma_ctx}"
         if req.arity == 0:
             return f"Consider a position that {commit}."
@@ -118,6 +130,55 @@ class DefaultTemplate:
             return f"Consider a position that {commit}; and denies: {req.delta_ctx[0]}."
         joined = "; ".join(req.delta_ctx)
         return f"Consider a position that {commit}; and denies every one of: {joined}."
+
+
+def _render_deny_only(req: VerdictRequest, *, end: str) -> str:
+    """Render the ``⟨∅, Δ⟩`` position: commits to nothing, denies Δ.
+
+    Shared by the framework templates. ``⟨∅, ∅⟩`` (arity 0 with no premises)
+    is not a position anyone can be asked about and raises.
+    """
+    if req.arity == 0:
+        raise ValueError(
+            "⟨∅, ∅⟩ (no premises and no conclusions) has no position to render; "
+            "it is excluded by stipulation and must not reach a template."
+        )
+    if req.arity == 1:
+        return f"Consider a position that commits to nothing and denies: {req.delta_ctx[0]}{end}"
+    joined = "; ".join(req.delta_ctx)
+    return f"Consider a position that commits to nothing and denies every one of: {joined}{end}"
+
+
+def _close(text: str) -> str:
+    """End ``text`` with a full stop unless it already ends in terminal punctuation."""
+    stripped = text.rstrip()
+    return stripped if stripped.endswith((".", "!", "?")) else f"{stripped}."
+
+
+@dataclass(frozen=True)
+class DefaultTemplateV2:
+    """:class:`DefaultTemplate` without the doubled full stop.
+
+    ``framework-default-v1`` appends ``"."`` after the last rendered piece, so a
+    bearer expression that already ends in a full stop renders as ``".."``.
+    v1 is kept byte-identical for provenance; v2 closes the stem only when the
+    last piece lacks terminal punctuation. Otherwise identical, including the
+    ``⟨∅, Δ⟩`` rendering. Catalogued, not the default: a benchmark opts in with
+    ``template_id: framework-default-v2``.
+    """
+
+    id: str = "framework-default-v2"
+
+    def render(self, req: VerdictRequest) -> str:
+        if req.antecedent_empty:
+            return _close(_render_deny_only(req, end=""))
+        commit = f"commits to the following: {req.gamma_ctx}"
+        if req.arity == 0:
+            return _close(f"Consider a position that {commit}")
+        if req.arity == 1:
+            return _close(f"Consider a position that {commit}; and denies: {req.delta_ctx[0]}")
+        joined = "; ".join(req.delta_ctx)
+        return _close(f"Consider a position that {commit}; and denies every one of: {joined}")
 
 
 # ---- coherence question form ---------------------------------------------
@@ -453,7 +514,10 @@ _REGISTRY: dict[str, Template] = {}
 # live in _BUILTIN_TEMPLATE_MODULES and are imported lazily on first
 # lookup, so a benchmark's declared binding resolves without any caller
 # having to import the defining module for its registration side effect.
-_CATALOG: dict[str, Template] = {_DEFAULT_TEMPLATE.id: _DEFAULT_TEMPLATE}
+_CATALOG: dict[str, Template] = {
+    _DEFAULT_TEMPLATE.id: _DEFAULT_TEMPLATE,
+    DefaultTemplateV2().id: DefaultTemplateV2(),
+}
 _BUILTIN_TEMPLATE_MODULES = ("infereval.templates_clinical",)
 
 

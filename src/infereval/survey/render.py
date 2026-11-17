@@ -245,6 +245,11 @@ def render_survey_question(
     frame (the survey side of the polarity firewall).
     """
     if question_form == "support":
+        if not item.premises:
+            raise ValueError(
+                f"question_form='support' survey questions need at least one premise; item "
+                f"{item.id!r} has none (⟨∅, Δ⟩). Use question_form='coherence'."
+            )
         if len(item.conclusions) != 1:
             raise ValueError(
                 f"question_form='support' survey questions are single-succedent "
@@ -339,6 +344,7 @@ def _render_coherence_body(benchmark: Benchmark, item: BenchmarkItem) -> str:
         arity=arity_of(sorted(item.conclusions)),
         gamma_ctx=premise_builder(prem),
         delta_ctx=tuple(concl),
+        antecedent_empty=not item.premises,
     )
     return resolve_template(benchmark.id, template_id=benchmark.template_id).render(req)
 
