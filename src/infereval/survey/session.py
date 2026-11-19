@@ -1,0 +1,191 @@
+"""Survey session pages around the benchmark items: consent and practice.
+
+Two optional, study-supplied specifications that the Qualtrics exporter
+(:func:`~infereval.survey.qualtrics_qsf.build_qsf`) renders around the
+benchmark items. Their wording is the study's (usually approved by an
+ethics committee), so it is never hard-coded here: each is loaded from a
+JSON file.
+
+**Consent** (:class:`ConsentSpec`) — the survey's first page:
+
+.. code-block:: json
+
+    {
+      "information": "How do people judge everyday reasoning? ...",
+      "statements": ["I am 18 or older.", "..."],
+      "agree": "I agree to take part",
+      "decline": "I do not wish to take part"
+    }
+
+``agree`` / ``decline`` default to the two strings above. The page shows
+the information text, one tick box per statement, and the agree/decline
+choice. A participant who declines, or who leaves any statement unticked,
+is taken straight to the end of the survey and sees no study item.
+
+**Practice** (:class:`PracticeSpec`) — items rated after the instructions
+and before the benchmark items, outside randomization, with no feedback:
+
+.. code-block:: json
+
+    {
+      "intro": "First, three practice questions. ...",
+      "items": [
+        {"id": "kettle", "premises": ["..."], "conclusion": "..."}
+      ],
+      "outro": "That is the end of the practice. ..."
+    }
+
+``intro`` / ``outro`` are optional display-only pages. Practice items are
+rendered through the same renderer and frame as the benchmark items, so
+they look exactly like the real task; their answers are exported under
+``practice_<id>`` and never imported as verdicts.
+"""
+
+from __future__ import annotations
+
+import json
+import logging
+import re
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
+log = logging.getLogger(__name__)
+
+#: DataExportTag of the agree/decline question.
+CONSENT_TAG = "consent"
+#: DataExportTag of the consent-statements tick boxes.
+CONSENT_STATEMENTS_TAG = "consent_statements"
+#: DataExportTag prefix of practice answers (``practice_<id>``).
+PRACTICE_TAG_PREFIX = "practice_"
+
+DEFAULT_AGREE = "I agree to take part"
+DEFAULT_DECLINE = "I do not wish to take part"
+
+_PRACTICE_ID = re.compile(r"[A-Za-z0-9_]{1,40}")
+
+
+def is_session_tag(tag: str) -> bool:
+    """True for a DataExportTag owned by the consent or practice pages.
+
+    Benchmark item tags may not take these forms (the exporter refuses
+    the collision), so the importer can skip them unconditionally.
+    Qualtrics may split a multi-answer question into ``<tag>_<n>``
+    columns, hence the ``consent_`` prefix match.
+    """
+    return (
+        tag == CONSENT_TAG
+        or tag.startswith(CONSENT_TAG + "_")
+        or tag.startswith(PRACTICE_TAG_PREFIX)
+    )
+
+
+@dataclass(frozen=True, slots=True)
+class ConsentSpec:
+    information: str
+    statements: tuple[str, ...]
+    agree: str = DEFAULT_AGREE
+    decline: str = DEFAULT_DECLINE
+
+    def __post_init__(self) -> None:
+        if not self.information.strip():
+            raise ValueError("consent: 'information' must not be empty")
+        if not self.statements or any(not s.strip() for s in self.statements):
+            raise ValueError("consent: 'statements' must be a non-empty list of non-empty strings")
+        if len(set(self.statements)) != len(self.statements):
+            raise ValueError("consent: 'statements' must be distinct")
+        if not self.agree.strip() or not self.decline.strip() or self.agree == self.decline:
+            raise ValueError("consent: 'agree' and 'decline' must be distinct, non-empty strings")
+
+
+@dataclass(frozen=True, slots=True)
+class PracticeItem:
+    id: str
+    premises: tuple[str, ...]
+    conclusion: str
+
+    def __post_init__(self) -> None:
+        if not _PRACTICE_ID.fullmatch(self.id):
+            raise ValueError(
+                f"practice item id {self.id!r} must be 1-40 letters, digits or underscores"
+            )
+        if not self.premises or any(not p.strip() for p in self.premises):
+            raise ValueError(f"practice item {self.id!r}: 'premises' must be non-empty strings")
+        if not self.conclusion.strip():
+            raise ValueError(f"practice item {self.id!r}: 'conclusion' must not be empty")
+
+    @property
+    def tag(self) -> str:
+        return f"{PRACTICE_TAG_PREFIX}{self.id}"
+
+
+@dataclass(frozen=True, slots=True)
+class PracticeSpec:
+    items: tuple[PracticeItem, ...]
+    intro: str | None = None
+    outro: str | None = None
+
+    def __post_init__(self) -> None:
+        if not self.items:
+            raise ValueError("practice: 'items' must not be empty")
+        ids = [i.id for i in self.items]
+        if len(set(ids)) != len(ids):
+            raise ValueError(f"practice: item ids must be distinct, got {ids}")
+
+
+def _read_json(path: Path, what: str) -> dict[str, Any]:
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"{what} file {path}: invalid JSON: {exc}") from None
+    if not isinstance(data, dict):
+        raise ValueError(f"{what} file {path}: expected a JSON object")
+    return data
+
+
+def _check_keys(data: dict[str, Any], allowed: set[str], where: str) -> None:
+    unknown = set(data) - allowed
+    if unknown:
+        raise ValueError(f"{where}: unknown keys {sorted(unknown)}; allowed {sorted(allowed)}")
+
+
+def load_consent(path: Path) -> ConsentSpec:
+    """Load a :class:`ConsentSpec` from a JSON file (see module docs)."""
+    data = _read_json(path, "consent")
+    _check_keys(data, {"information", "statements", "agree", "decline"}, f"consent file {path}")
+    spec = ConsentSpec(
+        information=str(data.get("information", "")),
+        statements=tuple(str(s) for s in data.get("statements", [])),
+        agree=str(data.get("agree", DEFAULT_AGREE)),
+        decline=str(data.get("decline", DEFAULT_DECLINE)),
+    )
+    log.info("survey.consent.load path=%s statements=%d", path, len(spec.statements))
+    return spec
+
+
+def load_practice(path: Path) -> PracticeSpec:
+    """Load a :class:`PracticeSpec` from a JSON file (see module docs)."""
+    data = _read_json(path, "practice")
+    _check_keys(data, {"intro", "items", "outro"}, f"practice file {path}")
+    items = []
+    for raw in data.get("items", []):
+        if not isinstance(raw, dict):
+            raise ValueError(f"practice file {path}: each item must be an object")
+        _check_keys(raw, {"id", "premises", "conclusion"}, f"practice file {path} item")
+        items.append(
+            PracticeItem(
+                id=str(raw.get("id", "")),
+                premises=tuple(str(p) for p in raw.get("premises", [])),
+                conclusion=str(raw.get("conclusion", "")),
+            )
+        )
+    spec = PracticeSpec(
+        items=tuple(items),
+        intro=data.get("intro"),
+        outro=data.get("outro"),
+    )
+    log.info(
+        "survey.practice.load path=%s items=%s intro=%s outro=%s",
+        path, ",".join(i.id for i in spec.items), spec.intro is not None, spec.outro is not None,
+    )
+    return spec

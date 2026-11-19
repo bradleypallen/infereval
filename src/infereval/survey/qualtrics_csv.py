@@ -30,6 +30,7 @@ from typing import TYPE_CHECKING, Any
 from ..types import Verdict
 from .prolific import PROLIFIC_FIELDS
 from .render import SurveyRespondent, verdict_from_choice_text
+from .session import CONSENT_TAG, is_session_tag
 
 if TYPE_CHECKING:
     from ..benchmark import Benchmark
@@ -129,6 +130,10 @@ def _rows_to_respondents(
         for col_name, col_idx in col_index.items():
             if col_name in _QUALTRICS_STOCK_COLUMNS or col_name == _EXPERTISE_TAG:
                 continue
+            if is_session_tag(col_name):
+                # Consent and practice answers (export with --consent /
+                # --practice) are never verdicts.
+                continue
             cell = row[col_idx] if col_idx < len(row) else ""
             if col_name.endswith(_RATIONALE_SUFFIX):
                 tag = col_name[: -len(_RATIONALE_SUFFIX)]
@@ -146,6 +151,15 @@ def _rows_to_respondents(
                         f"{path}: row {row_n} column {col_name!r}: {exc}"
                     ) from None
 
+        if CONSENT_TAG in col_index and not verdicts:
+            # A survey with a consent page ends before any item for those
+            # who do not consent: their row carries no verdicts and is not
+            # a respondent.
+            log.info(
+                "qualtrics.csv.no_consent path=%s row=%d response_id=%s consent=%r",
+                path, row_n, response_id, _cell(row, col_index, CONSENT_TAG),
+            )
+            continue
         respondents.append(
             SurveyRespondent(
                 response_id=response_id,

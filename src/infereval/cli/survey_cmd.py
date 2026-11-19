@@ -36,6 +36,7 @@ from infereval.survey.render import (
     DEFAULT_EXPERTISE_PROMPT,
     SurveyRespondent,
 )
+from infereval.survey.session import load_consent, load_practice
 from infereval.survey.surveymonkey_api import (
     SurveyMonkeyApiError,
     SurveyMonkeyAuthError,
@@ -187,6 +188,38 @@ def survey_group() -> None:
         "this code (from the Prolific study page). Qualtrics only."
     ),
 )
+@click.option(
+    "--consent",
+    "consent_path",
+    type=click.Path(exists=True, dir_okay=False, path_type=Path),
+    default=None,
+    help=(
+        "JSON consent page (information, statements, agree, decline). "
+        "Shown first; declining or leaving a statement unticked ends the "
+        "survey before any item. Qualtrics only."
+    ),
+)
+@click.option(
+    "--practice",
+    "practice_path",
+    type=click.Path(exists=True, dir_okay=False, path_type=Path),
+    default=None,
+    help=(
+        "JSON practice items (items of id/premises/conclusion, optional "
+        "intro and outro), rendered like the benchmark items after the "
+        "instructions, outside randomization, no feedback. Qualtrics only."
+    ),
+)
+@click.option(
+    "--prolific-no-consent-code",
+    type=str,
+    default=None,
+    help=(
+        "With --consent: send participants who do not consent to Prolific "
+        "with this code (set up in Prolific to ask them to return the "
+        "study), instead of the default end message."
+    ),
+)
 # SurveyMonkey-only:
 @click.option(
     "--surveymonkey-token",
@@ -216,15 +249,32 @@ def export_cmd(
     coherence_frame_id: str | None,
     header_mode: str,
     prolific_completion_code: str | None,
+    consent_path: Path | None,
+    practice_path: Path | None,
+    prolific_no_consent_code: str | None,
     surveymonkey_token: str | None,
     surveymonkey_base_url: str,
 ) -> None:
     log.info(
         "survey.export.start benchmark=%s output=%s platform=%s "
-        "question_form=%s coherence_frame=%s header_mode=%s prolific=%s",
+        "question_form=%s coherence_frame=%s header_mode=%s prolific=%s "
+        "consent=%s practice=%s prolific_no_consent=%s",
         benchmark_path, output, platform, question_form, coherence_frame_id,
-        header_mode, prolific_completion_code is not None,
+        header_mode, prolific_completion_code is not None, consent_path,
+        practice_path, prolific_no_consent_code is not None,
     )
+    session_opts = {
+        "--consent": consent_path,
+        "--practice": practice_path,
+        "--prolific-no-consent-code": prolific_no_consent_code,
+    }
+    for flag, value in session_opts.items():
+        if value is not None and platform != "qualtrics":
+            raise click.UsageError(
+                f"{flag} is implemented for --platform qualtrics only, not {platform}."
+            )
+    if prolific_no_consent_code is not None and consent_path is None:
+        raise click.UsageError("--prolific-no-consent-code requires --consent.")
     if prolific_completion_code is not None and platform != "qualtrics":
         raise click.UsageError(
             f"--prolific-completion-code is implemented for --platform "
@@ -257,6 +307,16 @@ def export_cmd(
 
     if platform == "qualtrics":
         try:
+            consent = load_consent(consent_path) if consent_path is not None else None
+            practice = load_practice(practice_path) if practice_path is not None else None
+        except ValueError as exc:
+            click.echo(f"ERROR: {exc}", err=True)
+            sys.exit(2)
+        handoff = any(
+            v is not None
+            for v in (prolific_completion_code, consent, practice, prolific_no_consent_code)
+        )
+        try:
             qsf, mapping = build_qsf(
                 benchmark,
                 title=title,
@@ -267,9 +327,12 @@ def export_cmd(
                 coherence_frame=coherence_frame,
                 header_mode=header_mode,
                 prolific_completion_code=prolific_completion_code,
+                consent=consent,
+                practice=practice,
+                prolific_no_consent_code=prolific_no_consent_code,
             )
         except ValueError as exc:
-            if prolific_completion_code is None:
+            if not handoff:
                 raise
             click.echo(f"ERROR: {exc}", err=True)
             sys.exit(2)
@@ -281,6 +344,21 @@ def export_cmd(
                 "?PROLIFIC_PID={{%PROLIFIC_PID%}}&STUDY_ID={{%STUDY_ID%}}"
                 "&SESSION_ID={{%SESSION_ID%}} — the survey redirects to "
                 "Prolific's completion page at the end."
+            )
+        if consent is not None:
+            click.echo(
+                f"  Consent: first page, {len(consent.statements)} statements; "
+                "anyone who does not consent "
+                + (
+                    "is sent to Prolific with the no-consent code."
+                    if prolific_no_consent_code is not None
+                    else "sees the default end message."
+                )
+            )
+        if practice is not None:
+            click.echo(
+                f"  Practice: {len(practice.items)} items after the instructions "
+                "(exported as practice_<id>; not imported as verdicts)."
             )
         _maybe_write_mapping(output, mapping)
 
