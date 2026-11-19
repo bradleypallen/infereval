@@ -83,6 +83,24 @@ A resolved frame that declares **no** `survey_header` raises `ValueError` rather
 
 The single deliberate exception: a **benchmark-bound** support prompt without a header (a `verification_prompt` override in the benchmark JSON that leaves out `survey_header`) falls back to the locked v0.9.0 default header. This preserves every pre-frame support survey byte-for-byte — support surveys have always shown the default wording regardless of the benchmark's verification-prompt binding. The fallback is honest and loud: `frame_id` records `"default-v1"` (what was actually shown, not the benchmark's binding), and a `survey.frame.fallback` warning is logged naming the benchmark and the bound prompt id, so the model/survey frame misalignment is visible in the run logs instead of hidden. To remove it, declare the wording in the benchmark: `"verification_prompt": {…, "survey_header": "<the prompt's norms in respondent voice, ending in the question>", "survey_stem": "<that closing question>"}` (see [Authoring benchmarks](authoring_benchmarks.md)). The stem must be a verbatim trailing substring of the header. The export then records the override's `id` as `frame_id` and writes the mapping sidecar.
 
+### Case text and answer labels
+
+A support prompt that declares a `survey_header` can also set how each case and its answers appear:
+
+```json
+"verification_prompt": {
+  "template": "Premises: {premise_context}\nConclusion: {conclusion_context}\nVerdict:",
+  "survey_header": "…", "survey_stem": "…",
+  "survey_body": "Premises: {premise_context}\nConclusion: {conclusion_context}",
+  "survey_choices": ["Good", "Bad", "Can't tell"]
+}
+```
+
+- **`survey_body`** is filled with exactly the premise and conclusion text the model receives: the same bearer order and the benchmark's own context builders. With the prompt's template minus its answer line, each case reads as the model saw it. Without it, the case is shown as the bulleted premises/conclusion list.
+- **`survey_choices`** are three labels in the order good, bad, abstain. `survey import` decodes these exact labels by position (so the polarity cannot flip), then falls back to the usual first-word rule. Without it, the library labels are used.
+
+Both only change what respondents see; the model's prompt is unaffected.
+
 ### Frames and `κ_C`
 
 The rule above — *"a survey must ask the **same** logical question the model is evaluated under, or `κ_C(model vs analyst)` compares two different judgments"* — extends to the frame axis: model and human elicitation must share the question form **and** the frame. The frame-anchoring captures showed the stated norms are the variable that decides how the coherence question behaves, so a model evaluated under an anchored frame but compared against humans surveyed under the thin header (or vice versa) is a cross-instrument comparison, not an agreement measurement. Whatever frame the model is evaluated under (`coherence_frame_id` / `verification_prompt`), export the human survey under the same one, and check `frame_id` at import time.

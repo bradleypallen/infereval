@@ -67,6 +67,7 @@ def parse_google_forms_csv(
     *,
     mapping: list[dict[str, object]] | None = None,
     question_form: str = "support",
+    choices: tuple[str, ...] | None = None,
 ) -> list[SurveyRespondent]:
     """Parse a Google Forms CSV export into a list of
     :class:`SurveyRespondent`.
@@ -135,7 +136,9 @@ def parse_google_forms_csv(
                 if not cell.strip():
                     continue
                 try:
-                    verdicts[tag] = _verdict_from_choice_text(cell, question_form=question_form)
+                    verdicts[tag] = _verdict_from_choice_text(
+                        cell, question_form=question_form, choices=choices
+                    )
                 except ValueError as exc:
                     raise ValueError(
                         f"{path}: row {row_n} column {header[col_idx]!r}: {exc}"
