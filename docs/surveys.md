@@ -125,6 +125,47 @@ https://<your-org>.qualtrics.com/jfe/form/SV_...?PROLIFIC_PID={{%PROLIFIC_PID%}}
 
 Preview the survey from Prolific once before publishing, and check that the three fields appear in a test response and that the end page lands on Prolific. The importer skips the three columns: they are never parsed as verdicts or copied into the benchmark, and the new analyst ids stay the Qualtrics `ResponseId`. Reconcile approvals and payment against the Qualtrics export, which keeps the Prolific ids.
 
+### Consent page and practice items
+
+Two optional JSON files add the pages a study usually needs around the items. Their wording is the study's own (normally the text approved by the ethics committee), so infereval never supplies it.
+
+```sh
+infereval survey export benchmark.json -o recruit.qsf \
+    --consent consent.json --practice practice.json \
+    --prolific-completion-code C1A2B3C4 --prolific-no-consent-code NOCONS12
+```
+
+`consent.json`:
+
+```json
+{
+  "information": "How do people judge everyday reasoning? ...",
+  "statements": ["I am 18 or older.", "I take part voluntarily ..."],
+  "agree": "I agree to take part",
+  "decline": "I do not wish to take part"
+}
+```
+
+The consent page is the survey's first block: the information text, one tick box per statement, then the agree/decline choice (required). A **Branch** right after it ends the survey for anyone who declines or leaves a statement unticked, so they never see an item. That ending overrides the Prolific completion redirect, so someone who declines never gets the completion code. With `--prolific-no-consent-code` they are sent back to Prolific with that code instead; set it up in Prolific as a code that asks the participant to return the study. Without it they see Qualtrics's default end message. `agree` and `decline` default to the strings shown.
+
+`practice.json`:
+
+```json
+{
+  "intro": "First, three practice questions ...",
+  "items": [
+    {"id": "kettle", "premises": ["Sam fills a kettle ..."], "conclusion": "The water in the kettle will be hot"}
+  ],
+  "outro": "That is the end of the practice ..."
+}
+```
+
+Practice items come after the instructions (and the expertise question), outside randomization, one per page, with optional intro and outro pages and no feedback. They go through the same renderer, question form and frame as the benchmark items, so they look exactly like the real task. Answers are exported as `practice_<id>`.
+
+The importer skips the `consent`, `consent_*` and `practice_*` columns, and drops rows that have a consent answer but no verdicts (people who did not consent). With either option, a benchmark item whose export tag takes one of those forms is refused at export.
+
+As with the Prolific hand-off, preview the survey in Qualtrics before publishing: decline once and leave one statement unticked once to check both end the survey, then agree once and check the practice pages appear before the items.
+
 ### Import
 
 After collecting responses, export the CSV from Qualtrics:

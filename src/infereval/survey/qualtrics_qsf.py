@@ -21,6 +21,13 @@ Survey → "Import a QSF file"). The imported survey has:
    ``STUDY_ID`` / ``SESSION_ID`` URL parameters, and the survey ends by
    redirecting to Prolific's completion URL with that code (see
    :mod:`infereval.survey.prolific`).
+6. When ``consent`` is given, the survey opens with a Consent block
+   (information text, one tick box per statement, agree/decline). A
+   Branch flow node right after it ends the survey for anyone who
+   declines or leaves a statement unticked, before any study item.
+7. When ``practice`` is given, practice items rendered exactly like the
+   benchmark items follow the instructions, outside randomization, each
+   on its own page (see :mod:`infereval.survey.session`).
 
 The ``.qsf`` format is JSON but Qualtrics's documentation is sparse;
 the shapes below follow real Qualtrics survey exports and two
@@ -51,6 +58,13 @@ from .render import (
     rationale_prompt,
     render_survey_question,
     sanitize_export_tag,
+)
+from .session import (
+    CONSENT_STATEMENTS_TAG,
+    CONSENT_TAG,
+    ConsentSpec,
+    PracticeSpec,
+    is_session_tag,
 )
 
 if TYPE_CHECKING:
@@ -97,6 +111,9 @@ def build_qsf(
     verification_prompt: VerificationPrompt | None = None,
     header_mode: str = "per-question",
     prolific_completion_code: str | None = None,
+    consent: ConsentSpec | None = None,
+    practice: PracticeSpec | None = None,
+    prolific_no_consent_code: str | None = None,
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """Build a Qualtrics ``.qsf`` document for ``benchmark``.
 
@@ -127,6 +144,28 @@ def build_qsf(
     link, and an end-of-survey redirect to Prolific's completion URL with
     this code. An invalid code raises ``ValueError`` before anything is
     built.
+
+    ``consent`` adds a Consent block as the survey's first block (after
+    the Prolific Embedded Data node, when present) and a Branch node that
+    ends the survey for anyone who chooses ``consent.decline`` or leaves
+    any statement unticked. That ending overrides the survey-level
+    Prolific redirect, so a decliner never receives the completion code:
+    with ``prolific_no_consent_code`` it redirects to Prolific with that
+    code (set it up in Prolific as a "no consent" code that asks the
+    participant to return the study), otherwise it shows Qualtrics's
+    default end message. ``prolific_no_consent_code`` requires
+    ``consent``.
+
+    ``practice`` adds practice items after the instructions (and the
+    expertise question), outside randomization: an optional intro page,
+    one item per page, an optional outro page. They are rendered through
+    :func:`~infereval.survey.render.render_survey_question` under the
+    same question form and frame as the benchmark items (asserted), and
+    exported under ``practice_<id>``. They are not in ``mapping``.
+
+    With either, a benchmark item whose export tag takes a reserved
+    session form (``consent``, ``consent_*``, ``practice_*``) raises
+    ``ValueError``.
 
     Returns
     -------
@@ -162,6 +201,13 @@ def build_qsf(
         if prolific_completion_code is not None
         else None
     )
+    if prolific_no_consent_code is not None and consent is None:
+        raise ValueError("prolific_no_consent_code requires a consent page (consent=...).")
+    no_consent_url = (
+        completion_url(prolific_no_consent_code)
+        if prolific_no_consent_code is not None
+        else None
+    )
     effective_title = title if title is not None else f"Analyst recruitment for {benchmark.id}"
 
     survey_id = _qsf_id("SV_", f"infereval|{benchmark.id}|survey")
@@ -191,6 +237,11 @@ def build_qsf(
     header_texts: set[str] = set()
     for item in benchmark.items:
         tag, was_hashed = sanitize_export_tag(item.id)
+        if (consent is not None or practice is not None) and is_session_tag(tag):
+            raise ValueError(
+                f"item {item.id!r} exports under tag {tag!r}, which is reserved "
+                f"for the consent/practice pages; rename the item."
+            )
         verdict_qid = f"QID{next_qid}"
         next_qid += 1
 
@@ -294,6 +345,75 @@ def build_qsf(
             {"Type": "Question", "QuestionID": expertise_qid},
         ]
 
+    if practice is not None:
+        practice_qids, next_qid = _practice_questions(
+            benchmark,
+            practice,
+            survey_id=survey_id,
+            first_qid=next_qid,
+            question_form=question_form,
+            coherence_frame=coherence_frame,
+            verification_prompt=verification_prompt,
+            header_mode=header_mode,
+            expected_frame_id=next(iter(resolved_frame_ids), None),
+            sq_elements=sq_elements,
+        )
+        for qid in practice_qids:
+            intro_elements += [{"Type": "Page Break"}, {"Type": "Question", "QuestionID": qid}]
+
+    consent_block: dict[str, Any] | None = None
+    consent_logic: dict[str, Any] | None = None
+    if consent is not None:
+        letter_qid, statements_qid, decision_qid = (
+            f"QID{next_qid}", f"QID{next_qid + 1}", f"QID{next_qid + 2}"
+        )
+        next_qid += 3
+        sq_elements += [
+            _descriptive_text_question(
+                survey_id=survey_id,
+                qid=letter_qid,
+                text=consent.information,
+                data_export_tag="consent_information",
+                label="Consent information",
+            ),
+            _mc_question(
+                survey_id=survey_id,
+                qid=statements_qid,
+                label="Consent statements",
+                prompt="Please tick each statement you agree with.",
+                choices=list(consent.statements),
+                data_export_tag=CONSENT_STATEMENTS_TAG,
+                force_response=False,
+                selector="MAVR",
+            ),
+            _mc_question(
+                survey_id=survey_id,
+                qid=decision_qid,
+                label="Consent decision",
+                prompt=(
+                    "Do you agree to take part? If you do not tick every "
+                    "statement above, the survey ends here."
+                ),
+                choices=[consent.agree, consent.decline],
+                data_export_tag=CONSENT_TAG,
+                force_response=True,
+            ),
+        ]
+        consent_block = {
+            "Type": "Standard",
+            "Description": "Consent",
+            "ID": _qsf_id("BL_", f"infereval|{benchmark.id}|block|consent"),
+            "BlockElements": [
+                {"Type": "Question", "QuestionID": q}
+                for q in (letter_qid, statements_qid, decision_qid)
+            ],
+        }
+        consent_logic = _no_consent_logic(
+            decision_qid=decision_qid,
+            statements_qid=statements_qid,
+            n_statements=len(consent.statements),
+        )
+
     blocks, flow_nodes = _blocks_and_flow(
         benchmark_id=benchmark.id,
         intro_elements=intro_elements,
@@ -305,17 +425,52 @@ def build_qsf(
     def _count_nodes(nodes: list[dict[str, Any]]) -> int:
         return sum(1 + _count_nodes(n.get("Flow", [])) for n in nodes)
 
+    # Nodes added around the item flow take the next free FlowID numbers,
+    # so the item flow's own ids never change.
+    def _max_flow_n(nodes: list[dict[str, Any]]) -> int:
+        return max(
+            [int(n["FlowID"].removeprefix("FL_")) for n in nodes]
+            + [_max_flow_n(n["Flow"]) for n in nodes if n.get("Flow")]
+            + [1]
+        )
+
+    if consent_block is not None and consent_logic is not None:
+        blocks.insert(0, consent_block)
+        n = _max_flow_n(flow_nodes)
+        end_node: dict[str, Any] = {
+            "Type": "EndSurvey",
+            "FlowID": f"FL_{n + 3}",
+            "EndingType": "Advanced",
+            "Options": (
+                {
+                    "Advanced": "true",
+                    "SurveyTermination": "Redirect",
+                    "EOSRedirectURL": no_consent_url,
+                }
+                if no_consent_url is not None
+                else {"Advanced": "true", "SurveyTermination": "DefaultMessage"}
+            ),
+        }
+        flow_nodes[:0] = [
+            {"ID": consent_block["ID"], "Type": "Standard", "FlowID": f"FL_{n + 1}"},
+            {
+                "Type": "Branch",
+                "FlowID": f"FL_{n + 2}",
+                "Description": "End the survey without consent",
+                "BranchLogic": consent_logic,
+                "Flow": [end_node],
+            },
+        ]
+        log.info(
+            "survey.export.consent benchmark=%s statements=%d decline_ending=%s",
+            benchmark.id,
+            len(consent.statements) if consent is not None else 0,
+            "prolific_redirect" if no_consent_url is not None else "default_message",
+        )
+
     if redirect_url is not None:
         # Embedded Data must be set before any block runs, so it is the
-        # flow's first node; its FlowID takes the next free number so the
-        # existing nodes keep their ids.
-        def _max_flow_n(nodes: list[dict[str, Any]]) -> int:
-            return max(
-                [int(n["FlowID"].removeprefix("FL_")) for n in nodes]
-                + [_max_flow_n(n["Flow"]) for n in nodes if n.get("Flow")]
-                + [1]
-            )
-
+        # flow's first node.
         flow_nodes.insert(
             0,
             _embedded_data_node(f"FL_{_max_flow_n(flow_nodes) + 1}", PROLIFIC_FIELDS),
@@ -485,6 +640,148 @@ def _blocks_and_flow(
     return single_block, single_flow
 
 
+def _practice_questions(
+    benchmark: Benchmark,
+    practice: PracticeSpec,
+    *,
+    survey_id: str,
+    first_qid: int,
+    question_form: str,
+    coherence_frame: CoherenceFrame | None,
+    verification_prompt: VerificationPrompt | None,
+    header_mode: str,
+    expected_frame_id: str | None,
+    sq_elements: list[dict[str, Any]],
+) -> tuple[list[str], int]:
+    """Append the practice pages' questions to ``sq_elements``.
+
+    Practice items become a throwaway benchmark that shares the real
+    benchmark's id and frame bindings, so
+    :func:`~infereval.survey.render.render_survey_question` renders them
+    through exactly the same path (body format, header, stem, choices).
+    Returns the QIDs in page order and the next free QID number.
+    """
+    from ..benchmark import Benchmark as _Benchmark
+
+    bearers: dict[str, dict[str, str]] = {}
+    items: list[dict[str, Any]] = []
+    for p in practice.items:
+        prem_ids = [f"{p.id}__p{i}" for i in range(len(p.premises))]
+        concl_id = f"{p.id}__c"
+        bearers.update({b: {"expression": t} for b, t in zip(prem_ids, p.premises, strict=True)})
+        bearers[concl_id] = {"expression": p.conclusion}
+        items.append(
+            {
+                "id": p.id,
+                "premises": prem_ids,
+                "conclusions": [concl_id],
+                "analyst_verdicts": ["abstain"],
+            }
+        )
+    base = benchmark.model_dump(
+        mode="json",
+        include={
+            "schema_version", "id", "title", "context_builders",
+            "verification_prompt", "template_id", "coherence_frame_id",
+        },
+        exclude_none=True,
+    )
+    shadow = _Benchmark.model_validate(
+        {**base, "bearers": bearers, "items": items, "analysts": [{"id": "practice"}]}
+    )
+
+    qid_n = first_qid
+    page_qids: list[str] = []
+
+    def _next() -> str:
+        nonlocal qid_n
+        qid = f"QID{qid_n}"
+        qid_n += 1
+        return qid
+
+    if practice.intro:
+        qid = _next()
+        sq_elements.append(
+            _descriptive_text_question(
+                survey_id=survey_id, qid=qid, text=practice.intro,
+                data_export_tag="practice_intro", label="Practice introduction",
+            )
+        )
+        page_qids.append(qid)
+    for p, item in zip(practice.items, shadow.items, strict=True):
+        sq = render_survey_question(
+            shadow,
+            item,
+            question_form=question_form,
+            coherence_frame=coherence_frame,
+            verification_prompt=verification_prompt,
+        )
+        if expected_frame_id is not None and sq.frame_id != expected_frame_id:
+            raise ValueError(
+                f"practice item {p.id!r} rendered under frame {sq.frame_id!r}, "
+                f"but the benchmark items use {expected_frame_id!r}."
+            )
+        qid = _next()
+        sq_elements.append(
+            _mc_question(
+                survey_id=survey_id,
+                qid=qid,
+                label=f"Practice {p.id}",
+                prompt=sq.body_with_stem() if header_mode == "instructions" else sq.full_text(),
+                choices=list(sq.choices),
+                data_export_tag=p.tag,
+                force_response=True,
+            )
+        )
+        page_qids.append(qid)
+    if practice.outro:
+        qid = _next()
+        sq_elements.append(
+            _descriptive_text_question(
+                survey_id=survey_id, qid=qid, text=practice.outro,
+                data_export_tag="practice_outro", label="Practice end",
+            )
+        )
+        page_qids.append(qid)
+    log.info(
+        "survey.export.practice benchmark=%s items=%s frame_id=%s",
+        benchmark.id, ",".join(p.id for p in practice.items), expected_frame_id,
+    )
+    return page_qids, qid_n
+
+
+def _no_consent_logic(
+    *, decision_qid: str, statements_qid: str, n_statements: int
+) -> dict[str, Any]:
+    """BranchLogic: decline chosen, OR any consent statement unticked."""
+
+    def _expr(qid: str, choice: int, operator: str, description: str) -> dict[str, Any]:
+        locator = f"q://{qid}/SelectableChoice/{choice}"
+        return {
+            "LogicType": "Question",
+            "QuestionID": qid,
+            "QuestionIsInLoop": "no",
+            "ChoiceLocator": locator,
+            "Operator": operator,
+            "QuestionIDFromLocator": qid,
+            "LeftOperand": locator,
+            "Type": "Expression",
+            "Description": description,
+        }
+
+    exprs = [_expr(decision_qid, 2, "Selected", "Consent decision: decline is selected")]
+    exprs += [
+        _expr(statements_qid, k, "NotSelected", f"Consent statement {k} is not selected")
+        for k in range(1, n_statements + 1)
+    ]
+    condition: dict[str, Any] = {"Type": "If"}
+    for i, e in enumerate(exprs):
+        if i:
+            e = {**e, "Conjuction": "Or"}  # Qualtrics's own spelling
+        condition[str(i)] = e
+    return {"0": condition, "Type": "BooleanExpression"}
+
+
 def _survey_entry(title: str, *, survey_id: str, rs_id: str) -> dict[str, Any]:
     """SurveyEntry boilerplate. Qualtrics regenerates ownership and
     dates at import time; the importer requires format-valid ids (no
@@ -574,27 +871,30 @@ def _descriptive_text_question(
     survey_id: str,
     qid: str,
     text: str,
+    data_export_tag: str = "instructions",
+    label: str = "Instructions",
 ) -> dict[str, Any]:
     """A Descriptive Text (DB) element — display-only, collects no data.
 
     Used by the instructions header mode to show the frame's full survey
-    header once, on its own page, before the expertise question.
+    header once, on its own page, before the expertise question, and for
+    the consent information and practice intro/outro pages.
     """
     return {
         "SurveyID": survey_id,
         "Element": "SQ",
         "PrimaryAttribute": qid,
-        "SecondaryAttribute": "Instructions",
+        "SecondaryAttribute": label,
         "TertiaryAttribute": None,
         "Payload": {
             "QuestionText": text,
-            "DataExportTag": "instructions",
+            "DataExportTag": data_export_tag,
             "QuestionID": qid,
             "QuestionType": "DB",
             "Selector": "TB",
             "DataVisibility": {"Private": False, "Hidden": False},
             "Configuration": {"QuestionDescriptionOption": "UseText"},
-            "QuestionDescription": "Instructions",
+            "QuestionDescription": label,
             "Validation": {"Settings": {"Type": "None"}},
             "Language": [],
         },
@@ -647,8 +947,10 @@ def _mc_question(
     choices: list[str],
     data_export_tag: str,
     force_response: bool,
+    selector: str = "SAVR",
 ) -> dict[str, Any]:
-    """A multiple-choice (single-answer, vertical) question element."""
+    """A multiple-choice question element: single answer (``SAVR``) or
+    multiple answer (``MAVR``), vertical."""
     choice_dict = {str(i + 1): {"Display": c} for i, c in enumerate(choices)}
     choice_order = [str(i + 1) for i in range(len(choices))]
     return {
@@ -662,7 +964,7 @@ def _mc_question(
             "DataExportTag": data_export_tag,
             "QuestionID": qid,
             "QuestionType": "MC",
-            "Selector": "SAVR",
+            "Selector": selector,
             "SubSelector": "TX",
             "Configuration": {"QuestionDescriptionOption": "UseText"},
             "QuestionDescription": label,
