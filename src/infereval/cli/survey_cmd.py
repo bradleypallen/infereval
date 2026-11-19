@@ -176,6 +176,17 @@ def survey_group() -> None:
         "recorded in the mapping sidecar."
     ),
 )
+@click.option(
+    "--prolific-completion-code",
+    type=str,
+    default=None,
+    help=(
+        "Add the Prolific hand-off: capture PROLIFIC_PID, STUDY_ID and "
+        "SESSION_ID from the study link as Embedded Data, and end the "
+        "survey with a redirect to Prolific's completion URL carrying "
+        "this code (from the Prolific study page). Qualtrics only."
+    ),
+)
 # SurveyMonkey-only:
 @click.option(
     "--surveymonkey-token",
@@ -204,15 +215,21 @@ def export_cmd(
     question_form: str,
     coherence_frame_id: str | None,
     header_mode: str,
+    prolific_completion_code: str | None,
     surveymonkey_token: str | None,
     surveymonkey_base_url: str,
 ) -> None:
     log.info(
         "survey.export.start benchmark=%s output=%s platform=%s "
-        "question_form=%s coherence_frame=%s header_mode=%s",
+        "question_form=%s coherence_frame=%s header_mode=%s prolific=%s",
         benchmark_path, output, platform, question_form, coherence_frame_id,
-        header_mode,
+        header_mode, prolific_completion_code is not None,
     )
+    if prolific_completion_code is not None and platform != "qualtrics":
+        raise click.UsageError(
+            f"--prolific-completion-code is implemented for --platform "
+            f"qualtrics only, not {platform}."
+        )
     if header_mode != "per-question" and platform != "qualtrics":
         raise click.UsageError(
             f"--header-mode {header_mode} is implemented for --platform "
@@ -239,18 +256,32 @@ def export_cmd(
     output.parent.mkdir(parents=True, exist_ok=True)
 
     if platform == "qualtrics":
-        qsf, mapping = build_qsf(
-            benchmark,
-            title=title,
-            randomize_items=randomize_items,
-            include_rationales=include_rationales,
-            expertise_prompt=expertise_prompt,
-            question_form=question_form,
-            coherence_frame=coherence_frame,
-            header_mode=header_mode,
-        )
+        try:
+            qsf, mapping = build_qsf(
+                benchmark,
+                title=title,
+                randomize_items=randomize_items,
+                include_rationales=include_rationales,
+                expertise_prompt=expertise_prompt,
+                question_form=question_form,
+                coherence_frame=coherence_frame,
+                header_mode=header_mode,
+                prolific_completion_code=prolific_completion_code,
+            )
+        except ValueError as exc:
+            if prolific_completion_code is None:
+                raise
+            click.echo(f"ERROR: {exc}", err=True)
+            sys.exit(2)
         output.write_text(json.dumps(qsf, indent=2), encoding="utf-8")
         click.echo(f"OK: wrote Qualtrics .qsf to {output}")
+        if prolific_completion_code is not None:
+            click.echo(
+                "  Prolific: set the study URL to <anonymous link>"
+                "?PROLIFIC_PID={{%PROLIFIC_PID%}}&STUDY_ID={{%STUDY_ID%}}"
+                "&SESSION_ID={{%SESSION_ID%}} — the survey redirects to "
+                "Prolific's completion page at the end."
+            )
         _maybe_write_mapping(output, mapping)
 
     elif platform == "google_forms":

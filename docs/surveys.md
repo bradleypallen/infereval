@@ -103,6 +103,28 @@ This writes a `.qsf` file. To publish:
 2. Select the `.qsf`.
 3. Distribute via **Anonymous Link** (or whatever distribution channel you prefer).
 
+### Recruiting through Prolific
+
+Pass the study's completion code (from the Prolific study page) to add the Prolific hand-off:
+
+```sh
+infereval survey export examples/pulmonary_edema/benchmark.json \
+    -o recruit.qsf --prolific-completion-code C1A2B3C4
+```
+
+The `.qsf` then:
+
+- opens its Survey Flow with an **Embedded Data** element that captures `PROLIFIC_PID`, `STUDY_ID` and `SESSION_ID` from the survey link;
+- ends with **Redirect to a URL**: `https://app.prolific.com/submissions/complete?cc=C1A2B3C4`.
+
+In Prolific, set the study URL to the Qualtrics anonymous link with Prolific's URL parameters appended:
+
+```
+https://<your-org>.qualtrics.com/jfe/form/SV_...?PROLIFIC_PID={{%PROLIFIC_PID%}}&STUDY_ID={{%STUDY_ID%}}&SESSION_ID={{%SESSION_ID%}}
+```
+
+Preview the survey from Prolific once before publishing, and check that the three fields appear in a test response and that the end page lands on Prolific. The importer skips the three columns: they are never parsed as verdicts or copied into the benchmark, and the new analyst ids stay the Qualtrics `ResponseId`. Reconcile approvals and payment against the Qualtrics export, which keeps the Prolific ids.
+
 ### Import
 
 After collecting responses, export the CSV from Qualtrics:

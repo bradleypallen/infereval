@@ -28,6 +28,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from ..types import Verdict
+from .prolific import PROLIFIC_FIELDS
 from .render import SurveyRespondent, verdict_from_choice_text
 
 if TYPE_CHECKING:
@@ -56,6 +57,10 @@ _QUALTRICS_STOCK_COLUMNS: frozenset[str] = frozenset({
     "ResponseId", "RecipientLastName", "RecipientFirstName",
     "RecipientEmail", "ExternalReference", "LocationLatitude",
     "LocationLongitude", "DistributionChannel", "UserLanguage",
+    # Embedded Data captured by the Prolific hand-off (export with
+    # --prolific-completion-code). Skipped, never stored: Prolific ids are
+    # pseudonymous personal data and the analyst id stays the ResponseId.
+    *PROLIFIC_FIELDS,
 })
 
 

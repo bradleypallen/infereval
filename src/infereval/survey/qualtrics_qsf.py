@@ -16,6 +16,11 @@ Survey → "Import a QSF file"). The imported survey has:
    ``BlockRandomizer`` node (all items, random order). Randomization
    is over item *units*, never individual questions, so a rationale
    can never be separated from its verdict.
+5. When ``prolific_completion_code`` is given, the flow opens with an
+   Embedded Data node that captures Prolific's ``PROLIFIC_PID`` /
+   ``STUDY_ID`` / ``SESSION_ID`` URL parameters, and the survey ends by
+   redirecting to Prolific's completion URL with that code (see
+   :mod:`infereval.survey.prolific`).
 
 The ``.qsf`` format is JSON but Qualtrics's documentation is sparse;
 the shapes below follow real Qualtrics survey exports and two
@@ -40,6 +45,7 @@ import logging
 import re
 from typing import TYPE_CHECKING, Any
 
+from .prolific import PROLIFIC_FIELDS, completion_url
 from .render import (
     DEFAULT_EXPERTISE_PROMPT,
     rationale_prompt,
@@ -90,6 +96,7 @@ def build_qsf(
     coherence_frame: CoherenceFrame | None = None,
     verification_prompt: VerificationPrompt | None = None,
     header_mode: str = "per-question",
+    prolific_completion_code: str | None = None,
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """Build a Qualtrics ``.qsf`` document for ``benchmark``.
 
@@ -112,6 +119,14 @@ def build_qsf(
       header's own closing question line — verbatim, so no wording enters
       the elicitation surface that is not already part of the frame).
       Fails loudly when the resolved frame declares no ``survey_stem``.
+
+    ``prolific_completion_code`` (default ``None``: no hand-off, output
+    byte-identical to earlier versions) adds the Prolific hand-off: an
+    Embedded Data flow node, first in the flow, capturing
+    :data:`~infereval.survey.prolific.PROLIFIC_FIELDS` from the study
+    link, and an end-of-survey redirect to Prolific's completion URL with
+    this code. An invalid code raises ``ValueError`` before anything is
+    built.
 
     Returns
     -------
@@ -142,6 +157,11 @@ def build_qsf(
             f"unknown header_mode {header_mode!r}; expected 'per-question' "
             f"or 'instructions'."
         )
+    redirect_url = (
+        completion_url(prolific_completion_code)
+        if prolific_completion_code is not None
+        else None
+    )
     effective_title = title if title is not None else f"Analyst recruitment for {benchmark.id}"
 
     survey_id = _qsf_id("SV_", f"infereval|{benchmark.id}|survey")
@@ -285,6 +305,27 @@ def build_qsf(
     def _count_nodes(nodes: list[dict[str, Any]]) -> int:
         return sum(1 + _count_nodes(n.get("Flow", [])) for n in nodes)
 
+    if redirect_url is not None:
+        # Embedded Data must be set before any block runs, so it is the
+        # flow's first node; its FlowID takes the next free number so the
+        # existing nodes keep their ids.
+        def _max_flow_n(nodes: list[dict[str, Any]]) -> int:
+            return max(
+                [int(n["FlowID"].removeprefix("FL_")) for n in nodes]
+                + [_max_flow_n(n["Flow"]) for n in nodes if n.get("Flow")]
+                + [1]
+            )
+
+        flow_nodes.insert(
+            0,
+            _embedded_data_node(f"FL_{_max_flow_n(flow_nodes) + 1}", PROLIFIC_FIELDS),
+        )
+        log.info(
+            "survey.export.prolific benchmark=%s fields=%s redirect_host=app.prolific.com",
+            benchmark.id,
+            ",".join(PROLIFIC_FIELDS),
+        )
+
     flow_count = 1 + _count_nodes(flow_nodes)
 
     def _envelope(
@@ -317,7 +358,7 @@ def build_qsf(
                     "Properties": {"Count": flow_count},
                 },
             ),
-            _envelope("SO", "Survey Options", _survey_options()),
+            _envelope("SO", "Survey Options", _survey_options(redirect_url=redirect_url)),
             _envelope(
                 "SCO",
                 "Scoring",
@@ -469,9 +510,38 @@ def _survey_entry(title: str, *, survey_id: str, rs_id: str) -> dict[str, Any]:
     }
 
 
-def _survey_options() -> dict[str, Any]:
-    """Minimal import-proven Survey Options payload."""
+def _embedded_data_node(flow_id: str, fields: tuple[str, ...]) -> dict[str, Any]:
+    """An Embedded Data flow node whose fields are filled from the URL.
+
+    ``Type: "Recipient"`` is Qualtrics's "set from panel or URL" source:
+    a field with that type and no value takes the same-named query
+    parameter of the survey link, which is how Prolific ids arrive.
+    """
     return {
+        "Type": "EmbeddedData",
+        "FlowID": flow_id,
+        "EmbeddedData": [
+            {
+                "Description": field,
+                "Type": "Recipient",
+                "Field": field,
+                "VariableType": "String",
+                "DataVisibility": [],
+                "AnalyzeText": False,
+            }
+            for field in fields
+        ],
+    }
+
+
+def _survey_options(*, redirect_url: str | None = None) -> dict[str, Any]:
+    """Minimal import-proven Survey Options payload.
+
+    With ``redirect_url`` the survey ends by sending the respondent to
+    that URL (Qualtrics's "Redirect to a URL" end-of-survey option)
+    instead of the default thank-you message.
+    """
+    options = {
         "BackButton": "false",
         "SaveAndContinue": "true",
         "SurveyProtection": "PublicSurvey",
@@ -493,6 +563,10 @@ def _survey_options() -> dict[str, Any]:
         "NewScoring": 1,
         "CustomStyles": "",
     }
+    if redirect_url is not None:
+        options["SurveyTermination"] = "Redirect"
+        options["EOSRedirectURL"] = redirect_url
+    return options
 
 
 def _descriptive_text_question(
