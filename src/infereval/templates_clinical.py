@@ -45,6 +45,11 @@ class ClinicalTemplate:
     id: str = "clinical-coherence-v1"
 
     def render(self, req: VerdictRequest) -> str:
+        if req.antecedent_empty:
+            raise ValueError(
+                f"{self.id} has no rendering for items without premises (⟨∅, Δ⟩); "
+                "use a framework template (framework-default-v1/v2) for that shape."
+            )
         gamma = req.gamma_ctx
         if req.arity == 0:
             return (

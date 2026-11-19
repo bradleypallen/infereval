@@ -217,7 +217,17 @@ def _build_prompt(
     default, byte-identical to the pre-frame library), and is defined for
     every arity (brief §3.1).
     """
+    if implication.is_empty_empty:
+        raise ValueError(
+            f"item {implication.id!r} is ⟨∅, ∅⟩ (no premises and no conclusions), which is "
+            "excluded by stipulation and cannot be elicited."
+        )
     if question_form == "support":
+        if not implication.premises:
+            raise ValueError(
+                f"question_form='support' needs at least one premise; item {implication.id!r} "
+                f"has none (⟨∅, Δ⟩). Use question_form='coherence' for that shape."
+            )
         if len(implication.conclusions) != 1:
             raise ValueError(
                 f"question_form='support' is defined only for single-succedent items "
@@ -239,6 +249,7 @@ def _build_prompt(
         gamma_ctx=premise_ctx,
         delta_ctx=tuple(conclusion_exprs),
         structure="commit_deny",
+        antecedent_empty=not implication.premises,
     )
     rendered = coherence_prompt(req, tmpl, frame)
     pattern = re.compile(rendered.parse_regex, re.IGNORECASE)
