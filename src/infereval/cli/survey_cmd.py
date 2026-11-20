@@ -25,6 +25,7 @@ import click
 from infereval.benchmark import Benchmark
 from infereval.survey.google_forms_csv import parse_google_forms_csv
 from infereval.survey.google_forms_gas import build_gas_script
+from infereval.survey.quality import quality_report
 from infereval.survey.qualtrics_csv import (
     FrameMismatchError,
     IncompleteRespondentError,
@@ -36,7 +37,7 @@ from infereval.survey.render import (
     DEFAULT_EXPERTISE_PROMPT,
     SurveyRespondent,
 )
-from infereval.survey.session import load_consent, load_practice
+from infereval.survey.session import load_consent, load_practice, load_quality
 from infereval.survey.surveymonkey_api import (
     SurveyMonkeyApiError,
     SurveyMonkeyAuthError,
@@ -220,6 +221,16 @@ def survey_group() -> None:
         "study), instead of the default end message."
     ),
 )
+@click.option(
+    "--quality-checks",
+    "quality_path",
+    type=click.Path(exists=True, dir_okay=False, path_type=Path),
+    default=None,
+    help=(
+        "JSON quality checks: attention_checks (id/text/answer) shown among the "
+        "items, and repeats (item ids) shown again after all items. Qualtrics only."
+    ),
+)
 # SurveyMonkey-only:
 @click.option(
     "--surveymonkey-token",
@@ -252,21 +263,23 @@ def export_cmd(
     consent_path: Path | None,
     practice_path: Path | None,
     prolific_no_consent_code: str | None,
+    quality_path: Path | None,
     surveymonkey_token: str | None,
     surveymonkey_base_url: str,
 ) -> None:
     log.info(
         "survey.export.start benchmark=%s output=%s platform=%s "
         "question_form=%s coherence_frame=%s header_mode=%s prolific=%s "
-        "consent=%s practice=%s prolific_no_consent=%s",
+        "consent=%s practice=%s prolific_no_consent=%s quality=%s",
         benchmark_path, output, platform, question_form, coherence_frame_id,
         header_mode, prolific_completion_code is not None, consent_path,
-        practice_path, prolific_no_consent_code is not None,
+        practice_path, prolific_no_consent_code is not None, quality_path,
     )
     session_opts = {
         "--consent": consent_path,
         "--practice": practice_path,
         "--prolific-no-consent-code": prolific_no_consent_code,
+        "--quality-checks": quality_path,
     }
     for flag, value in session_opts.items():
         if value is not None and platform != "qualtrics":
@@ -326,12 +339,15 @@ def export_cmd(
         try:
             consent = load_consent(consent_path) if consent_path is not None else None
             practice = load_practice(practice_path) if practice_path is not None else None
+            quality = load_quality(quality_path) if quality_path is not None else None
         except ValueError as exc:
             click.echo(f"ERROR: {exc}", err=True)
             sys.exit(2)
         handoff = any(
             v is not None
-            for v in (prolific_completion_code, consent, practice, prolific_no_consent_code)
+            for v in (
+                prolific_completion_code, consent, practice, prolific_no_consent_code, quality
+            )
         )
         try:
             qsf, mapping = build_qsf(
@@ -347,6 +363,7 @@ def export_cmd(
                 consent=consent,
                 practice=practice,
                 prolific_no_consent_code=prolific_no_consent_code,
+                quality=quality,
             )
         except ValueError as exc:
             if not handoff:
@@ -376,6 +393,12 @@ def export_cmd(
             click.echo(
                 f"  Practice: {len(practice.items)} items after the instructions "
                 "(exported as practice_<id>; not imported as verdicts)."
+            )
+        if quality is not None:
+            click.echo(
+                f"  Quality checks: {len(quality.attention_checks)} attention checks among "
+                f"the items, {len(quality.repeats)} items repeated after them (exported as "
+                "check_<id> / repeat_<tag>; import with --quality-checks for the report)."
             )
         if any(row["confidence_data_export_tag"] is not None for row in mapping):
             assert survey_confidence is not None
@@ -550,6 +573,25 @@ def _maybe_write_mapping(
     help="Filter to a single respondent by response id. Default: import all rows.",
 )
 @click.option(
+    "--exclude-respondent",
+    "exclude_ids",
+    multiple=True,
+    help=(
+        "Response id to leave out of the merge (repeatable), e.g. after "
+        "applying a pre-registered exclusion rule to the quality report."
+    ),
+)
+@click.option(
+    "--quality-checks",
+    "quality_path",
+    type=click.Path(exists=True, dir_okay=False, path_type=Path),
+    default=None,
+    help=(
+        "JSON quality checks: attention_checks (id/text/answer) shown among the "
+        "items, and repeats (item ids) shown again after all items. Writes <output stem>.quality.json per respondent (checks passed, repeat consistency, duration); excludes no one. Qualtrics only."
+    ),
+)
+@click.option(
     "--require-complete/--allow-partial",
     default=True,
     show_default=True,
@@ -592,6 +634,8 @@ def import_cmd(
     mapping_path: Path | None,
     analyst_id_prefix: str,
     respondent_id: str | None,
+    exclude_ids: tuple[str, ...],
+    quality_path: Path | None,
     require_complete: bool,
     question_form: str,
     coherence_frame_id: str | None,
@@ -657,6 +701,39 @@ def import_cmd(
                 err=True,
             )
             sys.exit(2)
+
+    if quality_path is not None:
+        if platform != "qualtrics":
+            raise click.UsageError(
+                f"--quality-checks is implemented for --platform qualtrics only, not {platform}."
+            )
+        try:
+            quality = load_quality(quality_path)
+            report = quality_report(benchmark, respondents, quality, mapping=mapping)
+        except ValueError as exc:
+            click.echo(f"ERROR: {exc}", err=True)
+            sys.exit(2)
+        report_path = output.with_suffix(".quality.json")
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+        report_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+        summ = report["summary"]
+        agreement = summ["repeat_agreement"]
+        click.echo(
+            f"OK: wrote quality report to {report_path} ({summ['respondents']} respondents; "
+            f"{summ['failed_any_attention_check']} failed an attention check; repeat "
+            f"agreement {'n/a' if agreement is None else f'{agreement:.2f}'}; median "
+            f"duration {summ['median_duration_seconds']} s)"
+        )
+        log.info("survey.import.quality_report path=%s", report_path)
+
+    if exclude_ids:
+        unknown = sorted(set(exclude_ids) - {r.response_id for r in respondents})
+        if unknown:
+            click.echo(f"ERROR: --exclude-respondent ids not in the responses: {unknown}", err=True)
+            sys.exit(2)
+        respondents = [r for r in respondents if r.response_id not in set(exclude_ids)]
+        log.info("survey.import.excluded ids=%s", ",".join(sorted(exclude_ids)))
+        click.echo(f"  Excluded {len(exclude_ids)} respondent(s): {', '.join(sorted(exclude_ids))}")
 
     if not respondents:
         click.echo("ERROR: no respondents found in the supplied responses file.", err=True)
