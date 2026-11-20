@@ -25,7 +25,10 @@ Survey → "Import a QSF file"). The imported survey has:
    (information text, one tick box per statement, agree/decline). A
    Branch flow node right after it ends the survey for anyone who
    declines or leaves a statement unticked, before any study item.
-7. When ``practice`` is given, practice items rendered exactly like the
+7. When the frame declares ``survey_confidence``, a force-response
+   confidence question follows each verdict on the same page (and in
+   each practice item), DataExportTag ``f"{sanitized_item_id}_confidence"``.
+8. When ``practice`` is given, practice items rendered exactly like the
    benchmark items follow the instructions, outside randomization, each
    on its own page (see :mod:`infereval.survey.session`).
 
@@ -54,6 +57,7 @@ from typing import TYPE_CHECKING, Any
 
 from .prolific import PROLIFIC_FIELDS, completion_url
 from .render import (
+    CONFIDENCE_SUFFIX,
     DEFAULT_EXPERTISE_PROMPT,
     rationale_prompt,
     render_survey_question,
@@ -69,7 +73,7 @@ from .session import (
 
 if TYPE_CHECKING:
     from ..benchmark import Benchmark
-    from ..prompts import VerificationPrompt
+    from ..prompts import ConfidenceScale, VerificationPrompt
     from ..templates import CoherenceFrame
 
 log = logging.getLogger(__name__)
@@ -179,6 +183,8 @@ def build_qsf(
         - ``verdict_data_export_tag``
         - ``rationale_data_export_tag`` (``None`` when
           ``include_rationales=False``)
+        - ``confidence_data_export_tag`` (``None`` when the frame
+          declares no ``survey_confidence``)
         - ``was_hashed`` (``True`` when the item id triggered the
           sha256-hash fallback)
         - ``question_form`` (the logical question the survey asks)
@@ -235,6 +241,7 @@ def build_qsf(
     next_qid = 2
     resolved_frame_ids: set[str | None] = set()
     header_texts: set[str] = set()
+    confidence_labels: list[str] | None = None
     for item in benchmark.items:
         tag, was_hashed = sanitize_export_tag(item.id)
         if (consent is not None or practice is not None) and is_session_tag(tag):
@@ -271,6 +278,20 @@ def build_qsf(
         )
         qids = [verdict_qid]
 
+        confidence_tag: str | None = None
+        if sq.confidence is not None:
+            confidence_labels = list(sq.confidence.labels)
+            confidence_qid = f"QID{next_qid}"
+            next_qid += 1
+            confidence_tag = f"{tag}{CONFIDENCE_SUFFIX}"
+            sq_elements.append(
+                _confidence_question(
+                    survey_id=survey_id, qid=confidence_qid, scale=sq.confidence,
+                    label=f"Confidence on {item.id}", data_export_tag=confidence_tag,
+                )
+            )
+            qids.append(confidence_qid)
+
         rationale_tag: str | None = None
         if include_rationales:
             rationale_qid = f"QID{next_qid}"
@@ -294,6 +315,7 @@ def build_qsf(
                 "item_id": item.id,
                 "verdict_data_export_tag": tag,
                 "rationale_data_export_tag": rationale_tag,
+                "confidence_data_export_tag": confidence_tag,
                 "was_hashed": was_hashed,
                 "question_form": sq.question_form,
                 "frame_id": sq.frame_id,
@@ -316,6 +338,12 @@ def build_qsf(
         next(iter(resolved_frame_ids), None),
         header_mode,
     )
+    n_conf = sum(1 for row in mapping if row["confidence_data_export_tag"] is not None)
+    if n_conf:
+        log.info(
+            "survey.export.confidence benchmark=%s items=%d labels=%s",
+            benchmark.id, n_conf, confidence_labels,
+        )
 
     # Intro portion of the survey (always first, outside randomization):
     # under the instructions header mode, the frame's full header renders
@@ -346,7 +374,7 @@ def build_qsf(
         ]
 
     if practice is not None:
-        practice_qids, next_qid = _practice_questions(
+        practice_pages, next_qid = _practice_questions(
             benchmark,
             practice,
             survey_id=survey_id,
@@ -358,8 +386,9 @@ def build_qsf(
             expected_frame_id=next(iter(resolved_frame_ids), None),
             sq_elements=sq_elements,
         )
-        for qid in practice_qids:
-            intro_elements += [{"Type": "Page Break"}, {"Type": "Question", "QuestionID": qid}]
+        for page in practice_pages:
+            intro_elements.append({"Type": "Page Break"})
+            intro_elements += [{"Type": "Question", "QuestionID": qid} for qid in page]
 
     consent_block: dict[str, Any] | None = None
     consent_logic: dict[str, Any] | None = None
@@ -652,14 +681,14 @@ def _practice_questions(
     header_mode: str,
     expected_frame_id: str | None,
     sq_elements: list[dict[str, Any]],
-) -> tuple[list[str], int]:
+) -> tuple[list[list[str]], int]:
     """Append the practice pages' questions to ``sq_elements``.
 
     Practice items become a throwaway benchmark that shares the real
     benchmark's id and frame bindings, so
     :func:`~infereval.survey.render.render_survey_question` renders them
     through exactly the same path (body format, header, stem, choices).
-    Returns the QIDs in page order and the next free QID number.
+    Returns the QIDs page by page and the next free QID number.
     """
     from ..benchmark import Benchmark as _Benchmark
 
@@ -691,7 +720,7 @@ def _practice_questions(
     )
 
     qid_n = first_qid
-    page_qids: list[str] = []
+    pages: list[list[str]] = []
 
     def _next() -> str:
         nonlocal qid_n
@@ -707,7 +736,7 @@ def _practice_questions(
                 data_export_tag="practice_intro", label="Practice introduction",
             )
         )
-        page_qids.append(qid)
+        pages.append([qid])
     for p, item in zip(practice.items, shadow.items, strict=True):
         sq = render_survey_question(
             shadow,
@@ -733,7 +762,18 @@ def _practice_questions(
                 force_response=True,
             )
         )
-        page_qids.append(qid)
+        page = [qid]
+        if sq.confidence is not None:
+            cqid = _next()
+            sq_elements.append(
+                _confidence_question(
+                    survey_id=survey_id, qid=cqid, scale=sq.confidence,
+                    label=f"Practice {p.id} confidence",
+                    data_export_tag=f"{p.tag}{CONFIDENCE_SUFFIX}",
+                )
+            )
+            page.append(cqid)
+        pages.append(page)
     if practice.outro:
         qid = _next()
         sq_elements.append(
@@ -742,12 +782,12 @@ def _practice_questions(
                 data_export_tag="practice_outro", label="Practice end",
             )
         )
-        page_qids.append(qid)
+        pages.append([qid])
     log.info(
         "survey.export.practice benchmark=%s items=%s frame_id=%s",
         benchmark.id, ",".join(p.id for p in practice.items), expected_frame_id,
     )
-    return page_qids, qid_n
+    return pages, qid_n
 
 
 def _no_consent_logic(
@@ -936,6 +976,16 @@ def _text_entry_question(
             "Language": [],
         },
     }
+
+
+def _confidence_question(
+    *, survey_id: str, qid: str, scale: ConfidenceScale, label: str, data_export_tag: str
+) -> dict[str, Any]:
+    """The force-response confidence rating asked after a verdict."""
+    return _mc_question(
+        survey_id=survey_id, qid=qid, label=label, prompt=scale.prompt,
+        choices=list(scale.labels), data_export_tag=data_export_tag, force_response=True,
+    )
 
 
 def _mc_question(

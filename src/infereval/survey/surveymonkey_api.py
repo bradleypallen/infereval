@@ -127,6 +127,12 @@ def build_surveymonkey_payload(
             verification_prompt=verification_prompt,
         )
         resolved_frame_ids.add(sq.frame_id)
+        if sq.confidence is not None:
+            raise ValueError(
+                f"verification prompt {sq.frame_id!r} declares survey_confidence; "
+                f"the confidence rating is supported only by the Qualtrics export, "
+                f"not SurveyMonkey."
+            )
         page_description = sq.full_text()
         verdict_title = f"Item {i} verdict"
         questions: list[dict[str, object]] = [

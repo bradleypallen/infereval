@@ -29,11 +29,12 @@ from typing import TYPE_CHECKING, Any
 
 from ..types import Verdict
 from .prolific import PROLIFIC_FIELDS
-from .render import SurveyRespondent, verdict_from_choice_text
+from .render import CONFIDENCE_SUFFIX, SurveyRespondent, verdict_from_choice_text
 from .session import CONSENT_TAG, is_session_tag
 
 if TYPE_CHECKING:
     from ..benchmark import Benchmark
+    from ..prompts import ConfidenceScale
 
 log = logging.getLogger(__name__)
 
@@ -70,6 +71,7 @@ def parse_qualtrics_csv(
     *,
     question_form: str = "support",
     choices: tuple[str, ...] | None = None,
+    confidence: ConfidenceScale | None = None,
 ) -> list[SurveyRespondent]:
     """Parse a Qualtrics CSV export into a list of
     :class:`SurveyRespondent`.
@@ -83,7 +85,11 @@ def parse_qualtrics_csv(
     strict on malformed verdict values (anything that doesn't begin
     with one of the three keywords → :class:`ValueError` with the cell
     location). ``choices`` are the frame's declared ``survey_choices``
-    (good, bad, abstain), decoded by exact match first.
+    (good, bad, abstain), decoded by exact match first. ``confidence`` is
+    the frame's declared ``survey_confidence``: with it, each
+    ``<tag>_confidence`` column is read as that item's rating (the 1-based
+    position of the chosen label; an unknown label raises). Without it,
+    such columns are read like any other.
     """
     with path.open("r", encoding="utf-8") as fh:
         reader = csv.reader(fh)
@@ -104,7 +110,8 @@ def parse_qualtrics_csv(
         rows = list(reader)
 
     return _rows_to_respondents(
-        header, rows, path=path, question_form=question_form, choices=choices
+        header, rows, path=path, question_form=question_form, choices=choices,
+        confidence=confidence,
     )
 
 
@@ -115,6 +122,7 @@ def _rows_to_respondents(
     path: Path,
     question_form: str = "support",
     choices: tuple[str, ...] | None = None,
+    confidence: ConfidenceScale | None = None,
 ) -> list[SurveyRespondent]:
     """Convert parsed CSV rows to ``SurveyRespondent``s."""
     col_index = {name: i for i, name in enumerate(header)}
@@ -132,6 +140,7 @@ def _rows_to_respondents(
 
         verdicts: dict[str, Verdict] = {}
         rationales: dict[str, str | None] = {}
+        confidences: dict[str, int] = {}
         for col_name, col_idx in col_index.items():
             if col_name in _QUALTRICS_STOCK_COLUMNS or col_name == _EXPERTISE_TAG:
                 continue
@@ -143,6 +152,16 @@ def _rows_to_respondents(
             if col_name.endswith(_RATIONALE_SUFFIX):
                 tag = col_name[: -len(_RATIONALE_SUFFIX)]
                 rationales[tag] = cell.strip() or None
+            elif confidence is not None and col_name.endswith(CONFIDENCE_SUFFIX):
+                if cell.strip():
+                    try:
+                        confidences[col_name[: -len(CONFIDENCE_SUFFIX)]] = (
+                            confidence.value_of(cell)
+                        )
+                    except ValueError as exc:
+                        raise ValueError(
+                            f"{path}: row {row_n} column {col_name!r}: {exc}"
+                        ) from None
             else:
                 tag = col_name
                 if not cell.strip():
@@ -175,7 +194,13 @@ def _rows_to_respondents(
                 expertise=expertise_raw,
                 verdicts=verdicts,
                 rationales=rationales,
+                confidences=confidences,
             )
+        )
+    if confidence is not None:
+        log.info(
+            "qualtrics.csv.confidence path=%s respondents=%d ratings=%d",
+            path, len(respondents), sum(len(r.confidences) for r in respondents),
         )
     return respondents
 
@@ -311,6 +336,16 @@ def merge_respondents(
         v for r in respondents for v in r.rationales.values() if v is not None
     )
 
+    # Confidence ratings follow the same rule: once any analyst (old or
+    # new) has them, every item carries a full-length list, None-padded.
+    any_confidences = any(r.confidences for r in respondents) or any(
+        item.analyst_confidences is not None for item in benchmark.items
+    )
+    if any_confidences:
+        for item_dict in new_items_dicts:
+            if item_dict.get("analyst_confidences") is None:
+                item_dict["analyst_confidences"] = [None] * len(benchmark.analysts)
+
     for respondent in respondents:
         if require_complete:
             if not respondent.finished:
@@ -358,6 +393,9 @@ def merge_respondents(
                     item_dict["analyst_rationales"] = existing_rationales
                 rationale = respondent.rationales.get(tag)
                 existing_rationales.append(rationale if rationale is not None else "")
+
+            if any_confidences:
+                item_dict["analyst_confidences"].append(respondent.confidences.get(tag))
 
     # Build and validate the new benchmark.
     merged = _Benchmark.model_validate(

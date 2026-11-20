@@ -53,6 +53,28 @@ log = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
+class ConfidenceScale:
+    """A survey confidence rating: its question and its answer labels.
+
+    ``labels`` run from least to most confident; an answer is recorded as
+    the 1-based position of its label (:meth:`value_of`).
+    """
+
+    prompt: str
+    labels: tuple[str, ...]
+
+    def value_of(self, cell: str) -> int:
+        """The 1-based position of ``cell``'s label; ``ValueError`` if none matches."""
+        text = cell.strip()
+        for i, label in enumerate(self.labels, start=1):
+            if text == label.strip():
+                return i
+        raise ValueError(
+            f"unrecognised confidence answer {cell!r}; expected one of {list(self.labels)}"
+        )
+
+
+@dataclass(frozen=True)
 class VerificationPrompt:
     """A verification prompt template.
 
@@ -105,6 +127,12 @@ class VerificationPrompt:
         abstain. The importer decodes these exact labels back to verdicts.
         ``None`` keeps the library's labels
         (:data:`~infereval.survey.render.DEFAULT_VERDICT_CHOICES`).
+    survey_confidence
+        Optional confidence rating asked right after each verdict, on the
+        same page: a :class:`ConfidenceScale`. The importer stores the
+        1-based position of the chosen label in
+        :attr:`~infereval.benchmark.BenchmarkItem.analyst_confidences`.
+        ``None`` asks no rating.
     """
 
     id: str
@@ -115,6 +143,7 @@ class VerificationPrompt:
     survey_stem: str | None = None
     survey_body: str | None = None
     survey_choices: tuple[str, str, str] | None = None
+    survey_confidence: ConfidenceScale | None = None
 
     def build_user(self, premise_context: str, conclusion_context: str) -> str:
         """Return the per-sample user prompt with both contexts substituted in."""
@@ -170,6 +199,14 @@ def resolve_verification_prompt(
         survey_choices=(
             tuple(override.survey_choices)  # type: ignore[arg-type]
             if override.survey_choices is not None
+            else None
+        ),
+        survey_confidence=(
+            ConfidenceScale(
+                prompt=override.survey_confidence.prompt,
+                labels=tuple(override.survey_confidence.labels),
+            )
+            if override.survey_confidence is not None
             else None
         ),
     )

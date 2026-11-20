@@ -154,6 +154,12 @@ def build_gas_script(
             verification_prompt=verification_prompt,
         )
         resolved_frame_ids.add(sq.frame_id)
+        if sq.confidence is not None:
+            raise ValueError(
+                f"verification prompt {sq.frame_id!r} declares survey_confidence; "
+                f"the confidence rating is supported only by the Qualtrics export, "
+                f"not Google Forms."
+            )
         page_description = sq.full_text()
         verdict_title = f"Item {i} verdict"
         rationale_tag: str | None = None

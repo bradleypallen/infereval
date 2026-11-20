@@ -101,6 +101,24 @@ A support prompt that declares a `survey_header` can also set how each case and 
 
 Both only change what respondents see; the model's prompt is unaffected.
 
+### Confidence rating
+
+A support prompt with a `survey_header` can also ask for a confidence rating after each verdict:
+
+```json
+"survey_confidence": {
+  "prompt": "How confident are you in that answer?",
+  "labels": ["1 Not at all", "2 Slightly", "3 Fairly", "4 Very"]
+}
+```
+
+- **Export (Qualtrics only).** A force-response question with these labels follows every verdict on the same page, practice items included, exported as `<tag>_confidence`. The mapping sidecar records each item's `confidence_data_export_tag`. Google Forms and SurveyMonkey exports refuse a prompt that declares one.
+- **Labels.** At least two distinct labels, least confident first.
+- **Import.** `survey import` reads each rating as the 1-based position of its label and stores it in the merged benchmark's `analyst_confidences`, aligned with `analyst_verdicts`. An unknown label is an error. Analysts without a rating (earlier analysts, or a blank cell) get `null`.
+- **Hash.** Benchmarks without ratings keep their canonical hash: `analyst_confidences` is omitted when unset.
+
+The rating is never shown to the model and does not enter any agreement statistic.
+
 ### Frames and `κ_C`
 
 The rule above — *"a survey must ask the **same** logical question the model is evaluated under, or `κ_C(model vs analyst)` compares two different judgments"* — extends to the frame axis: model and human elicitation must share the question form **and** the frame. The frame-anchoring captures showed the stated norms are the variable that decides how the coherence question behaves, so a model evaluated under an anchored frame but compared against humans surveyed under the thin header (or vice versa) is a cross-instrument comparison, not an agreement measurement. Whatever frame the model is evaluated under (`coherence_frame_id` / `verification_prompt`), export the human survey under the same one, and check `frame_id` at import time.
