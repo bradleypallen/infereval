@@ -28,7 +28,12 @@ Survey → "Import a QSF file"). The imported survey has:
 7. When the frame declares ``survey_confidence``, a force-response
    confidence question follows each verdict on the same page (and in
    each practice item), DataExportTag ``f"{sanitized_item_id}_confidence"``.
-8. When ``practice`` is given, practice items rendered exactly like the
+8. When ``quality`` is given, its attention checks are shown among the
+   items (in the randomizer, or evenly spaced without randomization) as
+   ``check_<id>``, and its repeated items are shown again after all items
+   (a second randomizer) as ``repeat_<tag>``. Both look like items: same
+   answer labels, confidence and rationale questions.
+9. When ``practice`` is given, practice items rendered exactly like the
    benchmark items follow the instructions, outside randomization, each
    on its own page (see :mod:`infereval.survey.session`).
 
@@ -59,6 +64,7 @@ from .prolific import PROLIFIC_FIELDS, completion_url
 from .render import (
     CONFIDENCE_SUFFIX,
     DEFAULT_EXPERTISE_PROMPT,
+    SurveyQuestion,
     rationale_prompt,
     render_survey_question,
     sanitize_export_tag,
@@ -66,8 +72,10 @@ from .render import (
 from .session import (
     CONSENT_STATEMENTS_TAG,
     CONSENT_TAG,
+    REPEAT_TAG_PREFIX,
     ConsentSpec,
     PracticeSpec,
+    QualitySpec,
     is_session_tag,
 )
 
@@ -118,6 +126,7 @@ def build_qsf(
     consent: ConsentSpec | None = None,
     practice: PracticeSpec | None = None,
     prolific_no_consent_code: str | None = None,
+    quality: QualitySpec | None = None,
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """Build a Qualtrics ``.qsf`` document for ``benchmark``.
 
@@ -167,9 +176,15 @@ def build_qsf(
     same question form and frame as the benchmark items (asserted), and
     exported under ``practice_<id>``. They are not in ``mapping``.
 
-    With either, a benchmark item whose export tag takes a reserved
-    session form (``consent``, ``consent_*``, ``practice_*``) raises
-    ``ValueError``.
+    ``quality`` (a :class:`~infereval.survey.session.QualitySpec`) adds
+    attention checks and repeated items; see the module docstring. A
+    repeated id not in the benchmark, or a check whose ``answer`` is not
+    one of the answer labels, raises ``ValueError``. Neither is in
+    ``mapping``.
+
+    With any of these, a benchmark item whose export tag takes a reserved
+    session form (``consent``, ``consent_*``, ``practice_*``, ``check_*``,
+    ``repeat_*``) raises ``ValueError``.
 
     Returns
     -------
@@ -242,12 +257,15 @@ def build_qsf(
     resolved_frame_ids: set[str | None] = set()
     header_texts: set[str] = set()
     confidence_labels: list[str] | None = None
+    rendered: dict[str, tuple[str, SurveyQuestion]] = {}
     for item in benchmark.items:
         tag, was_hashed = sanitize_export_tag(item.id)
-        if (consent is not None or practice is not None) and is_session_tag(tag):
+        if (
+            consent is not None or practice is not None or quality is not None
+        ) and is_session_tag(tag):
             raise ValueError(
                 f"item {item.id!r} exports under tag {tag!r}, which is reserved "
-                f"for the consent/practice pages; rename the item."
+                f"for the consent/practice/quality-check pages; rename the item."
             )
         verdict_qid = f"QID{next_qid}"
         next_qid += 1
@@ -261,6 +279,7 @@ def build_qsf(
         )
         resolved_frame_ids.add(sq.frame_id)
         header_texts.add(sq.header)
+        rendered[item.id] = (tag, sq)
         sq_elements.append(
             _mc_question(
                 survey_id=survey_id,
@@ -338,6 +357,73 @@ def build_qsf(
         next(iter(resolved_frame_ids), None),
         header_mode,
     )
+    check_units: list[tuple[str, list[str]]] = []
+    repeat_units: list[tuple[str, list[str]]] = []
+    if quality is not None:
+        quality.check_items([item.id for item in benchmark.items])
+
+        def _page(
+            *, label: str, prompt: str, choices: list[str], tag: str, sq: SurveyQuestion
+        ) -> list[str]:
+            """An item-like page: verdict, then confidence and rationale as items have."""
+            nonlocal next_qid
+            qids = [f"QID{next_qid}"]
+            next_qid += 1
+            sq_elements.append(
+                _mc_question(
+                    survey_id=survey_id, qid=qids[0], label=label, prompt=prompt,
+                    choices=choices, data_export_tag=tag, force_response=True,
+                )
+            )
+            if sq.confidence is not None:
+                qids.append(f"QID{next_qid}")
+                next_qid += 1
+                sq_elements.append(
+                    _confidence_question(
+                        survey_id=survey_id, qid=qids[-1], scale=sq.confidence,
+                        label=f"{label} confidence", data_export_tag=f"{tag}{CONFIDENCE_SUFFIX}",
+                    )
+                )
+            if include_rationales:
+                qids.append(f"QID{next_qid}")
+                next_qid += 1
+                sq_elements.append(
+                    _text_entry_question(
+                        survey_id=survey_id, qid=qids[-1], label=f"{label} rationale",
+                        prompt=rationale_prompt(question_form),
+                        data_export_tag=f"{tag}_rationale", force_response=False,
+                    )
+                )
+            return qids
+
+        first_sq = next(iter(rendered.values()))[1]
+        for check in quality.attention_checks:
+            if check.answer.strip() not in [c.strip() for c in first_sq.choices]:
+                raise ValueError(
+                    f"attention check {check.id!r}: answer {check.answer!r} is not one "
+                    f"of the answer labels {list(first_sq.choices)}"
+                )
+            check_units.append((
+                f"check|{check.id}",
+                _page(label=f"Attention check {check.id}", prompt=check.text,
+                      choices=list(first_sq.choices), tag=check.tag, sq=first_sq),
+            ))
+        for item_id in quality.repeats:
+            tag, sq = rendered[item_id]
+            repeat_units.append((
+                f"repeat|{item_id}",
+                _page(
+                    label=f"Repeat of {item_id}",
+                    prompt=sq.body_with_stem() if header_mode == "instructions" else sq.full_text(),
+                    choices=list(sq.choices), tag=f"{REPEAT_TAG_PREFIX}{tag}", sq=sq,
+                ),
+            ))
+        log.info(
+            "survey.export.quality benchmark=%s attention_checks=%s repeats=%s",
+            benchmark.id, ",".join(c.id for c in quality.attention_checks),
+            ",".join(quality.repeats),
+        )
+
     n_conf = sum(1 for row in mapping if row["confidence_data_export_tag"] is not None)
     if n_conf:
         log.info(
@@ -448,6 +534,8 @@ def build_qsf(
         intro_elements=intro_elements,
         item_qids=item_qids,
         randomize_items=randomize_items,
+        check_units=check_units,
+        repeat_units=repeat_units,
     )
     # Properties.Count = total flow nodes including Root and nested
     # block nodes under a randomizer.
@@ -585,6 +673,8 @@ def _blocks_and_flow(
     intro_elements: list[dict[str, str]],
     item_qids: list[tuple[str, list[str]]],
     randomize_items: bool,
+    check_units: list[tuple[str, list[str]]] | None = None,
+    repeat_units: list[tuple[str, list[str]]] | None = None,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Build the BL payload (list of blocks) and the Root flow's nodes.
 
@@ -601,7 +691,13 @@ def _blocks_and_flow(
     only), one Standard block per item (verdict + rationale; block
     boundaries paginate), and a ``BlockRandomizer`` flow node over the
     item blocks with ``SubSet = n`` (present all items, random order).
+
+    ``check_units`` (attention checks) join the items: in the randomizer,
+    or evenly spaced among them without randomization. ``repeat_units``
+    follow all items: a second randomizer, or in the given order.
     """
+    check_units = check_units or []
+    repeat_units = repeat_units or []
     trash_block = {
         "Type": "Trash",
         "Description": "Trash / Unused Questions",
@@ -635,17 +731,56 @@ def _blocks_and_flow(
             )
             item_nodes.append({"ID": block_id, "Type": "Standard", "FlowID": f"FL_{flow_n}"})
             flow_n += 1
-        blocks.append(trash_block)
+        # Quality-check blocks take FlowIDs after the items', so the item
+        # flow is unchanged without them.
+        def _unit_block(unit_id: str, qids: list[str]) -> str:
+            block_id = _qsf_id("BL_", f"infereval|{benchmark_id}|block|{unit_id}")
+            blocks.append(
+                {
+                    "Type": "Standard",
+                    "Description": unit_id.replace("|", " "),
+                    "ID": block_id,
+                    "BlockElements": [
+                        {"Type": "Question", "QuestionID": qid} for qid in qids
+                    ],
+                }
+            )
+            return block_id
+
+        for unit_id, qids in check_units:
+            item_nodes.append(
+                {"ID": _unit_block(unit_id, qids), "Type": "Standard", "FlowID": f"FL_{flow_n}"}
+            )
+            flow_n += 1
         flow_nodes: list[dict[str, Any]] = [
             {"ID": intro_id, "Type": "Block", "FlowID": "FL_2"},
             {
                 "Type": "BlockRandomizer",
                 "FlowID": "FL_3",
-                "SubSet": len(item_qids),
+                "SubSet": len(item_nodes),
                 "EvenPresentation": False,
                 "Flow": item_nodes,
             },
         ]
+        if repeat_units:
+            randomizer_n = flow_n
+            repeat_nodes = []
+            for unit_id, qids in repeat_units:
+                flow_n += 1
+                repeat_nodes.append(
+                    {"ID": _unit_block(unit_id, qids), "Type": "Standard",
+                     "FlowID": f"FL_{flow_n}"}
+                )
+            flow_nodes.append(
+                {
+                    "Type": "BlockRandomizer",
+                    "FlowID": f"FL_{randomizer_n}",
+                    "SubSet": len(repeat_nodes),
+                    "EvenPresentation": False,
+                    "Flow": repeat_nodes,
+                }
+            )
+        blocks.append(trash_block)
         return blocks, flow_nodes
 
     items_id = _qsf_id("BL_", f"infereval|{benchmark_id}|block|items")
@@ -653,7 +788,12 @@ def _blocks_and_flow(
         *intro_elements,
         {"Type": "Page Break"},
     ]
-    for _item_id, qids in item_qids:
+    units = [qids for _item_id, qids in item_qids]
+    # Attention checks evenly spaced among the items, repeats at the end.
+    for k, (_unit_id, qids) in reversed(list(enumerate(check_units))):
+        units.insert(round((k + 1) * len(item_qids) / (len(check_units) + 1)), qids)
+    units += [qids for _unit_id, qids in repeat_units]
+    for qids in units:
         block_elements.extend({"Type": "Question", "QuestionID": qid} for qid in qids)
         block_elements.append({"Type": "Page Break"})
     single_block: list[dict[str, Any]] = [

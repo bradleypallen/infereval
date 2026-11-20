@@ -1,6 +1,6 @@
-"""Survey session pages around the benchmark items: consent and practice.
+"""Survey session pages around the benchmark items: consent, practice and quality checks.
 
-Two optional, study-supplied specifications that the Qualtrics exporter
+Three optional, study-supplied specifications that the Qualtrics exporter
 (:func:`~infereval.survey.qualtrics_qsf.build_qsf`) renders around the
 benchmark items. Their wording is the study's (usually approved by an
 ethics committee), so it is never hard-coded here: each is loaded from a
@@ -39,6 +39,28 @@ and before the benchmark items, outside randomization, with no feedback:
 rendered through the same renderer and frame as the benchmark items, so
 they look exactly like the real task; their answers are exported under
 ``practice_<id>`` and never imported as verdicts.
+
+**Quality checks** (:class:`QualitySpec`) — checks that use only the
+respondent's own answers, never agreement with a model:
+
+.. code-block:: json
+
+    {
+      "attention_checks": [
+        {"id": "ac1", "text": "This is an attention check. Please choose Bad.",
+         "answer": "Bad"}
+      ],
+      "repeats": ["item_017", "item_042"]
+    }
+
+Each attention check is a page that looks like an item (same answer
+labels, and the confidence question when the frame declares one), shown
+among the items in random order and exported as ``check_<id>``; it is
+passed when the chosen label equals ``answer``. Each listed item is shown
+a second time after all items, in a new random order, exported as
+``repeat_<tag>``. Neither is imported as a verdict;
+``infereval survey import --quality-checks`` reports them per respondent
+(see :mod:`infereval.survey.quality`).
 """
 
 from __future__ import annotations
@@ -58,6 +80,10 @@ CONSENT_TAG = "consent"
 CONSENT_STATEMENTS_TAG = "consent_statements"
 #: DataExportTag prefix of practice answers (``practice_<id>``).
 PRACTICE_TAG_PREFIX = "practice_"
+#: DataExportTag prefix of attention-check answers (``check_<id>``).
+CHECK_TAG_PREFIX = "check_"
+#: DataExportTag prefix of repeated items' answers (``repeat_<item tag>``).
+REPEAT_TAG_PREFIX = "repeat_"
 
 DEFAULT_AGREE = "I agree to take part"
 DEFAULT_DECLINE = "I do not wish to take part"
@@ -66,7 +92,7 @@ _PRACTICE_ID = re.compile(r"[A-Za-z0-9_]{1,40}")
 
 
 def is_session_tag(tag: str) -> bool:
-    """True for a DataExportTag owned by the consent or practice pages.
+    """True for a DataExportTag owned by the consent, practice or quality-check pages.
 
     Benchmark item tags may not take these forms (the exporter refuses
     the collision), so the importer can skip them unconditionally.
@@ -77,6 +103,8 @@ def is_session_tag(tag: str) -> bool:
         tag == CONSENT_TAG
         or tag.startswith(CONSENT_TAG + "_")
         or tag.startswith(PRACTICE_TAG_PREFIX)
+        or tag.startswith(CHECK_TAG_PREFIX)
+        or tag.startswith(REPEAT_TAG_PREFIX)
     )
 
 
@@ -133,6 +161,52 @@ class PracticeSpec:
             raise ValueError(f"practice: item ids must be distinct, got {ids}")
 
 
+@dataclass(frozen=True, slots=True)
+class AttentionCheck:
+    id: str
+    text: str
+    answer: str
+
+    def __post_init__(self) -> None:
+        if not _PRACTICE_ID.fullmatch(self.id):
+            raise ValueError(
+                f"attention check id {self.id!r} must be 1-40 letters, digits or underscores"
+            )
+        if not self.text.strip():
+            raise ValueError(f"attention check {self.id!r}: 'text' must not be empty")
+        if not self.answer.strip():
+            raise ValueError(f"attention check {self.id!r}: 'answer' must not be empty")
+
+    @property
+    def tag(self) -> str:
+        return f"{CHECK_TAG_PREFIX}{self.id}"
+
+    def passed(self, chosen: str | None) -> bool:
+        return chosen is not None and chosen.strip() == self.answer.strip()
+
+
+@dataclass(frozen=True, slots=True)
+class QualitySpec:
+    attention_checks: tuple[AttentionCheck, ...] = ()
+    repeats: tuple[str, ...] = ()
+    """Benchmark item ids shown a second time, after all items."""
+
+    def __post_init__(self) -> None:
+        if not self.attention_checks and not self.repeats:
+            raise ValueError("quality checks: give 'attention_checks', 'repeats' or both")
+        ids = [c.id for c in self.attention_checks]
+        if len(set(ids)) != len(ids):
+            raise ValueError(f"quality checks: attention check ids must be distinct, got {ids}")
+        if len(set(self.repeats)) != len(self.repeats):
+            raise ValueError("quality checks: 'repeats' must be distinct item ids")
+
+    def check_items(self, item_ids: list[str]) -> None:
+        """Raise unless every repeated id is one of ``item_ids``."""
+        missing = [i for i in self.repeats if i not in set(item_ids)]
+        if missing:
+            raise ValueError(f"quality checks: repeated ids not in the benchmark: {missing}")
+
+
 def _read_json(path: Path, what: str) -> dict[str, Any]:
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
@@ -187,5 +261,32 @@ def load_practice(path: Path) -> PracticeSpec:
     log.info(
         "survey.practice.load path=%s items=%s intro=%s outro=%s",
         path, ",".join(i.id for i in spec.items), spec.intro is not None, spec.outro is not None,
+    )
+    return spec
+
+
+def load_quality(path: Path) -> QualitySpec:
+    """Load a :class:`QualitySpec` from a JSON file (see module docs)."""
+    data = _read_json(path, "quality checks")
+    _check_keys(data, {"attention_checks", "repeats"}, f"quality checks file {path}")
+    checks = []
+    for raw in data.get("attention_checks", []):
+        if not isinstance(raw, dict):
+            raise ValueError(f"quality checks file {path}: each attention check must be an object")
+        _check_keys(raw, {"id", "text", "answer"}, f"quality checks file {path} attention check")
+        checks.append(
+            AttentionCheck(
+                id=str(raw.get("id", "")),
+                text=str(raw.get("text", "")),
+                answer=str(raw.get("answer", "")),
+            )
+        )
+    spec = QualitySpec(
+        attention_checks=tuple(checks),
+        repeats=tuple(str(i) for i in data.get("repeats", [])),
+    )
+    log.info(
+        "survey.quality.load path=%s attention_checks=%s repeats=%d",
+        path, ",".join(c.id for c in spec.attention_checks), len(spec.repeats),
     )
     return spec

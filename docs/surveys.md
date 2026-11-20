@@ -198,9 +198,49 @@ The consent page is the survey's first block: the information text, one tick box
 
 Practice items come after the instructions (and the expertise question), outside randomization, one per page, with optional intro and outro pages and no feedback. They go through the same renderer, question form and frame as the benchmark items, so they look exactly like the real task. Answers are exported as `practice_<id>`.
 
-The importer skips the `consent`, `consent_*` and `practice_*` columns, and drops rows that have a consent answer but no verdicts (people who did not consent). With either option, a benchmark item whose export tag takes one of those forms is refused at export.
+The importer skips the `consent`, `consent_*` and `practice_*` columns (and the `check_*` and `repeat_*` columns below), and drops rows that have a consent answer but no verdicts (people who did not consent). With either option, a benchmark item whose export tag takes one of those forms is refused at export.
 
 As with the Prolific hand-off, preview the survey in Qualtrics before publishing: decline once and leave one statement unticked once to check both end the survey, then agree once and check the practice pages appear before the items.
+
+### Attention checks and repeated items
+
+A third JSON file adds quality checks that use only each respondent's own answers. Agreement with a model is never used, since excluding people for disagreeing with the models would build the models into the human reference.
+
+```sh
+infereval survey export benchmark.json -o recruit.qsf --quality-checks quality.json
+```
+
+`quality.json`:
+
+```json
+{
+  "attention_checks": [
+    {"id": "ac1", "text": "This is an attention check. Please choose Bad.", "answer": "Bad"}
+  ],
+  "repeats": ["item_017", "item_042"]
+}
+```
+
+- **Attention checks** are instructed-response pages, exported as `check_<id>`. Each one shows `text` with the items' own answer labels, followed by the confidence and rationale questions when the items have them, so it looks like an item. `answer` must be one of the labels. The checks are randomized among the items; without `--randomize-items` they are evenly spaced instead.
+- **Repeats** show the listed items a second time, exactly as before, exported as `repeat_<tag>`. They come after all the items, in a second random order, so a repeat is never next to its first showing.
+
+Neither appears in the mapping sidecar, and the importer never reads them as verdicts. With the option, an item whose export tag starts with `check_` or `repeat_` is refused.
+
+To get the report, import with the same file:
+
+```sh
+infereval survey import benchmark.json -r responses.csv -o merged.json \
+    --quality-checks quality.json
+```
+
+This writes `merged.quality.json` with one row per respondent:
+- each attention check's chosen and expected label, and how many were passed;
+- each repeated item's verdict and confidence on both showings, and how many verdicts matched;
+- `Duration (in seconds)`, for a speeding rule.
+
+The summary gives the number who failed any check, the overall repeat agreement and the median duration.
+
+The report excludes no one. Apply the study's pre-registered rule, then import again with `--exclude-respondent ID` for each person to leave out (repeatable; an unknown id is an error).
 
 ### Import
 

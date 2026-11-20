@@ -494,3 +494,18 @@ class SurveyRespondent:
     of the chosen confidence label (see
     :class:`~infereval.prompts.ConfidenceScale`). A missing key means no
     rating was given or asked on that item."""
+
+    duration_seconds: float | None = None
+    """Time the respondent took, from the platform export (Qualtrics
+    ``Duration (in seconds)``); ``None`` when absent. For a speeding rule."""
+
+    check_answers: dict[str, str | None] = field(default_factory=dict)
+    """Map ``{attention-check id -> chosen label or None}`` (``check_<id>``
+    columns)."""
+
+    repeat_verdicts: dict[str, Verdict] = field(default_factory=dict)
+    """Map ``{sanitized_export_tag -> Verdict}`` for items shown a second
+    time (``repeat_<tag>`` columns). Never merged as verdicts."""
+
+    repeat_confidences: dict[str, int] = field(default_factory=dict)
+    """Confidence ratings on the second showing, as :attr:`confidences`."""

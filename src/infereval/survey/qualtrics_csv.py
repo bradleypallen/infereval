@@ -30,7 +30,7 @@ from typing import TYPE_CHECKING, Any
 from ..types import Verdict
 from .prolific import PROLIFIC_FIELDS
 from .render import CONFIDENCE_SUFFIX, SurveyRespondent, verdict_from_choice_text
-from .session import CONSENT_TAG, is_session_tag
+from .session import CHECK_TAG_PREFIX, CONSENT_TAG, REPEAT_TAG_PREFIX, is_session_tag
 
 if TYPE_CHECKING:
     from ..benchmark import Benchmark
@@ -49,6 +49,7 @@ _RATIONALE_SUFFIX = "_rationale"
 _RESPONSE_ID_COL = "ResponseId"
 _START_DATE_COL = "StartDate"
 _FINISHED_COL = "Finished"
+_DURATION_COL = "Duration (in seconds)"
 
 # Qualtrics's standard CSV export columns that are NOT verdict/rationale
 # columns. We skip these unconditionally to avoid mis-parsing
@@ -141,9 +142,21 @@ def _rows_to_respondents(
         verdicts: dict[str, Verdict] = {}
         rationales: dict[str, str | None] = {}
         confidences: dict[str, int] = {}
+        check_answers: dict[str, str | None] = {}
+        repeat_verdicts: dict[str, Verdict] = {}
+        repeat_confidences: dict[str, int] = {}
         for col_name, col_idx in col_index.items():
             if col_name in _QUALTRICS_STOCK_COLUMNS or col_name == _EXPERTISE_TAG:
                 continue
+            cell = row[col_idx] if col_idx < len(row) else ""
+            try:
+                _quality_cell(
+                    col_name, cell, question_form=question_form, choices=choices,
+                    confidence=confidence, check_answers=check_answers,
+                    repeat_verdicts=repeat_verdicts, repeat_confidences=repeat_confidences,
+                )
+            except ValueError as exc:
+                raise ValueError(f"{path}: row {row_n} column {col_name!r}: {exc}") from None
             if is_session_tag(col_name):
                 # Consent and practice answers (export with --consent /
                 # --practice) are never verdicts.
@@ -195,6 +208,10 @@ def _rows_to_respondents(
                 verdicts=verdicts,
                 rationales=rationales,
                 confidences=confidences,
+                duration_seconds=_parse_duration(_cell(row, col_index, _DURATION_COL)),
+                check_answers=check_answers,
+                repeat_verdicts=repeat_verdicts,
+                repeat_confidences=repeat_confidences,
             )
         )
     if confidence is not None:
@@ -203,6 +220,43 @@ def _rows_to_respondents(
             path, len(respondents), sum(len(r.confidences) for r in respondents),
         )
     return respondents
+
+
+def _quality_cell(
+    col_name: str,
+    cell: str,
+    *,
+    question_form: str,
+    choices: tuple[str, ...] | None,
+    confidence: ConfidenceScale | None,
+    check_answers: dict[str, str | None],
+    repeat_verdicts: dict[str, Verdict],
+    repeat_confidences: dict[str, int],
+) -> None:
+    """Record an attention-check or repeated-item cell (export with
+    ``quality``); other columns are left alone."""
+    text = cell.strip()
+    if col_name.startswith(CHECK_TAG_PREFIX):
+        check_id = col_name.removeprefix(CHECK_TAG_PREFIX)
+        if not check_id.endswith((CONFIDENCE_SUFFIX, _RATIONALE_SUFFIX)):
+            check_answers[check_id] = text or None
+    elif col_name.startswith(REPEAT_TAG_PREFIX) and text:
+        tag = col_name.removeprefix(REPEAT_TAG_PREFIX)
+        if tag.endswith(_RATIONALE_SUFFIX):
+            return
+        if confidence is not None and tag.endswith(CONFIDENCE_SUFFIX):
+            repeat_confidences[tag.removesuffix(CONFIDENCE_SUFFIX)] = confidence.value_of(text)
+        else:
+            repeat_verdicts[tag] = _verdict_from_choice_text(
+                text, question_form=question_form, choices=choices
+            )
+
+
+def _parse_duration(raw: str) -> float | None:
+    try:
+        return float(raw) if raw.strip() else None
+    except ValueError:
+        return None
 
 
 def _cell(row: list[str], col_index: dict[str, int], name: str, *, default: str = "") -> str:
