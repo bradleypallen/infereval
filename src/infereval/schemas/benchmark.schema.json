@@ -153,6 +153,29 @@
           "description": "Optional per-analyst, per-item rationales: the natural-language reason each analyst gave for their verdict on this item. Positionally aligned to analyst_verdicts \u2014 index j is analyst j's rationale, matching the benchmark's analysts declaration order. null (or absent) means 'this benchmark carries no rationale discipline.' A present-but-empty entry ('') means 'this analyst gave a verdict but recorded no reason on this item' \u2014 semantically distinct from null. When present, the length must equal len(benchmark.analysts).",
           "title": "Analyst Rationales"
         },
+        "analyst_confidences": {
+          "anyOf": [
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional per-analyst, per-item confidence ratings, positionally aligned to analyst_verdicts: index j is analyst j's rating, the 1-based position of the chosen label in the verification prompt's survey_confidence.labels (1 = least confident). null (or absent) means no confidence rating was collected; a null entry means that analyst gave no rating on this item. When present, the length must equal len(benchmark.analysts).",
+          "title": "Analyst Confidences"
+        },
         "tags": {
           "items": {
             "type": "string"
@@ -629,6 +652,29 @@
       "title": "Regularity",
       "type": "object"
     },
+    "SurveyConfidence": {
+      "additionalProperties": false,
+      "description": "A per-item confidence rating asked right after each survey verdict.\n\n``labels`` are the rating's answer labels from least to most\nconfident; the importer records the 1-based position of the chosen\nlabel (``labels[0]`` is 1). See\n:attr:`VerificationPromptOverride.survey_confidence`.",
+      "properties": {
+        "prompt": {
+          "title": "Prompt",
+          "type": "string"
+        },
+        "labels": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Labels",
+          "type": "array"
+        }
+      },
+      "required": [
+        "prompt",
+        "labels"
+      ],
+      "title": "SurveyConfidence",
+      "type": "object"
+    },
     "TemplateContextBuilder": {
       "additionalProperties": false,
       "description": "A context builder specified by an inline template string.\n\nThe template is a format string with a single ``{expressions}`` placeholder.\nBearer expressions are joined by ``joiner`` to fill it.",
@@ -665,7 +711,7 @@
     },
     "VerificationPromptOverride": {
       "additionalProperties": false,
-      "description": "Optional benchmark-level override of the framework's default verification prompt.\n\nAll four fields are optional in practice (``template`` is required by\nthe schema since it is the minimal thing an override needs to\ncontribute). When a field is ``None`` the framework default is used:\n\n- :attr:`system` ``None`` \u2192 :data:`infereval.prompts.DEFAULT_SYSTEM_PROMPT`.\n- :attr:`parse_regex` ``None`` \u2192 :data:`infereval.prompts.DEFAULT_PARSE_REGEX`.\n- :attr:`id` ``None`` \u2192 the caller-supplied ``override_id`` parameter to\n  :func:`infereval.prompts.resolve_verification_prompt`.\n\nAdding the ``system`` field makes the paraphrase-axis experiment\nfully JSON-drivable (no Python required to vary the verification prompt).\n\n``survey_header`` / ``survey_stem`` declare the prompt's human-facing\nsurvey wording (see :class:`infereval.prompts.VerificationPrompt`), so a\nbenchmark with its own prompt can ask human analysts the same question\nthe model is asked. Without them, ``infereval survey export`` falls back\nto the default-v1 survey header (with a warning). The stem, when given,\nmust be a verbatim trailing substring of the header. ``survey_body``\n(a template over ``{premise_context}`` / ``{conclusion_context}``) and\n``survey_choices`` (three labels: good, bad, abstain) optionally set how\neach case and its answers are shown.",
+      "description": "Optional benchmark-level override of the framework's default verification prompt.\n\nAll four fields are optional in practice (``template`` is required by\nthe schema since it is the minimal thing an override needs to\ncontribute). When a field is ``None`` the framework default is used:\n\n- :attr:`system` ``None`` \u2192 :data:`infereval.prompts.DEFAULT_SYSTEM_PROMPT`.\n- :attr:`parse_regex` ``None`` \u2192 :data:`infereval.prompts.DEFAULT_PARSE_REGEX`.\n- :attr:`id` ``None`` \u2192 the caller-supplied ``override_id`` parameter to\n  :func:`infereval.prompts.resolve_verification_prompt`.\n\nAdding the ``system`` field makes the paraphrase-axis experiment\nfully JSON-drivable (no Python required to vary the verification prompt).\n\n``survey_header`` / ``survey_stem`` declare the prompt's human-facing\nsurvey wording (see :class:`infereval.prompts.VerificationPrompt`), so a\nbenchmark with its own prompt can ask human analysts the same question\nthe model is asked. Without them, ``infereval survey export`` falls back\nto the default-v1 survey header (with a warning). The stem, when given,\nmust be a verbatim trailing substring of the header. ``survey_body``\n(a template over ``{premise_context}`` / ``{conclusion_context}``) and\n``survey_choices`` (three labels: good, bad, abstain) optionally set how\neach case and its answers are shown. ``survey_confidence`` adds a\nconfidence rating after each verdict (Qualtrics export only).",
       "properties": {
         "template": {
           "title": "Template",
@@ -757,6 +803,17 @@
           ],
           "default": null,
           "title": "Survey Choices"
+        },
+        "survey_confidence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SurveyConfidence"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
         }
       },
       "required": [

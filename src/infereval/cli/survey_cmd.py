@@ -303,6 +303,23 @@ def export_cmd(
             click.echo(f"ERROR: {exc}", err=True)
             sys.exit(2)
 
+    # The prompt's confidence rating (survey_confidence) renders only in
+    # Qualtrics; refuse elsewhere before writing anything.
+    from infereval.prompts import resolve_verification_prompt
+
+    survey_confidence = (
+        resolve_verification_prompt(benchmark.verification_prompt).survey_confidence
+        if question_form == "support"
+        else None
+    )
+    if survey_confidence is not None and platform != "qualtrics":
+        click.echo(
+            "ERROR: the benchmark's verification prompt declares survey_confidence; "
+            f"the confidence rating is qualtrics only, not {platform}.",
+            err=True,
+        )
+        sys.exit(2)
+
     output.parent.mkdir(parents=True, exist_ok=True)
 
     if platform == "qualtrics":
@@ -359,6 +376,12 @@ def export_cmd(
             click.echo(
                 f"  Practice: {len(practice.items)} items after the instructions "
                 "(exported as practice_<id>; not imported as verdicts)."
+            )
+        if any(row["confidence_data_export_tag"] is not None for row in mapping):
+            assert survey_confidence is not None
+            click.echo(
+                f"  Confidence: asked after every verdict ({len(survey_confidence.labels)} "
+                "labels; imported as analyst_confidences)."
             )
         _maybe_write_mapping(output, mapping)
 
@@ -600,10 +623,20 @@ def import_cmd(
         else None
     )
     log.info("survey.import.choices prompt=%s choices=%s", vp.id, choices)
+    # Likewise its confidence rating (Qualtrics only; the other exporters
+    # refuse a prompt that declares one).
+    confidence = (
+        vp.survey_confidence
+        if question_form == "support" and vp.survey_header is not None
+        else None
+    )
+    if confidence is not None:
+        log.info("survey.import.confidence prompt=%s labels=%s", vp.id, confidence.labels)
 
     if platform == "qualtrics":
         respondents = parse_qualtrics_csv(
-            responses_path, question_form=question_form, choices=choices
+            responses_path, question_form=question_form, choices=choices,
+            confidence=confidence,
         )
     elif platform == "google_forms":
         respondents = parse_google_forms_csv(

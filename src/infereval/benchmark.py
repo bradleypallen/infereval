@@ -186,6 +186,33 @@ class ContextBuilders(BaseModel):
     )
 
 
+class SurveyConfidence(BaseModel):
+    """A per-item confidence rating asked right after each survey verdict.
+
+    ``labels`` are the rating's answer labels from least to most
+    confident; the importer records the 1-based position of the chosen
+    label (``labels[0]`` is 1). See
+    :attr:`VerificationPromptOverride.survey_confidence`.
+    """
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    prompt: str
+    labels: list[str]
+
+    @model_validator(mode="after")
+    def _check(self) -> SurveyConfidence:
+        if not self.prompt.strip():
+            raise ValueError("survey_confidence.prompt must be non-empty")
+        labels = [c.strip() for c in self.labels]
+        if len(labels) < 2 or not all(labels) or len(set(labels)) != len(labels):
+            raise ValueError(
+                "survey_confidence.labels must be at least two distinct, non-empty "
+                "labels, least confident first"
+            )
+        return self
+
+
 class VerificationPromptOverride(BaseModel):
     """Optional benchmark-level override of the framework's default verification prompt.
 
@@ -209,7 +236,8 @@ class VerificationPromptOverride(BaseModel):
     must be a verbatim trailing substring of the header. ``survey_body``
     (a template over ``{premise_context}`` / ``{conclusion_context}``) and
     ``survey_choices`` (three labels: good, bad, abstain) optionally set how
-    each case and its answers are shown.
+    each case and its answers are shown. ``survey_confidence`` adds a
+    confidence rating after each verdict (Qualtrics export only).
     """
 
     model_config = ConfigDict(extra="forbid")
@@ -222,6 +250,7 @@ class VerificationPromptOverride(BaseModel):
     survey_stem: str | None = None
     survey_body: str | None = None
     survey_choices: list[str] | None = None
+    survey_confidence: SurveyConfidence | None = None
 
     @model_validator(mode="after")
     def _survey_body_and_choices(self) -> VerificationPromptOverride:
@@ -431,6 +460,21 @@ class BenchmarkItem(BaseModel):
     :meth:`Benchmark._check_consistency`). The framework validates
     structure and length only; content is the analyst's responsibility.
     Added in v0.5.4 (AR1–AR12)."""
+    analyst_confidences: list[int | None] | None = Field(
+        default=None,
+        description=(
+            "Optional per-analyst, per-item confidence ratings, positionally "
+            "aligned to analyst_verdicts: index j is analyst j's rating, the "
+            "1-based position of the chosen label in the verification prompt's "
+            "survey_confidence.labels (1 = least confident). null (or absent) "
+            "means no confidence rating was collected; a null entry means that "
+            "analyst gave no rating on this item. When present, the length must "
+            "equal len(benchmark.analysts)."
+        ),
+    )
+    """Optional per-analyst, per-item confidence ratings (see the field
+    description). Filled by ``infereval survey import`` from a survey
+    exported with the prompt's ``survey_confidence``. Additive."""
     tags: list[str] = Field(default_factory=list)
     rsr_target: RSRTarget | None = None
     references: list[Reference] = Field(default_factory=list)
@@ -774,6 +818,19 @@ class Benchmark(BaseModel):
                     f"rationales but the benchmark declares {len(self.analysts)} "
                     f"analysts"
                 )
+
+            if item.analyst_confidences is not None:
+                if len(item.analyst_confidences) != len(self.analysts):
+                    raise ValueError(
+                        f"Item {item.id!r} has {len(item.analyst_confidences)} analyst "
+                        f"confidence ratings but the benchmark declares "
+                        f"{len(self.analysts)} analysts"
+                    )
+                if any(c is not None and c < 1 for c in item.analyst_confidences):
+                    raise ValueError(
+                        f"Item {item.id!r} has a confidence rating below 1; ratings "
+                        f"are 1-based label positions"
+                    )
 
             # Factor-level keys/values must be declared in self.factors
             for fkey, fval in item.factor_levels.items():

@@ -22,10 +22,13 @@ from ..types import Verdict
 
 if TYPE_CHECKING:
     from ..benchmark import Benchmark, BenchmarkItem
-    from ..prompts import VerificationPrompt
+    from ..prompts import ConfidenceScale, VerificationPrompt
     from ..templates import CoherenceFrame
 
 log = logging.getLogger(__name__)
+
+#: Export-tag suffix of an item's confidence question (``f"{tag}_confidence"``).
+CONFIDENCE_SUFFIX = "_confidence"
 
 # The thin frame always declares its survey surface; assert at import time so
 # the alias below can never silently become None.
@@ -222,6 +225,11 @@ class SurveyQuestion:
     instructions mode introduces no wording beyond the frame's reviewed
     surface. ``None`` when the resolved frame declares no stem, in which
     case :meth:`body_with_stem` fails loudly."""
+    confidence: ConfidenceScale | None = None
+    """The frame's confidence rating (its ``survey_confidence``), asked
+    right after the verdict on the same page. ``None`` asks none. Only the
+    Qualtrics exporter renders it; the others refuse a frame that
+    declares one."""
 
     def full_text(self) -> str:
         """Header + blank line + body — what each platform renders per item."""
@@ -298,13 +306,15 @@ def render_survey_question(
             header, frame_id = verification_prompt.survey_header, verification_prompt.id
             stem = verification_prompt.survey_stem
             body_tpl, labels = verification_prompt.survey_body, verification_prompt.survey_choices
+            confidence = verification_prompt.survey_confidence
         else:
             vp = resolve_verification_prompt(benchmark.verification_prompt)
-            body_tpl, labels = None, None
+            body_tpl, labels, confidence = None, None, None
             if vp.survey_header is not None:
                 header, frame_id = vp.survey_header, vp.id
                 stem = vp.survey_stem
                 body_tpl, labels = vp.survey_body, vp.survey_choices
+                confidence = vp.survey_confidence
             else:
                 # Pre-frame behavior, preserved: support surveys always used
                 # the locked v0.9.0 header regardless of the benchmark's
@@ -334,6 +344,7 @@ def render_survey_question(
             choices=labels if labels is not None else DEFAULT_VERDICT_CHOICES,
             frame_id=frame_id,
             stem=stem,
+            confidence=confidence,
         )
     if question_form == "coherence":
         from ..templates import resolve_coherence_frame
@@ -477,3 +488,9 @@ class SurveyRespondent:
     key means the importer didn't see a rationale column for that
     item; an explicit ``None`` means the column existed but the
     respondent left it blank."""
+
+    confidences: dict[str, int] = field(default_factory=dict)
+    """Map ``{sanitized_export_tag -> confidence}``: the 1-based position
+    of the chosen confidence label (see
+    :class:`~infereval.prompts.ConfidenceScale`). A missing key means no
+    rating was given or asked on that item."""
