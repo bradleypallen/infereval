@@ -166,6 +166,29 @@ def render_implication_text(benchmark: Benchmark, item: BenchmarkItem) -> str:
     return "\n".join(parts)
 
 
+def render_context_text(benchmark: Benchmark, item: BenchmarkItem, template: str) -> str:
+    """Fill ``template`` with the premise/conclusion contexts the model sees.
+
+    Uses the same bearer ordering (:func:`~infereval.endorsement._expressions_for`)
+    and the benchmark's own context builders as the evaluation path, so a
+    survey body rendered with the prompt's ``user_template`` shape is the
+    model's stimulus character for character (canonical expressions,
+    TeX stripped).
+    """
+    from ..context import resolve_context_builders
+    from ..endorsement import _expressions_for
+
+    bearers = benchmark.runtime_bearers()
+    premise_builder, conclusion_builder = resolve_context_builders(benchmark.context_builders)
+    premise_ctx = premise_builder(
+        _expressions_for(frozenset(item.premises), bearers, strip_tex=True)
+    )
+    conclusion_ctx = conclusion_builder(
+        _expressions_for(frozenset(item.conclusions), bearers, strip_tex=True)
+    )
+    return template.format(premise_context=premise_ctx, conclusion_context=conclusion_ctx)
+
+
 # ---- Question-form-aware survey question (v0.17.4) -------------------------
 
 
@@ -242,7 +265,11 @@ def render_survey_question(
     eliciting humans under different wording than the recorded frame — the
     only fallback is the locked v0.9.0 support header for ``default-v1``.
     Choice labels and the importer decode are frame-independent at every
-    frame (the survey side of the polarity firewall).
+    frame (the survey side of the polarity firewall), except that a support
+    prompt with a ``survey_header`` may also declare ``survey_body`` (the
+    case shown through the model's own context builders) and
+    ``survey_choices`` (labels in the fixed good/bad/abstain order, decoded
+    by position on import, so polarity cannot flip).
     """
     if question_form == "support":
         if not item.premises:
@@ -270,11 +297,14 @@ def render_survey_question(
                 )
             header, frame_id = verification_prompt.survey_header, verification_prompt.id
             stem = verification_prompt.survey_stem
+            body_tpl, labels = verification_prompt.survey_body, verification_prompt.survey_choices
         else:
             vp = resolve_verification_prompt(benchmark.verification_prompt)
+            body_tpl, labels = None, None
             if vp.survey_header is not None:
                 header, frame_id = vp.survey_header, vp.id
                 stem = vp.survey_stem
+                body_tpl, labels = vp.survey_body, vp.survey_choices
             else:
                 # Pre-frame behavior, preserved: support surveys always used
                 # the locked v0.9.0 header regardless of the benchmark's
@@ -296,8 +326,12 @@ def render_survey_question(
         return SurveyQuestion(
             question_form="support",
             header=header,
-            body=render_implication_text(benchmark, item),
-            choices=DEFAULT_VERDICT_CHOICES,
+            body=(
+                render_implication_text(benchmark, item)
+                if body_tpl is None
+                else render_context_text(benchmark, item, body_tpl)
+            ),
+            choices=labels if labels is not None else DEFAULT_VERDICT_CHOICES,
             frame_id=frame_id,
             stem=stem,
         )
@@ -349,14 +383,29 @@ def _render_coherence_body(benchmark: Benchmark, item: BenchmarkItem) -> str:
     return resolve_template(benchmark.id, template_id=benchmark.template_id).render(req)
 
 
-def verdict_from_choice_text(cell: str, *, question_form: str = "support") -> Verdict:
+def verdict_from_choice_text(
+    cell: str,
+    *,
+    question_form: str = "support",
+    choices: tuple[str, ...] | None = None,
+) -> Verdict:
     """Map a chosen MC label back to a :class:`Verdict` under ``question_form``.
+
+    ``choices`` (support form only): the frame's declared
+    ``survey_choices``, in the order good, bad, abstain. A cell that equals
+    one of them exactly decodes by position; anything else falls back to
+    the first-word rule below.
 
     ``support``: ``Good → good``, ``Bad → bad``, ``Abstain → abstain``.
     ``coherence``: the server-side inversion — ``Incoherent → good``,
     ``Coherent → bad``, ``Unclear → abstain`` — so imported ``analyst_verdicts``
     are on the identical good/bad/abstain scale as the model's :math:`E_M`.
     """
+    if choices is not None and question_form == "support":
+        for label, verdict in zip(choices, (Verdict.GOOD, Verdict.BAD, Verdict.ABSTAIN),
+                                  strict=True):
+            if cell.strip() == label.strip():
+                return verdict
     first = cell.strip().split()[0].lower() if cell.strip() else ""
     if question_form == "coherence":
         mapping = {

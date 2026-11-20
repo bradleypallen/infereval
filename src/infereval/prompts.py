@@ -78,8 +78,8 @@ class VerificationPrompt:
         instruction text stating the same assessment norms in respondent
         voice (the support-form analogue of
         :attr:`infereval.templates.CoherenceFrame.survey_header`). It
-        changes only the header — choice labels and importer decode stay
-        library-controlled. ``None`` means no survey surface is declared.
+        changes only the header; the body and labels change only through
+        :attr:`survey_body` / :attr:`survey_choices`. ``None`` means no survey surface is declared.
         An explicitly passed prompt without one makes the survey renderer
         refuse. A benchmark's bound prompt without one renders the locked
         v0.9.0 (default-v1) header and logs ``survey.frame.fallback``. A
@@ -93,6 +93,18 @@ class VerificationPrompt:
         verbatim trailing substring of ``survey_header`` — the stem adds
         no wording beyond the frame's reviewed surface. ``None`` means the
         instructions header mode fails loudly for this prompt.
+    survey_body
+        Optional per-item body template for surveys, with the same
+        ``{premise_context}`` / ``{conclusion_context}`` placeholders as
+        :attr:`user_template`, filled with exactly the context strings the
+        model receives (same bearer order, same context builders). Lets a
+        survey show each case as the model saw it. ``None`` keeps the
+        library's bulleted premises/conclusion body.
+    survey_choices
+        Optional three survey answer labels, in the order good, bad,
+        abstain. The importer decodes these exact labels back to verdicts.
+        ``None`` keeps the library's labels
+        (:data:`~infereval.survey.render.DEFAULT_VERDICT_CHOICES`).
     """
 
     id: str
@@ -101,6 +113,8 @@ class VerificationPrompt:
     parse_regex: str = DEFAULT_PARSE_REGEX
     survey_header: str | None = None
     survey_stem: str | None = None
+    survey_body: str | None = None
+    survey_choices: tuple[str, str, str] | None = None
 
     def build_user(self, premise_context: str, conclusion_context: str) -> str:
         """Return the per-sample user prompt with both contexts substituted in."""
@@ -152,6 +166,12 @@ def resolve_verification_prompt(
         parse_regex=override.parse_regex or DEFAULT_PARSE_REGEX,
         survey_header=override.survey_header,
         survey_stem=override.survey_stem,
+        survey_body=override.survey_body,
+        survey_choices=(
+            tuple(override.survey_choices)  # type: ignore[arg-type]
+            if override.survey_choices is not None
+            else None
+        ),
     )
 
 

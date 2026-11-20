@@ -206,7 +206,10 @@ class VerificationPromptOverride(BaseModel):
     benchmark with its own prompt can ask human analysts the same question
     the model is asked. Without them, ``infereval survey export`` falls back
     to the default-v1 survey header (with a warning). The stem, when given,
-    must be a verbatim trailing substring of the header.
+    must be a verbatim trailing substring of the header. ``survey_body``
+    (a template over ``{premise_context}`` / ``{conclusion_context}``) and
+    ``survey_choices`` (three labels: good, bad, abstain) optionally set how
+    each case and its answers are shown.
     """
 
     model_config = ConfigDict(extra="forbid")
@@ -217,6 +220,27 @@ class VerificationPromptOverride(BaseModel):
     id: str | None = None
     survey_header: str | None = None
     survey_stem: str | None = None
+    survey_body: str | None = None
+    survey_choices: list[str] | None = None
+
+    @model_validator(mode="after")
+    def _survey_body_and_choices(self) -> VerificationPromptOverride:
+        if self.survey_body is not None:
+            try:
+                self.survey_body.format(premise_context="", conclusion_context="")
+            except (KeyError, IndexError, ValueError) as exc:
+                raise ValueError(
+                    "survey_body may use only the {premise_context} and "
+                    f"{{conclusion_context}} placeholders: {exc}"
+                ) from None
+        if self.survey_choices is not None:
+            labels = [c.strip() for c in self.survey_choices]
+            if len(labels) != 3 or not all(labels) or len(set(labels)) != 3:
+                raise ValueError(
+                    "survey_choices must be three distinct, non-empty labels "
+                    "(good, bad, abstain, in that order)"
+                )
+        return self
 
     @model_validator(mode="after")
     def _stem_ends_header(self) -> VerificationPromptOverride:

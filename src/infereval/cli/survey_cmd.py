@@ -589,15 +589,29 @@ def import_cmd(
     # ``Item N`` column-header anchors via mapping[N-1].
     mapping = _load_mapping_sidecar(mapping_path, responses_path)
 
+    # A support prompt that declares its own survey labels was exported with
+    # them; decode those exact labels (good, bad, abstain by position).
+    from infereval.prompts import resolve_verification_prompt
+
+    vp = resolve_verification_prompt(benchmark.verification_prompt)
+    choices = (
+        vp.survey_choices
+        if question_form == "support" and vp.survey_header is not None
+        else None
+    )
+    log.info("survey.import.choices prompt=%s choices=%s", vp.id, choices)
+
     if platform == "qualtrics":
-        respondents = parse_qualtrics_csv(responses_path, question_form=question_form)
+        respondents = parse_qualtrics_csv(
+            responses_path, question_form=question_form, choices=choices
+        )
     elif platform == "google_forms":
         respondents = parse_google_forms_csv(
-            responses_path, mapping=mapping, question_form=question_form
+            responses_path, mapping=mapping, question_form=question_form, choices=choices
         )
     elif platform == "surveymonkey":
         respondents = parse_surveymonkey_csv(
-            responses_path, mapping=mapping, question_form=question_form
+            responses_path, mapping=mapping, question_form=question_form, choices=choices
         )
     else:  # pragma: no cover -- defended by click.Choice
         raise click.UsageError(f"Unknown platform {platform!r}")

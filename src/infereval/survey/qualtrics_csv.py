@@ -69,6 +69,7 @@ def parse_qualtrics_csv(
     path: Path,
     *,
     question_form: str = "support",
+    choices: tuple[str, ...] | None = None,
 ) -> list[SurveyRespondent]:
     """Parse a Qualtrics CSV export into a list of
     :class:`SurveyRespondent`.
@@ -81,7 +82,8 @@ def parse_qualtrics_csv(
     Tolerant of missing rationale columns (rationales are optional);
     strict on malformed verdict values (anything that doesn't begin
     with one of the three keywords → :class:`ValueError` with the cell
-    location).
+    location). ``choices`` are the frame's declared ``survey_choices``
+    (good, bad, abstain), decoded by exact match first.
     """
     with path.open("r", encoding="utf-8") as fh:
         reader = csv.reader(fh)
@@ -101,7 +103,9 @@ def parse_qualtrics_csv(
             )
         rows = list(reader)
 
-    return _rows_to_respondents(header, rows, path=path, question_form=question_form)
+    return _rows_to_respondents(
+        header, rows, path=path, question_form=question_form, choices=choices
+    )
 
 
 def _rows_to_respondents(
@@ -110,6 +114,7 @@ def _rows_to_respondents(
     *,
     path: Path,
     question_form: str = "support",
+    choices: tuple[str, ...] | None = None,
 ) -> list[SurveyRespondent]:
     """Convert parsed CSV rows to ``SurveyRespondent``s."""
     col_index = {name: i for i, name in enumerate(header)}
@@ -145,7 +150,9 @@ def _rows_to_respondents(
                     # merger's require_complete check picks this up.
                     continue
                 try:
-                    verdicts[tag] = _verdict_from_choice_text(cell, question_form=question_form)
+                    verdicts[tag] = _verdict_from_choice_text(
+                        cell, question_form=question_form, choices=choices
+                    )
                 except ValueError as exc:
                     raise ValueError(
                         f"{path}: row {row_n} column {col_name!r}: {exc}"
@@ -193,7 +200,12 @@ def _parse_started_at(raw: str) -> datetime | None:
     return None
 
 
-def _verdict_from_choice_text(cell: str, *, question_form: str = "support") -> Verdict:
+def _verdict_from_choice_text(
+    cell: str,
+    *,
+    question_form: str = "support",
+    choices: tuple[str, ...] | None = None,
+) -> Verdict:
     """Map an MC choice label back to a :class:`Verdict`.
 
     Thin wrapper over the shared
@@ -201,7 +213,7 @@ def _verdict_from_choice_text(cell: str, *, question_form: str = "support") -> V
     source of the choice→verdict mapping, including the coherence polarity
     inversion). Kept as a module-local name because the Google Forms and
     SurveyMonkey CSV parsers import it from here."""
-    return verdict_from_choice_text(cell, question_form=question_form)
+    return verdict_from_choice_text(cell, question_form=question_form, choices=choices)
 
 
 # ---- Shared merger (used by all three platforms' importers) --------------
