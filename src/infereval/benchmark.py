@@ -432,7 +432,13 @@ class BenchmarkItem(BaseModel):
     id: str
     premises: list[str]
     conclusions: list[str]
-    analyst_verdicts: list[Verdict]
+    analyst_verdicts: list[Verdict | None] = Field(
+        description=(
+            "One verdict per analyst, in the order of the benchmark's analysts. "
+            "null means the analyst did not rate this item (an incomplete design, "
+            "such as a rotated survey); unlike abstain, it is not a vote."
+        ),
+    )
     analyst_rationales: list[str] | None = Field(
         default=None,
         description=(

@@ -390,18 +390,21 @@ def coverage(eta: Evaluation) -> float:
 
 
 def coverage_analyst(eta: Evaluation, analyst_index: int) -> float:
-    """:math:`\\mathrm{cov}_j(\\eta) = |\\{i : v_{i,j} \\neq \\text{abstain}\\}| / n`.
+    """:math:`\\mathrm{cov}_j(\\eta) = |\\{i : v_{i,j} \\neq \\text{abstain}\\}| / n_j`.
 
-    ``analyst_index`` is 0-based and must be ``< m``.
+    ``analyst_index`` is 0-based and must be ``< m``. ``n_j`` counts the
+    items analyst ``j`` rated: in an incomplete design (a rotated survey)
+    an item the analyst was never shown (``None``) is left out of both
+    counts. With every item rated, ``n_j = n``.
     """
-    if eta.n == 0:
-        return 0.0
-    substantive = sum(
-        1
+    rated = [
+        it.analyst_verdicts[analyst_index]
         for it in eta.items
-        if it.analyst_verdicts[analyst_index] != Verdict.ABSTAIN
-    )
-    return substantive / eta.n
+        if it.analyst_verdicts[analyst_index] is not None
+    ]
+    if not rated:
+        return 0.0
+    return sum(1 for v in rated if v != Verdict.ABSTAIN) / len(rated)
 
 
 def coverage_per_analyst(eta: Evaluation) -> list[float]:
@@ -418,13 +421,15 @@ def coverage_per_analyst(eta: Evaluation) -> list[float]:
 # ---- Consensus -------------------------------------------------------------
 
 
-def consensus_verdict(verdicts: Sequence[Verdict]) -> Verdict:
+def consensus_verdict(verdicts: Sequence[Verdict | None]) -> Verdict:
     """Return the analyst consensus :math:`c_i` for one item's verdicts.
 
     ``good`` if strict majority of analysts
     say ``good`` (vs. ``bad``); ``bad`` if strict majority say ``bad``;
     otherwise ``abstain``. Abstain votes do not count toward the majority
-    of either substantive class but contribute to a tie.
+    of either substantive class but contribute to a tie. ``None`` (an
+    analyst who did not rate the item, in an incomplete design) is not a
+    vote.
     """
     good = sum(1 for v in verdicts if v == Verdict.GOOD)
     bad = sum(1 for v in verdicts if v == Verdict.BAD)
@@ -446,8 +451,15 @@ def consensus_reference(eta: Evaluation) -> ReferenceFn:
 
 
 def analyst_reference(eta: Evaluation, analyst_index: int) -> ReferenceFn:
-    """Return :math:`r(i) = v_{i, \\text{analyst\\_index}}` as a :data:`ReferenceFn`."""
-    per_item = [it.analyst_verdicts[analyst_index] for it in eta.items]
+    """Return :math:`r(i) = v_{i, \\text{analyst\\_index}}` as a :data:`ReferenceFn`.
+
+    An item the analyst did not rate (``None``, in an incomplete design)
+    reads as ``abstain``, so it falls outside every substantive index.
+    """
+    per_item = [
+        v if v is not None else Verdict.ABSTAIN
+        for v in (it.analyst_verdicts[analyst_index] for it in eta.items)
+    ]
 
     def _ref(i: int) -> Verdict:
         return per_item[i]
@@ -571,7 +583,7 @@ def cohens_kappa(
 
 
 def _fleiss_over_tuples(
-    verdict_tuples: Sequence[Sequence[Verdict]],
+    verdict_tuples: Sequence[Sequence[Verdict | None]],
     *,
     tuple_weights: Sequence[float] | None = None,
 ) -> float | None:
@@ -579,6 +591,8 @@ def _fleiss_over_tuples(
 
     Items with any non-substantive verdict are dropped (matching the
     ``S_F`` filtering: only items where every annotator is substantive).
+    An unrated cell (``None``, in an incomplete design) is non-substantive,
+    so in a rotated survey the figure covers the items everyone rated.
 
     When ``tuple_weights`` is supplied, the per-item agreement
     contributions ``P_i`` and the cross-item category totals are
@@ -603,7 +617,7 @@ def _fleiss_over_tuples(
 
     # Filter to fully-substantive items, carrying weights through if supplied.
     if tuple_weights is None:
-        S_F_pairs: list[tuple[Sequence[Verdict], float]] = [
+        S_F_pairs: list[tuple[Sequence[Verdict | None], float]] = [
             (vs, 1.0)
             for vs in verdict_tuples
             if all(v in SUBSTANTIVE for v in vs)
@@ -772,16 +786,20 @@ def inter_analyst_fleiss_per_panel(
 
 
 def _panel_consensus_verdict(
-    item_verdicts: Sequence[Verdict],
+    item_verdicts: Sequence[Verdict | None],
     indices: Sequence[int],
 ) -> Verdict:
     """Majority verdict among the indexed analysts; abstain on tie.
+
+    Analysts who did not rate the item (``None``) are left out.
 
     Used as the per-item consensus for cross-panel agreement
     calculations. Matches the conservative tie-break the framework uses
     elsewhere (per CLAUDE.md locked methodology defaults).
     """
-    counts = Counter(item_verdicts[j] for j in indices)
+    counts: Counter[Verdict] = Counter(
+        v for v in (item_verdicts[j] for j in indices) if v is not None
+    )
     if not counts:
         return Verdict.ABSTAIN
     top = counts.most_common(1)[0][1]

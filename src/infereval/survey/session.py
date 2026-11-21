@@ -1,6 +1,6 @@
-"""Survey session pages around the benchmark items: consent, practice and quality checks.
+"""Survey session pages around the benchmark items: consent, practice, quality checks, assignment.
 
-Three optional, study-supplied specifications that the Qualtrics exporter
+Four optional, study-supplied specifications that the Qualtrics exporter
 (:func:`~infereval.survey.qualtrics_qsf.build_qsf`) renders around the
 benchmark items. Their wording is the study's (usually approved by an
 ethics committee), so it is never hard-coded here: each is loaded from a
@@ -61,6 +61,25 @@ a second time after all items, in a new random order, exported as
 ``repeat_<tag>``. Neither is imported as a verdict;
 ``infereval survey import --quality-checks`` reports them per respondent
 (see :mod:`infereval.survey.quality`).
+
+**Assignment** (:class:`AssignmentSpec`) — an incomplete design, in which
+each respondent rates every core item and a rotated subset of the rest:
+
+.. code-block:: json
+
+    {
+      "core": ["item_001", "item_002"],
+      "rotated_per_respondent": 100
+    }
+
+Every item not listed in ``core`` is a rotated item. Each respondent sees
+all core items and ``rotated_per_respondent`` rotated ones, chosen by the
+platform's even presentation so every rotated item is shown about equally
+often across respondents. The core and rotated parts are each in random
+order, and which part comes first is counterbalanced. Repeated items
+(``repeats`` above) must be core items, so every respondent has seen them.
+On import, an item a respondent was not shown is recorded as ``None``
+(not rated), never as ``abstain``.
 """
 
 from __future__ import annotations
@@ -207,6 +226,45 @@ class QualitySpec:
             raise ValueError(f"quality checks: repeated ids not in the benchmark: {missing}")
 
 
+@dataclass(frozen=True)
+class AssignmentSpec:
+    core: tuple[str, ...]
+    """Item ids every respondent rates."""
+    rotated_per_respondent: int
+    """How many of the other items each respondent rates."""
+
+    def __post_init__(self) -> None:
+        if not self.core:
+            raise ValueError("assignment: 'core' must list at least one item id")
+        if len(set(self.core)) != len(self.core):
+            raise ValueError("assignment: 'core' must be distinct item ids")
+        if self.rotated_per_respondent < 1:
+            raise ValueError("assignment: 'rotated_per_respondent' must be at least 1")
+
+    def rotated(self, item_ids: list[str]) -> list[str]:
+        """The rotated item ids, in benchmark order; raises on a bad spec.
+
+        Raises unless every core id is in ``item_ids`` and there are at
+        least ``rotated_per_respondent`` other items.
+        """
+        known = set(item_ids)
+        missing = [i for i in self.core if i not in known]
+        if missing:
+            raise ValueError(f"assignment: core ids not in the benchmark: {missing}")
+        core = set(self.core)
+        rotated = [i for i in item_ids if i not in core]
+        if self.rotated_per_respondent > len(rotated):
+            raise ValueError(
+                f"assignment: rotated_per_respondent={self.rotated_per_respondent} but only "
+                f"{len(rotated)} items are not core"
+            )
+        return rotated
+
+    def expected_ratings(self, n_respondents: int, item_ids: list[str]) -> float:
+        """Ratings per rotated item with ``n_respondents``, under even presentation."""
+        return n_respondents * self.rotated_per_respondent / len(self.rotated(item_ids))
+
+
 def _read_json(path: Path, what: str) -> dict[str, Any]:
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
@@ -288,5 +346,23 @@ def load_quality(path: Path) -> QualitySpec:
     log.info(
         "survey.quality.load path=%s attention_checks=%s repeats=%d",
         path, ",".join(c.id for c in spec.attention_checks), len(spec.repeats),
+    )
+    return spec
+
+
+def load_assignment(path: Path) -> AssignmentSpec:
+    """Load an :class:`AssignmentSpec` from a JSON file (see module docs)."""
+    data = _read_json(path, "assignment")
+    _check_keys(data, {"core", "rotated_per_respondent"}, f"assignment file {path}")
+    raw_k = data.get("rotated_per_respondent")
+    if not isinstance(raw_k, int) or isinstance(raw_k, bool):
+        raise ValueError(f"assignment file {path}: 'rotated_per_respondent' must be an integer")
+    spec = AssignmentSpec(
+        core=tuple(str(i) for i in data.get("core", [])),
+        rotated_per_respondent=raw_k,
+    )
+    log.info(
+        "survey.assignment.load path=%s core=%d rotated_per_respondent=%d",
+        path, len(spec.core), spec.rotated_per_respondent,
     )
     return spec

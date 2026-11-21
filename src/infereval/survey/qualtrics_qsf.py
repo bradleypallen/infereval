@@ -33,6 +33,14 @@ Survey → "Import a QSF file"). The imported survey has:
    ``check_<id>``, and its repeated items are shown again after all items
    (a second randomizer) as ``repeat_<tag>``. Both look like items: same
    answer labels, confidence and rationale questions.
+   With ``assignment`` (an incomplete design), repeats must be core items.
+10. When ``assignment`` is given (requires ``randomize_items``), each
+   respondent sees every core item and ``rotated_per_respondent`` of the
+   others: two Groups, each a randomizer (core items in full; rotated
+   items as an evenly presented subset), inside an outer evenly presented
+   randomizer that counterbalances which group comes first. Attention
+   checks alternate between the two groups, starting with the core: among
+   the core items at random, and after the rotated subset.
 9. When ``practice`` is given, practice items rendered exactly like the
    benchmark items follow the instructions, outside randomization, each
    on its own page (see :mod:`infereval.survey.session`).
@@ -73,6 +81,7 @@ from .session import (
     CONSENT_STATEMENTS_TAG,
     CONSENT_TAG,
     REPEAT_TAG_PREFIX,
+    AssignmentSpec,
     ConsentSpec,
     PracticeSpec,
     QualitySpec,
@@ -127,6 +136,7 @@ def build_qsf(
     practice: PracticeSpec | None = None,
     prolific_no_consent_code: str | None = None,
     quality: QualitySpec | None = None,
+    assignment: AssignmentSpec | None = None,
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """Build a Qualtrics ``.qsf`` document for ``benchmark``.
 
@@ -181,6 +191,12 @@ def build_qsf(
     repeated id not in the benchmark, or a check whose ``answer`` is not
     one of the answer labels, raises ``ValueError``. Neither is in
     ``mapping``.
+
+    ``assignment`` (an :class:`~infereval.survey.session.AssignmentSpec`)
+    makes the design incomplete: every core item plus a rotated, evenly
+    presented subset of the rest (see the module docstring). It needs
+    ``randomize_items``; a core id not in the benchmark, too few rotated
+    items, or a repeated item that is not core raises ``ValueError``.
 
     With any of these, a benchmark item whose export tag takes a reserved
     session form (``consent``, ``consent_*``, ``practice_*``, ``check_*``,
@@ -359,6 +375,22 @@ def build_qsf(
     )
     check_units: list[tuple[str, list[str]]] = []
     repeat_units: list[tuple[str, list[str]]] = []
+    if assignment is not None:
+        if not randomize_items:
+            raise ValueError("assignment needs randomize_items: the rotation is a randomizer")
+        rotated_ids = assignment.rotated([item.id for item in benchmark.items])
+        if quality is not None:
+            not_core = [i for i in quality.repeats if i not in set(assignment.core)]
+            if not_core:
+                raise ValueError(
+                    f"repeated items must be core items, so every respondent has seen them; "
+                    f"not core: {not_core}"
+                )
+        log.info(
+            "survey.export.assignment benchmark=%s core=%d rotated=%d rotated_per_respondent=%d",
+            benchmark.id, len(assignment.core), len(rotated_ids),
+            assignment.rotated_per_respondent,
+        )
     if quality is not None:
         quality.check_items([item.id for item in benchmark.items])
 
@@ -536,6 +568,7 @@ def build_qsf(
         randomize_items=randomize_items,
         check_units=check_units,
         repeat_units=repeat_units,
+        assignment=assignment,
     )
     # Properties.Count = total flow nodes including Root and nested
     # block nodes under a randomizer.
@@ -675,6 +708,7 @@ def _blocks_and_flow(
     randomize_items: bool,
     check_units: list[tuple[str, list[str]]] | None = None,
     repeat_units: list[tuple[str, list[str]]] | None = None,
+    assignment: AssignmentSpec | None = None,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Build the BL payload (list of blocks) and the Root flow's nodes.
 
@@ -695,6 +729,10 @@ def _blocks_and_flow(
     ``check_units`` (attention checks) join the items: in the randomizer,
     or evenly spaced among them without randomization. ``repeat_units``
     follow all items: a second randomizer, or in the given order.
+
+    ``assignment`` (randomized only) replaces the single item randomizer
+    with an outer randomizer over two Groups, core and rotated; see the
+    module docstring.
     """
     check_units = check_units or []
     repeat_units = repeat_units or []
@@ -716,6 +754,7 @@ def _blocks_and_flow(
             }
         ]
         item_nodes: list[dict[str, Any]] = []
+        node_of_item: dict[str, dict[str, Any]] = {}
         flow_n = 4  # FL_1 Root, FL_2 intro, FL_3 randomizer, then items.
         for item_id, qids in item_qids:
             block_id = _qsf_id("BL_", f"infereval|{benchmark_id}|block|{item_id}")
@@ -730,6 +769,7 @@ def _blocks_and_flow(
                 }
             )
             item_nodes.append({"ID": block_id, "Type": "Standard", "FlowID": f"FL_{flow_n}"})
+            node_of_item[item_id] = item_nodes[-1]
             flow_n += 1
         # Quality-check blocks take FlowIDs after the items', so the item
         # flow is unchanged without them.
@@ -747,21 +787,79 @@ def _blocks_and_flow(
             )
             return block_id
 
+        check_nodes: list[dict[str, Any]] = []
         for unit_id, qids in check_units:
-            item_nodes.append(
+            check_nodes.append(
                 {"ID": _unit_block(unit_id, qids), "Type": "Standard", "FlowID": f"FL_{flow_n}"}
             )
             flow_n += 1
-        flow_nodes: list[dict[str, Any]] = [
-            {"ID": intro_id, "Type": "Block", "FlowID": "FL_2"},
-            {
+        flow_nodes: list[dict[str, Any]] = [{"ID": intro_id, "Type": "Block", "FlowID": "FL_2"}]
+        if assignment is None:
+            flow_nodes.append(
+                {
+                    "Type": "BlockRandomizer",
+                    "FlowID": "FL_3",
+                    "SubSet": len(item_nodes) + len(check_nodes),
+                    "EvenPresentation": False,
+                    "Flow": item_nodes + check_nodes,
+                }
+            )
+        else:
+            core = set(assignment.core)
+            core_nodes = [node_of_item[i] for i, _ in item_qids if i in core]
+            rotated_nodes = [node_of_item[i] for i, _ in item_qids if i not in core]
+            # Checks alternate between the parts, starting with the core,
+            # so each part has its share whichever comes first.
+            core_nodes += check_nodes[0::2]
+            rotated_checks = check_nodes[1::2]
+
+            def _group(description: str, randomizer: dict[str, Any]) -> dict[str, Any]:
+                nonlocal flow_n
+                group = {
+                    "Type": "Group",
+                    "FlowID": f"FL_{flow_n}",
+                    "Description": description,
+                    "Flow": [randomizer],
+                }
+                flow_n += 1
+                randomizer["FlowID"] = f"FL_{flow_n}"
+                flow_n += 1
+                return group
+
+            core_group = _group("Core items", {
                 "Type": "BlockRandomizer",
-                "FlowID": "FL_3",
-                "SubSet": len(item_nodes),
+                "SubSet": len(core_nodes),
                 "EvenPresentation": False,
-                "Flow": item_nodes,
-            },
-        ]
+                "Flow": core_nodes,
+            })
+            rotated_flow: list[dict[str, Any]] = [{
+                "Type": "BlockRandomizer",
+                "SubSet": assignment.rotated_per_respondent,
+                "EvenPresentation": True,
+                "Flow": rotated_nodes,
+            }]
+            rotated_group = _group("Rotated items", rotated_flow[0])
+            if rotated_checks:
+                # A subset randomizer cannot guarantee a check is chosen,
+                # so the rotated part's checks follow its subset, in
+                # their own randomizer.
+                rotated_group["Flow"].append({
+                    "Type": "BlockRandomizer",
+                    "FlowID": f"FL_{flow_n}",
+                    "SubSet": len(rotated_checks),
+                    "EvenPresentation": False,
+                    "Flow": rotated_checks,
+                })
+                flow_n += 1
+            flow_nodes.append(
+                {
+                    "Type": "BlockRandomizer",
+                    "FlowID": "FL_3",
+                    "SubSet": 2,
+                    "EvenPresentation": True,
+                    "Flow": [core_group, rotated_group],
+                }
+            )
         if repeat_units:
             randomizer_n = flow_n
             repeat_nodes = []

@@ -198,7 +198,7 @@ What each field does:
 
 - **`id`**: unique within the benchmark. Used for log lookups and decompositions.
 - **`premises` / `conclusions`**: lists of bearer ids. Order doesn't matter (the model treats them as sets); the framework sorts and dedupes them on input.
-- **`analyst_verdicts`**: `m`-tuple of `"good" | "bad" | "abstain"`. Order matches the `analysts` array.
+- **`analyst_verdicts`**: `m`-tuple of `"good" | "bad" | "abstain"`. Order matches the `analysts` array. `null` means the analyst did not rate the item, as in a rotated survey (see `docs/surveys.md`, "Rotated subset"); it is not a vote, unlike `abstain`.
 - **`tags`**: arbitrary labels for `by-tag` decomposition. `infereval metrics --by-tag <tag>` filters to items carrying that tag. Common conventions: `base-inference`, `irrelevant-addition`, `defeater`, plus domain-specific descriptors.
 - **`rsr_target`** (optional): the target inference `⟨X, A⟩` this item helps characterize the RSR of. Items with the same `rsr_target` form a coherent subset for `infereval metrics --by-rsr-target`. Use it whenever you have multiple items probing the same target.
 - **`factor_levels`** (optional, v0.3.0): per-factor level assignments for crossed-design benchmarks. See Step 6b.

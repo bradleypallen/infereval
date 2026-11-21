@@ -286,7 +286,8 @@ def _build_observation_rows(
             raise ModelingError(
                 f"reference='analyst:{target_id}' but no such analyst on this benchmark"
             ) from exc
-        ref_col = {it.id: it.analyst_verdicts[j] for it in benchmark.items}
+        # An item the analyst did not rate reads as abstain (no reference).
+        ref_col = {it.id: it.analyst_verdicts[j] or Verdict.ABSTAIN for it in benchmark.items}
     else:
         raise ModelingError(
             f"reference={reference!r} must be 'consensus' or 'analyst:<id>'"
@@ -316,9 +317,11 @@ def _build_observation_rows(
     return rows
 
 
-def _consensus_of(verdicts: list[Verdict]) -> Verdict:
-    """Majority verdict among analysts; abstain on tie."""
-    counts = Counter(verdicts)
+def _consensus_of(verdicts: list[Verdict | None]) -> Verdict:
+    """Majority verdict among analysts; abstain on tie (unrated cells left out)."""
+    counts = Counter(v for v in verdicts if v is not None)
+    if not counts:
+        return Verdict.ABSTAIN
     top = counts.most_common(1)[0][1]
     winners = [v for v, c in counts.items() if c == top]
     if len(winners) > 1:

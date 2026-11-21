@@ -37,7 +37,12 @@ from infereval.survey.render import (
     DEFAULT_EXPERTISE_PROMPT,
     SurveyRespondent,
 )
-from infereval.survey.session import load_consent, load_practice, load_quality
+from infereval.survey.session import (
+    load_assignment,
+    load_consent,
+    load_practice,
+    load_quality,
+)
 from infereval.survey.surveymonkey_api import (
     SurveyMonkeyApiError,
     SurveyMonkeyAuthError,
@@ -231,6 +236,17 @@ def survey_group() -> None:
         "items, and repeats (item ids) shown again after all items. Qualtrics only."
     ),
 )
+@click.option(
+    "--assignment",
+    "assignment_path",
+    type=click.Path(exists=True, dir_okay=False, path_type=Path),
+    default=None,
+    help=(
+        "JSON incomplete design: core (item ids every respondent rates) and "
+        "rotated_per_respondent (how many of the other items each rates, evenly "
+        "presented). Needs randomized items. Qualtrics only."
+    ),
+)
 # SurveyMonkey-only:
 @click.option(
     "--surveymonkey-token",
@@ -264,22 +280,24 @@ def export_cmd(
     practice_path: Path | None,
     prolific_no_consent_code: str | None,
     quality_path: Path | None,
+    assignment_path: Path | None,
     surveymonkey_token: str | None,
     surveymonkey_base_url: str,
 ) -> None:
     log.info(
         "survey.export.start benchmark=%s output=%s platform=%s "
         "question_form=%s coherence_frame=%s header_mode=%s prolific=%s "
-        "consent=%s practice=%s prolific_no_consent=%s quality=%s",
+        "consent=%s practice=%s prolific_no_consent=%s quality=%s assignment=%s",
         benchmark_path, output, platform, question_form, coherence_frame_id,
         header_mode, prolific_completion_code is not None, consent_path,
-        practice_path, prolific_no_consent_code is not None, quality_path,
+        practice_path, prolific_no_consent_code is not None, quality_path, assignment_path,
     )
     session_opts = {
         "--consent": consent_path,
         "--practice": practice_path,
         "--prolific-no-consent-code": prolific_no_consent_code,
         "--quality-checks": quality_path,
+        "--assignment": assignment_path,
     }
     for flag, value in session_opts.items():
         if value is not None and platform != "qualtrics":
@@ -340,13 +358,17 @@ def export_cmd(
             consent = load_consent(consent_path) if consent_path is not None else None
             practice = load_practice(practice_path) if practice_path is not None else None
             quality = load_quality(quality_path) if quality_path is not None else None
+            assignment = (
+                load_assignment(assignment_path) if assignment_path is not None else None
+            )
         except ValueError as exc:
             click.echo(f"ERROR: {exc}", err=True)
             sys.exit(2)
         handoff = any(
             v is not None
             for v in (
-                prolific_completion_code, consent, practice, prolific_no_consent_code, quality
+                prolific_completion_code, consent, practice, prolific_no_consent_code, quality,
+                assignment,
             )
         )
         try:
@@ -364,6 +386,7 @@ def export_cmd(
                 practice=practice,
                 prolific_no_consent_code=prolific_no_consent_code,
                 quality=quality,
+                assignment=assignment,
             )
         except ValueError as exc:
             if not handoff:
@@ -399,6 +422,16 @@ def export_cmd(
                 f"  Quality checks: {len(quality.attention_checks)} attention checks among "
                 f"the items, {len(quality.repeats)} items repeated after them (exported as "
                 "check_<id> / repeat_<tag>; import with --quality-checks for the report)."
+            )
+        if assignment is not None:
+            n_rotated = len(benchmark.items) - len(assignment.core)
+            click.echo(
+                f"  Assignment: {len(assignment.core)} core items for everyone, plus "
+                f"{assignment.rotated_per_respondent} of the other {n_rotated}, evenly "
+                f"presented (each rotated item reaches "
+                f"{assignment.rotated_per_respondent / n_rotated:.0%} of respondents). Core and "
+                "rotated order counterbalanced. "
+                "Import with --assignment so unshown items are not rated, not abstain."
             )
         if any(row["confidence_data_export_tag"] is not None for row in mapping):
             assert survey_confidence is not None
@@ -592,6 +625,18 @@ def _maybe_write_mapping(
     ),
 )
 @click.option(
+    "--assignment",
+    "assignment_path",
+    type=click.Path(exists=True, dir_okay=False, path_type=Path),
+    default=None,
+    help=(
+        "The --assignment file the survey was exported with. Items a respondent "
+        "was not shown are recorded as not rated (null), never abstain; with "
+        "--require-complete each respondent must have every core item and exactly "
+        "rotated_per_respondent rotated ones."
+    ),
+)
+@click.option(
     "--require-complete/--allow-partial",
     default=True,
     show_default=True,
@@ -599,7 +644,7 @@ def _maybe_write_mapping(
         "When True (default), reject any respondent who didn't finish "
         "the survey or whose verdicts don't cover all items. "
         "Pass --allow-partial to import partials with ABSTAIN for "
-        "missing verdicts."
+        "missing verdicts (not rated, with --assignment)."
     ),
 )
 @click.option(
@@ -636,6 +681,7 @@ def import_cmd(
     respondent_id: str | None,
     exclude_ids: tuple[str, ...],
     quality_path: Path | None,
+    assignment_path: Path | None,
     require_complete: bool,
     question_form: str,
     coherence_frame_id: str | None,
@@ -726,6 +772,15 @@ def import_cmd(
         )
         log.info("survey.import.quality_report path=%s", report_path)
 
+    assignment = None
+    if assignment_path is not None:
+        try:
+            assignment = load_assignment(assignment_path)
+            assignment.rotated([item.id for item in benchmark.items])
+        except ValueError as exc:
+            click.echo(f"ERROR: {exc}", err=True)
+            sys.exit(2)
+
     if exclude_ids:
         unknown = sorted(set(exclude_ids) - {r.response_id for r in respondents})
         if unknown:
@@ -747,6 +802,7 @@ def import_cmd(
             analyst_id_prefix=analyst_id_prefix,
             require_complete=require_complete,
             frame_id=coherence_frame_id,
+            assignment=assignment,
         )
     except FrameMismatchError as exc:
         click.echo(f"ERROR: frame mismatch — {exc}", err=True)
@@ -761,6 +817,24 @@ def import_cmd(
         f"OK: wrote merged benchmark to {output} "
         f"(m={len(merged.analysts)} analysts, +{len(respondents)} new)"
     )
+    if assignment is not None:
+        n_new = len(respondents)
+        rated = [
+            sum(v is not None for v in item.analyst_verdicts[-n_new:]) for item in merged.items
+        ]
+        core = set(assignment.core)
+        rotated_counts = [r for r, it in zip(rated, merged.items, strict=True) if it.id not in core]
+        click.echo(
+            f"  Assignment: new ratings per rotated item min {min(rotated_counts)}, "
+            f"max {max(rotated_counts)}, mean {sum(rotated_counts) / len(rotated_counts):.1f}; "
+            f"unshown items recorded as not rated."
+        )
+        log.info(
+            "survey.import.assignment rotated_items=%d ratings_min=%d ratings_max=%d "
+            "ratings_mean=%.2f",
+            len(rotated_counts), min(rotated_counts), max(rotated_counts),
+            sum(rotated_counts) / len(rotated_counts),
+        )
     log.info("survey.import.done output=%s", output)
 
 
