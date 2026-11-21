@@ -1,6 +1,7 @@
-"""Survey session pages around the benchmark items: consent, practice, quality checks, assignment.
+"""Survey session pages around the benchmark items: consent, background, practice, quality
+checks, assignment.
 
-Four optional, study-supplied specifications that the Qualtrics exporter
+Five optional, study-supplied specifications that the Qualtrics exporter
 (:func:`~infereval.survey.qualtrics_qsf.build_qsf`) renders around the
 benchmark items. Their wording is the study's (usually approved by an
 ethics committee), so it is never hard-coded here: each is loaded from a
@@ -21,6 +22,20 @@ JSON file.
 the information text, one tick box per statement, and the agree/decline
 choice. A participant who declines, or who leaves any statement unticked,
 is taken straight to the end of the survey and sees no study item.
+
+**Background** (:class:`BackgroundSpec`) — one closed question in place of
+the default free-text expertise question:
+
+.. code-block:: json
+
+    {
+      "prompt": "Have you had any formal training in logic or philosophy?",
+      "choices": ["None", "Some", "A degree"]
+    }
+
+It is a force-response single choice, exported under the same ``expertise``
+tag, so the importer stores the chosen label as the analyst's
+``expertise_description``.
 
 **Practice** (:class:`PracticeSpec`) — items rated after the instructions
 and before the benchmark items, outside randomization, with no feedback:
@@ -265,6 +280,22 @@ class AssignmentSpec:
         return n_respondents * self.rotated_per_respondent / len(self.rotated(item_ids))
 
 
+@dataclass(frozen=True)
+class BackgroundSpec:
+    prompt: str
+    choices: tuple[str, ...]
+
+    def __post_init__(self) -> None:
+        if not self.prompt.strip():
+            raise ValueError("background: 'prompt' must be non-empty")
+        stripped = [c.strip() for c in self.choices]
+        if len(stripped) < 2 or not all(stripped) or len(set(stripped)) != len(stripped):
+            raise ValueError(
+                f"background: 'choices' must be at least two distinct non-empty labels, "
+                f"got {list(self.choices)}"
+            )
+
+
 def _read_json(path: Path, what: str) -> dict[str, Any]:
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
@@ -365,4 +396,18 @@ def load_assignment(path: Path) -> AssignmentSpec:
         "survey.assignment.load path=%s core=%d rotated_per_respondent=%d",
         path, len(spec.core), spec.rotated_per_respondent,
     )
+    return spec
+
+
+def load_background(path: Path) -> BackgroundSpec:
+    """Load a :class:`BackgroundSpec` from a JSON file (see module docs)."""
+    data = _read_json(path, "background")
+    _check_keys(data, {"prompt", "choices"}, f"background file {path}")
+    choices = data.get("choices", [])
+    if not isinstance(choices, list):
+        raise ValueError(f"background file {path}: 'choices' must be a list")
+    spec = BackgroundSpec(
+        prompt=str(data.get("prompt", "")), choices=tuple(str(c) for c in choices)
+    )
+    log.info("survey.background.load path=%s choices=%d", path, len(spec.choices))
     return spec

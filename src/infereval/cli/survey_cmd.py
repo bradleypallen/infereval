@@ -39,6 +39,7 @@ from infereval.survey.render import (
 )
 from infereval.survey.session import (
     load_assignment,
+    load_background,
     load_consent,
     load_practice,
     load_quality,
@@ -247,6 +248,17 @@ def survey_group() -> None:
         "presented). Needs randomized items. Qualtrics only."
     ),
 )
+@click.option(
+    "--background",
+    "background_path",
+    type=click.Path(exists=True, dir_okay=False, path_type=Path),
+    default=None,
+    help=(
+        "JSON closed background question (prompt, choices) shown in place of the "
+        "free-text expertise question; the chosen label is imported as the "
+        "analyst's expertise_description. Qualtrics only."
+    ),
+)
 # SurveyMonkey-only:
 @click.option(
     "--surveymonkey-token",
@@ -281,16 +293,18 @@ def export_cmd(
     prolific_no_consent_code: str | None,
     quality_path: Path | None,
     assignment_path: Path | None,
+    background_path: Path | None,
     surveymonkey_token: str | None,
     surveymonkey_base_url: str,
 ) -> None:
     log.info(
         "survey.export.start benchmark=%s output=%s platform=%s "
         "question_form=%s coherence_frame=%s header_mode=%s prolific=%s "
-        "consent=%s practice=%s prolific_no_consent=%s quality=%s assignment=%s",
+        "consent=%s practice=%s prolific_no_consent=%s quality=%s assignment=%s background=%s",
         benchmark_path, output, platform, question_form, coherence_frame_id,
         header_mode, prolific_completion_code is not None, consent_path,
         practice_path, prolific_no_consent_code is not None, quality_path, assignment_path,
+        background_path,
     )
     session_opts = {
         "--consent": consent_path,
@@ -298,12 +312,17 @@ def export_cmd(
         "--prolific-no-consent-code": prolific_no_consent_code,
         "--quality-checks": quality_path,
         "--assignment": assignment_path,
+        "--background": background_path,
     }
     for flag, value in session_opts.items():
         if value is not None and platform != "qualtrics":
             raise click.UsageError(
                 f"{flag} is implemented for --platform qualtrics only, not {platform}."
             )
+    if background_path is not None and expertise_prompt != DEFAULT_EXPERTISE_PROMPT:
+        raise click.UsageError(
+            "--background replaces the expertise question; drop --expertise-prompt."
+        )
     if prolific_no_consent_code is not None and consent_path is None:
         raise click.UsageError("--prolific-no-consent-code requires --consent.")
     if prolific_completion_code is not None and platform != "qualtrics":
@@ -361,6 +380,9 @@ def export_cmd(
             assignment = (
                 load_assignment(assignment_path) if assignment_path is not None else None
             )
+            background = (
+                load_background(background_path) if background_path is not None else None
+            )
         except ValueError as exc:
             click.echo(f"ERROR: {exc}", err=True)
             sys.exit(2)
@@ -368,7 +390,7 @@ def export_cmd(
             v is not None
             for v in (
                 prolific_completion_code, consent, practice, prolific_no_consent_code, quality,
-                assignment,
+                assignment, background,
             )
         )
         try:
@@ -387,6 +409,7 @@ def export_cmd(
                 prolific_no_consent_code=prolific_no_consent_code,
                 quality=quality,
                 assignment=assignment,
+                background=background,
             )
         except ValueError as exc:
             if not handoff:
@@ -411,6 +434,11 @@ def export_cmd(
                     if prolific_no_consent_code is not None
                     else "sees the default end message."
                 )
+            )
+        if background is not None:
+            click.echo(
+                f"  Background: one closed question ({' / '.join(background.choices)}) in "
+                "place of the expertise question; imported as expertise_description."
             )
         if practice is not None:
             click.echo(

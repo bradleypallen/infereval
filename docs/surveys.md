@@ -202,6 +202,25 @@ The importer skips the `consent`, `consent_*` and `practice_*` columns (and the 
 
 As with the Prolific hand-off, preview the survey in Qualtrics before publishing: decline once and leave one statement unticked once to check both end the survey, then agree once and check the practice pages appear before the items.
 
+### Background question
+
+By default the survey opens with a free-text question asking for the respondent's expertise. For a study that wants one closed question instead, give its wording in a JSON file:
+
+```sh
+infereval survey export benchmark.json -o recruit.qsf --background background.json
+```
+
+`background.json`:
+
+```json
+{
+  "prompt": "Have you had any formal training in logic or philosophy?",
+  "choices": ["None", "Some", "A degree"]
+}
+```
+
+The question replaces the free-text one in the same place (after the instructions, before any practice item). It is single choice with an answer required, and is exported under the same `expertise` tag, so the importer stores the chosen label as each new analyst's `expertise_description`. It cannot be combined with `--expertise-prompt`. Qualtrics only.
+
 ### Attention checks and repeated items
 
 A third JSON file adds quality checks that use only each respondent's own answers. Agreement with a model is never used, since excluding people for disagreeing with the models would build the models into the human reference.
