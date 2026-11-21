@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from infereval.benchmark import Benchmark
-from infereval.survey.qualtrics_qsf import build_qsf
+from infereval.survey.qualtrics_qsf import _html_text, build_qsf
 from infereval.survey.render import DEFAULT_VERDICT_CHOICES, sanitize_export_tag
 
 STOP_SIGN_PATH = (
@@ -191,7 +191,7 @@ class TestInstructionsHeaderMode:
             if el.get("Element") == "SQ" and el["Payload"]["QuestionType"] == "DB"
         ]
         assert len(dbs) == 1
-        assert dbs[0]["Payload"]["QuestionText"] == DEFEASIBLE_COHERENCE_FRAME.survey_header
+        assert dbs[0]["Payload"]["QuestionText"] == _html_text(DEFEASIBLE_COHERENCE_FRAME.survey_header)
 
     def test_instructions_page_precedes_expertise_outside_randomization(self) -> None:
         qsf, _ = self._build(randomize_items=True)
@@ -403,3 +403,22 @@ def test_unsafe_item_id_gets_hashed_in_mapping() -> None:
     assert mapping[0]["was_hashed"] is True
     assert expected_hashed is True
     assert mapping[0]["verdict_data_export_tag"] == expected_tag
+
+
+class TestQuestionTextHtml:
+    """Qualtrics renders QuestionText as HTML: newlines must become <br>."""
+
+    def test_line_breaks_escaping_and_indent(self) -> None:
+        text = "Premises: a & b\nConclusion: <c>\n\nFor example:\n  Premises: a is a bird"
+        assert _html_text(text) == (
+            "Premises: a &amp; b<br>Conclusion: &lt;c&gt;<br><br>For example:"
+            "<br>&nbsp;&nbsp;Premises: a is a bird"
+        )
+        assert _html_text("Can't tell, \"quoted\"") == "Can't tell, \"quoted\""
+
+    def test_no_raw_newlines_in_any_question(self) -> None:
+        qsf, _ = build_qsf(Benchmark.load(PULM_PATH), header_mode="instructions")
+        texts = [el["Payload"]["QuestionText"] for el in qsf["SurveyElements"]
+                 if el["Element"] == "SQ"]
+        assert texts and all("\n" not in t for t in texts)
+        assert any("<br>" in t for t in texts)

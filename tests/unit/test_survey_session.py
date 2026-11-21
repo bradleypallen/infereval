@@ -219,7 +219,7 @@ class TestPractice:
         sep = "Premises:"
         assert kettle["QuestionText"].split(sep)[0] == item_q["QuestionText"].split(sep)[0]
         assert "- Sam boils a kettle" in kettle["QuestionText"]
-        assert "- Priya waters the basil\n- The basil is artificial" in (
+        assert "- Priya waters the basil<br>- The basil is artificial" in (
             qs["practice_basil"]["QuestionText"]
         )
         assert [m["item_id"] for m in mapping] == [i.id for i in bench.items]
