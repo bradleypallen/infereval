@@ -22,6 +22,12 @@ stable from 1.0 onward, regardless of the framework version.
 
 - `BenchmarkItem` accepted an item with no premises and no conclusions, which `I_M` excludes by stipulation; it would have been sent to the model as "Consider a position that commits to the following: .". Validation now rejects it, and the endorser and both framework templates refuse it as a second guard.
 
+### Added — rotated survey subsets, and analyst cells that are not rated
+
+- `infereval survey export --assignment FILE` (Qualtrics) gives an incomplete design: every respondent rates the `core` items and `rotated_per_respondent` of the rest, evenly presented, with the core and rotated parts in counterbalanced order. `survey import --assignment FILE` records an item a respondent was not shown as `null`.
+- `BenchmarkItem.analyst_verdicts` (and `EvaluationItem.analyst_verdicts`) entries may now be `null`, meaning not rated. That is not a vote, unlike `abstain`. Consensus counts only the analysts who rated an item; per-analyst coverage is over the items rated; an analyst reference reads `abstain` where that analyst did not rate; and Fleiss' κ* covers the items every analyst rated. Benchmarks without `null` entries validate, hash and score exactly as before.
+- The Qualtrics importer skips the `FL_<n>_DO` viewing-order columns.
+
 ### Added — `framework-default-v2`
 
 - `framework-default-v1` appends "." after the last rendered piece, so bearer expressions that end in a full stop render as "..". `framework-default-v2` closes the stem only when the last piece lacks terminal punctuation; otherwise its text is identical to v1's. It is catalogued, not the default: a benchmark opts in with `template_id: framework-default-v2`. Full stops inside a joined premise list ("A. and B.") come from the context builder, not the template, and are unchanged.

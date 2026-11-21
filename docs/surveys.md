@@ -242,6 +242,42 @@ The summary gives the number who failed any check, the overall repeat agreement 
 
 The report excludes no one. Apply the study's pre-registered rule, then import again with `--exclude-respondent ID` for each person to leave out (repeatable; an unknown id is an error).
 
+### Rotated subset (incomplete design)
+
+With many items, each respondent can rate a core set everyone sees plus a rotated share of the rest. A fourth JSON file declares it:
+
+```sh
+infereval survey export benchmark.json -o recruit.qsf --assignment assignment.json
+```
+
+`assignment.json`:
+
+```json
+{
+  "core": ["item_001", "item_002"],
+  "rotated_per_respondent": 100
+}
+```
+
+Every item not in `core` is rotated. The survey flow is an outer randomizer that shows two groups in a counterbalanced order (Qualtrics' *evenly present*, so half the respondents get each order):
+
+- **Core items:** every core item, in random order.
+- **Rotated items:** `rotated_per_respondent` of the others, evenly presented, so across respondents every rotated item is shown about equally often. With `n` respondents each rotated item gets about `n × rotated_per_respondent / (number of rotated items)` ratings.
+
+Attention checks alternate between the two groups, starting with the core. In the core they are randomized among the items; in the rotated group they follow the subset, because a subset randomizer cannot guarantee a check is chosen. Repeated items must be core items, so everyone has seen them; others are refused. The option needs randomized items.
+
+Import with the same file:
+
+```sh
+infereval survey import benchmark.json -r responses.csv -o merged.json --assignment assignment.json
+```
+
+An item a respondent was not shown is recorded as `null` in `analyst_verdicts` (not rated), never `abstain`, so it cannot be confused with a "Can't tell". With `--require-complete` (the default) each respondent must have every core item and exactly `rotated_per_respondent` rotated ones. The import prints the minimum, maximum and mean number of new ratings per rotated item.
+
+Downstream, an unrated cell is not a vote. Consensus counts only the analysts who rated an item. Per-analyst coverage is over the items that analyst rated. An analyst used as the reference reads `abstain` on an item they did not rate, so it is left out. Fleiss' κ*, which needs every analyst on every item, covers only the items all the analysts rated, which in a rotated survey is the core.
+
+If you tick *Export viewing order data for randomized surveys* in Qualtrics, the `FL_<n>_DO` columns it adds are skipped.
+
 ### Import
 
 After collecting responses, export the CSV from Qualtrics:
@@ -257,7 +293,7 @@ infereval survey import examples/pulmonary_edema/benchmark.json \
     -o examples/pulmonary_edema/benchmark-with-clinicians.json
 ```
 
-The output is a new benchmark with one new analyst column per respondent. Default require-complete mode rejects any respondent who didn't finish or whose verdicts don't cover all items; pass `--allow-partial` to merge partials (missing verdicts become `ABSTAIN`).
+The output is a new benchmark with one new analyst column per respondent. Default require-complete mode rejects any respondent who didn't finish or whose verdicts don't cover all items; pass `--allow-partial` to merge partials (missing verdicts become `ABSTAIN`, or not rated with `--assignment`).
 
 ## Google Forms
 

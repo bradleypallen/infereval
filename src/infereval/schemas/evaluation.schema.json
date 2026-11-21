@@ -80,7 +80,14 @@
         },
         "analyst_verdicts": {
           "items": {
-            "$ref": "#/$defs/Verdict"
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Verdict"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "title": "Analyst Verdicts",
           "type": "array"

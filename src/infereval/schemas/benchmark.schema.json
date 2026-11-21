@@ -131,8 +131,16 @@
           "type": "array"
         },
         "analyst_verdicts": {
+          "description": "One verdict per analyst, in the order of the benchmark's analysts. null means the analyst did not rate this item (an incomplete design, such as a rotated survey); unlike abstain, it is not a vote.",
           "items": {
-            "$ref": "#/$defs/Verdict"
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Verdict"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "title": "Analyst Verdicts",
           "type": "array"

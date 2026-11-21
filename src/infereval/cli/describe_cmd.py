@@ -35,13 +35,18 @@ def _format_kappa(value: float | None) -> str:
     return f"{value:+.4f}"
 
 
-def _verdict_counts(verdicts: list[Verdict]) -> str:
-    """Render a verdict tuple as ``g=3 b=1 a=0`` for compact tabular output."""
+def _verdict_counts(verdicts: list[Verdict | None]) -> str:
+    """Render a verdict tuple as ``g=3 b=1 a=0`` for compact tabular output.
+
+    Unrated cells (``None``, in an incomplete design) add ``unrated=N``.
+    """
     counts = Counter(verdicts)
+    unrated = counts.get(None, 0)
     return (
         f"g={counts.get(Verdict.GOOD, 0)} "
         f"b={counts.get(Verdict.BAD, 0)} "
         f"a={counts.get(Verdict.ABSTAIN, 0)}"
+        + (f" unrated={unrated}" if unrated else "")
     )
 
 
@@ -384,7 +389,9 @@ def _render_group_cross_tab(bench: Benchmark) -> None:
     for item in bench.items:
         cat = _category_of(item)
         counts = groups.setdefault(cat, Counter())
-        counts[item.analyst_verdicts[primary]] += 1
+        primary_verdict = item.analyst_verdicts[primary]
+        if primary_verdict is not None:
+            counts[primary_verdict] += 1
 
     # Skip the section entirely if every item ended up in (other) or
     # (untagged) — there's no informative cross-tab to print.
@@ -477,7 +484,9 @@ def _render_items(bench: Benchmark) -> None:
         if bench.m == 1:
             verdict_str = f"→  {item.analyst_verdicts[0]}"
         else:
-            verdict_str = "→  " + ", ".join(item.analyst_verdicts)
+            verdict_str = "→  " + ", ".join(
+                v if v is not None else "-" for v in item.analyst_verdicts
+            )
         tag_annot = f"   [{', '.join(item.tags)}]" if item.tags else ""
 
         # AR11: divergence-with-rationales flag. When the analyst column
@@ -486,7 +495,7 @@ def _render_items(bench: Benchmark) -> None:
         # disambiguates a genuine carving disagreement from a labelling
         # slip. Flag it on the header line so a reader scanning the
         # benchmark sees it without diving into the body.
-        verdicts_diverge = len(set(item.analyst_verdicts)) > 1
+        verdicts_diverge = len({v for v in item.analyst_verdicts if v is not None}) > 1
         rationales_present = item.analyst_rationales is not None
         divergence_flag = (
             "  ⚠ disagreement+rationales"

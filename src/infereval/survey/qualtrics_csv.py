@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import csv
 import logging
+import re
 from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
@@ -35,6 +36,7 @@ from .session import CHECK_TAG_PREFIX, CONSENT_TAG, REPEAT_TAG_PREFIX, is_sessio
 if TYPE_CHECKING:
     from ..benchmark import Benchmark
     from ..prompts import ConfidenceScale
+    from .session import AssignmentSpec
 
 log = logging.getLogger(__name__)
 
@@ -65,6 +67,11 @@ _QUALTRICS_STOCK_COLUMNS: frozenset[str] = frozenset({
     # pseudonymous personal data and the analyst id stays the ResponseId.
     *PROLIFIC_FIELDS,
 })
+
+#: Display-order columns Qualtrics adds for each randomizer when the export
+#: option "Export viewing order data for randomized surveys" is ticked, such
+#: as ``FL_3_DO`` (cell: ``FL_4|FL_9|...``). Skipped: the order is not a verdict.
+_DISPLAY_ORDER_COLUMN = re.compile(r"^FL_\d+_DO$")
 
 
 def parse_qualtrics_csv(
@@ -146,7 +153,11 @@ def _rows_to_respondents(
         repeat_verdicts: dict[str, Verdict] = {}
         repeat_confidences: dict[str, int] = {}
         for col_name, col_idx in col_index.items():
-            if col_name in _QUALTRICS_STOCK_COLUMNS or col_name == _EXPERTISE_TAG:
+            if (
+                col_name in _QUALTRICS_STOCK_COLUMNS
+                or col_name == _EXPERTISE_TAG
+                or _DISPLAY_ORDER_COLUMN.match(col_name)
+            ):
                 continue
             cell = row[col_idx] if col_idx < len(row) else ""
             try:
@@ -322,6 +333,7 @@ def merge_respondents(
     analyst_id_prefix: str = "clinician-",
     require_complete: bool = True,
     frame_id: str | None = None,
+    assignment: AssignmentSpec | None = None,
 ) -> Benchmark:
     """Extend ``benchmark`` with one new analyst column per respondent.
 
@@ -355,6 +367,12 @@ def merge_respondents(
         then only checks that the sidecar's own rows agree with each
         other. Decode is untouched: this guards composition, not the
         choice→verdict mapping.
+    assignment
+        The incomplete design the survey was exported with (``--assignment``).
+        An item a respondent has no verdict on is then recorded as ``None``
+        (not rated) instead of ``abstain``, and ``require_complete`` asks
+        for every core item plus exactly ``rotated_per_respondent`` rotated
+        ones.
 
     Returns
     -------
@@ -377,6 +395,9 @@ def merge_respondents(
     _check_frame_consistency(mapping, declared_frame_id=frame_id)
 
     tag_for_item: dict[str, str] = _build_tag_lookup(benchmark, mapping)
+    rotated_ids: set[str] = set()
+    if assignment is not None:
+        rotated_ids = set(assignment.rotated([item.id for item in benchmark.items]))
 
     # Work with dicts throughout — model_validate runs at the end and
     # surfaces any merger bug with the existing Benchmark validator's
@@ -409,8 +430,16 @@ def merge_respondents(
                 )
             missing = [
                 item.id for item in benchmark.items
-                if tag_for_item[item.id] not in respondent.verdicts
+                if item.id not in rotated_ids and tag_for_item[item.id] not in respondent.verdicts
             ]
+            if assignment is not None:
+                n_rotated = sum(tag_for_item[i] in respondent.verdicts for i in rotated_ids)
+                if n_rotated != assignment.rotated_per_respondent:
+                    raise IncompleteRespondentError(
+                        f"respondent {respondent.response_id!r} rated {n_rotated} rotated "
+                        f"item(s), expected {assignment.rotated_per_respondent}; was the survey "
+                        "exported with this assignment? Pass --allow-partial to import anyway"
+                    )
             if missing:
                 raise IncompleteRespondentError(
                     f"respondent {respondent.response_id!r} is missing verdicts on "
@@ -428,7 +457,11 @@ def merge_respondents(
 
         for item_dict, item in zip(new_items_dicts, benchmark.items, strict=True):
             tag = tag_for_item[item.id]
-            verdict = respondent.verdicts.get(tag, Verdict.ABSTAIN)
+            # Under an assignment a missing verdict is an item the
+            # respondent was not shown (or did not reach): not rated.
+            verdict = respondent.verdicts.get(
+                tag, None if assignment is not None else Verdict.ABSTAIN
+            )
             item_dict["analyst_verdicts"].append(verdict)
 
             if any_rationales:

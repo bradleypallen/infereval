@@ -199,7 +199,7 @@ class EvaluationItem(BaseModel):
     id: str
     premises: list[str]
     conclusions: list[str]
-    analyst_verdicts: list[Verdict]
+    analyst_verdicts: list[Verdict | None]
     analyst_rationales: list[str] | None = Field(
         default=None,
         description=(
