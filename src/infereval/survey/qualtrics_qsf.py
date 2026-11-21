@@ -73,6 +73,7 @@ from typing import TYPE_CHECKING, Any
 
 from .prolific import PROLIFIC_FIELDS, completion_url
 from .render import (
+    BOLD_MARKUP,
     CONFIDENCE_SUFFIX,
     DEFAULT_EXPERTISE_PROMPT,
     SurveyQuestion,
@@ -1177,13 +1178,14 @@ def _html_text(text: str) -> str:
     paragraphs, premises and conclusion in the plain-text wording collapse
     into one run-on block. Escape the text and make each newline a ``<br>``
     (a blank line becomes a visible gap), keeping leading indentation as
-    non-breaking spaces. The wording itself is unchanged.
+    non-breaking spaces, and ``**text**`` becomes bold. The wording itself
+    is unchanged.
     """
     lines = []
     for line in html.escape(text, quote=False).split("\n"):
         stripped = line.lstrip(" ")
         lines.append("&nbsp;" * (len(line) - len(stripped)) + stripped)
-    return "<br>".join(lines)
+    return BOLD_MARKUP.sub(r"<strong>\1</strong>", "<br>".join(lines))
 
 
 def _descriptive_text_question(

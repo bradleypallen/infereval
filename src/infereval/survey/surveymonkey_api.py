@@ -29,6 +29,7 @@ from .render import (
     rationale_prompt,
     render_survey_question,
     sanitize_export_tag,
+    strip_bold,
 )
 
 if TYPE_CHECKING:
@@ -133,7 +134,7 @@ def build_surveymonkey_payload(
                 f"the confidence rating is supported only by the Qualtrics export, "
                 f"not SurveyMonkey."
             )
-        page_description = sq.full_text()
+        page_description = strip_bold(sq.full_text())
         verdict_title = f"Item {i} verdict"
         questions: list[dict[str, object]] = [
             {

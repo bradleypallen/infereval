@@ -169,6 +169,32 @@ def render_implication_text(benchmark: Benchmark, item: BenchmarkItem) -> str:
     return "\n".join(parts)
 
 
+SURVEY_BODY_PLACEHOLDERS = ("premise_context", "conclusion_context", "premise_list", "conclusion_list")
+"""Placeholders a ``survey_body`` template may use (see :func:`render_context_text`)."""
+
+BOLD_MARKUP = re.compile(r"\*\*(.+?)\*\*")
+"""``**text**`` in survey wording: bold in the Qualtrics export, plain elsewhere."""
+
+_SENTENCE_END = re.compile(r"[.!?][\"')\]\u201d\u2019]*$")
+
+
+def strip_bold(text: str) -> str:
+    """Drop ``**`` bold markers, for exporters that render plain text."""
+    return BOLD_MARKUP.sub(r"\1", text)
+
+
+def as_sentence(text: str) -> str:
+    """``text`` as a sentence: first letter capitalised, closing full stop
+    added unless it already ends in ``.``, ``!`` or ``?`` (before any
+    closing quote or bracket). Words are otherwise unchanged."""
+    t = text.strip()
+    if t and t[0].islower():
+        t = t[0].upper() + t[1:]
+    if t and not _SENTENCE_END.search(t):
+        t += "."
+    return t
+
+
 def render_context_text(benchmark: Benchmark, item: BenchmarkItem, template: str) -> str:
     """Fill ``template`` with the premise/conclusion contexts the model sees.
 
@@ -177,6 +203,12 @@ def render_context_text(benchmark: Benchmark, item: BenchmarkItem, template: str
     survey body rendered with the prompt's ``user_template`` shape is the
     model's stimulus character for character (canonical expressions,
     TeX stripped).
+
+    ``{premise_list}`` / ``{conclusion_list}`` give the same sentences in the
+    same order, one per line as ``• Sentence.`` (see :func:`as_sentence`),
+    instead of joined into one line by the context builder. That is a layout
+    for people only: the wording of each sentence is the model's, but the
+    page is no longer the model's stimulus character for character.
     """
     from ..context import resolve_context_builders
     from ..endorsement import _expressions_for
@@ -189,7 +221,17 @@ def render_context_text(benchmark: Benchmark, item: BenchmarkItem, template: str
     conclusion_ctx = conclusion_builder(
         _expressions_for(frozenset(item.conclusions), bearers, strip_tex=True)
     )
-    return template.format(premise_context=premise_ctx, conclusion_context=conclusion_ctx)
+    def _listed(ids: frozenset[str]) -> str:
+        return "\n".join(
+            f"\u2022 {as_sentence(e)}" for e in _expressions_for(ids, bearers, strip_tex=True)
+        )
+
+    return template.format(
+        premise_context=premise_ctx,
+        conclusion_context=conclusion_ctx,
+        premise_list=_listed(frozenset(item.premises)),
+        conclusion_list=_listed(frozenset(item.conclusions)),
+    )
 
 
 # ---- Question-form-aware survey question (v0.17.4) -------------------------

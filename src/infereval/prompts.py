@@ -120,8 +120,11 @@ class VerificationPrompt:
         ``{premise_context}`` / ``{conclusion_context}`` placeholders as
         :attr:`user_template`, filled with exactly the context strings the
         model receives (same bearer order, same context builders). Lets a
-        survey show each case as the model saw it. ``None`` keeps the
-        library's bulleted premises/conclusion body.
+        survey show each case as the model saw it. ``{premise_list}`` /
+        ``{conclusion_list}`` instead list the same sentences, in the same
+        order, one per line (``• Sentence.``): the model's wording in a layout
+        for people. ``**text**`` is shown bold in the Qualtrics export.
+        ``None`` keeps the library's bulleted premises/conclusion body.
     survey_choices
         Optional three survey answer labels, in the order good, bad,
         abstain. The importer decodes these exact labels back to verdicts.
