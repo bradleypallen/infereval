@@ -65,6 +65,7 @@ analysis.
 from __future__ import annotations
 
 import hashlib
+import html
 import json
 import logging
 import re
@@ -1169,6 +1170,22 @@ def _survey_options(*, redirect_url: str | None = None) -> dict[str, Any]:
     return options
 
 
+def _html_text(text: str) -> str:
+    """Plain text as Qualtrics question HTML.
+
+    Qualtrics renders ``QuestionText`` as HTML, so the newlines that separate
+    paragraphs, premises and conclusion in the plain-text wording collapse
+    into one run-on block. Escape the text and make each newline a ``<br>``
+    (a blank line becomes a visible gap), keeping leading indentation as
+    non-breaking spaces. The wording itself is unchanged.
+    """
+    lines = []
+    for line in html.escape(text, quote=False).split("\n"):
+        stripped = line.lstrip(" ")
+        lines.append("&nbsp;" * (len(line) - len(stripped)) + stripped)
+    return "<br>".join(lines)
+
+
 def _descriptive_text_question(
     *,
     survey_id: str,
@@ -1190,7 +1207,7 @@ def _descriptive_text_question(
         "SecondaryAttribute": label,
         "TertiaryAttribute": None,
         "Payload": {
-            "QuestionText": text,
+            "QuestionText": _html_text(text),
             "DataExportTag": data_export_tag,
             "QuestionID": qid,
             "QuestionType": "DB",
@@ -1221,7 +1238,7 @@ def _text_entry_question(
         "SecondaryAttribute": label,
         "TertiaryAttribute": None,
         "Payload": {
-            "QuestionText": prompt,
+            "QuestionText": _html_text(prompt),
             "DefaultChoices": False,
             "DataExportTag": data_export_tag,
             "QuestionID": qid,
@@ -1273,7 +1290,7 @@ def _mc_question(
         "SecondaryAttribute": label,
         "TertiaryAttribute": None,
         "Payload": {
-            "QuestionText": prompt,
+            "QuestionText": _html_text(prompt),
             "DataExportTag": data_export_tag,
             "QuestionID": qid,
             "QuestionType": "MC",

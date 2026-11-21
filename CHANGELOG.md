@@ -12,6 +12,10 @@ stable from 1.0 onward, regardless of the framework version.
 
 **Every sequent shape now renders under the coherence question form.** Items with no premises (⟨∅, Δ⟩, the assertion or undeniability shape) render as a position that commits to nothing and denies Δ, and ⟨∅, ∅⟩ can no longer reach a model. A new `framework-default-v2` template drops the doubled full stop.
 
+### Fixed — Qualtrics pages showed as one run-on block
+
+- Qualtrics renders `QuestionText` as HTML, so the plain newlines separating paragraphs, premises and conclusion were dropped and every instructions, consent and item page ran together. The `.qsf` exporter now HTML-escapes question text and writes each newline as `<br>` (a blank line becomes a visible gap; leading indentation is kept). Wording, choices and the import are unchanged. The Qualtrics golden fixtures were regenerated (diff confined to `QuestionText`).
+
 ### Fixed — items with no premises rendered a malformed coherence prompt
 
 - `framework-default-v1` branched on the number of conclusions but not on an empty premise set, so ⟨∅, {A}⟩ rendered as "Consider a position that commits to the following: ; and denies: A.". It now renders "Consider a position that commits to nothing and denies: A." (and "…denies every one of: A; B." for several conclusions), on the model side and in coherence surveys. Every shape with at least one premise renders byte-identically to before, so existing captures keep their provenance.

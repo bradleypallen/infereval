@@ -35,6 +35,12 @@ Regeneration log:
   (QuestionText + choice displays, both forms) byte-identical before
   regenerating; no live survey wording changed. Google Forms and
   SurveyMonkey fixtures untouched.
+- 2026-11-21 (qualtrics fixtures only, both forms): a live preview showed
+  every page as one run-on block, because Qualtrics renders QuestionText
+  as HTML and drops plain newlines. QuestionText is now HTML-escaped with
+  each newline as <br>. Verified the new fixtures equal the old ones with
+  only QuestionText passed through _html_text; wording, choices, ids and
+  structure unchanged. Google Forms and SurveyMonkey fixtures untouched.
 """
 
 from __future__ import annotations

@@ -35,7 +35,7 @@ from infereval.survey.qualtrics_csv import (
     merge_respondents,
     parse_qualtrics_csv,
 )
-from infereval.survey.qualtrics_qsf import build_qsf
+from infereval.survey.qualtrics_qsf import _html_text, build_qsf
 from infereval.survey.render import (
     COHERENCE_QUESTION_HEADER,
     SurveyRespondent,
@@ -146,7 +146,7 @@ class TestAnchoredFrameRendersInArtifact:
         ]
         assert len(mc_payloads) == 1
         payload = mc_payloads[0]
-        assert DEFEASIBLE_COHERENCE_FRAME.survey_header in payload["QuestionText"]
+        assert _html_text(DEFEASIBLE_COHERENCE_FRAME.survey_header) in payload["QuestionText"]
         assert COHERENCE_QUESTION_HEADER not in payload["QuestionText"]
         # Choice labels are NOT frame-configurable: same three at every frame.
         displays = [c["Display"] for c in payload["Choices"].values()]

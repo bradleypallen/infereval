@@ -114,7 +114,7 @@ class TestRender:
             and el["Payload"]["DataExportTag"] == mapping[0]["verdict_data_export_tag"]
         )
         assert q["QuestionText"].startswith("Premises: ")
-        assert q["QuestionText"].endswith("\n\nDoes it follow?")
+        assert q["QuestionText"].endswith("<br><br>Does it follow?")
         assert [c["Display"] for c in q["Choices"].values()] == LABELS
 
 
