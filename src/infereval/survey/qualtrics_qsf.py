@@ -5,7 +5,9 @@ recruiter uploads to Qualtrics (Projects → Create a new project →
 Survey → "Import a QSF file"). The imported survey has:
 
 1. A first-block expertise free-text question (DataExportTag
-   ``"expertise"``), always shown first and outside randomization.
+   ``"expertise"``), always shown first and outside randomization; with
+   ``background``, a force-response single-choice question instead, under
+   the same tag.
 2. One multiple-choice verdict question per benchmark item,
    force-response, DataExportTag = sanitized item.id.
 3. When ``include_rationales=True``, an optional free-text rationale
@@ -82,6 +84,7 @@ from .session import (
     CONSENT_TAG,
     REPEAT_TAG_PREFIX,
     AssignmentSpec,
+    BackgroundSpec,
     ConsentSpec,
     PracticeSpec,
     QualitySpec,
@@ -137,6 +140,7 @@ def build_qsf(
     prolific_no_consent_code: str | None = None,
     quality: QualitySpec | None = None,
     assignment: AssignmentSpec | None = None,
+    background: BackgroundSpec | None = None,
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """Build a Qualtrics ``.qsf`` document for ``benchmark``.
 
@@ -191,6 +195,10 @@ def build_qsf(
     repeated id not in the benchmark, or a check whose ``answer`` is not
     one of the answer labels, raises ``ValueError``. Neither is in
     ``mapping``.
+
+    ``background`` (a :class:`~infereval.survey.session.BackgroundSpec`)
+    replaces the free-text expertise question (and ``expertise_prompt``)
+    with a force-response single choice under the same ``expertise`` tag.
 
     ``assignment`` (an :class:`~infereval.survey.session.AssignmentSpec`)
     makes the design incomplete: every core item plus a rotated, evenly
@@ -255,16 +263,33 @@ def build_qsf(
 
     # Expertise question at QID1 — always first, outside randomization.
     expertise_qid = "QID1"
-    sq_elements.append(
-        _text_entry_question(
-            survey_id=survey_id,
-            qid=expertise_qid,
-            label=expertise_prompt,
-            prompt=expertise_prompt,
-            data_export_tag="expertise",
-            force_response=False,
+    if background is not None:
+        sq_elements.append(
+            _mc_question(
+                survey_id=survey_id,
+                qid=expertise_qid,
+                label="Background",
+                prompt=background.prompt,
+                choices=list(background.choices),
+                data_export_tag="expertise",
+                force_response=True,
+            )
         )
-    )
+        log.info(
+            "survey.export.background benchmark=%s choices=%s",
+            benchmark.id, "|".join(background.choices),
+        )
+    else:
+        sq_elements.append(
+            _text_entry_question(
+                survey_id=survey_id,
+                qid=expertise_qid,
+                label=expertise_prompt,
+                prompt=expertise_prompt,
+                data_export_tag="expertise",
+                force_response=False,
+            )
+        )
 
     # Per-item questions: verdict (MC) + optional rationale (TE).
     # QIDs allocated 2, 3, ... in stable order.

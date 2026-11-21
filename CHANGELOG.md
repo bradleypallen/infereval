@@ -22,6 +22,10 @@ stable from 1.0 onward, regardless of the framework version.
 
 - `BenchmarkItem` accepted an item with no premises and no conclusions, which `I_M` excludes by stipulation; it would have been sent to the model as "Consider a position that commits to the following: .". Validation now rejects it, and the endorser and both framework templates refuse it as a second guard.
 
+### Added — closed background question
+
+- `infereval survey export --background FILE` (Qualtrics) replaces the free-text expertise question with one closed, force-response question (`prompt`, `choices`) under the same `expertise` tag; the chosen label is imported as the analyst's `expertise_description`.
+
 ### Added — rotated survey subsets, and analyst cells that are not rated
 
 - `infereval survey export --assignment FILE` (Qualtrics) gives an incomplete design: every respondent rates the `core` items and `rotated_per_respondent` of the rest, evenly presented, with the core and rotated parts in counterbalanced order. `survey import --assignment FILE` records an item a respondent was not shown as `null`.
