@@ -12,6 +12,11 @@ stable from 1.0 onward, regardless of the framework version.
 
 **Every sequent shape now renders under the coherence question form.** Items with no premises (⟨∅, Δ⟩, the assertion or undeniability shape) render as a position that commits to nothing and denies Δ, and ⟨∅, ∅⟩ can no longer reach a model. A new `framework-default-v2` template drops the doubled full stop.
 
+### Added — listed premises and bold text in surveys
+
+- `survey_body` may use `{premise_list}` and `{conclusion_list}`: the model's sentences in the model's order, one per line as `• Sentence.` (capitalised, full stop added), instead of the context builder's one-line "A and B and C" join.
+- `**text**` in survey wording is bold in the Qualtrics export and plain elsewhere.
+
 ### Fixed — Qualtrics pages showed as one run-on block
 
 - Qualtrics renders `QuestionText` as HTML, so the plain newlines separating paragraphs, premises and conclusion were dropped and every instructions, consent and item page ran together. The `.qsf` exporter now HTML-escapes question text and writes each newline as `<br>` (a blank line becomes a visible gap; leading indentation is kept). Wording, choices and the import are unchanged. The Qualtrics golden fixtures were regenerated (diff confined to `QuestionText`).

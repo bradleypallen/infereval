@@ -35,6 +35,7 @@ from .render import (
     rationale_prompt,
     render_survey_question,
     sanitize_export_tag,
+    strip_bold,
 )
 
 if TYPE_CHECKING:
@@ -160,7 +161,7 @@ def build_gas_script(
                 f"the confidence rating is supported only by the Qualtrics export, "
                 f"not Google Forms."
             )
-        page_description = sq.full_text()
+        page_description = strip_bold(sq.full_text())
         verdict_title = f"Item {i} verdict"
         rationale_tag: str | None = None
         if include_rationales:

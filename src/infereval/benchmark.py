@@ -234,7 +234,9 @@ class VerificationPromptOverride(BaseModel):
     the model is asked. Without them, ``infereval survey export`` falls back
     to the default-v1 survey header (with a warning). The stem, when given,
     must be a verbatim trailing substring of the header. ``survey_body``
-    (a template over ``{premise_context}`` / ``{conclusion_context}``) and
+    (a template over ``{premise_context}`` / ``{conclusion_context}``, the
+    model's joined contexts, or ``{premise_list}`` / ``{conclusion_list}``,
+    the same sentences one per line) and
     ``survey_choices`` (three labels: good, bad, abstain) optionally set how
     each case and its answers are shown. ``survey_confidence`` adds a
     confidence rating after each verdict (Qualtrics export only).
@@ -256,11 +258,13 @@ class VerificationPromptOverride(BaseModel):
     def _survey_body_and_choices(self) -> VerificationPromptOverride:
         if self.survey_body is not None:
             try:
-                self.survey_body.format(premise_context="", conclusion_context="")
+                self.survey_body.format(
+                    premise_context="", conclusion_context="", premise_list="", conclusion_list=""
+                )
             except (KeyError, IndexError, ValueError) as exc:
                 raise ValueError(
-                    "survey_body may use only the {premise_context} and "
-                    f"{{conclusion_context}} placeholders: {exc}"
+                    "survey_body may use only the {premise_context}, {conclusion_context}, "
+                    f"{{premise_list}} and {{conclusion_list}} placeholders: {exc}"
                 ) from None
         if self.survey_choices is not None:
             labels = [c.strip() for c in self.survey_choices]

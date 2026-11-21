@@ -97,6 +97,8 @@ A support prompt that declares a `survey_header` can also set how each case and 
 ```
 
 - **`survey_body`** is filled with exactly the premise and conclusion text the model receives: the same bearer order and the benchmark's own context builders. With the prompt's template minus its answer line, each case reads as the model saw it. Without it, the case is shown as the bulleted premises/conclusion list.
+  - `{premise_list}` / `{conclusion_list}` give the same sentences in the same order, one per line as `• Sentence.` (first letter capitalised, a full stop added if missing), for a layout that reads better than the builder's one-line join. The words are the model's; the layout is not, so record it as a difference between the human and model conditions.
+  - `**text**` in any survey wording (header, body, consent, practice, background) is shown bold in the Qualtrics export; Google Forms and SurveyMonkey show it as plain text.
 - **`survey_choices`** are three labels in the order good, bad, abstain. `survey import` decodes these exact labels by position (so the polarity cannot flip), then falls back to the usual first-word rule. Without it, the library labels are used.
 
 Both only change what respondents see; the model's prompt is unaffected.
