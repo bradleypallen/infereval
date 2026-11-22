@@ -8,9 +8,9 @@ with the additional commitment that the benchmark and evaluation JSON
 schemas are versioned independently (`schema_version: "1.0"`) and promised
 stable from 1.0 onward, regardless of the framework version.
 
-## [Unreleased]
+## [0.17.10] — 2026-11-21
 
-**Every sequent shape now renders under the coherence question form.** Items with no premises (⟨∅, Δ⟩, the assertion or undeniability shape) render as a position that commits to nothing and denies Δ, and ⟨∅, ∅⟩ can no longer reach a model. A new `framework-default-v2` template drops the doubled full stop.
+**Every sequent shape now renders under the coherence question form, and the Qualtrics survey surface gains the pieces of the human factorial.** Items with no premises (⟨∅, Δ⟩, the assertion or undeniability shape) render as a position that commits to nothing and denies Δ, and ⟨∅, ∅⟩ can no longer reach a model. A new `framework-default-v2` template drops the doubled full stop. On the survey side: listed premises and bold text, a closed background question, rotated per-respondent subsets with not-rated analyst cells, and line breaks that survive the Qualtrics exporter.
 
 ### Added — listed premises and bold text in surveys
 
